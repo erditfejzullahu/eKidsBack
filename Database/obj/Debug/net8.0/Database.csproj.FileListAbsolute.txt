@@ -1,0 +1,12 @@
+D:\Projects\e-kidsBackend\Database\bin\Debug\net8.0\Database.deps.json
+D:\Projects\e-kidsBackend\Database\bin\Debug\net8.0\Database.dll
+D:\Projects\e-kidsBackend\Database\bin\Debug\net8.0\Database.pdb
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.csproj.AssemblyReference.cache
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.AssemblyInfoInputs.cache
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.AssemblyInfo.cs
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.csproj.CoreCompileInputs.cache
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.dll
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\refint\Database.dll
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.pdb
+D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\ref\Database.dll

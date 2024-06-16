@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eKids", "eKids.csproj", "{C68B6F88-EE1D-418E-A184-7070FA1E69B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "..\Database\Database.csproj", "{4CF75378-C1D1-4CC8-A209-39D184552A99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C68B6F88-EE1D-418E-A184-7070FA1E69B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68B6F88-EE1D-418E-A184-7070FA1E69B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68B6F88-EE1D-418E-A184-7070FA1E69B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68B6F88-EE1D-418E-A184-7070FA1E69B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF75378-C1D1-4CC8-A209-39D184552A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF75378-C1D1-4CC8-A209-39D184552A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF75378-C1D1-4CC8-A209-39D184552A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF75378-C1D1-4CC8-A209-39D184552A99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E74EE7F8-3623-4DC0-801C-170D81E36E45}
+	EndGlobalSection
+EndGlobal

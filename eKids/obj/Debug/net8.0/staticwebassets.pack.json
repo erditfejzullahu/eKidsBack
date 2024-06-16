@@ -1,0 +1,129 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\kid.jpg",
+      "PackagePath": "staticwebassets\\images\\kid.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp",
+      "PackagePath": "staticwebassets\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\72c278ce-aa18-4bb8-8a72-e37729d953a9.webp",
+      "PackagePath": "staticwebassets\\images\\profiles\\72c278ce-aa18-4bb8-8a72-e37729d953a9.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\86f71be8-5823-4969-aef0-be5ed9404559.webp",
+      "PackagePath": "staticwebassets\\images\\profiles\\86f71be8-5823-4969-aef0-be5ed9404559.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png",
+      "PackagePath": "staticwebassets\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp",
+      "PackagePath": "staticwebassets\\images\\profiles\\cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg",
+      "PackagePath": "staticwebassets\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png",
+      "PackagePath": "staticwebassets\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg",
+      "PackagePath": "staticwebassets\\uploads\\0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\13f61217-2bfc-4bc8-bb3b-7d7c37d82144.png",
+      "PackagePath": "staticwebassets\\uploads\\13f61217-2bfc-4bc8-bb3b-7d7c37d82144.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\17245bad-d08f-4612-a15e-cc461aeb8cbd.jpg",
+      "PackagePath": "staticwebassets\\uploads\\17245bad-d08f-4612-a15e-cc461aeb8cbd.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\27334313-ba8f-4eab-b0cc-be3232fa10a7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\27334313-ba8f-4eab-b0cc-be3232fa10a7.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\30dafdd3-b372-4cf1-b08c-429262e5e61f.png",
+      "PackagePath": "staticwebassets\\uploads\\30dafdd3-b372-4cf1-b08c-429262e5e61f.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\3b04a2ef-775e-4733-abdc-3e25604f9335.png",
+      "PackagePath": "staticwebassets\\uploads\\3b04a2ef-775e-4733-abdc-3e25604f9335.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\3dc511be-3ea6-4423-a6d6-c05f722009a3.png",
+      "PackagePath": "staticwebassets\\uploads\\3dc511be-3ea6-4423-a6d6-c05f722009a3.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png",
+      "PackagePath": "staticwebassets\\uploads\\6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\77707a0e-ea3c-47d0-a857-9fd296771a3f.png",
+      "PackagePath": "staticwebassets\\uploads\\77707a0e-ea3c-47d0-a857-9fd296771a3f.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\8426a009-76a3-4fc2-abf3-d2110f384a12.png",
+      "PackagePath": "staticwebassets\\uploads\\8426a009-76a3-4fc2-abf3-d2110f384a12.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\84fdc8bc-b66a-4fe1-a390-b3c3b8a3c5fc.png",
+      "PackagePath": "staticwebassets\\uploads\\84fdc8bc-b66a-4fe1-a390-b3c3b8a3c5fc.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\85162b42-94ff-4799-b58a-46caf5395f9d.png",
+      "PackagePath": "staticwebassets\\uploads\\85162b42-94ff-4799-b58a-46caf5395f9d.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\99b0e092-ff34-4948-a906-6ed7ac4f6047.png",
+      "PackagePath": "staticwebassets\\uploads\\99b0e092-ff34-4948-a906-6ed7ac4f6047.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\b4e51043-3a02-480c-92a6-de13905096bd.png",
+      "PackagePath": "staticwebassets\\uploads\\b4e51043-3a02-480c-92a6-de13905096bd.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\bc656068-4b6d-4301-98b7-eaefd9a3c468.png",
+      "PackagePath": "staticwebassets\\uploads\\bc656068-4b6d-4301-98b7-eaefd9a3c468.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\c08fece5-c377-468f-9c54-510a0a2b7577.webp",
+      "PackagePath": "staticwebassets\\uploads\\c08fece5-c377-468f-9c54-510a0a2b7577.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\c3b2533b-09c0-4bcc-b487-40aa8a5b8da0.png",
+      "PackagePath": "staticwebassets\\uploads\\c3b2533b-09c0-4bcc-b487-40aa8a5b8da0.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\cba351a0-9dad-4aaa-b719-03ef5ac2921e.png",
+      "PackagePath": "staticwebassets\\uploads\\cba351a0-9dad-4aaa-b719-03ef5ac2921e.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\e9441065-bd26-49f8-996f-a304e629a593.png",
+      "PackagePath": "staticwebassets\\uploads\\e9441065-bd26-49f8-996f-a304e629a593.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.eKids.props",
+      "PackagePath": "build\\eKids.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.eKids.props",
+      "PackagePath": "buildMultiTargeting\\eKids.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.eKids.props",
+      "PackagePath": "buildTransitive\\eKids.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.eKids.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
