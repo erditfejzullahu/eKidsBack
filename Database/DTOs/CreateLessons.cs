@@ -12,22 +12,29 @@ namespace Database.DTOs
         [Required(ErrorMessage = "LessonName is required")]
         public string LessonName { get; set; }
 
-        [Required(ErrorMessage = "LessonCategory is required")]
-        public int CategoryID { get; set; }
-
-        [Required(ErrorMessage = "LessonType is required")]
-        public string LessonType { get; set; }
-
         [Required(ErrorMessage = "LessonContent is required")]
         public string LessonContent { get; set; }
 
-        [Required(ErrorMessage = "LessonQuestions is required")]
-        public string LessonQuestions { get; set; }
+        public string? LessonType { get; set; }
 
-        [Required(ErrorMessage = "LessonAnswers is required")]
-        public string LessonAnswers { get; set; }
+        public string? LessonQuestions { get; set; }
 
-        [Required(ErrorMessage = "CorrectAnswers is required")]
-        public string CorrectAnswers { get; set; }
+        public string? LessonAnswers { get; set; }
+
+        public string? CorrectAnswers { get; set; }
+
+        [Required(ErrorMessage = "Lesson Image is required")]
+        public string LessonFeaturedImage { get; set; }
+
+        [Required(ErrorMessage = "Lesson Excerpt is required")]
+        public string LessonExcerpt { get; set; }
+
+        [Required(ErrorMessage = "Course ID is required!")]
+        public int CourseID { get; set; }
+
+        [Required(ErrorMessage = "Has Quiz value is required")]
+        public bool HasQuiz { get; set; }
+
+        public string? LessonVideo { get; set; }
     }
 }

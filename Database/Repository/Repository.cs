@@ -58,6 +58,11 @@ namespace Database.Repository
             return _context.Set<T>().AsQueryable();
         }
 
+        public async Task<int> CountAsync(CancellationToken token)
+        {
+            return await _context.Set<T>().CountAsync(token);
+        }
+
 
         public async Task SaveAsync(CancellationToken token)
         {

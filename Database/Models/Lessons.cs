@@ -21,22 +21,26 @@ namespace Database.Models
         public string LessonName { get; set; }
 
         [Required]
-        public int CategoryID { get; set; }
-
-        [Required]
         public string LessonContent { get; set; }
 
-        [Required]
-        public string LessonType { get; set; }
+        public string? LessonType { get; set; }
+
+        public string? LessonQuestions { get; set; }
+
+        public string? LessonAnswers { get; set; }
+
+        public string? CorrectAnswers { get; set; }
 
         [Required]
-        public string LessonQuestions { get; set; }
+        public string LessonFeaturedImage { get; set; }
 
         [Required]
-        public string LessonAnswers { get; set; }
+        public string LessonExcerpt { get; set; }
 
         [Required]
-        public string CorrectAnswers { get; set; }
+        public int CourseID { get; set; }
+
+        public string? LessonVideo {  get; set; }
 
         //[Required]
         //public DateTime CreatedAt { get; set; }

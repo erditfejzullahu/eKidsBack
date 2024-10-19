@@ -14,6 +14,7 @@ namespace Database.Repository
         Task<RefreshToken> GetToken(string token, CancellationToken cancellationToken);
         Task<RefreshToken> RemoveToken(string refreshToken, CancellationToken cancellationToken);
         IQueryable<T> GetAll();
+        Task<int> CountAsync(CancellationToken token);
         void Add(T entity);
         void Update(T entity);
         Task SaveAsync(CancellationToken token);

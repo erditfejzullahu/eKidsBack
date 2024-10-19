@@ -30,6 +30,7 @@ namespace Database.Context
             modelBuilder.Entity<RefreshToken>();
             modelBuilder.Entity<Categories>();
             modelBuilder.Entity<MediaLibrary>();
+            modelBuilder.Entity<Courses>();
 
             /*modelBuilder.Entity<Users>()
             .HasMany(u => u.UserMeta)

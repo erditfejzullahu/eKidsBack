@@ -10,5 +10,6 @@ namespace Database.DTOs
     {
         public string CategoryName { get; set; }
         public string CategorySlug { get; set; }
+        public string CategoryPictureUrl { get; set; }
     }
 }
