@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using eKids.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace eKids
 {
@@ -17,6 +18,11 @@ namespace eKids
         {
             //var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = 2000 * 1024 * 1024; // 10 MB
+            });
 
             builder.Services.AddCors(options =>
             {
@@ -71,6 +77,8 @@ namespace eKids
 
             // Add services to the container.
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+            builder.Services.AddScoped<IFileChecker, FileChecker>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 

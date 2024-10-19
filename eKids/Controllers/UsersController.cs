@@ -23,10 +23,18 @@ namespace eKids.Controllers
         private readonly ILogger<UsersController> _logger;
         private readonly ITokenService _tokenService;
         private readonly IRepository<Categories> _categoryRepository;
+        private readonly IFileUploadService _fileUploadService;
 
-
-        public UsersController(IRepository<Users> userRepository, IRepository<Usermeta> usermetaRepository, IWebHostEnvironment environment, ILogger<UsersController> logger, ITokenService tokenService, IRepository<Categories> categoryRepository)
+        public UsersController(IRepository<Users> userRepository,
+                               IRepository<Usermeta> usermetaRepository,
+                               IWebHostEnvironment environment,
+                               ILogger<UsersController> logger,
+                               ITokenService tokenService,
+                               IRepository<Categories> categoryRepository,
+                               IFileUploadService fileUploadService
+                               )
         {
+            _fileUploadService = fileUploadService;
             _userRepository = userRepository;
             _usermetaRepository = usermetaRepository;
             _environment = environment;
@@ -57,7 +65,8 @@ namespace eKids.Controllers
                     user.Email,
                     user.Package,
                     user.UserMeta,
-                    user.Payment
+                    user.Payment,
+                    user.Username
                 })
                 .FirstOrDefaultAsync(id => id.ID == user.ID);
 
@@ -110,6 +119,7 @@ namespace eKids.Controllers
                 Age = userDto.Age,
                 PackageID = 1, // LOGIC: sepse 1shi osht free e kur osht 1 ka access ne do gjera dhe del paketa per pages ne intervale kohore
                 ProfilePictureUrl = userDto.ProfilePictureUrl,
+                Role = "Student",
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
             };
@@ -176,6 +186,7 @@ namespace eKids.Controllers
                                         getUser.Package,
                                         getUser.UserMeta,
                                         getUser.Payment,
+                                        getUser.Username, 
                                         getUser.ProfilePictureUrl
                                     })
                                     .FirstOrDefaultAsync(u => u.ID == getUser.ID, token);
@@ -214,6 +225,7 @@ namespace eKids.Controllers
                     users.UserMeta,
                     users.Payment,
                     users.ID,
+                    users.Username
                 })
                 .ToListAsync(token);
             if(users == null)
@@ -282,46 +294,10 @@ namespace eKids.Controllers
                 return NotFound();
             }
 
-            var dataUriPattern = new Regex(@"^data:(?<mimeType>[\w/\-]+)(;charset=[\w\-]+)?(;base64)?,(?<data>.*)$");
-
-            var match = dataUriPattern.Match(picDto.Base64Profile);
-            if (!match.Success)
-            {
-                return BadRequest("Invalid base64 data.");
-            }
-
-            var mimeType = match.Groups["mimeType"].Value;
-            var base64Data = match.Groups["data"].Value;
-
-            var mimeTypeMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
-            {
-                { "image/jpeg", "jpg" },
-                { "image/png", "png" },
-                { "image/gif", "gif" },
-                { "image/bmp", "bmp" },
-                { "image/webp", "webp" }
-            };
-
-            if (!mimeTypeMappings.TryGetValue(mimeType, out string extension))
-            {
-                return BadRequest("Invalid file extension.");
-            }
-
-            string fileName = $"{Guid.NewGuid()}.{extension}";
-            byte[] bytes = Convert.FromBase64String(base64Data);
-
-
-            var uploadsFolderPath = Path.Combine(_environment.WebRootPath, "images/profiles");
             try
             {
-                if (!Directory.Exists(uploadsFolderPath))
-                {
-                    Directory.CreateDirectory(uploadsFolderPath);
-                }
-
-                string filePath = Path.Combine(uploadsFolderPath, fileName);
-                System.IO.File.WriteAllBytes(filePath, bytes);
-                var url = $"{Request.Scheme}://{Request.Host}/images/profiles/{fileName}";
+                string relativeUrl = await _fileUploadService.UploadFile(user.ProfilePictureUrl, FileCategory.Profile);
+                var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
 
                 user.ProfilePictureUrl = url;
                 user.LastModified = DateTime.UtcNow;
@@ -331,7 +307,7 @@ namespace eKids.Controllers
 
                 return Ok(new { FileUrl = url });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating profile picture for user {UserId}", id);
                 return StatusCode(500, "Internal server error while updating profile picture.");

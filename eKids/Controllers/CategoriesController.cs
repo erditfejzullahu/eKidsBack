@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Policy;
+using System.Text.RegularExpressions;
 
 namespace eKids.Controllers
 {
@@ -13,34 +14,56 @@ namespace eKids.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly IRepository<Categories> _categoryRepository;
+        private readonly IFileUploadService _fileUploadService;
+        private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(IRepository<Categories> categoryRepository)
+        public CategoriesController(IRepository<Categories> categoryRepository, IFileUploadService fileUploadService, ILogger<CategoriesController> logger)
         {
             _categoryRepository = categoryRepository;
+            _fileUploadService = fileUploadService;
+            _logger = logger;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromForm] CreateCategory categoryDto)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategory categoryDto)
         {
             if(categoryDto == null)
             {
                 return BadRequest("Category data is null");
             }
 
-            var category = new Categories
+            try
             {
-                CategoryName = categoryDto.CategoryName,
-                CategorySlug = categoryDto.CategorySlug,
-                CreatedAt = DateTime.UtcNow,
-                LastModified = DateTime.UtcNow
-            };
-            _categoryRepository.Add(category);
-            await _categoryRepository.SaveAsync(default);
-            return Ok(category);
+                string relativeUrl = await _fileUploadService.UploadFile(categoryDto.CategoryPictureUrl, FileCategory.Other);
+                var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
+
+                var category = new Categories
+                {
+                    CategoryName = categoryDto.CategoryName,
+                    CategorySlug = categoryDto.CategorySlug,
+                    CategoryPictureUrl = url,
+                    CreatedAt = DateTime.Now,
+                    LastModified = DateTime.Now,
+                };
+
+                _categoryRepository.Add(category);
+                await _categoryRepository.SaveAsync(default);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating category");
+                var errorResponse = new
+                {
+                    Message = "Error in creating category.",
+                    Details = "Please try again later or check all fields."
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromForm] UpdateCategories categoryDto)
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategories categoryDto)
         {
             var category = await _categoryRepository.Get(id, default);
 
@@ -51,6 +74,25 @@ namespace eKids.Controllers
 
             category.CategoryName = categoryDto.CategoryName;
             category.CategorySlug = categoryDto.CategorySlug;
+            if(!string.IsNullOrEmpty(categoryDto.CategoryPictureUrl))
+            {
+                try
+                {
+                    string relativeUrl = await _fileUploadService.UploadFile(categoryDto.CategoryPictureUrl, FileCategory.Other);
+                    var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
+
+                    category.CategoryPictureUrl = url;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error in updating category");
+                    var errorMessage = new
+                    {
+                        Message = "Error in updating category",
+                    };
+                    return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+                }
+            }
 
             _categoryRepository.Update(category);
             await _categoryRepository.SaveAsync(default);
@@ -70,10 +112,10 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/getCategories")]
-        public async Task<IActionResult> getAllCategories()
+        public async Task<IActionResult> getAllCategories(CancellationToken token)
         {
 
-            var categories = await _categoryRepository.GetAll().ToListAsync();
+            var categories = await _categoryRepository.GetAll().ToListAsync(token);
             if(categories == null)
             {
                 return NotFound("Nocategories or smth error");

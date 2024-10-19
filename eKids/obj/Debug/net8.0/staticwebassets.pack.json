@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\images\\profiles\\86f71be8-5823-4969-aef0-be5ed9404559.webp"
     },
     {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\9598bc50-674c-491f-b493-8b51c163e32d.jpg",
+      "PackagePath": "staticwebassets\\images\\profiles\\9598bc50-674c-491f-b493-8b51c163e32d.jpg"
+    },
+    {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png",
       "PackagePath": "staticwebassets\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png"
     },
@@ -29,12 +33,224 @@
       "PackagePath": "staticwebassets\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg"
     },
     {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\08030981-3ac2-4832-a555-1ee123001342.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\08030981-3ac2-4832-a555-1ee123001342.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\12a26979-62b5-4680-95e1-542eea5f6fe7.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\12a26979-62b5-4680-95e1-542eea5f6fe7.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\14def219-9006-420f-be7e-783b1ef61fce.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\14def219-9006-420f-be7e-783b1ef61fce.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\31dc9dff-c3c7-4c6f-960a-0fc03ece40fb.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\31dc9dff-c3c7-4c6f-960a-0fc03ece40fb.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\35d92536-4663-47c4-b3e2-161639f59ce4.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\35d92536-4663-47c4-b3e2-161639f59ce4.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\40bc4720-8f6d-480a-a87a-dab50b052d5d.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\40bc4720-8f6d-480a-a87a-dab50b052d5d.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\4744482a-1cd9-4fc6-a716-188f81450db9.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\4744482a-1cd9-4fc6-a716-188f81450db9.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\624e9279-6abc-4be9-99bf-bd29b0a292f6.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\624e9279-6abc-4be9-99bf-bd29b0a292f6.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\6c268a50-cd2d-492b-af62-766755f14c97.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\6c268a50-cd2d-492b-af62-766755f14c97.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\719941d4-f0f1-497c-a8a0-2cf080a3d0fb.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\719941d4-f0f1-497c-a8a0-2cf080a3d0fb.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\97203b21-76b9-4ae5-8b4d-759a1c2e5071.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\97203b21-76b9-4ae5-8b4d-759a1c2e5071.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9b982b4c-4f77-4195-921f-fbb650761c0b.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\9b982b4c-4f77-4195-921f-fbb650761c0b.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9c0b165f-ebcc-4c84-8c1e-ebaec184e0e8.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\9c0b165f-ebcc-4c84-8c1e-ebaec184e0e8.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9d9f07a9-6dd7-4ae2-99b6-14e1f8c0b426.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\9d9f07a9-6dd7-4ae2-99b6-14e1f8c0b426.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9e39745e-049a-4568-b3a1-779d13d1b910.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\9e39745e-049a-4568-b3a1-779d13d1b910.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\a21f51f1-5de1-4f32-9a4a-f91df180efd7.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\a21f51f1-5de1-4f32-9a4a-f91df180efd7.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\a8e9ba5f-bbb0-4d1f-bdfe-7839ebe78745.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\a8e9ba5f-bbb0-4d1f-bdfe-7839ebe78745.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\b5242121-c3ed-44a4-80a8-d6e60592225a.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\b5242121-c3ed-44a4-80a8-d6e60592225a.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\c0a04e43-e5e4-4752-af48-85d30fa6a7c3.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\c0a04e43-e5e4-4752-af48-85d30fa6a7c3.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\c31b8909-91e9-4c84-bbc4-16d5860e459c.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\c31b8909-91e9-4c84-bbc4-16d5860e459c.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\cf0e3acb-0c82-4169-93a6-7d71a5c433f2.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\cf0e3acb-0c82-4169-93a6-7d71a5c433f2.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d2a96393-4916-4ef2-982b-cf83946a690a.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\d2a96393-4916-4ef2-982b-cf83946a690a.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d34b3ee8-cdb5-4c92-accc-570ee9da9cc7.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\d34b3ee8-cdb5-4c92-accc-570ee9da9cc7.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d36b66e2-48dc-4877-a0c6-98eb4c3e9b58.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\d36b66e2-48dc-4877-a0c6-98eb4c3e9b58.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d6bad077-311b-4a02-ab04-800f029a966f.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\d6bad077-311b-4a02-ab04-800f029a966f.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\da713859-73ec-4bd5-b55b-41f6051a9abf.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\da713859-73ec-4bd5-b55b-41f6051a9abf.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\dd516d47-5749-4898-9676-962fedaac056.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\dd516d47-5749-4898-9676-962fedaac056.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\e9597656-d1fe-4cc6-b870-e3bd51bf9764.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\e9597656-d1fe-4cc6-b870-e3bd51bf9764.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\e95f5138-a140-463a-8d3a-faea201e57c3.jpg",
+      "PackagePath": "staticwebassets\\images\\uploads\\e95f5138-a140-463a-8d3a-faea201e57c3.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\0946d31f-f630-447c-b6d4-90f402d3cfb4.jpg",
+      "PackagePath": "staticwebassets\\other\\0946d31f-f630-447c-b6d4-90f402d3cfb4.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\0aef2360-d51e-41a6-8dc8-a6212979e212.jpg",
+      "PackagePath": "staticwebassets\\other\\0aef2360-d51e-41a6-8dc8-a6212979e212.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\237e11b0-d211-40f0-9e27-42c0420cb253.jpg",
+      "PackagePath": "staticwebassets\\other\\237e11b0-d211-40f0-9e27-42c0420cb253.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\283d1bd7-cf9c-467a-ac1f-ed0790912cb1.jpg",
+      "PackagePath": "staticwebassets\\other\\283d1bd7-cf9c-467a-ac1f-ed0790912cb1.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp",
+      "PackagePath": "staticwebassets\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\35ff788f-e85f-49a0-84a1-b0576d0ecc11.jpg",
+      "PackagePath": "staticwebassets\\other\\35ff788f-e85f-49a0-84a1-b0576d0ecc11.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\3aeec10c-e345-42eb-9afb-48be073f52e7.webp",
+      "PackagePath": "staticwebassets\\other\\3aeec10c-e345-42eb-9afb-48be073f52e7.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\5c7b9b60-009a-450c-b0cd-07cbe140dac2.webp",
+      "PackagePath": "staticwebassets\\other\\5c7b9b60-009a-450c-b0cd-07cbe140dac2.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\68b94e59-d431-49fe-85d8-38fbb40ccd91.jpg",
+      "PackagePath": "staticwebassets\\other\\68b94e59-d431-49fe-85d8-38fbb40ccd91.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\7b3803a3-076d-4357-9dfb-f1a67b7c9769.jpg",
+      "PackagePath": "staticwebassets\\other\\7b3803a3-076d-4357-9dfb-f1a67b7c9769.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\7b985ae6-967e-4795-82fc-59e40764945f.jpg",
+      "PackagePath": "staticwebassets\\other\\7b985ae6-967e-4795-82fc-59e40764945f.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\8161c7e5-d628-4bb9-aabf-41d7b63ed429.jpg",
+      "PackagePath": "staticwebassets\\other\\8161c7e5-d628-4bb9-aabf-41d7b63ed429.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\8cb86c2b-c1ab-4978-b02a-a28cf9912f2a.jpg",
+      "PackagePath": "staticwebassets\\other\\8cb86c2b-c1ab-4978-b02a-a28cf9912f2a.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\9692e1f7-d538-4d1b-8dc4-626b52e2587c.webp",
+      "PackagePath": "staticwebassets\\other\\9692e1f7-d538-4d1b-8dc4-626b52e2587c.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\97d94c43-1f93-4ceb-b272-5de4112d4a5d.jpg",
+      "PackagePath": "staticwebassets\\other\\97d94c43-1f93-4ceb-b272-5de4112d4a5d.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\a0c5624f-859c-40f3-ad63-12c7f0d3b81a.webp",
+      "PackagePath": "staticwebassets\\other\\a0c5624f-859c-40f3-ad63-12c7f0d3b81a.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\b6aefdad-7ac9-4edf-a473-f18d6bdf4494.jpg",
+      "PackagePath": "staticwebassets\\other\\b6aefdad-7ac9-4edf-a473-f18d6bdf4494.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\be25d88f-fdf6-42b5-b80c-0c8e0ca1ba4f.jpg",
+      "PackagePath": "staticwebassets\\other\\be25d88f-fdf6-42b5-b80c-0c8e0ca1ba4f.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\c179dc99-9ddc-448f-a1fd-7cdbc9bb749e.webp",
+      "PackagePath": "staticwebassets\\other\\c179dc99-9ddc-448f-a1fd-7cdbc9bb749e.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg",
+      "PackagePath": "staticwebassets\\other\\c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\d7b5b7a8-6d87-4039-afaa-96d86ee1f3b6.webp",
+      "PackagePath": "staticwebassets\\other\\d7b5b7a8-6d87-4039-afaa-96d86ee1f3b6.webp"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\db98455f-96e7-4345-b62d-91298c199793.jpg",
+      "PackagePath": "staticwebassets\\other\\db98455f-96e7-4345-b62d-91298c199793.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg",
+      "PackagePath": "staticwebassets\\other\\e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg"
+    },
+    {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png",
       "PackagePath": "staticwebassets\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png"
     },
     {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg",
       "PackagePath": "staticwebassets\\uploads\\0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\08a96757-e9f3-486c-b2ac-7ed4ab0a1469.png",
+      "PackagePath": "staticwebassets\\uploads\\08a96757-e9f3-486c-b2ac-7ed4ab0a1469.png"
     },
     {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\13f61217-2bfc-4bc8-bb3b-7d7c37d82144.png",
@@ -61,6 +277,14 @@
       "PackagePath": "staticwebassets\\uploads\\3dc511be-3ea6-4423-a6d6-c05f722009a3.png"
     },
     {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\4e288b95-ad95-47b5-ae1e-453577aa29b3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\4e288b95-ad95-47b5-ae1e-453577aa29b3.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\616ffebf-e0c1-411a-84ae-ade662515a35.png",
+      "PackagePath": "staticwebassets\\uploads\\616ffebf-e0c1-411a-84ae-ade662515a35.png"
+    },
+    {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png",
       "PackagePath": "staticwebassets\\uploads\\6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png"
     },
@@ -81,8 +305,24 @@
       "PackagePath": "staticwebassets\\uploads\\85162b42-94ff-4799-b58a-46caf5395f9d.png"
     },
     {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\947f44fe-aeb7-4a2b-ae56-b65ff82cfc86.png",
+      "PackagePath": "staticwebassets\\uploads\\947f44fe-aeb7-4a2b-ae56-b65ff82cfc86.png"
+    },
+    {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\99b0e092-ff34-4948-a906-6ed7ac4f6047.png",
       "PackagePath": "staticwebassets\\uploads\\99b0e092-ff34-4948-a906-6ed7ac4f6047.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\9ff3ae2d-8ce8-4f65-93b1-b791ca6d2492.png",
+      "PackagePath": "staticwebassets\\uploads\\9ff3ae2d-8ce8-4f65-93b1-b791ca6d2492.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\a4c0eea8-f6e6-4d8e-8b9c-e477085f24d3.png",
+      "PackagePath": "staticwebassets\\uploads\\a4c0eea8-f6e6-4d8e-8b9c-e477085f24d3.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\ad5c5ac0-bc72-4e2f-a178-9401372ac670.png",
+      "PackagePath": "staticwebassets\\uploads\\ad5c5ac0-bc72-4e2f-a178-9401372ac670.png"
     },
     {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\b4e51043-3a02-480c-92a6-de13905096bd.png",
@@ -105,8 +345,36 @@
       "PackagePath": "staticwebassets\\uploads\\cba351a0-9dad-4aaa-b719-03ef5ac2921e.png"
     },
     {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\da0c90b7-84b1-4716-92e3-fce5d5f8e4c2.png",
+      "PackagePath": "staticwebassets\\uploads\\da0c90b7-84b1-4716-92e3-fce5d5f8e4c2.png"
+    },
+    {
       "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\e9441065-bd26-49f8-996f-a304e629a593.png",
       "PackagePath": "staticwebassets\\uploads\\e9441065-bd26-49f8-996f-a304e629a593.png"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\f0751bc0-5d58-4a16-8ea3-acc93b17b0ae.jpg",
+      "PackagePath": "staticwebassets\\uploads\\f0751bc0-5d58-4a16-8ea3-acc93b17b0ae.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\33a01764-2799-4d81-97b2-48e96398eff3.mp4",
+      "PackagePath": "staticwebassets\\videos\\33a01764-2799-4d81-97b2-48e96398eff3.mp4"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\40e1feba-c0e3-48ef-8385-2d02bc133c7f.mp4",
+      "PackagePath": "staticwebassets\\videos\\40e1feba-c0e3-48ef-8385-2d02bc133c7f.mp4"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\5a31d2f9-96a2-4403-95bb-65340db867b1.mp4",
+      "PackagePath": "staticwebassets\\videos\\5a31d2f9-96a2-4403-95bb-65340db867b1.mp4"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\cf3a8b6d-1aa7-4309-9f37-9f231e922076.mp4",
+      "PackagePath": "staticwebassets\\videos\\cf3a8b6d-1aa7-4309-9f37-9f231e922076.mp4"
+    },
+    {
+      "Id": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\fa02b444-e551-4bc1-81b0-6618e63eeb8b.mp4",
+      "PackagePath": "staticwebassets\\videos\\fa02b444-e551-4bc1-81b0-6618e63eeb8b.mp4"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.eKids.props",
