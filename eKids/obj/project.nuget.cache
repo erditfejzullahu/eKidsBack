@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Mt6EQe9nu3eKG+668HlBUCg3JPlf1Bh52wWW8ifMYi7HO+t/C+MtXWogvodLlfIWakmX8jmj1PgwCpb3hU5UeA==",
+  "dgSpecHash": "n8zJF7Uu/uiw6XcphGWqoyu8YYWuTKnSVzm6jMGbwjZOEDoNBOEGW3eAfNbZfi15WHTd2Bdh535FNl/kYGWtJA==",
   "success": true,
   "projectFilePath": "D:\\Projects\\e-kidsBackend\\eKids\\eKids.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Erditi\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Erditi\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Erditi\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\Erditi\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",

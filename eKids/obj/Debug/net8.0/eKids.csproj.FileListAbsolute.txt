@@ -263,3 +263,4 @@ D:\Projects\e-kidsBackend\eKids\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
 D:\Projects\e-kidsBackend\eKids\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\Projects\e-kidsBackend\eKids\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Projects\e-kidsBackend\eKids\obj\Debug\net8.0\eKids.sourcelink.json
+D:\Projects\e-kidsBackend\eKids\bin\Debug\net8.0\AutoMapper.dll

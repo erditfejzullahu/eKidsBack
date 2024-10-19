@@ -1,11 +1,14 @@
-﻿using Database.DTOs;
+﻿using AutoMapper;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using eKids.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
@@ -18,12 +21,14 @@ namespace eKids.Controllers
         private readonly IRepository<Lessons> _lessonRepository;
         private readonly ILogger<LessonsController> _logger;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IMapper _mapper;
 
-        public LessonsController(IRepository<Lessons> lessonRepository, ILogger<LessonsController> logger, IFileUploadService fileUploadService)
+        public LessonsController(IRepository<Lessons> lessonRepository, ILogger<LessonsController> logger, IFileUploadService fileUploadService, IMapper mapper)
         {
             _lessonRepository = lessonRepository;
             _logger = logger;
             _fileUploadService = fileUploadService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -130,49 +135,66 @@ namespace eKids.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateLessons(int id, [FromBody] CreateLessons lessonDto)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateLessons(int id, [FromBody] UpdateLessons lessonDto)
         {
-            var lesson = await _lessonRepository.Get(id, default);
 
-            if(lesson == null)
+            try
             {
-                return NotFound("No Lesson found");
-            }
+                var lesson = await _lessonRepository.Get(id, default);
 
-            lesson.LessonName = lessonDto.LessonName;
-            lesson.LessonContent = lessonDto.LessonContent;
-            lesson.LessonExcerpt = lessonDto.LessonExcerpt;
-            lesson.LessonQuestions = lessonDto.LessonQuestions;
-            lesson.LessonAnswers = lessonDto.LessonAnswers;
-            lesson.LessonType = lessonDto.LessonType;
-            lesson.LessonAnswers = lessonDto.LessonAnswers;
-            lesson.CorrectAnswers = lessonDto.CorrectAnswers;
-
-            if(!string.IsNullOrEmpty(lessonDto.LessonFeaturedImage))
-            {
-
-                try
+                if(lesson == null)
                 {
-                    string relativeUrl = await _fileUploadService.UploadFile(lessonDto.LessonFeaturedImage, FileCategory.Other);
-                    var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
-                    lesson.LessonFeaturedImage = url;
+                    return NotFound(new { Message = "No Lesson found!" });
                 }
-                catch (Exception ex)
+
+                _mapper.Map(lessonDto, lesson);
+
+                if (!string.IsNullOrEmpty(lessonDto.LessonFeaturedImage))
                 {
-                    _logger.LogError(ex, $"Error in uploading lesson featured image with ID: {id}");
-                    var errorMessage = new
+                    try
                     {
-                        Message = "Error in updating category image",
-                    };
-                    return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+                        var imageUrl = await _fileUploadService.UploadFile(lessonDto.LessonFeaturedImage, FileCategory.Other);
+                        var url = $"{Request.Scheme}://{Request.Host}{imageUrl}";
+                        lessonDto.LessonFeaturedImage = url;
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex);
+                    }
                 }
+
+                if (!string.IsNullOrEmpty(lessonDto.LessonVideo))
+                {
+                    try
+                    {
+                        var videoUrl = await _fileUploadService.UploadFile(lessonDto.LessonVideo, FileCategory.Videos);
+                        var vUrl = $"{Request.Scheme}://{Request.Host}{videoUrl}";
+                        lessonDto.LessonVideo = vUrl;
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex);
+                    }
+                }
+
+                _lessonRepository.Update(lesson);
+                await _lessonRepository.SaveAsync(default);
+
+                return Ok(lesson);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating lesson with ID: {id}");
+                var errorMessage = new
+                {
+                    Message = "Error updating course!"
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
             }
 
-            _lessonRepository.Update(lesson);
-            await _lessonRepository.SaveAsync(default);
 
-            return Ok(lesson);
 
         }
 
