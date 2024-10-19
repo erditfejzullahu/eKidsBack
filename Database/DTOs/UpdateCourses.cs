@@ -9,16 +9,13 @@ namespace Database.DTOs
 {
     public class UpdateCourses
     {
-        [Required]
-        public string CourseName { get; set; }
 
-        [Required]
-        public string CourseDescription { get; set; }
+        public string? CourseName { get; set; }
 
-        [Required]
-        public string CourseFeaturedImage { get; set; }
+        public string? CourseDescription { get; set; }
 
-        [Required]
-        public int CourseCategory { get; set; }
+        public string? CourseFeaturedImage { get; set; }
+
+        public int? CourseCategory { get; set; }
     }
 }
