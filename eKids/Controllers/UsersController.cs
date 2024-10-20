@@ -1,4 +1,5 @@
-﻿using Database.Context;
+﻿using AutoMapper;
+using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
@@ -24,6 +25,7 @@ namespace eKids.Controllers
         private readonly ITokenService _tokenService;
         private readonly IRepository<Categories> _categoryRepository;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IMapper _mapper;
 
         public UsersController(IRepository<Users> userRepository,
                                IRepository<Usermeta> usermetaRepository,
@@ -31,7 +33,8 @@ namespace eKids.Controllers
                                ILogger<UsersController> logger,
                                ITokenService tokenService,
                                IRepository<Categories> categoryRepository,
-                               IFileUploadService fileUploadService
+                               IFileUploadService fileUploadService,
+                               IMapper mapper
                                )
         {
             _fileUploadService = fileUploadService;
@@ -41,6 +44,7 @@ namespace eKids.Controllers
             _logger = logger;
             _tokenService = tokenService;
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("/login")]
@@ -236,28 +240,50 @@ namespace eKids.Controllers
         }
  
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUser userDto)
         {
-            var user = await _userRepository.Get(id, default);
-            
-            if(user == null)
+
+            try
             {
-                return NotFound();
+                var user = await _userRepository.Get(id, default);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                if (!string.IsNullOrEmpty(userDto.Password))
+                {
+                    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+                    user.Password = hashedPassword;
+                }
+
+                if(!string.IsNullOrEmpty(userDto.Email))
+                {
+                    //LOGIC FOR EMAIL VERIFICATION THEN UPDATE
+                    user.Email = userDto.Email;
+                }
+
+                _mapper.Map(userDto, user);
+
+                user.LastModified = DateTime.UtcNow;
+
+                _userRepository.Update(user);
+                await _userRepository.SaveAsync(default);
+
+                return Ok(user);
             }
-
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
-
-            user.Firstname = userDto.Firstname;
-            user.Lastname = userDto.Lastname;
-            user.Username = userDto.Username;
-            user.Password = hashedPassword;
-            user.Age = userDto.Age;
-            user.LastModified = DateTime.UtcNow;
-
-            _userRepository.Update(user);
-            await _userRepository.SaveAsync(default);
-
-            return Ok(user);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating user with ID: {id}");
+                var errorMessage = new
+                {
+                    Message = "Error updating data!"
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+            }
+            
         }
 
         [HttpDelete("{id}")]
@@ -322,15 +348,24 @@ namespace eKids.Controllers
             if (user == null)
             {
                 return NotFound();
+               
             }
 
-            user.PackageID = packageDto.PackageID;
-            user.LastModified = DateTime.UtcNow;
+            try
+            {
+                user.PackageID = packageDto.PackageID; 
+                user.LastModified = DateTime.UtcNow;
 
-            _userRepository.Update(user);
-            await _userRepository.SaveAsync(default);
+                _userRepository.Update(user);
+                await _userRepository.SaveAsync(default);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating package with user id {id}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Error updating package!" });
+            }
 
-            return Ok(user);
         }
 
 

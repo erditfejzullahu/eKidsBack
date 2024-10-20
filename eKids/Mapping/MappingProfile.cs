@@ -24,8 +24,18 @@ namespace eKids.Mapping
                 .ForMember(dest => dest.LessonVideo, opt => opt.Ignore());
 
             CreateMap<UpdateCourses, Courses>()
+                .ForMember(dest => dest.CourseName, opt => opt.Condition(src => !string.IsNullOrEmpty(src.CourseName)))
+                .ForMember(dest => dest.CourseDescription, opt => opt.Condition(src => !string.IsNullOrEmpty(src.CourseDescription)))
+                .ForMember(dest => dest.CourseFeaturedImage, opt => opt.Ignore())
+                .ForMember(dest => dest.CourseCategory, opt => opt.Condition(src => src.CourseCategory > 0));
 
-
+            CreateMap<UpdateUser, Users>()
+                .ForMember(dest => dest.Firstname, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Firstname)))
+                .ForMember(dest => dest.Lastname, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Lastname)))
+                .ForMember(dest => dest.Username, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Username)))
+                .ForMember(dest => dest.Email, opt => opt.Ignore())
+                .ForMember(dest => dest.Password, opt => opt.Ignore())
+                .ForMember(dest => dest.Role, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Role)));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Database.DTOs;
+﻿using AutoMapper;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,14 @@ namespace eKids.Controllers
         private readonly IRepository<Courses> _courseRepository;
         private readonly ILogger<CoursesController> _logger;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IMapper _mapper;
 
-        public CoursesController(IRepository<Courses> courseRepository, ILogger<CoursesController> logger, IFileUploadService fileUploadService)
+        public CoursesController(IRepository<Courses> courseRepository, ILogger<CoursesController> logger, IFileUploadService fileUploadService, IMapper mapper)
         {
             _courseRepository = courseRepository;
             _logger = logger;
             _fileUploadService = fileUploadService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -95,43 +98,54 @@ namespace eKids.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourses courseDto)
         {
-            var course = await _courseRepository.Get(id, default);
-            if (course == null)
+            try
             {
-                var errorMessage = new
+                var course = await _courseRepository.Get(id, default);
+                if (course == null)
                 {
-                    Message = "No course found with that id!"
-                };
-                return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
-            }
-
-            course.CourseName = courseDto.CourseName;
-            course.CourseDescription = courseDto.CourseDescription;
-            course.CourseCategory = courseDto.CourseCategory;
-            if(!string.IsNullOrEmpty(courseDto.CourseFeaturedImage))
-            {
-
-                try
-                {
-                    string relativeUrl = await _fileUploadService.UploadFile(courseDto.CourseFeaturedImage, FileCategory.Other);
-                    var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
-                    course.CourseFeaturedImage = url;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error in updating course Image");
                     var errorMessage = new
                     {
-                        Message = "Error in updating course image",
+                        Message = "No course found with that id!"
                     };
                     return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
                 }
+
+                _mapper.Map(courseDto, course);
+
+                if(!string.IsNullOrEmpty(courseDto.CourseFeaturedImage))
+                {
+                    try
+                    {
+                        string relativeUrl = await _fileUploadService.UploadFile(courseDto.CourseFeaturedImage, FileCategory.Other);
+                        var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
+                        course.CourseFeaturedImage = url;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error in updating course Image");
+                        var errorMessage = new
+                        {
+                            Message = "Error in updating course image",
+                        };
+                        return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+                    }
+                }
+
+                _courseRepository.Update(course);
+                await _courseRepository.SaveAsync(default);
+
+                return Ok(course);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating course with ID: {id}");
+                var errorMessage = new
+                {
+                    Message = "Error in updating course",
+                };
 
-            _courseRepository.Update(course);
-            await _courseRepository.SaveAsync(default);
-
-            return Ok(course);
+                return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+            }
         }
 
         [HttpGet("/getCoursesP")]

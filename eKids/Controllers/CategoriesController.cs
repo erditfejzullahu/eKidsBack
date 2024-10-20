@@ -1,4 +1,5 @@
-﻿using Database.DTOs;
+﻿using AutoMapper;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Microsoft.AspNetCore.Http;
@@ -16,12 +17,14 @@ namespace eKids.Controllers
         private readonly IRepository<Categories> _categoryRepository;
         private readonly IFileUploadService _fileUploadService;
         private readonly ILogger<CategoriesController> _logger;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(IRepository<Categories> categoryRepository, IFileUploadService fileUploadService, ILogger<CategoriesController> logger)
+        public CategoriesController(IRepository<Categories> categoryRepository, IFileUploadService fileUploadService, ILogger<CategoriesController> logger, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _fileUploadService = fileUploadService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpPost]
