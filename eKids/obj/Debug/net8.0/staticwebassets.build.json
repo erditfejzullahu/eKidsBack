@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "yKlrwIPdYFlEmrdgd997hKLnwxXouWVHPF+T1RIkR/M=",
+  "Hash": "XcPMIwNkF8UgEEb+ubU1CDlJd2vOibQz0yFqgEXKwVM=",
   "Source": "eKids",
   "BasePath": "_content/eKids",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "eKids\\wwwroot",
       "Source": "eKids",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\kid.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\kid.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/kid.jpg",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot\\images\\kid.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/profiles/3d529d42-f455-44a7-b499-00d770cf43ed.webp",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\72c278ce-aa18-4bb8-8a72-e37729d953a9.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\72c278ce-aa18-4bb8-8a72-e37729d953a9.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/profiles/72c278ce-aa18-4bb8-8a72-e37729d953a9.webp",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profiles\\72c278ce-aa18-4bb8-8a72-e37729d953a9.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\86f71be8-5823-4969-aef0-be5ed9404559.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\86f71be8-5823-4969-aef0-be5ed9404559.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/profiles/86f71be8-5823-4969-aef0-be5ed9404559.webp",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profiles\\86f71be8-5823-4969-aef0-be5ed9404559.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\9598bc50-674c-491f-b493-8b51c163e32d.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\9598bc50-674c-491f-b493-8b51c163e32d.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/profiles/9598bc50-674c-491f-b493-8b51c163e32d.jpg",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profiles\\9598bc50-674c-491f-b493-8b51c163e32d.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/profiles/a20536a5-47d6-4407-8737-81afa8cde190.png",
       "AssetKind": "All",
@@ -131,10 +131,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/profiles/cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp",
       "AssetKind": "All",
@@ -150,10 +150,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profiles\\cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/profiles/ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg",
       "AssetKind": "All",
@@ -169,10 +169,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\08030981-3ac2-4832-a555-1ee123001342.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\08030981-3ac2-4832-a555-1ee123001342.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/08030981-3ac2-4832-a555-1ee123001342.jpg",
       "AssetKind": "All",
@@ -188,10 +188,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\08030981-3ac2-4832-a555-1ee123001342.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\12a26979-62b5-4680-95e1-542eea5f6fe7.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\12a26979-62b5-4680-95e1-542eea5f6fe7.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/12a26979-62b5-4680-95e1-542eea5f6fe7.jpg",
       "AssetKind": "All",
@@ -207,10 +207,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\12a26979-62b5-4680-95e1-542eea5f6fe7.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\14def219-9006-420f-be7e-783b1ef61fce.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\14def219-9006-420f-be7e-783b1ef61fce.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/14def219-9006-420f-be7e-783b1ef61fce.jpg",
       "AssetKind": "All",
@@ -226,10 +226,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\14def219-9006-420f-be7e-783b1ef61fce.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\31dc9dff-c3c7-4c6f-960a-0fc03ece40fb.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\31dc9dff-c3c7-4c6f-960a-0fc03ece40fb.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/31dc9dff-c3c7-4c6f-960a-0fc03ece40fb.jpg",
       "AssetKind": "All",
@@ -245,10 +245,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\31dc9dff-c3c7-4c6f-960a-0fc03ece40fb.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\35d92536-4663-47c4-b3e2-161639f59ce4.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\35d92536-4663-47c4-b3e2-161639f59ce4.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/35d92536-4663-47c4-b3e2-161639f59ce4.jpg",
       "AssetKind": "All",
@@ -264,10 +264,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\35d92536-4663-47c4-b3e2-161639f59ce4.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\40bc4720-8f6d-480a-a87a-dab50b052d5d.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\40bc4720-8f6d-480a-a87a-dab50b052d5d.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/40bc4720-8f6d-480a-a87a-dab50b052d5d.jpg",
       "AssetKind": "All",
@@ -283,10 +283,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\40bc4720-8f6d-480a-a87a-dab50b052d5d.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\4744482a-1cd9-4fc6-a716-188f81450db9.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\4744482a-1cd9-4fc6-a716-188f81450db9.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/4744482a-1cd9-4fc6-a716-188f81450db9.jpg",
       "AssetKind": "All",
@@ -302,10 +302,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\4744482a-1cd9-4fc6-a716-188f81450db9.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\624e9279-6abc-4be9-99bf-bd29b0a292f6.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\624e9279-6abc-4be9-99bf-bd29b0a292f6.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/624e9279-6abc-4be9-99bf-bd29b0a292f6.jpg",
       "AssetKind": "All",
@@ -321,10 +321,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\624e9279-6abc-4be9-99bf-bd29b0a292f6.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\6c268a50-cd2d-492b-af62-766755f14c97.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\6c268a50-cd2d-492b-af62-766755f14c97.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/6c268a50-cd2d-492b-af62-766755f14c97.jpg",
       "AssetKind": "All",
@@ -340,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\6c268a50-cd2d-492b-af62-766755f14c97.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\719941d4-f0f1-497c-a8a0-2cf080a3d0fb.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\719941d4-f0f1-497c-a8a0-2cf080a3d0fb.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/719941d4-f0f1-497c-a8a0-2cf080a3d0fb.jpg",
       "AssetKind": "All",
@@ -359,10 +359,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\719941d4-f0f1-497c-a8a0-2cf080a3d0fb.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\97203b21-76b9-4ae5-8b4d-759a1c2e5071.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\97203b21-76b9-4ae5-8b4d-759a1c2e5071.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/97203b21-76b9-4ae5-8b4d-759a1c2e5071.jpg",
       "AssetKind": "All",
@@ -378,10 +378,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\97203b21-76b9-4ae5-8b4d-759a1c2e5071.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9b982b4c-4f77-4195-921f-fbb650761c0b.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\9b982b4c-4f77-4195-921f-fbb650761c0b.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/9b982b4c-4f77-4195-921f-fbb650761c0b.jpg",
       "AssetKind": "All",
@@ -397,10 +397,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\9b982b4c-4f77-4195-921f-fbb650761c0b.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9c0b165f-ebcc-4c84-8c1e-ebaec184e0e8.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\9c0b165f-ebcc-4c84-8c1e-ebaec184e0e8.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/9c0b165f-ebcc-4c84-8c1e-ebaec184e0e8.jpg",
       "AssetKind": "All",
@@ -416,10 +416,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\9c0b165f-ebcc-4c84-8c1e-ebaec184e0e8.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9d9f07a9-6dd7-4ae2-99b6-14e1f8c0b426.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\9d9f07a9-6dd7-4ae2-99b6-14e1f8c0b426.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/9d9f07a9-6dd7-4ae2-99b6-14e1f8c0b426.jpg",
       "AssetKind": "All",
@@ -435,10 +435,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\9d9f07a9-6dd7-4ae2-99b6-14e1f8c0b426.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\9e39745e-049a-4568-b3a1-779d13d1b910.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\9e39745e-049a-4568-b3a1-779d13d1b910.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/9e39745e-049a-4568-b3a1-779d13d1b910.jpg",
       "AssetKind": "All",
@@ -454,10 +454,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\9e39745e-049a-4568-b3a1-779d13d1b910.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\a21f51f1-5de1-4f32-9a4a-f91df180efd7.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\a21f51f1-5de1-4f32-9a4a-f91df180efd7.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/a21f51f1-5de1-4f32-9a4a-f91df180efd7.jpg",
       "AssetKind": "All",
@@ -473,10 +473,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\a21f51f1-5de1-4f32-9a4a-f91df180efd7.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\a8e9ba5f-bbb0-4d1f-bdfe-7839ebe78745.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\a8e9ba5f-bbb0-4d1f-bdfe-7839ebe78745.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/a8e9ba5f-bbb0-4d1f-bdfe-7839ebe78745.jpg",
       "AssetKind": "All",
@@ -492,10 +492,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\a8e9ba5f-bbb0-4d1f-bdfe-7839ebe78745.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\b5242121-c3ed-44a4-80a8-d6e60592225a.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\b5242121-c3ed-44a4-80a8-d6e60592225a.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/b5242121-c3ed-44a4-80a8-d6e60592225a.jpg",
       "AssetKind": "All",
@@ -511,10 +511,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\b5242121-c3ed-44a4-80a8-d6e60592225a.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\c0a04e43-e5e4-4752-af48-85d30fa6a7c3.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\c0a04e43-e5e4-4752-af48-85d30fa6a7c3.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/c0a04e43-e5e4-4752-af48-85d30fa6a7c3.jpg",
       "AssetKind": "All",
@@ -530,10 +530,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\c0a04e43-e5e4-4752-af48-85d30fa6a7c3.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\c31b8909-91e9-4c84-bbc4-16d5860e459c.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\c31b8909-91e9-4c84-bbc4-16d5860e459c.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/c31b8909-91e9-4c84-bbc4-16d5860e459c.jpg",
       "AssetKind": "All",
@@ -549,10 +549,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\c31b8909-91e9-4c84-bbc4-16d5860e459c.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\cf0e3acb-0c82-4169-93a6-7d71a5c433f2.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\cf0e3acb-0c82-4169-93a6-7d71a5c433f2.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/cf0e3acb-0c82-4169-93a6-7d71a5c433f2.jpg",
       "AssetKind": "All",
@@ -568,10 +568,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\cf0e3acb-0c82-4169-93a6-7d71a5c433f2.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d2a96393-4916-4ef2-982b-cf83946a690a.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\d2a96393-4916-4ef2-982b-cf83946a690a.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/d2a96393-4916-4ef2-982b-cf83946a690a.jpg",
       "AssetKind": "All",
@@ -587,10 +587,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\d2a96393-4916-4ef2-982b-cf83946a690a.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d34b3ee8-cdb5-4c92-accc-570ee9da9cc7.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\d34b3ee8-cdb5-4c92-accc-570ee9da9cc7.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/d34b3ee8-cdb5-4c92-accc-570ee9da9cc7.jpg",
       "AssetKind": "All",
@@ -606,10 +606,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\d34b3ee8-cdb5-4c92-accc-570ee9da9cc7.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d36b66e2-48dc-4877-a0c6-98eb4c3e9b58.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\d36b66e2-48dc-4877-a0c6-98eb4c3e9b58.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/d36b66e2-48dc-4877-a0c6-98eb4c3e9b58.jpg",
       "AssetKind": "All",
@@ -625,10 +625,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\d36b66e2-48dc-4877-a0c6-98eb4c3e9b58.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\d6bad077-311b-4a02-ab04-800f029a966f.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\d6bad077-311b-4a02-ab04-800f029a966f.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/d6bad077-311b-4a02-ab04-800f029a966f.jpg",
       "AssetKind": "All",
@@ -644,10 +644,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\d6bad077-311b-4a02-ab04-800f029a966f.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\da713859-73ec-4bd5-b55b-41f6051a9abf.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\da713859-73ec-4bd5-b55b-41f6051a9abf.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/da713859-73ec-4bd5-b55b-41f6051a9abf.jpg",
       "AssetKind": "All",
@@ -663,10 +663,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\da713859-73ec-4bd5-b55b-41f6051a9abf.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\dd516d47-5749-4898-9676-962fedaac056.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\dd516d47-5749-4898-9676-962fedaac056.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/dd516d47-5749-4898-9676-962fedaac056.jpg",
       "AssetKind": "All",
@@ -682,10 +682,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\dd516d47-5749-4898-9676-962fedaac056.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\e9597656-d1fe-4cc6-b870-e3bd51bf9764.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\e9597656-d1fe-4cc6-b870-e3bd51bf9764.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/e9597656-d1fe-4cc6-b870-e3bd51bf9764.jpg",
       "AssetKind": "All",
@@ -701,10 +701,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\e9597656-d1fe-4cc6-b870-e3bd51bf9764.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\images\\uploads\\e95f5138-a140-463a-8d3a-faea201e57c3.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\e95f5138-a140-463a-8d3a-faea201e57c3.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "images/uploads/e95f5138-a140-463a-8d3a-faea201e57c3.jpg",
       "AssetKind": "All",
@@ -720,10 +720,10 @@
       "OriginalItemSpec": "wwwroot\\images\\uploads\\e95f5138-a140-463a-8d3a-faea201e57c3.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\0946d31f-f630-447c-b6d4-90f402d3cfb4.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\0946d31f-f630-447c-b6d4-90f402d3cfb4.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/0946d31f-f630-447c-b6d4-90f402d3cfb4.jpg",
       "AssetKind": "All",
@@ -739,10 +739,10 @@
       "OriginalItemSpec": "wwwroot\\other\\0946d31f-f630-447c-b6d4-90f402d3cfb4.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\0aef2360-d51e-41a6-8dc8-a6212979e212.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\0aef2360-d51e-41a6-8dc8-a6212979e212.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/0aef2360-d51e-41a6-8dc8-a6212979e212.jpg",
       "AssetKind": "All",
@@ -758,10 +758,10 @@
       "OriginalItemSpec": "wwwroot\\other\\0aef2360-d51e-41a6-8dc8-a6212979e212.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\0b51a558-33e1-4bc4-9d25-d707e407e5a5.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\0b51a558-33e1-4bc4-9d25-d707e407e5a5.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/0b51a558-33e1-4bc4-9d25-d707e407e5a5.jpg",
       "AssetKind": "All",
@@ -777,10 +777,10 @@
       "OriginalItemSpec": "wwwroot\\other\\0b51a558-33e1-4bc4-9d25-d707e407e5a5.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\1608fb71-3220-4f87-b059-4d3b26fe6a70.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\1608fb71-3220-4f87-b059-4d3b26fe6a70.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/1608fb71-3220-4f87-b059-4d3b26fe6a70.jpg",
       "AssetKind": "All",
@@ -796,10 +796,10 @@
       "OriginalItemSpec": "wwwroot\\other\\1608fb71-3220-4f87-b059-4d3b26fe6a70.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\237e11b0-d211-40f0-9e27-42c0420cb253.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\237e11b0-d211-40f0-9e27-42c0420cb253.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/237e11b0-d211-40f0-9e27-42c0420cb253.jpg",
       "AssetKind": "All",
@@ -815,10 +815,10 @@
       "OriginalItemSpec": "wwwroot\\other\\237e11b0-d211-40f0-9e27-42c0420cb253.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\283d1bd7-cf9c-467a-ac1f-ed0790912cb1.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\283d1bd7-cf9c-467a-ac1f-ed0790912cb1.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/283d1bd7-cf9c-467a-ac1f-ed0790912cb1.jpg",
       "AssetKind": "All",
@@ -834,10 +834,10 @@
       "OriginalItemSpec": "wwwroot\\other\\283d1bd7-cf9c-467a-ac1f-ed0790912cb1.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp",
       "AssetKind": "All",
@@ -853,10 +853,10 @@
       "OriginalItemSpec": "wwwroot\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\35ff788f-e85f-49a0-84a1-b0576d0ecc11.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\35ff788f-e85f-49a0-84a1-b0576d0ecc11.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/35ff788f-e85f-49a0-84a1-b0576d0ecc11.jpg",
       "AssetKind": "All",
@@ -872,10 +872,10 @@
       "OriginalItemSpec": "wwwroot\\other\\35ff788f-e85f-49a0-84a1-b0576d0ecc11.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\3aeec10c-e345-42eb-9afb-48be073f52e7.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\3aeec10c-e345-42eb-9afb-48be073f52e7.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/3aeec10c-e345-42eb-9afb-48be073f52e7.webp",
       "AssetKind": "All",
@@ -891,10 +891,10 @@
       "OriginalItemSpec": "wwwroot\\other\\3aeec10c-e345-42eb-9afb-48be073f52e7.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\5c7b9b60-009a-450c-b0cd-07cbe140dac2.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\5c7b9b60-009a-450c-b0cd-07cbe140dac2.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/5c7b9b60-009a-450c-b0cd-07cbe140dac2.webp",
       "AssetKind": "All",
@@ -910,10 +910,10 @@
       "OriginalItemSpec": "wwwroot\\other\\5c7b9b60-009a-450c-b0cd-07cbe140dac2.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\68b94e59-d431-49fe-85d8-38fbb40ccd91.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\68b94e59-d431-49fe-85d8-38fbb40ccd91.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/68b94e59-d431-49fe-85d8-38fbb40ccd91.jpg",
       "AssetKind": "All",
@@ -929,10 +929,10 @@
       "OriginalItemSpec": "wwwroot\\other\\68b94e59-d431-49fe-85d8-38fbb40ccd91.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\68ffe474-c06c-4100-8002-434c45cda3dd.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\68ffe474-c06c-4100-8002-434c45cda3dd.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/68ffe474-c06c-4100-8002-434c45cda3dd.jpg",
       "AssetKind": "All",
@@ -948,10 +948,10 @@
       "OriginalItemSpec": "wwwroot\\other\\68ffe474-c06c-4100-8002-434c45cda3dd.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\7b3803a3-076d-4357-9dfb-f1a67b7c9769.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\7b3803a3-076d-4357-9dfb-f1a67b7c9769.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/7b3803a3-076d-4357-9dfb-f1a67b7c9769.jpg",
       "AssetKind": "All",
@@ -967,10 +967,10 @@
       "OriginalItemSpec": "wwwroot\\other\\7b3803a3-076d-4357-9dfb-f1a67b7c9769.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\7b985ae6-967e-4795-82fc-59e40764945f.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\7b985ae6-967e-4795-82fc-59e40764945f.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/7b985ae6-967e-4795-82fc-59e40764945f.jpg",
       "AssetKind": "All",
@@ -986,10 +986,10 @@
       "OriginalItemSpec": "wwwroot\\other\\7b985ae6-967e-4795-82fc-59e40764945f.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\8161c7e5-d628-4bb9-aabf-41d7b63ed429.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\8161c7e5-d628-4bb9-aabf-41d7b63ed429.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/8161c7e5-d628-4bb9-aabf-41d7b63ed429.jpg",
       "AssetKind": "All",
@@ -1005,10 +1005,10 @@
       "OriginalItemSpec": "wwwroot\\other\\8161c7e5-d628-4bb9-aabf-41d7b63ed429.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\8cb86c2b-c1ab-4978-b02a-a28cf9912f2a.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\8cb86c2b-c1ab-4978-b02a-a28cf9912f2a.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/8cb86c2b-c1ab-4978-b02a-a28cf9912f2a.jpg",
       "AssetKind": "All",
@@ -1024,10 +1024,10 @@
       "OriginalItemSpec": "wwwroot\\other\\8cb86c2b-c1ab-4978-b02a-a28cf9912f2a.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\9692e1f7-d538-4d1b-8dc4-626b52e2587c.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\9692e1f7-d538-4d1b-8dc4-626b52e2587c.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/9692e1f7-d538-4d1b-8dc4-626b52e2587c.webp",
       "AssetKind": "All",
@@ -1043,10 +1043,10 @@
       "OriginalItemSpec": "wwwroot\\other\\9692e1f7-d538-4d1b-8dc4-626b52e2587c.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\97d94c43-1f93-4ceb-b272-5de4112d4a5d.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\97d94c43-1f93-4ceb-b272-5de4112d4a5d.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/97d94c43-1f93-4ceb-b272-5de4112d4a5d.jpg",
       "AssetKind": "All",
@@ -1062,10 +1062,10 @@
       "OriginalItemSpec": "wwwroot\\other\\97d94c43-1f93-4ceb-b272-5de4112d4a5d.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\a0c5624f-859c-40f3-ad63-12c7f0d3b81a.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\a0c5624f-859c-40f3-ad63-12c7f0d3b81a.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/a0c5624f-859c-40f3-ad63-12c7f0d3b81a.webp",
       "AssetKind": "All",
@@ -1081,10 +1081,10 @@
       "OriginalItemSpec": "wwwroot\\other\\a0c5624f-859c-40f3-ad63-12c7f0d3b81a.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\acbc985f-c515-4c73-aa58-b6877327c5af.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\acbc985f-c515-4c73-aa58-b6877327c5af.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/acbc985f-c515-4c73-aa58-b6877327c5af.jpg",
       "AssetKind": "All",
@@ -1100,10 +1100,10 @@
       "OriginalItemSpec": "wwwroot\\other\\acbc985f-c515-4c73-aa58-b6877327c5af.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\b6aefdad-7ac9-4edf-a473-f18d6bdf4494.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\b6aefdad-7ac9-4edf-a473-f18d6bdf4494.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/b6aefdad-7ac9-4edf-a473-f18d6bdf4494.jpg",
       "AssetKind": "All",
@@ -1119,10 +1119,10 @@
       "OriginalItemSpec": "wwwroot\\other\\b6aefdad-7ac9-4edf-a473-f18d6bdf4494.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\be25d88f-fdf6-42b5-b80c-0c8e0ca1ba4f.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\be25d88f-fdf6-42b5-b80c-0c8e0ca1ba4f.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/be25d88f-fdf6-42b5-b80c-0c8e0ca1ba4f.jpg",
       "AssetKind": "All",
@@ -1138,10 +1138,10 @@
       "OriginalItemSpec": "wwwroot\\other\\be25d88f-fdf6-42b5-b80c-0c8e0ca1ba4f.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\c179dc99-9ddc-448f-a1fd-7cdbc9bb749e.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\c179dc99-9ddc-448f-a1fd-7cdbc9bb749e.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/c179dc99-9ddc-448f-a1fd-7cdbc9bb749e.webp",
       "AssetKind": "All",
@@ -1157,10 +1157,10 @@
       "OriginalItemSpec": "wwwroot\\other\\c179dc99-9ddc-448f-a1fd-7cdbc9bb749e.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg",
       "AssetKind": "All",
@@ -1176,10 +1176,10 @@
       "OriginalItemSpec": "wwwroot\\other\\c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\d7b5b7a8-6d87-4039-afaa-96d86ee1f3b6.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\d7b5b7a8-6d87-4039-afaa-96d86ee1f3b6.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/d7b5b7a8-6d87-4039-afaa-96d86ee1f3b6.webp",
       "AssetKind": "All",
@@ -1195,10 +1195,10 @@
       "OriginalItemSpec": "wwwroot\\other\\d7b5b7a8-6d87-4039-afaa-96d86ee1f3b6.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\db98455f-96e7-4345-b62d-91298c199793.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\db98455f-96e7-4345-b62d-91298c199793.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/db98455f-96e7-4345-b62d-91298c199793.jpg",
       "AssetKind": "All",
@@ -1214,10 +1214,10 @@
       "OriginalItemSpec": "wwwroot\\other\\db98455f-96e7-4345-b62d-91298c199793.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\other\\e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "other/e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg",
       "AssetKind": "All",
@@ -1233,10 +1233,10 @@
       "OriginalItemSpec": "wwwroot\\other\\e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/03c9a89d-10e8-4349-a4d4-4de92e96e450.png",
       "AssetKind": "All",
@@ -1252,10 +1252,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg",
       "AssetKind": "All",
@@ -1271,10 +1271,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\0626ceda-17e0-4a90-bb23-1d93d52ab629.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\08a96757-e9f3-486c-b2ac-7ed4ab0a1469.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\08a96757-e9f3-486c-b2ac-7ed4ab0a1469.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/08a96757-e9f3-486c-b2ac-7ed4ab0a1469.png",
       "AssetKind": "All",
@@ -1290,10 +1290,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\08a96757-e9f3-486c-b2ac-7ed4ab0a1469.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\13f61217-2bfc-4bc8-bb3b-7d7c37d82144.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\13f61217-2bfc-4bc8-bb3b-7d7c37d82144.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/13f61217-2bfc-4bc8-bb3b-7d7c37d82144.png",
       "AssetKind": "All",
@@ -1309,10 +1309,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\13f61217-2bfc-4bc8-bb3b-7d7c37d82144.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\17245bad-d08f-4612-a15e-cc461aeb8cbd.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\17245bad-d08f-4612-a15e-cc461aeb8cbd.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/17245bad-d08f-4612-a15e-cc461aeb8cbd.jpg",
       "AssetKind": "All",
@@ -1328,10 +1328,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\17245bad-d08f-4612-a15e-cc461aeb8cbd.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\27334313-ba8f-4eab-b0cc-be3232fa10a7.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\27334313-ba8f-4eab-b0cc-be3232fa10a7.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/27334313-ba8f-4eab-b0cc-be3232fa10a7.jpg",
       "AssetKind": "All",
@@ -1347,10 +1347,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\27334313-ba8f-4eab-b0cc-be3232fa10a7.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\30dafdd3-b372-4cf1-b08c-429262e5e61f.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\30dafdd3-b372-4cf1-b08c-429262e5e61f.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/30dafdd3-b372-4cf1-b08c-429262e5e61f.png",
       "AssetKind": "All",
@@ -1366,10 +1366,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\30dafdd3-b372-4cf1-b08c-429262e5e61f.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\3b04a2ef-775e-4733-abdc-3e25604f9335.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\3b04a2ef-775e-4733-abdc-3e25604f9335.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/3b04a2ef-775e-4733-abdc-3e25604f9335.png",
       "AssetKind": "All",
@@ -1385,10 +1385,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\3b04a2ef-775e-4733-abdc-3e25604f9335.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\3dc511be-3ea6-4423-a6d6-c05f722009a3.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\3dc511be-3ea6-4423-a6d6-c05f722009a3.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/3dc511be-3ea6-4423-a6d6-c05f722009a3.png",
       "AssetKind": "All",
@@ -1404,10 +1404,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\3dc511be-3ea6-4423-a6d6-c05f722009a3.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\4e288b95-ad95-47b5-ae1e-453577aa29b3.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\4e288b95-ad95-47b5-ae1e-453577aa29b3.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/4e288b95-ad95-47b5-ae1e-453577aa29b3.jpg",
       "AssetKind": "All",
@@ -1423,10 +1423,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\4e288b95-ad95-47b5-ae1e-453577aa29b3.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\616ffebf-e0c1-411a-84ae-ade662515a35.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\616ffebf-e0c1-411a-84ae-ade662515a35.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/616ffebf-e0c1-411a-84ae-ade662515a35.png",
       "AssetKind": "All",
@@ -1442,10 +1442,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\616ffebf-e0c1-411a-84ae-ade662515a35.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png",
       "AssetKind": "All",
@@ -1461,10 +1461,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\6b2cdf07-f23f-48b9-a4a4-199d4b8fe8ca.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\77707a0e-ea3c-47d0-a857-9fd296771a3f.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\77707a0e-ea3c-47d0-a857-9fd296771a3f.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/77707a0e-ea3c-47d0-a857-9fd296771a3f.png",
       "AssetKind": "All",
@@ -1480,10 +1480,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\77707a0e-ea3c-47d0-a857-9fd296771a3f.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\8426a009-76a3-4fc2-abf3-d2110f384a12.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\8426a009-76a3-4fc2-abf3-d2110f384a12.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/8426a009-76a3-4fc2-abf3-d2110f384a12.png",
       "AssetKind": "All",
@@ -1499,10 +1499,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\8426a009-76a3-4fc2-abf3-d2110f384a12.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\84fdc8bc-b66a-4fe1-a390-b3c3b8a3c5fc.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\84fdc8bc-b66a-4fe1-a390-b3c3b8a3c5fc.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/84fdc8bc-b66a-4fe1-a390-b3c3b8a3c5fc.png",
       "AssetKind": "All",
@@ -1518,10 +1518,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\84fdc8bc-b66a-4fe1-a390-b3c3b8a3c5fc.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\85162b42-94ff-4799-b58a-46caf5395f9d.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\85162b42-94ff-4799-b58a-46caf5395f9d.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/85162b42-94ff-4799-b58a-46caf5395f9d.png",
       "AssetKind": "All",
@@ -1537,10 +1537,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\85162b42-94ff-4799-b58a-46caf5395f9d.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\947f44fe-aeb7-4a2b-ae56-b65ff82cfc86.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\947f44fe-aeb7-4a2b-ae56-b65ff82cfc86.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/947f44fe-aeb7-4a2b-ae56-b65ff82cfc86.png",
       "AssetKind": "All",
@@ -1556,10 +1556,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\947f44fe-aeb7-4a2b-ae56-b65ff82cfc86.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\99b0e092-ff34-4948-a906-6ed7ac4f6047.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\99b0e092-ff34-4948-a906-6ed7ac4f6047.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/99b0e092-ff34-4948-a906-6ed7ac4f6047.png",
       "AssetKind": "All",
@@ -1575,10 +1575,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\99b0e092-ff34-4948-a906-6ed7ac4f6047.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\9ff3ae2d-8ce8-4f65-93b1-b791ca6d2492.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\9ff3ae2d-8ce8-4f65-93b1-b791ca6d2492.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/9ff3ae2d-8ce8-4f65-93b1-b791ca6d2492.png",
       "AssetKind": "All",
@@ -1594,10 +1594,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\9ff3ae2d-8ce8-4f65-93b1-b791ca6d2492.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\a4c0eea8-f6e6-4d8e-8b9c-e477085f24d3.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\a4c0eea8-f6e6-4d8e-8b9c-e477085f24d3.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/a4c0eea8-f6e6-4d8e-8b9c-e477085f24d3.png",
       "AssetKind": "All",
@@ -1613,10 +1613,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\a4c0eea8-f6e6-4d8e-8b9c-e477085f24d3.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\ad5c5ac0-bc72-4e2f-a178-9401372ac670.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\ad5c5ac0-bc72-4e2f-a178-9401372ac670.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/ad5c5ac0-bc72-4e2f-a178-9401372ac670.png",
       "AssetKind": "All",
@@ -1632,10 +1632,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\ad5c5ac0-bc72-4e2f-a178-9401372ac670.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\b4e51043-3a02-480c-92a6-de13905096bd.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\b4e51043-3a02-480c-92a6-de13905096bd.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/b4e51043-3a02-480c-92a6-de13905096bd.png",
       "AssetKind": "All",
@@ -1651,10 +1651,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b4e51043-3a02-480c-92a6-de13905096bd.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\bc656068-4b6d-4301-98b7-eaefd9a3c468.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\bc656068-4b6d-4301-98b7-eaefd9a3c468.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/bc656068-4b6d-4301-98b7-eaefd9a3c468.png",
       "AssetKind": "All",
@@ -1670,10 +1670,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\bc656068-4b6d-4301-98b7-eaefd9a3c468.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\c08fece5-c377-468f-9c54-510a0a2b7577.webp",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\c08fece5-c377-468f-9c54-510a0a2b7577.webp",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/c08fece5-c377-468f-9c54-510a0a2b7577.webp",
       "AssetKind": "All",
@@ -1689,10 +1689,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c08fece5-c377-468f-9c54-510a0a2b7577.webp"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\c3b2533b-09c0-4bcc-b487-40aa8a5b8da0.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\c3b2533b-09c0-4bcc-b487-40aa8a5b8da0.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/c3b2533b-09c0-4bcc-b487-40aa8a5b8da0.png",
       "AssetKind": "All",
@@ -1708,10 +1708,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c3b2533b-09c0-4bcc-b487-40aa8a5b8da0.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\cba351a0-9dad-4aaa-b719-03ef5ac2921e.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\cba351a0-9dad-4aaa-b719-03ef5ac2921e.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/cba351a0-9dad-4aaa-b719-03ef5ac2921e.png",
       "AssetKind": "All",
@@ -1727,10 +1727,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\cba351a0-9dad-4aaa-b719-03ef5ac2921e.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\da0c90b7-84b1-4716-92e3-fce5d5f8e4c2.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\da0c90b7-84b1-4716-92e3-fce5d5f8e4c2.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/da0c90b7-84b1-4716-92e3-fce5d5f8e4c2.png",
       "AssetKind": "All",
@@ -1746,10 +1746,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\da0c90b7-84b1-4716-92e3-fce5d5f8e4c2.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\e9441065-bd26-49f8-996f-a304e629a593.png",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\e9441065-bd26-49f8-996f-a304e629a593.png",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/e9441065-bd26-49f8-996f-a304e629a593.png",
       "AssetKind": "All",
@@ -1765,10 +1765,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e9441065-bd26-49f8-996f-a304e629a593.png"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\uploads\\f0751bc0-5d58-4a16-8ea3-acc93b17b0ae.jpg",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\f0751bc0-5d58-4a16-8ea3-acc93b17b0ae.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "uploads/f0751bc0-5d58-4a16-8ea3-acc93b17b0ae.jpg",
       "AssetKind": "All",
@@ -1784,10 +1784,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\f0751bc0-5d58-4a16-8ea3-acc93b17b0ae.jpg"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\33a01764-2799-4d81-97b2-48e96398eff3.mp4",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\33a01764-2799-4d81-97b2-48e96398eff3.mp4",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "videos/33a01764-2799-4d81-97b2-48e96398eff3.mp4",
       "AssetKind": "All",
@@ -1803,10 +1803,10 @@
       "OriginalItemSpec": "wwwroot\\videos\\33a01764-2799-4d81-97b2-48e96398eff3.mp4"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\40e1feba-c0e3-48ef-8385-2d02bc133c7f.mp4",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\40e1feba-c0e3-48ef-8385-2d02bc133c7f.mp4",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "videos/40e1feba-c0e3-48ef-8385-2d02bc133c7f.mp4",
       "AssetKind": "All",
@@ -1822,10 +1822,10 @@
       "OriginalItemSpec": "wwwroot\\videos\\40e1feba-c0e3-48ef-8385-2d02bc133c7f.mp4"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\5a31d2f9-96a2-4403-95bb-65340db867b1.mp4",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\5a31d2f9-96a2-4403-95bb-65340db867b1.mp4",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "videos/5a31d2f9-96a2-4403-95bb-65340db867b1.mp4",
       "AssetKind": "All",
@@ -1841,10 +1841,10 @@
       "OriginalItemSpec": "wwwroot\\videos\\5a31d2f9-96a2-4403-95bb-65340db867b1.mp4"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\cf3a8b6d-1aa7-4309-9f37-9f231e922076.mp4",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\cf3a8b6d-1aa7-4309-9f37-9f231e922076.mp4",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "videos/cf3a8b6d-1aa7-4309-9f37-9f231e922076.mp4",
       "AssetKind": "All",
@@ -1860,10 +1860,10 @@
       "OriginalItemSpec": "wwwroot\\videos\\cf3a8b6d-1aa7-4309-9f37-9f231e922076.mp4"
     },
     {
-      "Identity": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\videos\\fa02b444-e551-4bc1-81b0-6618e63eeb8b.mp4",
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\fa02b444-e551-4bc1-81b0-6618e63eeb8b.mp4",
       "SourceId": "eKids",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\e-kidsBackend\\eKids\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
       "BasePath": "_content/eKids",
       "RelativePath": "videos/fa02b444-e551-4bc1-81b0-6618e63eeb8b.mp4",
       "AssetKind": "All",

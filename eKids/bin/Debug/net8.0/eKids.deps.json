@@ -2032,7 +2032,10 @@
           "System.IdentityModel.Tokens.Jwt": "7.6.0"
         },
         "runtime": {
-          "Database.dll": {}
+          "Database.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

@@ -11,3 +11,16 @@ D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\refint\Database.dll
 D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.pdb
 D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\ref\Database.dll
 D:\Projects\e-kidsBackend\Database\obj\Debug\net8.0\Database.sourcelink.json
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\bin\Debug\net8.0\Database.deps.json
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\bin\Debug\net8.0\Database.dll
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\bin\Debug\net8.0\Database.pdb
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.csproj.AssemblyReference.cache
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.AssemblyInfoInputs.cache
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.AssemblyInfo.cs
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.csproj.CoreCompileInputs.cache
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.sourcelink.json
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.dll
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\refint\Database.dll
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\Database.pdb
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\obj\Debug\net8.0\ref\Database.dll

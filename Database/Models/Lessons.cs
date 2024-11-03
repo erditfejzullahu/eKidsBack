@@ -43,7 +43,7 @@ namespace Database.Models
         public string? LessonVideo { get; set; }
 
         [ForeignKey("CourseID")]
-        public virtual Courses Course { get; set; }
+        public virtual Courses ?Course { get; set; }
 
         //[Required]
         //public DateTime CreatedAt { get; set; }

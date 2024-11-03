@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\e-kidsBackend\\eKids\\eKids.csproj": {}
+    "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\eKids.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\e-kidsBackend\\Database\\Database.csproj": {
+    "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\Database\\Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\e-kidsBackend\\Database\\Database.csproj",
+        "projectUniqueName": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\Database\\Database.csproj",
         "projectName": "Database",
-        "projectPath": "D:\\Projects\\e-kidsBackend\\Database\\Database.csproj",
-        "packagesPath": "C:\\Users\\Erditi\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\e-kidsBackend\\Database\\obj\\",
+        "projectPath": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\Database\\Database.csproj",
+        "packagesPath": "C:\\Users\\fejzullahu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\Database\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Erditi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fejzullahu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -82,21 +83,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Projects\\e-kidsBackend\\eKids\\eKids.csproj": {
+    "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\eKids.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\e-kidsBackend\\eKids\\eKids.csproj",
+        "projectUniqueName": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\eKids.csproj",
         "projectName": "eKids",
-        "projectPath": "D:\\Projects\\e-kidsBackend\\eKids\\eKids.csproj",
-        "packagesPath": "C:\\Users\\Erditi\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\e-kidsBackend\\eKids\\obj\\",
+        "projectPath": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\eKids.csproj",
+        "packagesPath": "C:\\Users\\fejzullahu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Erditi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fejzullahu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -104,14 +105,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Projects\\e-kidsBackend\\Database\\Database.csproj": {
-                "projectPath": "D:\\Projects\\e-kidsBackend\\Database\\Database.csproj"
+              "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\Database\\Database.csproj": {
+                "projectPath": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\Database\\Database.csproj"
               }
             }
           }
@@ -193,7 +195,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
