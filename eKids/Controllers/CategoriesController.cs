@@ -106,7 +106,11 @@ namespace eKids.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(int id)
         {
-            var category = await _categoryRepository.Get(id, default);
+            //var category = await _categoryRepository.Get(id, default);
+            var category = await _categoryRepository
+                .GetAll()
+                .Include(c => c.Courses)
+                .FirstOrDefaultAsync(c => c.ID == id);
             if (category == null)
             {
                 return NotFound();
@@ -118,7 +122,10 @@ namespace eKids.Controllers
         public async Task<IActionResult> getAllCategories(CancellationToken token)
         {
 
-            var categories = await _categoryRepository.GetAll().ToListAsync(token);
+            var categories = await _categoryRepository
+                .GetAll()
+                .Include(c => c.Courses)
+                .ToListAsync(token);
             if(categories == null)
             {
                 return NotFound("Nocategories or smth error");

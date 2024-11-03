@@ -19,5 +19,6 @@ namespace Database.Models
         public string CategorySlug { get; set; }
         public string CategoryPictureUrl { get; set; }
 
+        public virtual ICollection<Courses> Courses { get; set; } = new List<Courses>();
     }
 }

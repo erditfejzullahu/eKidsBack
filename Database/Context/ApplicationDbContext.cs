@@ -21,7 +21,12 @@ namespace Database.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Users>();
-            modelBuilder.Entity<Lessons>();
+
+            modelBuilder.Entity<Lessons>()
+                .HasOne(c => c.Course)
+                .WithMany(c => c.Lessons)
+                .HasForeignKey(c => c.CourseID);
+
             modelBuilder.Entity<Stories>();
             modelBuilder.Entity<Packages>();
             modelBuilder.Entity<Payments>();
@@ -30,12 +35,11 @@ namespace Database.Context
             modelBuilder.Entity<RefreshToken>();
             modelBuilder.Entity<Categories>();
             modelBuilder.Entity<MediaLibrary>();
-            modelBuilder.Entity<Courses>();
 
-            /*modelBuilder.Entity<Users>()
-            .HasMany(u => u.UserMeta)
-            .WithOne(um => um.User)
-            .HasForeignKey(um => um.UserID);*/
+            modelBuilder.Entity<Courses>()
+                .HasOne(c => c.Category)
+                .WithMany(c => c.Courses)
+                .HasForeignKey(c => c.CourseCategory);
 
         }
     }

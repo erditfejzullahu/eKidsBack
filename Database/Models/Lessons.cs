@@ -40,7 +40,10 @@ namespace Database.Models
         [Required]
         public int CourseID { get; set; }
 
-        public string? LessonVideo {  get; set; }
+        public string? LessonVideo { get; set; }
+
+        [ForeignKey("CourseID")]
+        public virtual Courses Course { get; set; }
 
         //[Required]
         //public DateTime CreatedAt { get; set; }
