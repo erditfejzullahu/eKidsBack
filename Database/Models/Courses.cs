@@ -28,5 +28,10 @@ namespace Database.Models
         [Required]
         public string CourseFeaturedImage { get; set; }
 
+        [ForeignKey("CourseCategory")]
+        public virtual Categories Category { get; set; }
+
+        public virtual ICollection<Lessons> Lessons { get; set; } = new List<Lessons>();
+
     }
 }

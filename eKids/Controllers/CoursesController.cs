@@ -149,7 +149,7 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/getCoursesP")]
-        public async Task<IActionResult> GetAllCoursesP(int page = 1, int pageSize = 10, CancellationToken token = default)
+        public async Task<IActionResult> GetAllCoursesP(int page = 1, int pageSize = 10, string sortOrder = "asc", CancellationToken token = default)
         {
             try
             {
@@ -165,8 +165,19 @@ namespace eKids.Controllers
                     return BadRequest(new { Message = "Page number exceeds total pages!" });
                 }
 
-                var courses = await _courseRepository
-                    .GetAll()
+                IQueryable<Courses> coursesQuery = _courseRepository.GetAll();
+
+                if(sortOrder.Equals("desc", StringComparison.OrdinalIgnoreCase))
+                {
+                    coursesQuery = coursesQuery.OrderByDescending(c => c.CourseName);
+                }
+                else
+                {
+                    coursesQuery = coursesQuery.OrderBy(c => c.CourseName);
+                }
+
+                var courses = await coursesQuery
+                    .Include(c => c.Lessons)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync(token);

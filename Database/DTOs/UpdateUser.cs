@@ -23,6 +23,7 @@ namespace Database.DTOs
 
     public class UpdateProfilePic
     {
+        [Required]
         public string Base64Profile { get; set; }
     }
 
