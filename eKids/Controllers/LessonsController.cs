@@ -22,32 +22,82 @@ namespace eKids.Controllers
         private readonly ILogger<LessonsController> _logger;
         private readonly IFileUploadService _fileUploadService;
         private readonly IMapper _mapper;
+        private readonly ILessonLikesService _lessonLikeService;
+        private readonly ICommentService _commentService;
+        private readonly ILessonNavigationService _lessonNavigationService;
+        private readonly IRepository<Bookmarks> _bookmarkRepository;
 
-        public LessonsController(IRepository<Lessons> lessonRepository, ILogger<LessonsController> logger, IFileUploadService fileUploadService, IMapper mapper)
+        public LessonsController(IRepository<Lessons> lessonRepository, IRepository<Bookmarks> bookmarkRepository, ILessonNavigationService lessonNavigationService, ICommentService commentService, ILogger<LessonsController> logger, IFileUploadService fileUploadService, IMapper mapper, ILessonLikesService lessonLikesService)
         {
             _lessonRepository = lessonRepository;
             _logger = logger;
             _fileUploadService = fileUploadService;
             _mapper = mapper;
+            _lessonLikeService = lessonLikesService;
+            _commentService = commentService;
+            _lessonNavigationService = lessonNavigationService;
+            _bookmarkRepository = bookmarkRepository;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetLessons(int id)
+        public async Task<IActionResult> GetLessons(int id, [FromQuery] int userId, CancellationToken token)
         {
             try
             {
-                var lesson = await _lessonRepository.Get(id, default);
+                var lesson = await _lessonRepository.Get(id, token, u => u.Course);
+                var isLikes = await _lessonLikeService.GetLessonLikeByUser(id, userId, token);
+                var countLessonComments = await _commentService.GetAllLessonCommentsCount(id, token);
+                var getLessonNavigations = await _lessonNavigationService.GetLessonNavigationAsync(id, token);
+                var getCurrentLessonStatus = await _lessonNavigationService.GetLessonCompletation(id, userId, token);
+                var bookmarks = await _bookmarkRepository.GetAll().AsNoTracking().FirstOrDefaultAsync(c => c.UserId == userId && c.LessonId == id, token);
+                var isBookmarked = bookmarks != null;
+
+                bool isLiked = isLikes != null;
                 if(lesson == null)
                 {
                     return NotFound(new { Message = "No lesson found!" });
                 }
-                return Ok(lesson);
+                return Ok(new { lesson, isLiked, countLessonComments, navigation = getLessonNavigations, currentProgress = getCurrentLessonStatus, isBookmarked });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving lesson!");
                 var errorMessage = new { Message = "Error in retrieving lesson!" };
                 return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+            }
+        }
+
+        [HttpPatch("/api/Lessons/UpdateLike/{id}")]
+        public async Task<IActionResult> UpdateLessonLike(int id, [FromQuery] int userId, CancellationToken token)
+        {
+            try
+            {
+                var lesson = await _lessonRepository.Get(id, token);
+                if(lesson == null)
+                {
+                    return BadRequest(new { Message = "No lesson found!" });
+                }
+
+                var getIsLiked = await _lessonLikeService.GetLessonLikeByUser(id, userId, token);
+                if(getIsLiked != null)
+                {
+                    await _lessonLikeService.RemoveUserLessonLikeAsync(getIsLiked, token);
+                    lesson.Likes = Math.Max(0, lesson.Likes - 1);
+                    await _lessonRepository.SaveAsync(token);
+                    return Ok(new { Message = "Lesson Like removed", lesson.Likes });
+                }
+                else
+                {
+                    await _lessonLikeService.AddUserLessonLikeAsync(id, userId, token);
+                    lesson.Likes += 1;
+                    await _lessonRepository.SaveAsync(token);
+                    return Ok(new { Message = "Lesson Like added", lesson.Likes });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating lesson like with id: {id}");
+                return BadRequest(new { Message = "Error updating lessonLike" });
             }
         }
 

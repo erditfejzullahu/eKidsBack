@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using BCrypt.Net;
 using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using eKids.Validators;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +29,7 @@ namespace eKids.Controllers
         private readonly IRepository<Categories> _categoryRepository;
         private readonly IFileUploadService _fileUploadService;
         private readonly IMapper _mapper;
+        private readonly IValidator<UpdateUser> _userValidator;
 
         public UsersController(IRepository<Users> userRepository,
                                IRepository<Usermeta> usermetaRepository,
@@ -34,10 +38,12 @@ namespace eKids.Controllers
                                ITokenService tokenService,
                                IRepository<Categories> categoryRepository,
                                IFileUploadService fileUploadService,
-                               IMapper mapper
+                               IMapper mapper,
+                               IValidator<UpdateUser> userValidator
                                )
         {
             _fileUploadService = fileUploadService;
+            _userValidator = userValidator;
             _userRepository = userRepository;
             _usermetaRepository = usermetaRepository;
             _environment = environment;
@@ -48,19 +54,26 @@ namespace eKids.Controllers
         }
 
         [HttpPost("/login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto, CancellationToken cancToken)
         {
-            var user = await _userRepository.GetAll().FirstOrDefaultAsync(u => u.Username == loginDto.Username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password)) {
-                return Unauthorized(new { message = "Login details incorrect!" });
-            }
 
-            var token = _tokenService.GenerateTokens(user.ID.ToString());
+            try
+            {
+                if (string.IsNullOrWhiteSpace(loginDto.Username) || string.IsNullOrWhiteSpace(loginDto.Password))
+                {
+                    return BadRequest(new { message = "Username and password are required." });
+                }
 
-            var userData = await _userRepository.GetAll()
-                .Include(i => i.UserMeta)
+                var checkUser = await _userRepository.GetAll().FirstOrDefaultAsync(u => u.Username == loginDto.Username);
+                if (checkUser == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, checkUser.Password))
+                {
+                    return Unauthorized(new { Message = "Login incorrect!" });
+                }
+
+                var user = await _userRepository.GetAll()
+                .Include(u => u.UserMeta)
                 .Include(u => u.Package)
-                .Include(a => a.Payment)
+                .Include(u => u.Payment)
                 .Select(user => new
                 {
                     user.ID,
@@ -70,11 +83,21 @@ namespace eKids.Controllers
                     user.Package,
                     user.UserMeta,
                     user.Payment,
-                    user.Username
+                    user.Username,
+                    user.ProfilePictureUrl
                 })
-                .FirstOrDefaultAsync(id => id.ID == user.ID);
+                .FirstOrDefaultAsync(u => u.Username == loginDto.Username, cancToken);
 
-            return Ok(new { Token = token, userdata = userData });
+                var token = await _tokenService.GenerateTokens(user.ID.ToString(), cancToken);
+
+                return Ok(new { Token = token, userdata = user });
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in logging user in");
+                return BadRequest("Error in logging in");
+            }
               
         }
 
@@ -82,19 +105,26 @@ namespace eKids.Controllers
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
         {
-            // Validate the refresh token
-            var userToken = _tokenService.ValidateRefreshToken(request.Token);
-            if (userToken == null)
+            try
             {
-                return Unauthorized();
+                var userToken = await _tokenService.ValidateRefreshTokenAsync(request.Token, cancellationToken);
+                if (userToken == null)
+                {
+                    return Unauthorized();
+                }
+                // Invalidate the old refresh token
+                await _tokenService.InvalidateRefreshToken(request.Token, cancellationToken);
+
+                // Generate new tokens
+                var tokens = await _tokenService.GenerateTokens(userToken, cancellationToken);
+                return Ok(tokens);
             }
-
-            // Invalidate the old refresh token
-            await _tokenService.InvalidateRefreshToken(request.Token, cancellationToken);
-
-            // Generate new tokens
-            var tokens = _tokenService.GenerateTokens(userToken);
-            return Ok(tokens);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in refreshing token");
+                return BadRequest(new { Message = "Error in refreshing" });
+            }
+            // Validate the refresh token
         }
 
 
@@ -165,7 +195,7 @@ namespace eKids.Controllers
 
 
         [HttpGet("info/{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllInfo(int id, CancellationToken token)
         {
 
@@ -213,7 +243,7 @@ namespace eKids.Controllers
         }
 
         [HttpGet("allUsers")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers(CancellationToken token)
         {
             var users = await _userRepository.GetAll()
@@ -240,8 +270,8 @@ namespace eKids.Controllers
         }
  
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUser userDto)
+       // [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateUser(int id, [FromQuery] string? type, [FromBody] UpdateUser userDto)
         {
 
             try
@@ -253,15 +283,24 @@ namespace eKids.Controllers
                     return NotFound();
                 }
 
-                if (!string.IsNullOrEmpty(userDto.Password))
+                if(type == "PasswordChange")
                 {
+                    var userValidator = await _userValidator.ValidateAsync(userDto);
+                    if (!userValidator.IsValid)
+                    {
+                        return BadRequest(userValidator.Errors.Select(error => new
+                        {
+                            Field = error.PropertyName,
+                            Error = error.ErrorMessage
+                        }));
+                    }
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
                     user.Password = hashedPassword;
                 }
 
-                if(!string.IsNullOrEmpty(userDto.Email))
+
+                if (!string.IsNullOrEmpty(userDto.Email) && user.Email != userDto.Email)
                 {
-                    //LOGIC FOR EMAIL VERIFICATION THEN UPDATE
                     user.Email = userDto.Email;
                 }
 
@@ -271,8 +310,7 @@ namespace eKids.Controllers
 
                 _userRepository.Update(user);
                 await _userRepository.SaveAsync(default);
-
-                return Ok(user);
+                return Ok(new {Message = "Data updated successfully!"});
             }
             catch (Exception ex)
             {
@@ -303,11 +341,9 @@ namespace eKids.Controllers
         }
 
         [HttpPut("{id}/profile-picture")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> UpdatePicture(int id, [FromBody] UpdateProfilePic picDto)
         {
-
-
             if (picDto == null || string.IsNullOrEmpty(picDto.Base64Profile))
             {
                 return BadRequest("Missing base64data");
@@ -322,7 +358,7 @@ namespace eKids.Controllers
 
             try
             {
-                string relativeUrl = await _fileUploadService.UploadFile(user.ProfilePictureUrl, FileCategory.Profile);
+                string relativeUrl = await _fileUploadService.UploadFile(picDto.Base64Profile, FileCategory.Profile);
                 var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
 
                 user.ProfilePictureUrl = url;

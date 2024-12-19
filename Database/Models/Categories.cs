@@ -18,7 +18,8 @@ namespace Database.Models
         public string CategoryName { get; set; }
         public string CategorySlug { get; set; }
         public string CategoryPictureUrl { get; set; }
-
+        public int? ViewCount { get; set; }
         public virtual ICollection<Courses> Courses { get; set; } = new List<Courses>();
+        public virtual ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
     }
 }

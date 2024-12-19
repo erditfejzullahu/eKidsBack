@@ -1,2 +1,6 @@
-2024-10-29 16:41:18.1193 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2024-10-29 16:41:18.1747 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2024-12-19 20:45:23.8482 | Warn | Overriding address(es) 'http://192.168.1.3:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2024-12-19 20:47:17.9050 | Warn | Failed to determine the https port for redirect. | 
+2024-12-19 20:47:49.2448 | Warn | Overriding address(es) 'http://192.168.1.3:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2024-12-19 20:51:31.4584 | Warn | Failed to determine the https port for redirect. | 
+2024-12-19 20:59:50.5342 | Warn | Overriding address(es) 'http://192.168.1.3:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2024-12-19 21:02:24.9632 | Warn | Failed to determine the https port for redirect. | 

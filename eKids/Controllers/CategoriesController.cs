@@ -4,6 +4,7 @@ using Database.Models;
 using Database.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
@@ -119,19 +120,41 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/getCategories")]
-        public async Task<IActionResult> getAllCategories(CancellationToken token)
+        public async Task<IActionResult> getAllCategories(string? name, string sortOrder = "asc", CancellationToken token = default)
         {
 
-            var categories = await _categoryRepository
-                .GetAll()
-                .Include(c => c.Courses)
-                .ToListAsync(token);
-            if(categories == null)
+            var query = _categoryRepository.GetAll();
+
+            if(query == null)
             {
-                return NotFound("Nocategories or smth error");
+                return NotFound(new {Message = "No categories found!"});
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(c => c.CategoryName.Contains(name));
+            }
+
+            if(sortOrder.Equals("desc", StringComparison.OrdinalIgnoreCase))
+            {
+                query = query.OrderByDescending(c => c.CategoryName);
+            }else if (sortOrder.Equals("asc", StringComparison.OrdinalIgnoreCase))
+            {
+                query = query.OrderBy(c => c.CategoryName);
+            }
+            else
+            {
+                query = query.OrderBy(c => Guid.NewGuid());
+            }
+
+            var categories = await query.Include(c => c.Courses).ToListAsync(token);
+            if(!categories.Any())
+            {
+                return NotFound(new { Message = "No categories found!" });
             }
 
             return Ok(categories);
+            
         }
 
         [HttpDelete("{id}")]

@@ -34,13 +34,13 @@ namespace Database.Repository
             _logger = logger;
         }
 
-        public AuthResponse GenerateTokens(string userID)
+        public async Task<AuthResponse> GenerateTokens(string userID, CancellationToken cancToken)
         {
 
-            var accessToken = GenerateAccessToken(userID);
+            var accessToken = await GenerateAccessTokenAsync(userID, cancToken);
             var refreshToken = GenerateRefreshToken();
 
-            SaveRefreshToken(userID, refreshToken);
+            await SaveRefreshTokenAsync(userID, refreshToken, cancToken);
 
             return new AuthResponse
             {
@@ -48,16 +48,17 @@ namespace Database.Repository
                 RefreshToken = refreshToken
             };
         }
-        private string GenerateAccessToken(string userID)
+        private async Task<string> GenerateAccessTokenAsync(string userID, CancellationToken cancToken)
         {
 
-            var user = GetUserFromDatabase(userID) ?? throw new Exception("User Not Found");
+            var user = await GetUserFromDatabaseAsync(userID, cancToken) ?? throw new Exception("User Not Found");
 
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userID),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.Name, user.Username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
@@ -74,55 +75,76 @@ namespace Database.Repository
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private Users GetUserFromDatabase(string userID)
+        private async Task<Users?> GetUserFromDatabaseAsync(string userID, CancellationToken cancToken)
         {
             // Replace this with your actual data retrieval logic
 
-            return _userRepository.GetAll().FirstOrDefault(u => u.ID == int.Parse(userID));
+            return await _userRepository.GetAll().FirstOrDefaultAsync(u => u.ID == int.Parse(userID), cancToken);
         }
 
         private string GenerateRefreshToken()
         {
-            return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            //return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            var randomBytes = new byte[64];
+            RandomNumberGenerator.Fill(randomBytes);
+            return Convert.ToHexString(randomBytes);
         }
 
-        private void SaveRefreshToken(string userID, string refreshToken)
+        private async Task SaveRefreshTokenAsync(string userID, string refreshToken, CancellationToken cancToken)
         {
-            var token = new RefreshToken
+            try
             {
-                UserID = userID,
-                Token = refreshToken,
-                ExpiryDate = DateTime.Now.AddDays(_jwtSettings.RefreshTokenExpiryDays)
-            };
+                var token = new RefreshToken
+                {
+                    UserID = userID,
+                    Token = refreshToken,
+                    ExpiryDate = DateTime.Now.AddDays(_jwtSettings.RefreshTokenExpiryDays)
+                };
 
-            _context.RefreshToken.Add(token);
-            _context.SaveChanges();
+                await _context.RefreshToken.AddAsync(token, cancToken);
+                await _context.SaveChangesAsync(cancToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in adding refreshtoken in db");
+                throw;
+            }
         }
 
-        public string ValidateRefreshToken(string refreshToken)
+        public async Task<string?> ValidateRefreshTokenAsync(string refreshToken, CancellationToken cancToken)
         {
-            var token = _context.RefreshToken.SingleOrDefault(t => t.Token == refreshToken && t.ExpiryDate > DateTime.Now);
-            return token?.UserID;
+            try
+            {
+                var token = await _context.RefreshToken.AsNoTracking().SingleOrDefaultAsync(t => t.Token == refreshToken && t.ExpiryDate > DateTime.Now, cancToken);
+                if(token == null)
+                {
+                    return null;
+                }
+                return token.UserID;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error validating refresh token");
+                throw;
+            }
         }
 
         public async Task InvalidateRefreshToken(string refreshToken, CancellationToken cancellationToken)
         {
-
-            var token = await _refreshTokenRepository.GetToken(refreshToken, cancellationToken);
-
-            if(token != null)
+            try
             {
-                await _refreshTokenRepository.RemoveToken(refreshToken, cancellationToken);
-            }
-            
-                /*var token = _context.RefreshToken.SingleOrDefault(t => t.Token == refreshToken);
-                if (token != null)
+                var token = await _refreshTokenRepository.GetToken(refreshToken, cancellationToken);
+
+                if(token != null)
                 {
-                
-                    _context.RefreshToken.Remove(token);
-                    _context.SaveChangesAsync();
-                }*/
-            
+                    await _refreshTokenRepository.RemoveToken(refreshToken, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in invalidating refresh token");
+                throw;
+            }
         }
 
     }

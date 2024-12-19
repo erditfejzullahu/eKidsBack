@@ -51,6 +51,9 @@ namespace Database.Models
         [JsonProperty("UserMeta")]
         public virtual ICollection<Usermeta> UserMeta { get; set; }
 
+
+        public virtual ICollection<Comments> Comments { get; set; }
+
         [JsonProperty("PaymentInfo")]
         public virtual Payments Payment { get; set; }
 
@@ -58,6 +61,16 @@ namespace Database.Models
         public int Age { get; set; }
 
         public string ProfilePictureUrl { get; set; }
+
+        public virtual ICollection<CommentLikes> CommentLikes { get; set; } = new List<CommentLikes>();
+        public virtual ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
+        public virtual ICollection<CourseCompleted> CourseCompleted { get; set; } = new List<CourseCompleted>();
+        public virtual ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
+        public virtual ICollection<QuizzesCompleted> QuizzesCompleted { get; set; } = new List<QuizzesCompleted>();
+
+
+        public virtual ICollection<Conversations> SentMessages { get; set; } = new List<Conversations>();
+        public virtual ICollection<Conversations> ReceivedMessages { get; set; } = new List<Conversations>();
 
     }
 }

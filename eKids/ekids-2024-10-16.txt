@@ -1,8 +1,0 @@
-2024-10-16 21:58:09.9384 | Error | Error while uploading file. | System.ArgumentException: Unsupported MIME type: application/octet-stream
-   at Database.Repository.FileUploadService.UploadFile(String base64Data, FileCategory category) in D:\Projects\e-kidsBackend\Database\Repository\FileUploadService.cs:line 61
-2024-10-16 21:58:10.0520 | Error | Error in file | System.InvalidOperationException: An internal error occurred while uploading the file.
- ---> System.ArgumentException: Unsupported MIME type: application/octet-stream
-   at Database.Repository.FileUploadService.UploadFile(String base64Data, FileCategory category) in D:\Projects\e-kidsBackend\Database\Repository\FileUploadService.cs:line 61
-   --- End of inner exception stack trace ---
-   at Database.Repository.FileUploadService.UploadFile(String base64Data, FileCategory category) in D:\Projects\e-kidsBackend\Database\Repository\FileUploadService.cs:line 120
-   at eKids.Controllers.LessonsController.CreateLessons(CreateLessons lessonDto) in D:\Projects\e-kidsBackend\eKids\Controllers\LessonsController.cs:line 96

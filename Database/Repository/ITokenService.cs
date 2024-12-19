@@ -4,8 +4,8 @@ namespace Database.Repository
 {
     public interface ITokenService
     {
-        AuthResponse GenerateTokens(string userID);
-        string ValidateRefreshToken(string refreshToken);
+        Task<AuthResponse> GenerateTokens(string userID, CancellationToken cancToken);
+        Task<string?> ValidateRefreshTokenAsync(string refreshToken, CancellationToken cancToken);
         Task InvalidateRefreshToken(string refreshToken, CancellationToken cancellationToken);
     }
 }

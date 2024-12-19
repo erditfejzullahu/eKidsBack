@@ -5,8 +5,20 @@
       "PackagePath": "staticwebassets\\images\\kid.jpg"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\067b4761-82b7-44b5-bd8c-410651fb9c64.jpg",
+      "PackagePath": "staticwebassets\\images\\profiles\\067b4761-82b7-44b5-bd8c-410651fb9c64.jpg"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\2884828d-83a4-423d-9eb1-99315b666380.png",
+      "PackagePath": "staticwebassets\\images\\profiles\\2884828d-83a4-423d-9eb1-99315b666380.png"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp",
       "PackagePath": "staticwebassets\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\54a1033d-49eb-4a1e-950b-7bfca577ad8a.png",
+      "PackagePath": "staticwebassets\\images\\profiles\\54a1033d-49eb-4a1e-950b-7bfca577ad8a.png"
     },
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\72c278ce-aa18-4bb8-8a72-e37729d953a9.webp",
@@ -25,12 +37,24 @@
       "PackagePath": "staticwebassets\\images\\profiles\\a20536a5-47d6-4407-8737-81afa8cde190.png"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\b3890349-96d0-4cfd-a736-5aba2211da64.jpg",
+      "PackagePath": "staticwebassets\\images\\profiles\\b3890349-96d0-4cfd-a736-5aba2211da64.jpg"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp",
       "PackagePath": "staticwebassets\\images\\profiles\\cc5a61d1-a6ff-44c1-8ebd-9c14ef3c7684.webp"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\d8bde684-8d97-4b9a-89ca-18e75136dc82.png",
+      "PackagePath": "staticwebassets\\images\\profiles\\d8bde684-8d97-4b9a-89ca-18e75136dc82.png"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg",
       "PackagePath": "staticwebassets\\images\\profiles\\ec5cbd93-4cf8-4268-a9bd-14c958d188a6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\f2d820f6-0922-4290-bd86-8f292e576143.jpg",
+      "PackagePath": "staticwebassets\\images\\profiles\\f2d820f6-0922-4290-bd86-8f292e576143.jpg"
     },
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\uploads\\08030981-3ac2-4832-a555-1ee123001342.jpg",
@@ -173,6 +197,10 @@
       "PackagePath": "staticwebassets\\other\\283d1bd7-cf9c-467a-ac1f-ed0790912cb1.jpg"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\28b3a6df-dbb4-458c-95ca-a9d5c4efcab7.jpg",
+      "PackagePath": "staticwebassets\\other\\28b3a6df-dbb4-458c-95ca-a9d5c4efcab7.jpg"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp",
       "PackagePath": "staticwebassets\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp"
     },
@@ -225,6 +253,10 @@
       "PackagePath": "staticwebassets\\other\\a0c5624f-859c-40f3-ad63-12c7f0d3b81a.webp"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\aa009054-ffbe-4aa5-89b8-f9707f19a353.jpg",
+      "PackagePath": "staticwebassets\\other\\aa009054-ffbe-4aa5-89b8-f9707f19a353.jpg"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\acbc985f-c515-4c73-aa58-b6877327c5af.jpg",
       "PackagePath": "staticwebassets\\other\\acbc985f-c515-4c73-aa58-b6877327c5af.jpg"
     },
@@ -241,8 +273,20 @@
       "PackagePath": "staticwebassets\\other\\c179dc99-9ddc-448f-a1fd-7cdbc9bb749e.webp"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\c6ac3418-a50c-42d3-85cf-98c03d153a75.png",
+      "PackagePath": "staticwebassets\\other\\c6ac3418-a50c-42d3-85cf-98c03d153a75.png"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg",
       "PackagePath": "staticwebassets\\other\\c8d419d0-f5ff-418a-80bb-e64189b5486d.jpg"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\c91c6343-d2ca-440e-91dc-95f485c7c28d.jpg",
+      "PackagePath": "staticwebassets\\other\\c91c6343-d2ca-440e-91dc-95f485c7c28d.jpg"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\d62ee247-6a37-4a1f-a6e4-0de9835ec1df.jpg",
+      "PackagePath": "staticwebassets\\other\\d62ee247-6a37-4a1f-a6e4-0de9835ec1df.jpg"
     },
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\d7b5b7a8-6d87-4039-afaa-96d86ee1f3b6.webp",
@@ -255,6 +299,10 @@
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg",
       "PackagePath": "staticwebassets\\other\\e70409ef-00ef-4896-ba3b-a7120dfb36b5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\e98f107a-a9d0-4477-92e6-bc8927e94dd0.jpg",
+      "PackagePath": "staticwebassets\\other\\e98f107a-a9d0-4477-92e6-bc8927e94dd0.jpg"
     },
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\uploads\\03c9a89d-10e8-4349-a4d4-4de92e96e450.png",
@@ -383,6 +431,10 @@
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\5a31d2f9-96a2-4403-95bb-65340db867b1.mp4",
       "PackagePath": "staticwebassets\\videos\\5a31d2f9-96a2-4403-95bb-65340db867b1.mp4"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\KENNZ_-_PER_TY_(Prod._Strange_&_Sinkron_Music)_[remake].mp4",
+      "PackagePath": "staticwebassets\\videos\\KENNZ_-_PER_TY_(Prod._Strange_&_Sinkron_Music)_[remake].mp4"
     },
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\videos\\cf3a8b6d-1aa7-4309-9f37-9f231e922076.mp4",

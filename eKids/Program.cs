@@ -10,6 +10,14 @@ using eKids.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using eKids.Mapping;
+using StackExchange.Redis;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using eKids.Validators;
+using Database.DTOs;
+using eKids.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using System.Net;
 
 namespace eKids
 {
@@ -22,17 +30,18 @@ namespace eKids
 
             builder.Services.Configure<KestrelServerOptions>(options =>
             {
+                options.Listen(IPAddress.Any, 7051);
                 options.Limits.MaxRequestBodySize = 2000 * 1024 * 1024; // 10 MB
             });
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllOrigins",
-                    builder => builder
-                        .AllowAnyOrigin() // This allows all origins
-                        .AllowAnyMethod() // This allows all HTTP methods
-                        .AllowAnyHeader() // This allows all headers
-                );
+                options.AddPolicy("AllowAllOrigins", builder =>
+                {
+                    builder.AllowAnyOrigin()  // Allow any origin
+                           .AllowAnyMethod()  // Allow any HTTP method
+                           .AllowAnyHeader();  // Allow any header
+                });
             });
 
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
@@ -76,12 +85,41 @@ namespace eKids
             });
 
 
+
             // Add services to the container.
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IFileUploadService, FileUploadService>();
             builder.Services.AddScoped<IFileChecker, FileChecker>();
+            builder.Services.AddScoped<ICommentService, CommentService>();
+            builder.Services.AddScoped<ICommentLikesService, CommentLikesService>();
+            builder.Services.AddScoped<ILessonLikesService, LessonLikesService>();
+            builder.Services.AddScoped<ILessonNavigationService, LessonNavigationService>();
+            builder.Services.AddScoped<ICourseCompletationService, CourseCompletationService>();
+            builder.Services.AddScoped<IVideoFileService, VideoFileService>();
+            builder.Services.AddSignalR(options =>
+            {
+                options.MaximumReceiveMessageSize = 64 * 1024 * 1024;
+            });
+            builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+
+                var redisConnectionString = configuration.GetValue<string>("Redis:ConnectionString");
+                var configOptions = ConfigurationOptions.Parse(redisConnectionString);
+                return ConnectionMultiplexer.Connect(configOptions);
+            });
+
+            builder.Services.AddSingleton<IViewCountService, ViewCountService>();
+            builder.Services.AddHostedService<ViewCountSyncService>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            builder.Services.AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+            //builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>(); this is for entire controllers
+            builder.Services.AddSingleton<IValidator<UpdateUser>, UpdateUserValidator>();
+
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -117,6 +155,8 @@ namespace eKids
             app.UseStaticFiles();
 
             app.MapControllers();
+            app.MapHub<VideoUploadHub>("/videouploadhub");
+            app.MapHub<ChatHub>("/chatHub");
 
             app.Run();
         }

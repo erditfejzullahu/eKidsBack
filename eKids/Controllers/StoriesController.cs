@@ -77,9 +77,9 @@ namespace eKids.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetStorie(int id)
+        public async Task<IActionResult> GetStorie(int id, CancellationToken token)
         {
-            var storie = _storiesRepository.Get(id, default);
+            var storie = await _storiesRepository.Get(id, token);
 
             if(storie == null)
             {

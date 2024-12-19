@@ -8,10 +8,11 @@ namespace Database.Repository
         private readonly IHostEnvironment _environment;
         private readonly ILogger<FileUploadService> _logger;
         private readonly IFileChecker _fileChecker;
+        private const long _maxFileSize = 40 * 1024 * 1024; // 40 MB
+
 
         private readonly Dictionary<string, string> _mimeTypeMappings = new(StringComparer.InvariantCultureIgnoreCase)
         {
-
                 { "image/jpeg", "jpg" },
                 { "image/png", "png" },
                 { "image/gif", "gif" },
@@ -23,6 +24,17 @@ namespace Database.Repository
                 { "video/mpeg", "mpeg" },
                 { "video/quicktime", "mov" },
                 { "video/webm", "webm" },
+                { "application/pdf", "pdf" },
+                { "application/msword", "doc" },
+                { "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx" },
+                { "application/vnd.ms-excel", "xls" },
+                { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlsx" },
+                { "application/vnd.ms-powerpoint", "ppt" },
+                { "application/vnd.openxmlformats-officedocument.presentationml.presentation", "pptx" },
+                { "text/plain", "txt" },
+                { "application/rtf", "rtf" },
+                { "application/zip", "zip" },
+                { "application/vnd.rar", "rar" }
         };
 
         private readonly Dictionary<FileCategory, string> _folderMappings = new()
@@ -45,7 +57,15 @@ namespace Database.Repository
         {
             try
             {
-                if(string.IsNullOrWhiteSpace(base64Data))
+                long base64Length = base64Data.Length;
+                long estimatedFileSize = (base64Length * 3) / 4; // Estimate the original file size in bytes // CONVERT TO MB
+
+                if (estimatedFileSize > _maxFileSize)
+                {
+                    throw new ArgumentException($"File size exceeds the maximum allowed limit of {_maxFileSize / (1024 * 1024)} MB.");
+                }
+
+                if (string.IsNullOrWhiteSpace(base64Data))
                 {
                     throw new ArgumentException("Base64 data cannot be null or empty");
                 }

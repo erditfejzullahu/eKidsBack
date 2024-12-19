@@ -23,6 +23,11 @@ namespace eKids.Mapping
                 .ForMember(dest => dest.CourseID, opt => opt.Condition(src => src.CourseID > 0))
                 .ForMember(dest => dest.LessonVideo, opt => opt.Ignore());
 
+            CreateMap<UpdateUserProgress, UserProgress>()
+                .ForMember(dest => dest.IsCompleted, opt => opt.Condition(src => src.IsCompleted.HasValue))
+                .ForMember(dest => dest.HasStarted, opt => opt.Condition(src => src.HasStarted.HasValue));
+
+
             CreateMap<UpdateCourses, Courses>()
                 .ForMember(dest => dest.CourseName, opt => opt.Condition(src => !string.IsNullOrEmpty(src.CourseName)))
                 .ForMember(dest => dest.CourseDescription, opt => opt.Condition(src => !string.IsNullOrEmpty(src.CourseDescription)))

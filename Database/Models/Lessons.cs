@@ -31,6 +31,9 @@ namespace Database.Models
 
         public string? CorrectAnswers { get; set; }
 
+        public int? LessonStarted { get; set; }
+        public int Likes { get; set; }
+
         [Required]
         public string LessonFeaturedImage { get; set; }
 
@@ -42,8 +45,12 @@ namespace Database.Models
 
         public string? LessonVideo { get; set; }
 
+        public int? ViewCount { get; set; }
+
         [ForeignKey("CourseID")]
         public virtual Courses ?Course { get; set; }
+
+        public virtual ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
 
         //[Required]
         //public DateTime CreatedAt { get; set; }

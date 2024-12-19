@@ -9,7 +9,9 @@ namespace Database.Repository
 {
     public class FileChecker : IFileChecker
     {
-        private static readonly Regex DataUriPattern = new(@"^data:(?<mimeType>[\w/\-]+)(;charset=[\w\-]+)?(;base64)?,(?<data>.*)$", RegexOptions.Compiled);
+        private static readonly Regex DataUriPattern = new(
+            @"^data:(?<mimeType>[a-zA-Z0-9\-\/]+);base64,(?<data>[a-zA-Z0-9+/=]+)$",
+            RegexOptions.Compiled);
         public string ExtractMimeType(string base64Data)
         {
             if (string.IsNullOrWhiteSpace(base64Data))

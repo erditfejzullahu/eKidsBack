@@ -1,0 +1,216 @@
+2024-12-18 17:20:01.9272 | Info | erditbaba connected with connection ID: YCCmQBRz2V7QDayjslFv3Q | 
+2024-12-18 17:20:12.1945 | Info | erditbaba disconnected | 
+2024-12-18 17:20:22.8476 | Info | erditbaba connected with connection ID: IBF-UVHKNRLtNW70sPsRGQ | 
+2024-12-18 17:20:45.3935 | Info | erditbaba disconnected | 
+2024-12-18 17:20:50.9714 | Info | erditbaba connected with connection ID: pDyfiVU8IYPr1ojDK5KodA | 
+2024-12-18 17:21:23.6987 | Info | erditbaba connected with connection ID: -A--Lst8cl1FczdFOMlgIA | 
+2024-12-18 17:21:59.2885 | Info | erditbaba disconnected | 
+2024-12-18 17:21:59.3708 | Info | erditbaba disconnected | 
+2024-12-18 17:21:59.9938 | Info | erditbaba connected with connection ID: wz-gAytF5ostyRKfKXyolw | 
+2024-12-18 17:22:00.0402 | Info | erditbaba connected with connection ID: kz91pDdx37FIVSGyKVXVJg | 
+2024-12-18 17:22:00.0542 | Info | erditbaba connected with connection ID: eVxPNFzQRWAeTjQoHnL6Aw | 
+2024-12-18 17:22:43.0227 | Info | erditbaba connected with connection ID: mV6n4sTbby9ONgrD8m1vuw | 
+2024-12-18 17:23:07.4595 | Error | Error while uploading file. | System.ArgumentException: Base64 data cannot be null or empty
+   at Database.Repository.FileUploadService.UploadFile(String base64Data, FileCategory category) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\FileUploadService.cs:line 70
+2024-12-18 17:23:07.6262 | Error | Error in file upload section | System.InvalidOperationException: An internal error occurred while uploading the file.
+ ---> System.ArgumentException: Base64 data cannot be null or empty
+   at Database.Repository.FileUploadService.UploadFile(String base64Data, FileCategory category) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\FileUploadService.cs:line 70
+   --- End of inner exception stack trace ---
+   at Database.Repository.FileUploadService.UploadFile(String base64Data, FileCategory category) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\FileUploadService.cs:line 140
+   at eKids.Hubs.ChatHub.SendPrivateMessage(String receiver, String message, String base64Data) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ChatHub.cs:line 65
+2024-12-18 17:24:42.8800 | Info | erditbaba disconnected | 
+2024-12-18 17:24:42.8800 | Info | erditbaba disconnected | 
+2024-12-18 17:24:42.8800 | Info | erditbaba disconnected | 
+2024-12-18 17:24:42.8800 | Info | erditbaba disconnected | 
+2024-12-18 17:24:48.7344 | Info | erditbaba connected with connection ID: RS5kmDiy5avPAXQLfGszyA | 
+2024-12-18 17:24:48.7457 | Info | erditbaba connected with connection ID: bnr-HhzF33sQJ0HrQEM7-A | 
+2024-12-18 17:24:48.7568 | Info | erditbaba connected with connection ID: KrUj7xYXr0oNfzfP0yPVzg | 
+2024-12-18 17:24:48.7568 | Info | erditbaba connected with connection ID: Dh6Urd2F8dXVl_po8O_y7Q | 
+2024-12-18 17:24:57.2099 | Info | erditbaba connected with connection ID: pvgku_MPZ8IYquc4akzLIQ | 
+2024-12-18 17:25:19.3431 | Info | erditbaba disconnected | 
+2024-12-18 17:25:19.3469 | Info | erditbaba disconnected | 
+2024-12-18 17:25:19.3469 | Info | erditbaba disconnected | 
+2024-12-18 17:25:19.3469 | Info | erditbaba disconnected | 
+2024-12-18 17:25:19.3469 | Info | erditbaba disconnected | 
+2024-12-18 17:25:25.2551 | Info | erditbaba connected with connection ID: GPQCFSYbSGcmOg8gk6qnnQ | 
+2024-12-18 17:25:25.2854 | Info | erditbaba connected with connection ID: 6BDuZ9Q_IIZUGSM35WgIAg | 
+2024-12-18 17:25:25.3010 | Info | erditbaba connected with connection ID: bi6TLlUDxgnjUqRgL5alkw | 
+2024-12-18 17:25:25.3010 | Info | erditbaba connected with connection ID: lRANfzFQKWmSDikIBmtaVA | 
+2024-12-18 17:25:25.3438 | Info | erditbaba connected with connection ID: NyLIa6HwmAlCsg4BcvhlWg | 
+2024-12-18 17:25:33.7067 | Info | erditbaba disconnected | 
+2024-12-18 17:25:39.1989 | Info | erditbaba connected with connection ID: qPEgUPo8v4TFXcJft7G3Vw | 
+2024-12-18 17:25:49.0218 | Info | erditbaba connected with connection ID: cP2SOFTANDO9xWYZ0TTeQQ | 
+2024-12-18 17:25:51.4863 | Info | erditbaba disconnected | 
+2024-12-18 17:25:56.9778 | Info | erditbaba connected with connection ID: rkt308b8BdQ4L_TETi3QLw | 
+2024-12-18 17:28:48.5692 | Info | erditbaba connected with connection ID: unK8aujEK5EOMdkWFOIAVw | 
+2024-12-18 17:28:48.5692 | Info | erditbaba connected with connection ID: vVlX0xvLRVjA9OLZLeSqLA | 
+2024-12-18 17:28:48.5692 | Info | erditbaba connected with connection ID: VtWUIipCBdzB_jz-OBg7kQ | 
+2024-12-18 17:28:48.5692 | Info | erditbaba connected with connection ID: 9KW1K-IVcCeHfknOlYQ-yA | 
+2024-12-18 17:28:48.5692 | Info | erditbaba connected with connection ID: xCXTVfiXXnuXKh-vpfgasA | 
+2024-12-18 17:28:48.5692 | Info | erditbaba connected with connection ID: 8duPeSjPhZdgWffEZ-o5zA | 
+2024-12-18 17:36:07.4370 | Info | erditbaba disconnected | 
+2024-12-18 17:36:07.4370 | Info | erditbaba disconnected | 
+2024-12-18 17:36:07.4370 | Info | erditbaba disconnected | 
+2024-12-18 17:36:07.4370 | Info | erditbaba disconnected | 
+2024-12-18 17:36:07.4498 | Info | erditbaba disconnected | 
+2024-12-18 17:36:07.4498 | Info | erditbaba disconnected | 
+2024-12-18 17:36:55.3560 | Info | erditbaba connected with connection ID: DKeST2vT1NyTZhVADNwkIA | 
+2024-12-18 17:37:31.3652 | Info | erditbaba connected with connection ID: 5xheDj6v77IIGQyeRJyFpA | 
+2024-12-18 17:39:34.6850 | Info | erditbaba disconnected | 
+2024-12-18 17:39:37.0540 | Info | erditbaba connected with connection ID: MsUg6ONk0S5brImUJIVEHQ | 
+2024-12-18 17:39:37.4911 | Info | erditbaba connected with connection ID: 6bFkcVlnfikAO0z9F9bqxg | 
+2024-12-18 17:40:03.4645 | Info | erditbaba connected with connection ID: p4Kw0qP_VvCAdIBIlXdvfQ | 
+2024-12-18 17:40:12.2832 | Info | erditbaba disconnected | 
+2024-12-18 17:40:12.7271 | Info | erditbaba connected with connection ID: oTxcDR10B60p_Wu_yzjaxw | 
+2024-12-18 17:40:17.5517 | Info | erditbaba connected with connection ID: A-YmDnzkWot33fLAG8TgWQ | 
+2024-12-18 17:46:56.4517 | Info | erditbaba disconnected | 
+2024-12-18 17:46:56.4625 | Info | erditbaba disconnected | 
+2024-12-18 17:46:56.4625 | Info | erditbaba disconnected | 
+2024-12-18 17:46:56.4753 | Info | erditbaba disconnected | 
+2024-12-18 17:46:56.4753 | Info | erditbaba disconnected | 
+2024-12-18 17:47:02.0437 | Info | erditbaba connected with connection ID: 1We41__xXDr6ZROhZQYqtg | 
+2024-12-18 17:47:02.0437 | Info | erditbaba connected with connection ID: Qqqe15eXv4wDIFoPkVuR-g | 
+2024-12-18 17:47:02.0810 | Info | erditbaba connected with connection ID: RMPu6rovyqPjMvjPgMqlcw | 
+2024-12-18 17:47:02.0810 | Info | erditbaba connected with connection ID: BkmqaqHsa_2IdS9QU6zDrw | 
+2024-12-18 17:47:02.1441 | Info | erditbaba connected with connection ID: 44Bb_JAhJj8FqW1OJKNPyw | 
+2024-12-18 17:47:49.4464 | Info | erditbaba disconnected | 
+2024-12-18 17:47:49.4464 | Info | erditbaba disconnected | 
+2024-12-18 17:47:49.4600 | Info | erditbaba disconnected | 
+2024-12-18 17:47:49.4600 | Info | erditbaba disconnected | 
+2024-12-18 17:47:49.4704 | Info | erditbaba disconnected | 
+2024-12-18 17:49:35.0956 | Info | erditbaba connected with connection ID: 0qVdxI-oF3kHjS1lV1ij4g | 
+2024-12-18 17:50:32.5393 | Info | erditbaba connected with connection ID: m7ljMt-sFrdtL7mqsKgRMQ | 
+2024-12-18 17:52:31.7976 | Info | erditbaba disconnected | 
+2024-12-18 17:52:39.4660 | Info | erditbaba disconnected | 
+2024-12-18 17:52:57.2691 | Info | erditbaba connected with connection ID: cOv3Ldqi7UqAXu7RvKNsQg | 
+2024-12-18 17:54:01.1417 | Info | erditbaba connected with connection ID: HyJk7ddBxLGgVtuOgqmLzA | 
+2024-12-18 17:54:08.7073 | Info | erditbaba disconnected | 
+2024-12-18 17:54:09.1546 | Info | erditbaba connected with connection ID: QN-T7AsylzETiU8VUQwMMA | 
+2024-12-18 17:54:14.1518 | Info | erditbaba connected with connection ID: iQGbDrFSw9Hkq2pyrJ-BAw | 
+2024-12-18 17:54:57.5291 | Info | erditbaba disconnected | 
+2024-12-18 17:54:58.4229 | Info | erditbaba connected with connection ID: KBdj5IsalTMq3DuJ6teKNQ | 
+2024-12-18 17:54:59.4758 | Info | erditbaba disconnected | 
+2024-12-18 17:55:00.3400 | Info | erditbaba connected with connection ID: 0-yUdQhhriJBHRvX2Y_ptg | 
+2024-12-18 17:55:02.9538 | Info | erditbaba connected with connection ID: Cq2Y_j6z1MPCrhEcCvRS4A | 
+2024-12-18 17:55:04.9825 | Info | erditbaba connected with connection ID: WETNGIlvONzZuWKKbU70_g | 
+2024-12-18 17:55:15.6712 | Info | erditbaba connected with connection ID: O5yB7J6cx-Ye6Gg1UwhOTw | 
+2024-12-18 17:56:13.4232 | Info | erditbaba connected with connection ID: GU5Q1yBJM_mS_g1FJ2n3Kg | 
+2024-12-18 17:56:24.5790 | Info | erditbaba disconnected | 
+2024-12-18 17:56:25.0581 | Info | erditbaba connected with connection ID: jiFRhJqS_-nHvU9fdM2o-w | 
+2024-12-18 17:56:30.4159 | Info | erditbaba connected with connection ID: Yxbl8P_pIgoUSbgAt6Vf3w | 
+2024-12-18 18:00:09.4414 | Info | erditbaba disconnected | 
+2024-12-18 18:00:10.1988 | Info | erditbaba connected with connection ID: KuseV4pH3YW1KdL1bNO3bg | 
+2024-12-18 18:00:14.6781 | Info | erditbaba connected with connection ID: Km-I2u8BttszZIDOmYz9dg | 
+2024-12-18 18:01:00.0691 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.0723 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.0723 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.0723 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.0848 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.0848 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.0848 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.1160 | Info | erditbaba disconnected | 
+2024-12-18 18:01:00.1160 | Info | erditbaba disconnected | 
+2024-12-18 18:36:43.3817 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 7, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=22079,Timers=7), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 47
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2024-12-18 18:36:43.3817 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 7, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=22079,Timers=7), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 47
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2024-12-18 20:00:15.0646 | Info | erditbaba connected with connection ID: veCLAfPhF2EJ7ydLZ0_jXQ | 
+2024-12-18 20:27:07.9446 | Info | erditbaba disconnected | 
+2024-12-18 20:27:31.2260 | Info | erditbaba connected with connection ID: riwLE2RHSRHH6sUtrQyqIw | 
+2024-12-18 20:32:07.4907 | Info | erditbaba connected with connection ID: kMaUA-UWW_qUGCJdfTqRZg | 
+2024-12-18 20:32:18.9160 | Info | erditbaba disconnected | 
+2024-12-18 20:32:19.4366 | Info | erditbaba connected with connection ID: GUA0mI4hw1--GAZYKoG5Rg | 
+2024-12-18 20:32:24.3229 | Info | erditbaba connected with connection ID: 3Z_Mm1nNNUksrCmVSlnq-g | 
+2024-12-18 20:34:51.2607 | Info | erditbaba disconnected | 
+2024-12-18 20:34:51.2607 | Info | erditbaba disconnected | 
+2024-12-18 20:34:51.2782 | Info | erditbaba disconnected | 
+2024-12-18 20:37:15.8470 | Info | erditbaba connected with connection ID: kPGZJtuipCCIecDWF7HXpQ | 
+2024-12-18 20:48:29.2603 | Info | erditbaba disconnected | 
+2024-12-18 20:48:43.4578 | Info | erditbaba connected with connection ID: DQ-jJsX6wy-6R88hD3FJVw | 
+2024-12-18 20:51:14.3412 | Info | erditbaba connected with connection ID: aCyiepBjdLIfG322jY5yWw | 
+2024-12-18 20:51:34.1172 | Info | erditbaba disconnected | 
+2024-12-18 20:51:34.5951 | Info | erditbaba connected with connection ID: dNd07Jf9t7SKYrFCtKzsvg | 
+2024-12-18 20:51:39.8898 | Info | erditbaba connected with connection ID: t6tc6w3AqvaBOBaKynS40A | 
+2024-12-18 20:51:52.9936 | Info | erditbaba disconnected | 
+2024-12-18 20:51:53.5201 | Info | erditbaba connected with connection ID: uh5O8nRgIre-1Jq56gc3Fg | 
+2024-12-18 20:51:58.3279 | Info | erditbaba connected with connection ID: NlIB2M3Au0Pg2xNGxasQhQ | 
+2024-12-18 20:52:01.6444 | Info | erditbaba disconnected | 
+2024-12-18 20:52:02.1568 | Info | erditbaba connected with connection ID: a4twvlCO2voxKssWuxdybw | 
+2024-12-18 20:52:06.9488 | Info | erditbaba connected with connection ID: tKPGWdchU5-Z1uwZhg0zzw | 
+2024-12-18 20:55:12.0800 | Info | erditbaba disconnected | 
+2024-12-18 20:55:12.7281 | Info | erditbaba connected with connection ID: Y40g_ppKnk5dqivFh8elAA | 
+2024-12-18 20:55:17.4527 | Info | erditbaba connected with connection ID: 6Ud4GzBa5dKGel23vC4-oA | 
+2024-12-18 20:55:33.3938 | Info | erditbaba disconnected | 
+2024-12-18 20:55:34.0617 | Info | erditbaba connected with connection ID: p_EdLp3WX-lM0mAdRmgzmg | 
+2024-12-18 20:55:37.5041 | Info | erditbaba disconnected | 
+2024-12-18 20:55:37.9677 | Info | erditbaba connected with connection ID: nacFDYnLU9y_PQcZ3KF9PA | 
+2024-12-18 20:55:38.6939 | Info | erditbaba connected with connection ID: aPgaq6FjSdFszx17KnXBXQ | 
+2024-12-18 20:55:42.7756 | Info | erditbaba connected with connection ID: q5oc6x9uySwJ-p8TIqa9-g | 
+2024-12-18 20:55:46.0295 | Info | erditbaba disconnected | 
+2024-12-18 20:55:46.9663 | Info | erditbaba connected with connection ID: sFdk_vHG6BVuGNGkyo2S_g | 
+2024-12-18 20:55:51.2000 | Info | erditbaba connected with connection ID: ygUwLnRr3segeDYlg8C-2g | 
+2024-12-18 20:55:54.1534 | Info | erditbaba disconnected | 
+2024-12-18 20:55:54.6060 | Info | erditbaba connected with connection ID: XoPNS4rnFMBESeZ84uJYnw | 
+2024-12-18 20:55:59.5631 | Info | erditbaba connected with connection ID: AVwdHsxTZ_jxiQu-ByO2VQ | 
+2024-12-18 20:56:04.8976 | Info | erditbaba disconnected | 
+2024-12-18 20:56:05.4667 | Info | erditbaba connected with connection ID: wN8Cg09_UXVA7ybL5jMjtw | 
+2024-12-18 20:56:09.5884 | Info | erditbaba disconnected | 
+2024-12-18 20:56:10.2392 | Info | erditbaba connected with connection ID: BaSutSDuljkhk_THdJg_Kw | 
+2024-12-18 20:56:10.3945 | Info | erditbaba connected with connection ID: zkBoWKzaLn-Rs6mWVlikBQ | 
+2024-12-18 20:56:14.6593 | Info | erditbaba connected with connection ID: u0S5k_hLbMBb4XJaVLdong | 
+2024-12-18 20:56:15.0320 | Info | erditbaba disconnected | 
+2024-12-18 20:56:15.5064 | Info | erditbaba connected with connection ID: N0LXYc7PEIlKLqZjCYc8-g | 
+2024-12-18 20:56:20.2558 | Info | erditbaba connected with connection ID: NQn-UNkIKThbRTRqdjQZuA | 
+2024-12-18 20:57:44.7436 | Info | erditbaba disconnected | 
+2024-12-18 20:57:50.8052 | Info | erditbaba connected with connection ID: gbft3PVkan-1tVjx6xC2Hg | 
+2024-12-18 20:57:51.5071 | Info | erditbaba connected with connection ID: nJlJ_Vf2BmPT0dQx-ZRmxQ | 
+2024-12-18 20:58:04.9252 | Info | erditbaba connected with connection ID: 2NVd2DBau_DFlTBP1GGYFw | 
+2024-12-18 20:58:33.1895 | Info | erditbaba connected with connection ID: ZEOCzWjvATeq5fb98AZ16w | 
+2024-12-18 21:03:57.0146 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.3731 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.3731 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.3731 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.3731 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.3731 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.3731 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4083 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4083 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4203 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4203 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4203 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4408 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4408 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4527 | Info | erditbaba disconnected | 
+2024-12-18 21:26:18.4527 | Info | erditbaba disconnected | 
+2024-12-18 21:26:55.2012 | Info | erditbaba connected with connection ID: jpiZCQzxIl0fchC-4i_qBw | 
+2024-12-18 21:34:59.9209 | Info | erditbaba disconnected | 
+2024-12-18 21:35:05.4213 | Info | erditbaba connected with connection ID: 8Rjoda_w8315sGt3BibM5A | 
+2024-12-18 21:35:55.5219 | Info | erditbaba disconnected | 
+2024-12-18 22:09:45.8270 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 14, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=45105,Timers=7), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 47
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2024-12-18 22:09:45.8405 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 14, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=45105,Timers=7), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 47
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
