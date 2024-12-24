@@ -84,6 +84,11 @@ namespace Database.Repository
                 : await _context.Set<T>().CountAsync(predicate, token);
         }
 
+        public async Task<bool> IsExist(Expression<Func<T, bool>> predicate, CancellationToken token)
+        {
+            return await _context.Set<T>().AnyAsync(predicate, token);
+        }
+
 
         public async Task SaveAsync(CancellationToken token = default)
         {

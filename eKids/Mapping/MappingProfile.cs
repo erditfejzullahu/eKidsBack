@@ -41,6 +41,7 @@ namespace eKids.Mapping
                 .ForMember(dest => dest.Email, opt => opt.Ignore())
                 .ForMember(dest => dest.Password, opt => opt.Ignore())
                 .ForMember(dest => dest.Role, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Role)));
+
         }
     }
 }

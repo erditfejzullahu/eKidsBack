@@ -15,16 +15,22 @@ namespace eKids.Controllers
         private readonly IRepository<QuizQuestions> _quizQuestionsRep;
         private readonly IRepository<QuizAnswers> _quizAnswersRep;
         private readonly ILogger<QuizzesController> _logger;
+        private readonly IRepository<Users> _userRepository;
+        private readonly IRepository<QuizzesCompleted> _quizzesCompletedRepository;
 
         public QuizzesController(IRepository<Quizzes> quizzesRepository,
             ILogger<QuizzesController> logger,
             IRepository<QuizQuestions> quizQuestionsRep,
-            IRepository<QuizAnswers> quizAnswersRep)
+            IRepository<QuizAnswers> quizAnswersRep,
+            IRepository<Users> userRepository,
+            IRepository<QuizzesCompleted> quizzesCompletedRepository)
         {
             _logger = logger;
             _quizzesRepository = quizzesRepository;
             _quizQuestionsRep = quizQuestionsRep;
-            _quizAnswersRep = quizAnswersRep;   
+            _quizAnswersRep = quizAnswersRep;
+            _userRepository = userRepository;
+            _quizzesCompletedRepository = quizzesCompletedRepository;
         }
 
         [HttpPost()]
@@ -167,11 +173,26 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Quizzes/GetAll")]
-        public async Task<IActionResult> GetAllQuizzes([FromQuery] string? orderBy,[FromQuery] int? categoryId, CancellationToken token)
+        public async Task<IActionResult> GetAllQuizzes([FromQuery] string? orderBy, [FromQuery] int? categoryId, [FromQuery] int? userId, CancellationToken token)
         {
             try
             {
                 var query = _quizzesRepository.GetAll().AsNoTracking();
+
+                var allProgressQuizzesByUserId = 
+                    userId.HasValue ? await _quizzesCompletedRepository
+                        .GetAll()
+                        .AsNoTracking()
+                        .Where(c => c.UserId == userId)
+                        .Select(c => new
+                        {
+                            c.QuizId,
+                            c.Completed
+                        })
+                        .ToListAsync(token)
+                    : null;
+
+                var allProgressQuizzes = await _quizzesCompletedRepository.GetAll().AsNoTracking().ToListAsync(token);
 
                 if (!string.IsNullOrEmpty(orderBy))
                 {
@@ -198,12 +219,47 @@ namespace eKids.Controllers
                     .Include(c => c.Questions)
                     .ThenInclude(c => c.Answers)
                     .ToListAsync(token);
-
+                
                 if(quizzes.Count == 0)
                 {
                     return NotFound(new { Message = "No quizzes found" });
                 }
-                return Ok(quizzes);
+
+                var result = quizzes.Select(quiz =>
+                {
+                    var status = allProgressQuizzesByUserId?.FirstOrDefault(c => c.QuizId == quiz.ID);
+                    var howManyTimes = allProgressQuizzes?.Where(c => c.QuizId == quiz.ID && c.Completed == true).Count();
+
+                    var isCompleted = status != null && status.Completed; 
+                    return new
+                    {
+                        quiz.ID,
+                        quiz.QuizName,
+                        quiz.QuizDescription,
+                        quiz.UserId,
+                        quiz.QuizCategory,
+                        Status = isCompleted,
+                        HowMany = howManyTimes
+                        //Question = quiz.Questions.Select(question => new
+                        //{
+                        //    question.ID,
+                        //    question.QuestionText,
+                        //    question.QuizId,
+                        //    question.QuestionType,
+                        //    Answer = question.Answers.Select(answer => new
+                        //    {
+                        //        answer.ID,
+                        //        answer.AnswerText,
+                        //        answer.IsCorrect,
+                        //        answer.QuestionId,
+                        //        answer.CreatedAt,
+                        //        answer.LastModified
+                        //    }).ToList()
+                        //}).ToList()
+                    };
+                });
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -213,21 +269,42 @@ namespace eKids.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSingleQuiz(int id, CancellationToken token)
+        public async Task<IActionResult> GetSingleQuiz(int id, [FromQuery] int? userId, CancellationToken token)
         {
             try
             {
                 var quiz = await _quizzesRepository.GetAll().AsNoTracking().Include(c => c.Questions).ThenInclude(c => c.Answers).FirstOrDefaultAsync(c => c.ID == id, token);
+                var mistakes = userId.HasValue ? await _quizzesCompletedRepository.GetAll().AsNoTracking().FirstOrDefaultAsync(c => c.UserId == userId && c.QuizId == id) : null;
                 if(quiz == null)
                 {
                     return NotFound(new { Message = "Not found quiz" });
                 }
-                return Ok(quiz);
+                return Ok(new { Quiz = quiz, mistakes?.Mistakes });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error in getting single quiz with id {id}");
                 return BadRequest(new { Message = "Error in getting single quiz" });
+            }
+        }
+
+        [HttpGet("/api/Quizzes/UserQuizInfo/{userId}")]
+        public async Task<IActionResult> GetUserQuizInfo(int userId, CancellationToken token)
+        {
+            try
+            {
+                var userInfo = await _userRepository.Get(userId, token);
+                var userResponse = new
+                {
+                    Name = userInfo.Firstname + ' ' + userInfo.Lastname,
+                };
+                var quizzesCount = await _quizzesRepository.CountAsync(c => c.UserId == userId, token);
+                return Ok(new {Info = userResponse, Count = quizzesCount});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in retriving quizzes");
+                return BadRequest(new {Message="Error in retriving quizzes"});
             }
         }
 

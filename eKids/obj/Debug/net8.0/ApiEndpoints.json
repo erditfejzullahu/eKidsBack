@@ -714,11 +714,6 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
         "Name": "quizComp",
         "Type": "Database.DTOs.QuizCompletationDto",
         "IsRequired": true
@@ -802,6 +797,11 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -823,6 +823,11 @@
         "Name": "categoryId",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -837,6 +842,43 @@
     "Parameters": [
       {
         "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.QuizzesController",
+    "Method": "GetUserQuizInfo",
+    "RelativePath": "api/Quizzes/UserQuizInfo/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.QuizCompletationController",
+    "Method": "GetStatusOfQuiz",
+    "RelativePath": "api/QuizzesCompletation/GetStatusQuizz/{userId}/{quizId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "quizId",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -862,16 +904,11 @@
   {
     "ContainingType": "eKids.Controllers.QuizCompletationController",
     "Method": "UpdateMistakes",
-    "RelativePath": "api/QuizzesCompleted/UpdateQuizMistakes/{quizId}",
+    "RelativePath": "api/QuizzesCompleted/UpdateQuizMistakes",
     "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "quizId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "updateMistakesDto",
         "Type": "Database.DTOs.QuizCompStartDto",

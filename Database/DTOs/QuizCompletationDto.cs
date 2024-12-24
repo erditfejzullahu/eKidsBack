@@ -11,8 +11,8 @@ namespace Database.DTOs
         public int UserId { get; set; }
         public int QuizId { get; set; }
         public bool Completed { get; set; }
-        public int Mistakes { get; set; }
-        public int Duration { get; set; }
+        public int? Mistakes { get; set; }
+        public int? Duration { get; set; }
 
     }
 

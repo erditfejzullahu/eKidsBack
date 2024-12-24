@@ -21,6 +21,7 @@ namespace Database.Repository
         void Add(T entity);
         void Update(T entity);
         Task SaveAsync(CancellationToken token = default);
+        Task<bool> IsExist(Expression<Func<T, bool>> predicate, CancellationToken token);
 
         //Task UpdateEnrolledLessons()
 

@@ -31,6 +31,13 @@ namespace eKids.Controllers
                     return BadRequest("Data missing");
                 }
 
+                var exists = await _quizCompletationRep.IsExist(c => c.QuizId == quizCompDto.QuizId && c.UserId == quizCompDto.UserId, token);
+
+                if (exists)
+                {
+                    return Conflict(new { Message = "Quiz already started" });
+                }
+
                 var quizCompleted = new QuizzesCompleted
                 {
                     UserId = quizCompDto.UserId,
@@ -53,18 +60,18 @@ namespace eKids.Controllers
         }
 
         [HttpPatch]
-        public async Task<IActionResult> UpdateQuizCompletationStatus(int id, QuizCompletationDto quizComp, CancellationToken token)
+        public async Task<IActionResult> UpdateQuizCompletationStatus(QuizCompletationDto quizComp, CancellationToken token)
         {
             try
             {
-                var quiz = await _quizCompletationRep.Get(id, token);
+                var quiz = await _quizCompletationRep.GetAll().FirstOrDefaultAsync(c => c.QuizId == quizComp.QuizId && c.UserId == quizComp.UserId, token);
                 if(quiz == null)
                 {
                     return NotFound(new { Message = "Quiz not found" });
                 }
                 quiz.Completed = quizComp.Completed;
-                quiz.Mistakes = quizComp.Mistakes;
-                quiz.Duration = quizComp.Duration;
+                //quiz.Mistakes = quizComp.Mistakes;
+                //quiz.Duration = quizComp.Duration;
                 quiz.LastModified = DateTime.UtcNow;
 
                 _quizCompletationRep.Update(quiz);
@@ -74,7 +81,7 @@ namespace eKids.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error updaing quiz completation status with id {id}");
+                _logger.LogError(ex, $"Error updaing quiz completation status with id {quizComp.QuizId}");
                 return BadRequest(new {Message="Error updating quiz completation status"});
             }
         }
@@ -139,17 +146,19 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpPatch("/api/QuizzesCompleted/UpdateQuizMistakes/{quizId}")]
-        public async Task<IActionResult> UpdateMistakes(int quizId, QuizCompStartDto updateMistakesDto, CancellationToken token)
+        [HttpPatch("/api/QuizzesCompleted/UpdateQuizMistakes/")]
+        public async Task<IActionResult> UpdateMistakes(QuizCompStartDto updateMistakesDto, CancellationToken token)
         {
             try
             {
-                var quiz = await _quizCompletationRep.GetAll().FirstOrDefaultAsync(c => c.QuizId == quizId && c.UserId == updateMistakesDto.UserId, token);
+                var quiz = await _quizCompletationRep.GetAll().AsNoTracking().FirstOrDefaultAsync(c => c.QuizId == updateMistakesDto.QuizId && c.UserId == updateMistakesDto.UserId, token);
                 if(quiz == null)
                 {
                     return NotFound(new { Message = "Not found quiz" });
                 }
                 quiz.Mistakes += 1;
+                _quizCompletationRep.Update(quiz);
+                await _quizCompletationRep.SaveAsync(token);
                 return Ok(new { Message = "Mistake updated" });
             }
             catch (Exception ex)
@@ -158,5 +167,32 @@ namespace eKids.Controllers
                 return BadRequest(new { Message = "Error updating mistake" });
             }
         }
+
+        [HttpGet("/api/QuizzesCompletation/GetStatusQuizz/{userId}/{quizId}")]
+        public async Task<IActionResult> GetStatusOfQuiz(int userId, int quizId, CancellationToken token)
+        {
+            try
+            {
+                if (userId <= 0 || quizId <= 0)
+                {
+                    return BadRequest(new { Message = "Invalid userId or quizId" });
+                }
+
+                var quizStatus = await _quizCompletationRep.GetAll().FirstOrDefaultAsync(c => c.QuizId == quizId && c.UserId == userId, token);
+                if(quizStatus == null)
+                {
+                    return NotFound(new { Message = "No quiz found" });
+                }
+                return Ok(quizStatus);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in getting status of quiz");
+                return BadRequest(new { Message = "Error in getting status of quiz" });
+            }
+        }
+
+
+
     }
 }
