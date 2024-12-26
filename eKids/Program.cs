@@ -96,6 +96,7 @@ namespace eKids
             builder.Services.AddScoped<ILessonNavigationService, LessonNavigationService>();
             builder.Services.AddScoped<ICourseCompletationService, CourseCompletationService>();
             builder.Services.AddScoped<IVideoFileService, VideoFileService>();
+            builder.Services.AddScoped(typeof(ISorterService<>), typeof(SorterService<>));
             builder.Services.AddSignalR(options =>
             {
                 options.MaximumReceiveMessageSize = 64 * 1024 * 1024;

@@ -17,13 +17,15 @@ namespace eKids.Controllers
         private readonly ILogger<QuizzesController> _logger;
         private readonly IRepository<Users> _userRepository;
         private readonly IRepository<QuizzesCompleted> _quizzesCompletedRepository;
+        private readonly ISorterService<Quizzes> _sorterService;
 
         public QuizzesController(IRepository<Quizzes> quizzesRepository,
             ILogger<QuizzesController> logger,
             IRepository<QuizQuestions> quizQuestionsRep,
             IRepository<QuizAnswers> quizAnswersRep,
             IRepository<Users> userRepository,
-            IRepository<QuizzesCompleted> quizzesCompletedRepository)
+            IRepository<QuizzesCompleted> quizzesCompletedRepository,
+            ISorterService<Quizzes> sorterService)
         {
             _logger = logger;
             _quizzesRepository = quizzesRepository;
@@ -31,6 +33,7 @@ namespace eKids.Controllers
             _quizAnswersRep = quizAnswersRep;
             _userRepository = userRepository;
             _quizzesCompletedRepository = quizzesCompletedRepository;
+            _sorterService = sorterService;
         }
 
         [HttpPost()]
@@ -153,17 +156,48 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Quizzes/GetByUser/{userId}")]
-        public async Task<IActionResult> GetAllQuizzesByUser(int userId, CancellationToken token)
+        public async Task<IActionResult> GetAllQuizzesByUser([FromQuery] PaginationDto paginationDto, int userId, [FromQuery] SortQueryDto queryDto, [FromQuery] int? categoryId, CancellationToken token)
         {
             try
             {
-                var quizzes = await _quizzesRepository.GetAll().AsNoTracking().Where(c => c.UserId == userId).Include(c => c.Questions).ThenInclude(c => c.Answers).ToListAsync(token);
-            
+                var query = _quizzesRepository.GetAll().AsNoTracking();
+                var allProgressQuizzes = await _quizzesCompletedRepository.GetAll().AsNoTracking().ToListAsync(token);
+
+                if (categoryId.HasValue)
+                {
+                    query = query.Where(c => c.QuizCategory == categoryId.Value);
+                }
+
+                var sortedQuery = _sorterService.SortData(query, queryDto);
+
+                paginationDto.Validate();
+                var paginatedQuery = sortedQuery.Take(paginationDto.Take).Skip(paginationDto.Skip);
+
+                var quizzes = await paginatedQuery.ToListAsync(token);
+
                 if(quizzes.Count == 0)
                 {
                     return NotFound(new { Message = "No quizzes found!" });
                 }
-                return Ok(quizzes);
+                var result = quizzes.Select(quiz =>
+                {
+                    var howMany = allProgressQuizzes.Where(c => c.QuizId == quiz.ID && c.Completed == true).Count();
+
+                    return new
+                    {
+                        quiz.ID,
+                        quiz.QuizName,
+                        quiz.QuizDescription,
+                        quiz.UserId,
+                        quiz.QuizCategory,
+                        quiz.ViewCount,
+                        HowMany = howMany,
+                        quiz.CreatedAt,
+                        quiz.LastModified
+                    };
+                });
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -173,7 +207,7 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Quizzes/GetAll")]
-        public async Task<IActionResult> GetAllQuizzes([FromQuery] string? orderBy, [FromQuery] int? categoryId, [FromQuery] int? userId, CancellationToken token)
+        public async Task<IActionResult> GetAllQuizzes([FromQuery] PaginationDto paginationDto, [FromQuery] int? categoryId, [FromQuery] SortQueryDto queryDto, [FromQuery] int? userId, CancellationToken token)
         {
             try
             {
@@ -194,30 +228,19 @@ namespace eKids.Controllers
 
                 var allProgressQuizzes = await _quizzesCompletedRepository.GetAll().AsNoTracking().ToListAsync(token);
 
-                if (!string.IsNullOrEmpty(orderBy))
-                {
-                    if(orderBy.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        query = query.OrderByDescending(c => c.QuizName);
-                    }else if (orderBy.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        query = query.OrderBy(c => c.QuizName);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => Guid.NewGuid());
-                    }
-                }
-
-
                 if (categoryId.HasValue)
                 {
                     query = query.Where(c => c.QuizCategory == categoryId.Value);
                 }
 
-                var quizzes = await query
-                    .Include(c => c.Questions)
-                    .ThenInclude(c => c.Answers)
+                var sortedQuery = _sorterService.SortData(query, queryDto);
+
+                paginationDto.Validate();
+                var paginatedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);
+
+                var quizzes = await paginatedQuery
+                    //.Include(c => c.Questions)
+                    //.ThenInclude(c => c.Answers)
                     .ToListAsync(token);
                 
                 if(quizzes.Count == 0)
@@ -239,7 +262,9 @@ namespace eKids.Controllers
                         quiz.UserId,
                         quiz.QuizCategory,
                         Status = isCompleted,
-                        HowMany = howManyTimes
+                        HowMany = howManyTimes,
+                        quiz.CreatedAt,
+                        quiz.LastModified
                         //Question = quiz.Questions.Select(question => new
                         //{
                         //    question.ID,

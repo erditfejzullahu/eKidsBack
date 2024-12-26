@@ -35,8 +35,7 @@ public class ViewCountSyncService : BackgroundService
 
     public async Task SyncViewCountsToDatabaseAsync()
     {
-        using var scope = _scopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+       
 
         // Get all Redis keys that store view counts for courses and lessons
         var server = _redis.GetServer("192.168.1.16", 6379);
@@ -46,6 +45,8 @@ public class ViewCountSyncService : BackgroundService
 
         foreach (var redisKey in redisKeys)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             // Extract entity type (course or lesson) and id from the Redis key
             var keyParts = redisKey.ToString().Split(':');
             var entityType = keyParts[0]; // "course" or "lesson"
@@ -69,7 +70,7 @@ public class ViewCountSyncService : BackgroundService
                 if (lesson != null)
                 {
                     lesson.ViewCount += viewCount;
-                    updateTasks.Add(dbContext.SaveChangesAsync());
+                    updateTasks.Add(dbContext.SaveChangesAsync(default));
                 }
             }
             else if(entityType == "category")
@@ -78,7 +79,16 @@ public class ViewCountSyncService : BackgroundService
                 if(category != null)
                 {
                     category.ViewCount += viewCount;
-                    updateTasks.Add(dbContext.SaveChangesAsync());
+                    updateTasks.Add(dbContext.SaveChangesAsync(default));
+                }
+            }
+            else if(entityType == "quiz")
+            {
+                var quiz = await dbContext.Quizzes.FirstOrDefaultAsync(c => c.ID == entityId);
+                if(quiz != null)
+                {
+                    quiz.ViewCount += viewCount;
+                    updateTasks.Add(dbContext.SaveChangesAsync(default));
                 }
             }
 

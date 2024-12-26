@@ -19,13 +19,15 @@ namespace eKids.Controllers
         private readonly IFileUploadService _fileUploadService;
         private readonly ILogger<CategoriesController> _logger;
         private readonly IMapper _mapper;
+        private readonly ISorterService<Categories> _sortService;
 
-        public CategoriesController(IRepository<Categories> categoryRepository, IFileUploadService fileUploadService, ILogger<CategoriesController> logger, IMapper mapper)
+        public CategoriesController(IRepository<Categories> categoryRepository, ISorterService<Categories> sortService, IFileUploadService fileUploadService, ILogger<CategoriesController> logger, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _fileUploadService = fileUploadService;
             _logger = logger;
             _mapper = mapper;
+            _sortService = sortService;
         }
 
         [HttpPost]
@@ -120,34 +122,24 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/getCategories")]
-        public async Task<IActionResult> getAllCategories(string? name, string sortOrder = "asc", CancellationToken token = default)
+        public async Task<IActionResult> getAllCategories([FromQuery] string? searchParam, [FromQuery] SortQueryDto sortQuery, CancellationToken token)
         {
 
-            var query = _categoryRepository.GetAll();
+            var query = _categoryRepository.GetAll().AsNoTracking();
 
             if(query == null)
             {
                 return NotFound(new {Message = "No categories found!"});
             }
 
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(searchParam))
             {
-                query = query.Where(c => c.CategoryName.Contains(name));
+                query = query.Where(c => c.CategoryName.Contains(searchParam));
             }
 
-            if(sortOrder.Equals("desc", StringComparison.OrdinalIgnoreCase))
-            {
-                query = query.OrderByDescending(c => c.CategoryName);
-            }else if (sortOrder.Equals("asc", StringComparison.OrdinalIgnoreCase))
-            {
-                query = query.OrderBy(c => c.CategoryName);
-            }
-            else
-            {
-                query = query.OrderBy(c => Guid.NewGuid());
-            }
+            var sortedQuery = _sortService.SortData(query, sortQuery);
 
-            var categories = await query.Include(c => c.Courses).ToListAsync(token);
+            var categories = await sortedQuery.Include(c => c.Courses).ToListAsync(token);
             if(!categories.Any())
             {
                 return NotFound(new { Message = "No categories found!" });

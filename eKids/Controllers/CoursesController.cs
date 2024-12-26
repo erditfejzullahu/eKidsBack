@@ -17,17 +17,19 @@ namespace eKids.Controllers
         private readonly ILogger<CoursesController> _logger;
         private readonly IFileUploadService _fileUploadService;
         private readonly IMapper _mapper;
+        private readonly ISorterService<Courses> _sorterService;
 
-        public CoursesController(IRepository<Courses> courseRepository, ILogger<CoursesController> logger, IFileUploadService fileUploadService, IMapper mapper)
+        public CoursesController(IRepository<Courses> courseRepository, ILogger<CoursesController> logger, IFileUploadService fileUploadService, IMapper mapper, ISorterService<Courses> sorterService)
         {
             _courseRepository = courseRepository;
             _logger = logger;
             _fileUploadService = fileUploadService;
             _mapper = mapper;
+            _sorterService = sorterService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCourse([FromBody] CreateCourses courseDto)
+        public async Task<IActionResult> CreateCourse([FromBody] CreateCourses courseDto, CancellationToken token)
         {
             if(courseDto == null)
             {
@@ -49,7 +51,7 @@ namespace eKids.Controllers
                     LastModified = DateTime.UtcNow
                 };
                 _courseRepository.Add(course);
-                await _courseRepository.SaveAsync(default);
+                await _courseRepository.SaveAsync(token);
                 return Ok(course);
             }
             catch (Exception ex)
@@ -83,7 +85,7 @@ namespace eKids.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id, CancellationToken token)
         {
-            var course = await _courseRepository.Get(id, default);
+            var course = await _courseRepository.Get(id, token);
             if (course == null)
             {
                 var errorMessage = new
@@ -93,7 +95,7 @@ namespace eKids.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
             }
             await _courseRepository.Delete(course.ID, token);
-            await _courseRepository.SaveAsync(default);
+            await _courseRepository.SaveAsync(token);
             return Ok(course);
         }
 
@@ -151,44 +153,19 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/getCoursesP")]
-        public async Task<IActionResult> GetAllCoursesP(int page = 1, int pageSize = 10, string? searchParam = null, string sortOrder = "asc", string? sortPopular = null, int? categoryId = null, CancellationToken token = default)
+        public async Task<IActionResult> GetAllCoursesP([FromQuery] PaginationDto paginationDto,[FromQuery] SortQueryDto sortQuery, string? searchParam, int? categoryId, CancellationToken token)
         {
             try
             {
-                if(page <= 0 || pageSize <= 0)
-                {
-                    return BadRequest(new { Message = "Value should be more than 0 " });
-                }
-                var totalCourses = categoryId.HasValue
-                    ? await _courseRepository.CountAsync(c => c.CourseCategory == categoryId, token)
-                    : await _courseRepository.CountAsync(token: token);
+                //var totalCourses = categoryId.HasValue
+                //    ? await _courseRepository.CountAsync(c => c.CourseCategory == categoryId, token)
+                //    : await _courseRepository.CountAsync(token: token);
 
-                var totalPages = (int)Math.Ceiling(totalCourses / (double)pageSize);
-
-                if(page > totalPages)
-                {
-                    return BadRequest(new { Message = "Page number exceeds total pages!" });
-                }
-
-                IQueryable<Courses> coursesQuery = _courseRepository.GetAll();
+                IQueryable<Courses> coursesQuery = _courseRepository.GetAll().AsNoTracking();
 
                 if (categoryId.HasValue)
                 {
                     coursesQuery = coursesQuery.Where(c => c.CourseCategory == categoryId);
-                }
-
-                
-
-                if(sortOrder.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                {
-                    coursesQuery = coursesQuery.OrderByDescending(c => c.CourseName);
-                }
-                else if(sortOrder.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                {
-                    coursesQuery = coursesQuery.OrderBy(c => c.CourseName);
-                } else
-                {
-                    coursesQuery = coursesQuery.OrderBy(c => Guid.NewGuid());
                 }
 
                 if(!string.IsNullOrEmpty(searchParam))
@@ -196,22 +173,16 @@ namespace eKids.Controllers
                     coursesQuery = coursesQuery.Where(c => c.CourseName.Contains(searchParam));
                 }
 
-                var courses = await coursesQuery
+                var sortedQuery = _sorterService.SortData(coursesQuery, sortQuery);
+
+                paginationDto.Validate();
+                var paginatedQuery = sortedQuery.Take(paginationDto.Take).Skip(paginationDto.Skip);
+
+                var courses = await paginatedQuery
                     .Include(c => c.Lessons)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
                     .ToListAsync(token);
 
-                var response = new
-                {
-                    TotalCourses = totalCourses,
-                    Page = page,
-                    PageSize = pageSize,
-                    TotalPages = totalPages,
-                    Courses = courses
-                };
-
-                return Ok(response);
+                return Ok(courses);
             }
             catch (Exception ex)
             {
@@ -229,7 +200,7 @@ namespace eKids.Controllers
         {
             try
             {
-                var courses = await _courseRepository.GetAll().ToListAsync(token);
+                var courses = await _courseRepository.GetAll().AsNoTracking().ToListAsync(token);
                 if(courses == null)
                 {
                     return BadRequest(new { Message = "No courses found!" });

@@ -19,6 +19,7 @@ namespace Database.Models
         public int UserId { get; set; }
 
         public int QuizCategory { get; set; }
+        public int? ViewCount { get; set; }
 
         [ForeignKey("QuizCategory")]
         public Categories Category { get; set; }
