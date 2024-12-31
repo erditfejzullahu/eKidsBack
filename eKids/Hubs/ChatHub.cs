@@ -15,7 +15,7 @@ namespace eKids.Hubs
     {
         private readonly ApplicationDbContext _context;
         private static readonly ConnectionMapping _connections = new();
-        private ILogger<ChatHub> _logger;
+        private readonly ILogger<ChatHub> _logger;
         private IFileUploadService _fileUploadService;
 
         public ChatHub(ApplicationDbContext context, ILogger<ChatHub> logger, IFileUploadService fileUploadService)
@@ -26,17 +26,17 @@ namespace eKids.Hubs
         }
         public override Task OnConnectedAsync()
         {
-            string userId = Context?.User?.Identity?.Name;
+            string username = Context?.User?.Identity?.Name;
             //string userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (!string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(username))
             {
-                _connections.Add(userId, Context.ConnectionId);
-                _logger.LogInformation($"{userId} connected with connection ID: {Context.ConnectionId}");
+                _connections.Add(username, Context.ConnectionId);
+                _logger.LogInformation($"{username} connected with connection ID: {Context.ConnectionId}");
             }
             else
             {
-                _logger.LogInformation($"{userId} is null ????");
+                _logger.LogInformation($"{username} is null ????");
             }
 
             return base.OnConnectedAsync();
@@ -44,11 +44,11 @@ namespace eKids.Hubs
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            string userId = Context?.User?.Identity.Name;
-            if (!string.IsNullOrEmpty(userId))
+            string username = Context?.User?.Identity.Name;
+            if (!string.IsNullOrEmpty(username))
             {
-                _connections.Remove(userId);
-                _logger.LogInformation($"{userId} disconnected");
+                _connections.Remove(username);
+                _logger.LogInformation($"{username} disconnected");
             }
             return base.OnDisconnectedAsync(exception);
         }
@@ -74,16 +74,16 @@ namespace eKids.Hubs
                     }
                 }
 
-                string userId = Context?.User?.Identity.Name;
+                string username = Context?.User?.Identity.Name;
 
-                if (userId == null)
+                if (username == null)
                 {
                     throw new UnauthorizedAccessException("User is not authenticated.");
                 }
 
                 var newMessage = new Conversations
                 {
-                    SenderUsername = userId,
+                    SenderUsername = username,
                     ReceiverUsername = receiver,
                     Content = message,
                     FileUrl = fileUrl,
@@ -135,7 +135,7 @@ namespace eKids.Hubs
                     await Clients.Client(recipientConnectionId).SendAsync("ReceiveMessage", messageData);
                 }
 
-                var senderConnectionId = _connections.GetConnectionId(userId);
+                var senderConnectionId = _connections.GetConnectionId(username);
                 if (senderConnectionId != null)
                 {
                     await Clients.Client(senderConnectionId).SendAsync("MessageSent", messageData);

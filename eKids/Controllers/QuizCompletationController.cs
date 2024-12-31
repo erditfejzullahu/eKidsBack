@@ -86,7 +86,7 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetQuizCompletedById(int id, CancellationToken token)
         {
             try
@@ -110,8 +110,8 @@ namespace eKids.Controllers
         {
             try
             {
-                var quiz = await _quizCompletationRep.GetAll().Include(c => c.Quiz).AsNoTracking().FirstOrDefaultAsync(c => c.UserId == userId, token);
-                if(quiz == null)
+                var quiz = await _quizCompletationRep.GetAll().Include(c => c.Quiz).AsNoTracking().Where(c => c.UserId == userId && c.Completed == true).ToListAsync(token);
+                if(quiz.Count == 0)
                 {
                     return NotFound(new { Message = "No quiz found" });
                 }

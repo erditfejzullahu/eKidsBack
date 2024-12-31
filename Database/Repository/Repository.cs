@@ -32,6 +32,11 @@ namespace Database.Repository
             return entity;
         }
 
+        public void UpdateRange(IEnumerable<T> entities)
+        {
+            _context.UpdateRange(entities);
+        }
+
         public async Task<T> Get(int id, CancellationToken token, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _context.Set<T>();

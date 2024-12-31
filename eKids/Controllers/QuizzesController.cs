@@ -171,7 +171,7 @@ namespace eKids.Controllers
                 var sortedQuery = _sorterService.SortData(query, queryDto);
 
                 paginationDto.Validate();
-                var paginatedQuery = sortedQuery.Take(paginationDto.Take).Skip(paginationDto.Skip);
+                var paginatedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);
 
                 var quizzes = await paginatedQuery.ToListAsync(token);
 
@@ -333,7 +333,7 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuiz(int id, CancellationToken token)
         {
             try

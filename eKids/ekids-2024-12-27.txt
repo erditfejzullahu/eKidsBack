@@ -1,0 +1,572 @@
+2024-12-27 18:22:47.6798 | Warn | Overriding address(es) 'http://192.168.1.3:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2024-12-27 18:22:51.4661 | Warn | Failed to determine the https port for redirect. | 
+2024-12-27 18:23:00.6496 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2024-12-27 18:23:00.6496 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2024-12-27 18:43:00.3183 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2024-12-27 18:43:00.3228 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2024-12-27 18:58:28.9774 | Info | armendfejzullahu connected with connection ID: nl8eXrbae_n3_QzBINrgPw | 
+2024-12-27 18:58:39.3200 | Info | armendfejzullahu connected with connection ID: Ubewp0JBxS4qI-4ueS8D4g | 
+2024-12-27 18:59:40.8908 | Info | armendfejzullahu connected with connection ID: FElLKXnKisuUAANsKn7O7A | 
+2024-12-27 19:01:47.7092 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:01:47.9501 | Info | armendfejzullahu connected with connection ID: VRNTiHswLD0M0S1qM0TryA | 
+2024-12-27 19:01:52.7659 | Info | armendfejzullahu connected with connection ID: zP60gTpA7xSHF1jbGU-t2g | 
+2024-12-27 19:02:02.0673 | Info | armendfejzullahu connected with connection ID: 9KMdAaG4UWuaRtarbzHbqw | 
+2024-12-27 19:03:40.4446 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:03:40.5914 | Info | armendfejzullahu connected with connection ID: WVcZJq4yPu6vA2n4ZAej5w | 
+2024-12-27 19:03:45.5337 | Info | armendfejzullahu connected with connection ID: hdt7QPhg2DrLfGtNGSvNWg | 
+2024-12-27 19:04:26.2689 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:04:26.4025 | Info | armendfejzullahu connected with connection ID: qwlag8I7rVmPZ1i8VauYjA | 
+2024-12-27 19:04:31.3504 | Info | armendfejzullahu connected with connection ID: Lr5kaRhAb_VvAaNLtFQs4g | 
+2024-12-27 19:04:52.3304 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:04:52.5285 | Info | armendfejzullahu connected with connection ID: CDWUl0lnl6hvDoZHwyU1gg | 
+2024-12-27 19:04:57.5671 | Info | armendfejzullahu connected with connection ID: MgBd1i9Zm8TGZqhYyMNhQQ | 
+2024-12-27 19:05:14.8647 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:05:15.2367 | Info | armendfejzullahu connected with connection ID: eL70gp2h_QYTGtX2dLvZvg | 
+2024-12-27 19:05:19.8897 | Info | armendfejzullahu connected with connection ID: HYP_mQ9AZGHkIB2y7pr21Q | 
+2024-12-27 19:05:34.6713 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:05:34.8226 | Info | armendfejzullahu connected with connection ID: Y5xx-8rwMIx7wQh_gKN-jw | 
+2024-12-27 19:05:39.7561 | Info | armendfejzullahu connected with connection ID: 0lBly0Od9ttixC4Wgw8d2A | 
+2024-12-27 19:06:50.9939 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:06:51.4904 | Info | armendfejzullahu connected with connection ID: Pz8LLxoimWf13v1YofP-mg | 
+2024-12-27 19:06:56.3410 | Info | armendfejzullahu connected with connection ID: d-YJgrGaBK-rrIDKghUCKg | 
+2024-12-27 19:07:08.1953 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:07:08.3232 | Info | armendfejzullahu connected with connection ID: 2devZhDLI5jx-W_9m6Ih5w | 
+2024-12-27 19:07:13.2750 | Info | armendfejzullahu connected with connection ID: oo_eUknYLuTi-nMdmwEOiw | 
+2024-12-27 19:07:29.7588 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:07:29.9311 | Info | armendfejzullahu connected with connection ID: PW_JMXEvrKTm-ksVQ6ibfQ | 
+2024-12-27 19:07:34.8375 | Info | armendfejzullahu connected with connection ID: FhRbrgxYTRmTPPifpYi4xQ | 
+2024-12-27 19:07:56.1488 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:07:56.3127 | Info | armendfejzullahu connected with connection ID: poxxPWIvvWNwtX8vOuaMmg | 
+2024-12-27 19:08:01.2341 | Info | armendfejzullahu connected with connection ID: CmbHp7qHwAYxAT2RT_vM3A | 
+2024-12-27 19:08:27.1744 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:08:27.2827 | Info | armendfejzullahu connected with connection ID: VcIVL4lbqgzbYAa9gOWKVQ | 
+2024-12-27 19:08:32.2646 | Info | armendfejzullahu connected with connection ID: MNZHEL4NnPWqeNnD0WlVdA | 
+2024-12-27 19:08:42.1555 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:08:42.2897 | Info | armendfejzullahu connected with connection ID: lbVbIpNvR-_Cnx1kGbJE8Q | 
+2024-12-27 19:08:47.2360 | Info | armendfejzullahu connected with connection ID: gLcKFhUqamQJEO1sOaaNFQ | 
+2024-12-27 19:08:50.5039 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:08:50.6523 | Info | armendfejzullahu connected with connection ID: 7_QNrvgkMpFowNYRgaKFoA | 
+2024-12-27 19:08:55.5945 | Info | armendfejzullahu connected with connection ID: WUPFhR3-B-JVG0FvL6l3YA | 
+2024-12-27 19:08:56.7977 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:08:57.0026 | Info | armendfejzullahu connected with connection ID: A00hjeprk9RFUpEuo4fYBQ | 
+2024-12-27 19:08:58.9356 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:08:59.0920 | Info | armendfejzullahu connected with connection ID: BO02ySuQvtf4KKGOKYEsgg | 
+2024-12-27 19:09:01.0965 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:09:01.2712 | Info | armendfejzullahu connected with connection ID: xQzdCJZ7mgu0HVTAa0mn7g | 
+2024-12-27 19:09:01.8821 | Info | armendfejzullahu connected with connection ID: -ikfwpcF8J5_R2Zl5V_IMw | 
+2024-12-27 19:09:04.0210 | Info | armendfejzullahu connected with connection ID: o3OXzmKUr3HfeMjaPPw7wg | 
+2024-12-27 19:09:06.1742 | Info | armendfejzullahu connected with connection ID: nKcDXaTcEIXGCV2ChToovA | 
+2024-12-27 19:09:11.5322 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:09:11.7096 | Info | armendfejzullahu connected with connection ID: WU-RRc0hExrkUruZ7hqWVg | 
+2024-12-27 19:09:16.6210 | Info | armendfejzullahu connected with connection ID: 3Ch6FLmNf1pUthDK_YETjw | 
+2024-12-27 19:09:16.9598 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:09:17.1096 | Info | armendfejzullahu connected with connection ID: 9aNw_kTtCHKI5iKygm1Z9Q | 
+2024-12-27 19:09:22.2578 | Info | armendfejzullahu connected with connection ID: p5wA2m7BnHDyT9huXJxD1g | 
+2024-12-27 19:09:44.3007 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:09:44.4327 | Info | armendfejzullahu connected with connection ID: ow0NuMUGP4McfQOfdnx3Dw | 
+2024-12-27 19:09:49.3755 | Info | armendfejzullahu connected with connection ID: ofZjJ6fgdsBV4H2VuHLi-A | 
+2024-12-27 19:11:08.1671 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:11:08.2903 | Info | armendfejzullahu connected with connection ID: U16tRBA0CxvGaTtmY5Kmrg | 
+2024-12-27 19:11:13.2460 | Info | armendfejzullahu connected with connection ID: iKqYTwg4MuVNEzuAv6V1hQ | 
+2024-12-27 19:11:15.5492 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:11:15.6932 | Info | armendfejzullahu connected with connection ID: b7pYE0TkuiXyuFKXsWVTdQ | 
+2024-12-27 19:11:18.0008 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:11:18.1808 | Info | armendfejzullahu connected with connection ID: fYI2_ffvc7i6H1-y-BpA0g | 
+2024-12-27 19:11:19.7367 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:11:19.9142 | Info | armendfejzullahu connected with connection ID: Sj9HyFl_Uz3Ni-iBUP06bA | 
+2024-12-27 19:11:20.6360 | Info | armendfejzullahu connected with connection ID: n0CsQ9w-hZIVQp41Bb6-3Q | 
+2024-12-27 19:11:23.0792 | Info | armendfejzullahu connected with connection ID: lAQh_6E60aESQpky7GBDyg | 
+2024-12-27 19:11:23.7612 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:11:24.8203 | Info | armendfejzullahu connected with connection ID: 6ehCgRIwa-may4kcT1LGjQ | 
+2024-12-27 19:11:25.7081 | Info | armendfejzullahu connected with connection ID: 4dqGZ9MnLleehunG6wZ20g | 
+2024-12-27 19:11:28.7147 | Info | armendfejzullahu connected with connection ID: J_T3UOwlkZV6HAK2KwlTZw | 
+2024-12-27 19:11:28.8524 | Info | armendfejzullahu connected with connection ID: qZoRqSeK-rZ5BXBn9NaeVw | 
+2024-12-27 19:11:34.5331 | Info | armendfejzullahu connected with connection ID: bVKXcDzMgDQ61P_jGextRQ | 
+2024-12-27 19:11:36.3756 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:11:36.5228 | Info | armendfejzullahu connected with connection ID: YWArD_Rb9WLj9Wwgjtx7cg | 
+2024-12-27 19:11:41.4906 | Info | armendfejzullahu connected with connection ID: 729UNe5odFzX2MuHAZgifQ | 
+2024-12-27 19:11:42.7969 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:11:42.9345 | Info | armendfejzullahu connected with connection ID: HS5Wk37bTIipx1B8Ezab9Q | 
+2024-12-27 19:11:48.0370 | Info | armendfejzullahu connected with connection ID: AdssYL3MuSI_GG09Jr2WZA | 
+2024-12-27 19:12:24.5961 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:12:24.7029 | Info | armendfejzullahu connected with connection ID: JZN8A3La2cwZrhQaa6-8Ww | 
+2024-12-27 19:12:26.5142 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:12:26.7150 | Info | armendfejzullahu connected with connection ID: YCl_skX2WkIy6HIzEVsIfg | 
+2024-12-27 19:12:29.6796 | Info | armendfejzullahu connected with connection ID: lqvkP0Kh6TcCI2NADDMNAw | 
+2024-12-27 19:12:32.0294 | Info | armendfejzullahu connected with connection ID: Xy_pBInvqQDqoIBsfwy9pQ | 
+2024-12-27 19:12:36.4823 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:12:36.6736 | Info | armendfejzullahu connected with connection ID: kmdlO-IRFnuGPDEI-BrN-A | 
+2024-12-27 19:12:38.1302 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:12:38.3448 | Info | armendfejzullahu connected with connection ID: NatQwaBuwglc6xa2HojsMw | 
+2024-12-27 19:12:40.9304 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:12:41.1036 | Info | armendfejzullahu connected with connection ID: Vl0Xn2I5n5IHd7J2or9EBg | 
+2024-12-27 19:12:41.5681 | Info | armendfejzullahu connected with connection ID: rsA457nFFQa4uuc223cr4Q | 
+2024-12-27 19:12:43.2089 | Info | armendfejzullahu connected with connection ID: z_RJ6sZbQXF-apgapvro5A | 
+2024-12-27 19:12:45.5956 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:12:45.7828 | Info | armendfejzullahu connected with connection ID: wxTqqJcZf6c-faPyEx6JAw | 
+2024-12-27 19:12:46.0038 | Info | armendfejzullahu connected with connection ID: 7QPc1KPXkbi4k3nj3pQ5rw | 
+2024-12-27 19:12:50.6641 | Info | armendfejzullahu connected with connection ID: Lei8W0iORFsUOPDMNPTN5A | 
+2024-12-27 19:12:52.9632 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:12:53.6078 | Info | armendfejzullahu connected with connection ID: hrjL1nxGx-yhWBA-APg8kQ | 
+2024-12-27 19:12:58.0414 | Info | armendfejzullahu connected with connection ID: QivH7HFR8JAABgTGWkIjaw | 
+2024-12-27 19:13:02.4487 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:02.6182 | Info | armendfejzullahu connected with connection ID: sUy2VyYpWu6S-3SOfb-_gQ | 
+2024-12-27 19:13:04.7273 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:04.8798 | Info | armendfejzullahu connected with connection ID: pRXnO3H2PXl6A1ugqzn7hQ | 
+2024-12-27 19:13:06.7471 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:06.9133 | Info | armendfejzullahu connected with connection ID: RIGScKKYWm9CTBOcRfO6gQ | 
+2024-12-27 19:13:07.5248 | Info | armendfejzullahu connected with connection ID: pvPp2pYziQjRGwp4XcETdg | 
+2024-12-27 19:13:09.8152 | Info | armendfejzullahu connected with connection ID: kttf9KVo2OBsHjMb8ech8Q | 
+2024-12-27 19:13:11.8295 | Info | armendfejzullahu connected with connection ID: _O1PRhks_h7kGf_ctBczVA | 
+2024-12-27 19:13:14.3654 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:14.5448 | Info | armendfejzullahu connected with connection ID: saAXPQan8IZaI8Ish8DKjw | 
+2024-12-27 19:13:19.4537 | Info | armendfejzullahu connected with connection ID: ZE69ZjQYrGodA0Pob-JBzA | 
+2024-12-27 19:13:22.3651 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:22.5899 | Info | armendfejzullahu connected with connection ID: KAB2879OXRG5xWkBNXHYZw | 
+2024-12-27 19:13:23.7005 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:24.0902 | Info | armendfejzullahu connected with connection ID: k-HR8xoVflNCALLfYSN89w | 
+2024-12-27 19:13:27.4456 | Info | armendfejzullahu connected with connection ID: snTzbpmQ81hjeMm_oHpv0w | 
+2024-12-27 19:13:28.8945 | Info | armendfejzullahu connected with connection ID: GIW9IOTqhyFNUFeR_zeFqw | 
+2024-12-27 19:13:29.5481 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:29.7293 | Info | armendfejzullahu connected with connection ID: 7z3kgCVGP2atAx0Wgq8XwA | 
+2024-12-27 19:13:31.8135 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:32.0094 | Info | armendfejzullahu connected with connection ID: EWbCWLUPoTiUepGW21-TRQ | 
+2024-12-27 19:13:34.6298 | Info | armendfejzullahu connected with connection ID: lQm7slffV6Dbw8YkPsyy7Q | 
+2024-12-27 19:13:36.8928 | Info | armendfejzullahu connected with connection ID: oZrHMvDXEqhCZQEJAdmBzA | 
+2024-12-27 19:13:47.2318 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:47.4374 | Info | armendfejzullahu connected with connection ID: Ev4Ut5pGUzD8_GWuStZlVw | 
+2024-12-27 19:13:51.4329 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:51.5836 | Info | armendfejzullahu connected with connection ID: EsWkk00G352h2VJQyTd_1w | 
+2024-12-27 19:13:52.3165 | Info | armendfejzullahu connected with connection ID: 7P6_EJ32Kdaw8jxWRwRNUQ | 
+2024-12-27 19:13:53.3035 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:53.4780 | Info | armendfejzullahu connected with connection ID: r6h6GhD-FzmODlD66tcUCg | 
+2024-12-27 19:13:56.4069 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:56.5512 | Info | armendfejzullahu connected with connection ID: uU1nrpJ85Sj-uDQC_cBG7Q | 
+2024-12-27 19:13:56.6428 | Info | armendfejzullahu connected with connection ID: 2BFzd8gFaGMOzr93wWP_Zg | 
+2024-12-27 19:13:58.1191 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:13:58.2952 | Info | armendfejzullahu connected with connection ID: RO_i0cett7Va8wj9R0WyBw | 
+2024-12-27 19:13:58.3920 | Info | armendfejzullahu connected with connection ID: 8W-vgGfQcZQr_ep9EyT1iw | 
+2024-12-27 19:14:01.4779 | Info | armendfejzullahu connected with connection ID: Ag08tRApDNKFs33gcR4FFA | 
+2024-12-27 19:14:03.1979 | Info | armendfejzullahu connected with connection ID: rduwj9mI4-3ma9hvoE4-jw | 
+2024-12-27 19:14:07.9513 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:08.0889 | Info | armendfejzullahu connected with connection ID: XcmmwBLOxyJw6A1wMhkCRA | 
+2024-12-27 19:14:13.0457 | Info | armendfejzullahu connected with connection ID: B2b6nyw2NJQ6pkkati1nbw | 
+2024-12-27 19:14:22.0975 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:22.2300 | Info | armendfejzullahu connected with connection ID: 1kQ723N59LP1DSjJDCYlUg | 
+2024-12-27 19:14:27.1891 | Info | armendfejzullahu connected with connection ID: DStmwewdBRyj7xCTZELPGw | 
+2024-12-27 19:14:27.7164 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:27.9049 | Info | armendfejzullahu connected with connection ID: 79fLpWjTUnxY9yHNW4T9wg | 
+2024-12-27 19:14:30.3645 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:30.5886 | Info | armendfejzullahu connected with connection ID: Ns5fY1cfTOPB8Dyc97VVVw | 
+2024-12-27 19:14:32.8054 | Info | armendfejzullahu connected with connection ID: aZm04wwCtQDWhJUZK5II2Q | 
+2024-12-27 19:14:35.4436 | Info | armendfejzullahu connected with connection ID: hdM5g29fz6IDi_poczvm8Q | 
+2024-12-27 19:14:36.7162 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:36.8950 | Info | armendfejzullahu connected with connection ID: ToQ8CTtheMokWXg6bvC4CA | 
+2024-12-27 19:14:38.5644 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:38.7449 | Info | armendfejzullahu connected with connection ID: hf7RG9O7puw9fqCasEYRug | 
+2024-12-27 19:14:41.6629 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:41.9269 | Info | armendfejzullahu connected with connection ID: 2jIf0aSh5JZnPAwUsdfqyw | 
+2024-12-27 19:14:41.9423 | Info | armendfejzullahu connected with connection ID: t6lFgYEbgQiio5CcigpmpA | 
+2024-12-27 19:14:43.6431 | Info | armendfejzullahu connected with connection ID: q2XTy3xCPERfedcsnqp1cA | 
+2024-12-27 19:14:45.2168 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:45.3973 | Info | armendfejzullahu connected with connection ID: C4NDNYHDu2bNa9eBPvsfFg | 
+2024-12-27 19:14:46.7455 | Info | armendfejzullahu connected with connection ID: aVr1Ch5MnyO7IsoRh5hD7w | 
+2024-12-27 19:14:50.3117 | Info | armendfejzullahu connected with connection ID: Vhuio8lvC_cTJmpt8jdprA | 
+2024-12-27 19:14:59.2327 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:14:59.4120 | Info | armendfejzullahu connected with connection ID: gnv5fJaEtUGO5aAx0jEnpw | 
+2024-12-27 19:15:02.7003 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:02.8764 | Info | armendfejzullahu connected with connection ID: LVEv12gHR4ARJMHeKu3LPg | 
+2024-12-27 19:15:04.3152 | Info | armendfejzullahu connected with connection ID: -YP6MeihpucZqlACMR0V-w | 
+2024-12-27 19:15:06.1016 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:06.2875 | Info | armendfejzullahu connected with connection ID: m32QtMTOS8atEIr3rCDezw | 
+2024-12-27 19:15:07.7885 | Info | armendfejzullahu connected with connection ID: bnECY0qAhbH93A8K6cUFIQ | 
+2024-12-27 19:15:08.3815 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:08.5733 | Info | armendfejzullahu connected with connection ID: FETyCAURJEZD4T4NAU2baQ | 
+2024-12-27 19:15:11.1336 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:11.3400 | Info | armendfejzullahu connected with connection ID: XRnIijllJ-Uln0SZau1ZfA | 
+2024-12-27 19:15:11.3610 | Info | armendfejzullahu connected with connection ID: _GU4d4h2HDFBCism2EZgxg | 
+2024-12-27 19:15:13.4884 | Info | armendfejzullahu connected with connection ID: cuvR_ZXHNpS2ToRgXuOqUw | 
+2024-12-27 19:15:13.6154 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:13.7985 | Info | armendfejzullahu connected with connection ID: N83AHjCE32Zd5EEdlIY4Sg | 
+2024-12-27 19:15:16.2228 | Info | armendfejzullahu connected with connection ID: FrjcfIr-UXJqFM-fPDCPBw | 
+2024-12-27 19:15:18.6491 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:18.7771 | Info | armendfejzullahu connected with connection ID: qDAWauOsS8u9ykYECHGaJQ | 
+2024-12-27 19:15:18.8803 | Info | armendfejzullahu connected with connection ID: oPbCbORzAe_hrpOX3HjQog | 
+2024-12-27 19:15:20.6165 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:20.7992 | Info | armendfejzullahu connected with connection ID: 6P5TGs4QXP_05vUZIPdrqg | 
+2024-12-27 19:15:22.7340 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:22.9119 | Info | armendfejzullahu connected with connection ID: QeSd_uFH49zzWDXvmkC5-g | 
+2024-12-27 19:15:23.7261 | Info | armendfejzullahu connected with connection ID: vcqqqOxJXmMNSgmqw4OZGQ | 
+2024-12-27 19:15:24.6196 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:24.7930 | Info | armendfejzullahu connected with connection ID: w1smrRh_PIs4qJmVfrKELQ | 
+2024-12-27 19:15:25.7468 | Info | armendfejzullahu connected with connection ID: J1MR7LnFQP-i6sA0giDvTA | 
+2024-12-27 19:15:26.5505 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:26.7261 | Info | armendfejzullahu connected with connection ID: -L28N1W-V_npRPwU70Jdtg | 
+2024-12-27 19:15:28.2261 | Info | armendfejzullahu connected with connection ID: ckG0UkpM5I22Ajsi697BKA | 
+2024-12-27 19:15:28.3847 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:28.5627 | Info | armendfejzullahu connected with connection ID: LKohyZb5pQneYwr4_04ibQ | 
+2024-12-27 19:15:29.7050 | Info | armendfejzullahu connected with connection ID: jM4u7LOtPUNTobube0XPbQ | 
+2024-12-27 19:15:31.6381 | Info | armendfejzullahu connected with connection ID: XlP2al14IUyW5pt71QtgGQ | 
+2024-12-27 19:15:33.4590 | Info | armendfejzullahu connected with connection ID: Jcvg8dZBLfYcxb3XxpnysQ | 
+2024-12-27 19:15:42.3865 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:42.8778 | Info | armendfejzullahu connected with connection ID: 2IaEvZcIcEeh3Uj_oLOGNw | 
+2024-12-27 19:15:47.4595 | Info | armendfejzullahu connected with connection ID: DAiGGgaNX-5TrTlsrv9odA | 
+2024-12-27 19:15:48.0351 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:48.2491 | Info | armendfejzullahu connected with connection ID: DQPg7yiRykPfRWaCKEV1QA | 
+2024-12-27 19:15:53.1131 | Info | armendfejzullahu connected with connection ID: RwLstgY9AMxpTMJhtdKC6A | 
+2024-12-27 19:15:53.2508 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:15:53.4323 | Info | armendfejzullahu connected with connection ID: xtGhuHmKP44PZ3WXPWPc9w | 
+2024-12-27 19:15:58.3296 | Info | armendfejzullahu connected with connection ID: XFo3F9Hs4tSgTo8IOEmB2w | 
+2024-12-27 19:17:12.7128 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:17:12.8276 | Info | armendfejzullahu connected with connection ID: FG25EvBuVreIbfo53qz4Xw | 
+2024-12-27 19:17:17.7929 | Info | armendfejzullahu connected with connection ID: KURFAIUcw3f9bj1blzZdFg | 
+2024-12-27 19:17:43.9409 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:17:44.3179 | Info | armendfejzullahu connected with connection ID: vbFIvKCPqr56F4C8M3OTJg | 
+2024-12-27 19:17:48.9653 | Info | armendfejzullahu connected with connection ID: bRPd630YGYK-rc6S3xfjEA | 
+2024-12-27 19:18:03.5736 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:18:03.7839 | Info | armendfejzullahu connected with connection ID: Tl0BO0WiH7qtTm9Mh-gDxA | 
+2024-12-27 19:18:05.7081 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:18:05.8310 | Info | armendfejzullahu connected with connection ID: oF3LIwCYFbFPFPYyM8kJFg | 
+2024-12-27 19:18:08.7297 | Info | armendfejzullahu connected with connection ID: JQI23dUqDPigU9v8_hWI3A | 
+2024-12-27 19:18:10.8078 | Info | armendfejzullahu connected with connection ID: juXPdPCqhU9qEI_eoXgelQ | 
+2024-12-27 19:18:26.1063 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:18:26.3217 | Info | armendfejzullahu connected with connection ID: ojw83ezx9txNjYomropg-g | 
+2024-12-27 19:18:30.4906 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:18:30.6442 | Info | armendfejzullahu connected with connection ID: jYa6Gh-Tn_g5s-_J7oEM-Q | 
+2024-12-27 19:18:31.2069 | Info | armendfejzullahu connected with connection ID: 1IB5tu1abeM0XG_FvyjmBQ | 
+2024-12-27 19:18:35.5710 | Info | armendfejzullahu connected with connection ID: cW-XGixPM0fHn0aH_agmTA | 
+2024-12-27 19:18:35.6376 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:18:35.7851 | Info | armendfejzullahu connected with connection ID: tV9nqeU-Y_nvr5c0TUL05g | 
+2024-12-27 19:18:38.6279 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:18:38.8127 | Info | armendfejzullahu connected with connection ID: 0mfVRALTPB3kNViedkYppQ | 
+2024-12-27 19:18:40.7234 | Info | armendfejzullahu connected with connection ID: uW2x9CD4EWfVDiEpWrl0wA | 
+2024-12-27 19:18:42.8756 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:18:43.0270 | Info | armendfejzullahu connected with connection ID: aWpgnR6QcK9JDedu6bRagA | 
+2024-12-27 19:18:43.7151 | Info | armendfejzullahu connected with connection ID: Aa1c_WDHMMXTl-doG61JHg | 
+2024-12-27 19:18:47.9614 | Info | armendfejzullahu connected with connection ID: AVgVYTjg7WwpE1f-wq9oig | 
+2024-12-27 19:19:00.4576 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:00.6801 | Info | armendfejzullahu connected with connection ID: h7tDm0lbt8HswVcT4rCb_Q | 
+2024-12-27 19:19:05.5359 | Info | armendfejzullahu connected with connection ID: RU1KZlhwN6x4O9yIkoB7Xw | 
+2024-12-27 19:19:13.1193 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:13.3216 | Info | armendfejzullahu connected with connection ID: BxU56UJ4BhSchPoSQnC3CA | 
+2024-12-27 19:19:18.2039 | Info | armendfejzullahu connected with connection ID: 3DPImYspjjcUq43_rzoaOw | 
+2024-12-27 19:19:19.3767 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:19.5739 | Info | armendfejzullahu connected with connection ID: nfiT7xAbLE2LI8EyW07ZuA | 
+2024-12-27 19:19:24.4537 | Info | armendfejzullahu connected with connection ID: Y8a7ndgcJAutftE-Kzgsfw | 
+2024-12-27 19:19:26.6581 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:26.8358 | Info | armendfejzullahu connected with connection ID: POcdWqzVBuv5BtHmit1uxg | 
+2024-12-27 19:19:31.7388 | Info | armendfejzullahu connected with connection ID: kPvD6IbsB93ItjfpaVj0Vw | 
+2024-12-27 19:19:37.2647 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:37.3988 | Info | armendfejzullahu connected with connection ID: gXGwyj9ewTocC--nFvULqg | 
+2024-12-27 19:19:42.3401 | Info | armendfejzullahu connected with connection ID: Y5VvYme-KekqY3C22TYWug | 
+2024-12-27 19:19:43.0407 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:43.1705 | Info | armendfejzullahu connected with connection ID: OJK1PQY1cT0v2h7EVjgQug | 
+2024-12-27 19:19:48.1254 | Info | armendfejzullahu connected with connection ID: OjRFBYNQLGkEIdVLT5pxog | 
+2024-12-27 19:19:49.2250 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:49.4338 | Info | armendfejzullahu connected with connection ID: omtFZSHLiL-SVydN5CNwOw | 
+2024-12-27 19:19:53.5929 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:53.7827 | Info | armendfejzullahu connected with connection ID: hCbMcIUUAVQo5L2QcB4T8Q | 
+2024-12-27 19:19:54.3077 | Info | armendfejzullahu connected with connection ID: KFz04J_khW5uhok_SRZhKA | 
+2024-12-27 19:19:57.1242 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:19:57.3190 | Info | armendfejzullahu connected with connection ID: bbaAqpPRoWVOjd3c_jP_yg | 
+2024-12-27 19:19:58.6671 | Info | armendfejzullahu connected with connection ID: JwU-gU0wONQb7PcJ1eak7w | 
+2024-12-27 19:20:00.6228 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:00.8076 | Info | armendfejzullahu connected with connection ID: 8n_TezHp92shpBErvnCvXQ | 
+2024-12-27 19:20:02.2088 | Info | armendfejzullahu connected with connection ID: WgrAdV0Opa5PrbjAfFNOHg | 
+2024-12-27 19:20:05.7036 | Info | armendfejzullahu connected with connection ID: a17prUq1PO6DoKf69Sz15g | 
+2024-12-27 19:20:06.7432 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:06.9296 | Info | armendfejzullahu connected with connection ID: z3FULjEj02e0rYNHVG2qEA | 
+2024-12-27 19:20:09.5931 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:09.7694 | Info | armendfejzullahu connected with connection ID: rgCvp3S5PkwYY4LXsDGjvg | 
+2024-12-27 19:20:11.8316 | Info | armendfejzullahu connected with connection ID: iOtiuMZVdsewXBXCjbMFeg | 
+2024-12-27 19:20:14.6827 | Info | armendfejzullahu connected with connection ID: XeE6CBdgDcYcmDi0eLgBjQ | 
+2024-12-27 19:20:20.3689 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:20.5587 | Info | armendfejzullahu connected with connection ID: SRagrj6JDJk9bOe1banS8Q | 
+2024-12-27 19:20:25.4455 | Info | armendfejzullahu connected with connection ID: DGyc2kVohIJW28dPr1fwaw | 
+2024-12-27 19:20:26.5068 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:26.6810 | Info | armendfejzullahu connected with connection ID: IVYKmfQ0rcVKV1dZL_xpRw | 
+2024-12-27 19:20:31.5952 | Info | armendfejzullahu connected with connection ID: nsBO0Bzo24bW9T7UcBrTBw | 
+2024-12-27 19:20:33.1709 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:33.3496 | Info | armendfejzullahu connected with connection ID: 4pECXDu5w9ZcHmYtomPNzA | 
+2024-12-27 19:20:38.2644 | Info | armendfejzullahu connected with connection ID: 6P2T30_M56c8mOqqQ7WMsw | 
+2024-12-27 19:20:39.4056 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:39.5400 | Info | armendfejzullahu connected with connection ID: YkwA9j3OWTKrtYmCGCLyHQ | 
+2024-12-27 19:20:42.0862 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:42.2408 | Info | armendfejzullahu connected with connection ID: 3LiSA26IWnMs8bR4Tmc1HA | 
+2024-12-27 19:20:44.4847 | Info | armendfejzullahu connected with connection ID: S95MMaVnLSJKfl_uK3H7Ug | 
+2024-12-27 19:20:46.4219 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:20:46.6472 | Info | armendfejzullahu connected with connection ID: nmGgPTO9RebBah9Q2gsGYg | 
+2024-12-27 19:20:47.1632 | Info | armendfejzullahu connected with connection ID: XaP0ChkwuFV0vsP69A4Rwg | 
+2024-12-27 19:20:51.5096 | Info | armendfejzullahu connected with connection ID: ze-uZ3yj_lbJqzyIqPurGQ | 
+2024-12-27 19:22:32.6930 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:22:32.8258 | Info | armendfejzullahu connected with connection ID: AWkDCSpwfcwOHSqZzM3zUw | 
+2024-12-27 19:22:37.7745 | Info | armendfejzullahu connected with connection ID: G15QXERQEoqEJK3kITRuHA | 
+2024-12-27 19:22:46.0477 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:22:46.2275 | Info | armendfejzullahu connected with connection ID: x1gw_gsNkIz1XemNLR9H_g | 
+2024-12-27 19:22:51.1387 | Info | armendfejzullahu connected with connection ID: uhioMKgO1mlwqEeGhOGjKg | 
+2024-12-27 19:23:11.7789 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:23:12.0015 | Info | armendfejzullahu connected with connection ID: FOCs-DITCafnhUd4yI2zyA | 
+2024-12-27 19:23:16.8369 | Info | armendfejzullahu connected with connection ID: 7ZKAoPn3CdqtDRgyTnwUDg | 
+2024-12-27 19:23:18.2708 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:23:19.5485 | Info | armendfejzullahu connected with connection ID: 8DV6MsusRlCRKcruq8lQZA | 
+2024-12-27 19:23:22.3047 | Info | armendfejzullahu connected with connection ID: gTR5SFxWWOiizUvQt7_kFw | 
+2024-12-27 19:23:23.3436 | Info | armendfejzullahu connected with connection ID: f1Fi72uHhiyYs21LGTjGtA | 
+2024-12-27 19:24:57.2672 | Info | armendfejzullahu connected with connection ID: kOKsKg9hXUY-CkR736KasQ | 
+2024-12-27 19:25:10.1078 | Info | armendfejzullahu connected with connection ID: j0EsTgSPh3KaS3wL-PX_Hg | 
+2024-12-27 19:25:19.1934 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:25:19.3682 | Info | armendfejzullahu connected with connection ID: irCwSu7MaDUxazODhWphyw | 
+2024-12-27 19:25:24.2903 | Info | armendfejzullahu connected with connection ID: _aw51IzFMlQapQQTxkWEzQ | 
+2024-12-27 19:25:39.2611 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:25:39.4284 | Info | armendfejzullahu connected with connection ID: c-7jM-JbiqF-_JASHfGVNg | 
+2024-12-27 19:25:44.3600 | Info | armendfejzullahu connected with connection ID: J-VGU4YTaoYpUVHnKO_dFw | 
+2024-12-27 19:25:47.1461 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:25:47.2850 | Info | armendfejzullahu connected with connection ID: ePWFcevEuX_uV7Sj_hZjqA | 
+2024-12-27 19:25:50.5071 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:25:50.6757 | Info | armendfejzullahu connected with connection ID: 0rUaHp8WkpYG8O6J-g_iLw | 
+2024-12-27 19:25:52.2760 | Info | armendfejzullahu connected with connection ID: bza7DzWgtfWGhaHIhDhXLQ | 
+2024-12-27 19:25:55.6027 | Info | armendfejzullahu connected with connection ID: JM2w3W2qHyfEiuplHC_SBg | 
+2024-12-27 19:26:04.1357 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:26:04.3191 | Info | armendfejzullahu connected with connection ID: 3nOuWyyGE_Snotb66qju0w | 
+2024-12-27 19:26:08.6389 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:26:08.9734 | Info | armendfejzullahu connected with connection ID: uhyT3An33_VUidPyeRyC9g | 
+2024-12-27 19:26:09.2352 | Info | armendfejzullahu connected with connection ID: j4YfV2ShkwCzUntG9FXx6Q | 
+2024-12-27 19:26:10.5159 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:26:10.7335 | Info | armendfejzullahu connected with connection ID: 8fZnr8_0GBMZ-ns8R7sYSA | 
+2024-12-27 19:26:12.4692 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:26:12.5995 | Info | armendfejzullahu connected with connection ID: 1Z_iJDXIzFOvLLf5ILcQUg | 
+2024-12-27 19:26:13.5001 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:26:13.6260 | Info | armendfejzullahu connected with connection ID: cYu3Vg0IpcMK9vAlr7x0jQ | 
+2024-12-27 19:26:13.7980 | Info | armendfejzullahu connected with connection ID: 7xyZYHkrsEGMqqL5vjc2aw | 
+2024-12-27 19:26:15.6224 | Info | armendfejzullahu connected with connection ID: UCt_6ou7fofsChRQaByA9A | 
+2024-12-27 19:26:16.1413 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:26:16.2390 | Info | armendfejzullahu connected with connection ID: _yb_Ak4OKArGMlpigGF3KA | 
+2024-12-27 19:26:17.5690 | Info | armendfejzullahu connected with connection ID: PQgZgGUxSfQOpm7GOJK5jA | 
+2024-12-27 19:26:18.6073 | Info | armendfejzullahu connected with connection ID: XkusOxxSwTGjh-pj_TjWMg | 
+2024-12-27 19:26:21.2487 | Info | armendfejzullahu connected with connection ID: IwxiOLc2-hqcIBfZjs9lUA | 
+2024-12-27 19:28:05.1206 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:05.5247 | Info | armendfejzullahu connected with connection ID: Zq1E7cOnxs8VjzWyGXdrKw | 
+2024-12-27 19:28:09.5055 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:09.6955 | Info | armendfejzullahu connected with connection ID: yg5PAzDumHKlXAzWwxdnuA | 
+2024-12-27 19:28:10.3855 | Info | armendfejzullahu connected with connection ID: HNPWZ_uu0c4wkwom6HolXA | 
+2024-12-27 19:28:13.5391 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:13.6747 | Info | armendfejzullahu connected with connection ID: E2vaE-yHZ9o7w4spYKux0Q | 
+2024-12-27 19:28:14.6375 | Info | armendfejzullahu connected with connection ID: wNDG134rcLSL8Ccy-kh3lg | 
+2024-12-27 19:28:17.8241 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:18.0052 | Info | armendfejzullahu connected with connection ID: 7DqmiS8S9nPPaoR32FMcUQ | 
+2024-12-27 19:28:18.6502 | Info | armendfejzullahu connected with connection ID: Azj-SEiqknEw7kbJxhLV0g | 
+2024-12-27 19:28:22.9364 | Info | armendfejzullahu connected with connection ID: YUZlZ3s2hiOOlrB9QCj_Gw | 
+2024-12-27 19:28:29.4572 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:29.7629 | Info | armendfejzullahu connected with connection ID: de8vkHI5VLaJY6bXaXZL9w | 
+2024-12-27 19:28:31.8989 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:32.0671 | Info | armendfejzullahu connected with connection ID: ncSihdS55-tRJLVSSejMlg | 
+2024-12-27 19:28:34.8534 | Info | armendfejzullahu connected with connection ID: bp4jGHg2oQf25mifOupvBg | 
+2024-12-27 19:28:37.0069 | Info | armendfejzullahu connected with connection ID: B9OYYXagYtWaPIArunQsFw | 
+2024-12-27 19:28:39.3117 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:39.4821 | Info | armendfejzullahu connected with connection ID: 3ATxyhEZBCvSHfn9njio6A | 
+2024-12-27 19:28:44.4287 | Info | armendfejzullahu connected with connection ID: jXVnz_NXJf21pMAbVT1vuQ | 
+2024-12-27 19:28:45.4085 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:45.5968 | Info | armendfejzullahu connected with connection ID: kJ5zuFmPsSxFD2Tzfs_jSA | 
+2024-12-27 19:28:50.5141 | Info | armendfejzullahu connected with connection ID: XunJ4XcvzdKPLbR47q8TFg | 
+2024-12-27 19:28:53.1564 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:53.4070 | Info | armendfejzullahu connected with connection ID: _jjFadDzQL9SLBTUHqwejw | 
+2024-12-27 19:28:58.2695 | Info | armendfejzullahu connected with connection ID: pMprM8IT4uniaLLmgeNC8A | 
+2024-12-27 19:28:59.4521 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:28:59.6292 | Info | armendfejzullahu connected with connection ID: qfX8IMErW7TmwOS7J1hl1A | 
+2024-12-27 19:29:04.5524 | Info | armendfejzullahu connected with connection ID: 0fYWm__gGSkDia_98YlhGQ | 
+2024-12-27 19:29:15.0478 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:15.2845 | Info | armendfejzullahu connected with connection ID: kmxirsUYLP2pyn-3kEYRJg | 
+2024-12-27 19:29:19.8835 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:20.1535 | Info | armendfejzullahu connected with connection ID: Aj5clOqq1uF7MYbK4tFtcQ | 
+2024-12-27 19:29:20.1796 | Info | armendfejzullahu connected with connection ID: 1EfxnJ8Yvd4ALV-RSQT-Lw | 
+2024-12-27 19:29:24.9802 | Info | armendfejzullahu connected with connection ID: aHDSKdYZgIyi5nocQPEKdw | 
+2024-12-27 19:29:25.7849 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:25.9568 | Info | armendfejzullahu connected with connection ID: huxkaNhEGNcToLV9TzKazQ | 
+2024-12-27 19:29:29.9093 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:30.1169 | Info | armendfejzullahu connected with connection ID: N8oReKVj-ccVzi4p8Sm1oA | 
+2024-12-27 19:29:30.9951 | Info | armendfejzullahu connected with connection ID: iNv1DN6oTE5EUplUFIYW7g | 
+2024-12-27 19:29:32.4181 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:32.5961 | Info | armendfejzullahu connected with connection ID: yJwbB7MFByIgIogiyJ-J1g | 
+2024-12-27 19:29:35.0088 | Info | armendfejzullahu connected with connection ID: zkkYqSyiaG3vuBV82Vhw5A | 
+2024-12-27 19:29:37.5209 | Info | armendfejzullahu connected with connection ID: Q_-pDmZzTwAuIYgrwN092Q | 
+2024-12-27 19:29:38.1168 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:38.2507 | Info | armendfejzullahu connected with connection ID: Gp4AEXSIqFEXYIhG_vopHQ | 
+2024-12-27 19:29:43.2254 | Info | armendfejzullahu connected with connection ID: O9FsBVYo-WHyIdnzWlHsug | 
+2024-12-27 19:29:45.9496 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:46.1315 | Info | armendfejzullahu connected with connection ID: M0qxaE69ZnYwm6XGCLGieA | 
+2024-12-27 19:29:47.6895 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:29:47.8550 | Info | armendfejzullahu connected with connection ID: 56Fq1eqocRdEWrWcihZ98Q | 
+2024-12-27 19:29:51.0507 | Info | armendfejzullahu connected with connection ID: QxnL1kpmC_MqOzIwmLjaYA | 
+2024-12-27 19:29:52.7943 | Info | armendfejzullahu connected with connection ID: nbNDouIwutvKYt2pzBm2kw | 
+2024-12-27 19:30:22.1066 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:30:22.2699 | Info | armendfejzullahu connected with connection ID: Ih0NSdn_1-pHVSsuxqhWnw | 
+2024-12-27 19:30:27.2175 | Info | armendfejzullahu connected with connection ID: 2PKtAAYp4hLmfnjPWpMLYQ | 
+2024-12-27 19:31:35.5093 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:31:40.5914 | Info | armendfejzullahu connected with connection ID: 6ToQC5wcrybTi31bmZ60Cg | 
+2024-12-27 19:33:26.2917 | Info | armendfejzullahu connected with connection ID: JFvA7j6apoB744WpbIhCeA | 
+2024-12-27 19:34:06.3922 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.3922 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.3922 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.4197 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.4496 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.4496 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.4765 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5177 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5177 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5304 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5304 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5492 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5492 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5492 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.5992 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6148 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6245 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6245 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6245 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6386 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6386 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6386 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6539 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6539 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6539 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6717 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6717 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6717 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6717 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6975 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.6975 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7160 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7160 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7424 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7465 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7465 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7465 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7465 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7644 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7644 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7644 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7644 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7837 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7837 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7837 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7992 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7992 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.7992 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8153 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8153 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8153 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8153 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8319 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8319 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8319 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8319 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8515 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8515 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8515 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8515 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8680 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8725 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8725 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8725 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8854 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8854 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8854 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.8854 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9017 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9017 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9017 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9233 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9233 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9233 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9233 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9233 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9503 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9503 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9503 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9638 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9638 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9638 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9638 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9826 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9826 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9826 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9957 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9957 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9957 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:06.9957 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0149 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0149 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0149 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0149 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0329 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0329 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0329 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0329 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0507 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0507 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0507 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0641 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0641 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0641 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0827 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0827 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0911 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0911 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0911 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.0911 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1077 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1077 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1077 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1077 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1244 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1244 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1244 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1371 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1371 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1371 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1511 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1511 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1511 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1511 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1511 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1511 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1511 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1836 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1836 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.1836 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2085 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2126 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2126 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2126 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2126 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2293 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2293 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2293 | Info | armendfejzullahu disconnected | 
+2024-12-27 19:34:07.2293 | Info | armendfejzullahu disconnected | 
+2024-12-27 20:07:01.1666 | Info | armendfejzullahu connected with connection ID: H2AigFDl1GUpY_vHBipKYw | 
+2024-12-27 20:07:09.0508 | Info | armendfejzullahu connected with connection ID: GRSNQalFQWQcIdp9dra9Zw | 
+2024-12-27 20:18:57.0308 | Info | armendfejzullahu disconnected | 
+2024-12-27 20:18:57.0308 | Info | armendfejzullahu disconnected | 
+2024-12-27 20:33:48.0271 | Info | armendfejzullahu connected with connection ID: Pjq0tHnz0HjHgzTB5jdx_Q | 
+2024-12-27 20:51:58.9630 | Info | armendfejzullahu disconnected | 
+2024-12-27 20:54:41.1875 | Info | armendfejzullahu connected with connection ID: quh2lOpzLwdMPxNUkeT_tA | 
+2024-12-27 20:54:44.7677 | Info | armendfejzullahu connected with connection ID: ALmpXUxXhc0tH0AmSlmzlg | 
+2024-12-27 20:55:36.7059 | Info | armendfejzullahu connected with connection ID: VKo4DIgOJ2uu1QXvpS93VA | 
+2024-12-27 20:56:22.9451 | Info | armendfejzullahu disconnected | 
+2024-12-27 20:56:22.9451 | Info | armendfejzullahu disconnected | 
+2024-12-27 20:56:22.9451 | Info | armendfejzullahu disconnected | 
+2024-12-27 21:32:53.1661 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 20, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=92396,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2024-12-27 21:32:53.2016 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 20, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=92396,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)

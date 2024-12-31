@@ -22,15 +22,135 @@ namespace Database.Context
         public DbSet<Quizzes> Quizzes { get; set; }
         public DbSet<QuizzesCompleted> QuizzesCompleted { get; set; }
         public DbSet<Conversations> Conversations { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Friendships> Friendships { get; set; }
+        public DbSet<CloseFriends> CloseFriends { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
 
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+        {
+            var entries = ChangeTracker.Entries<Friendships>()
+                .Where(c => c.State == EntityState.Modified);
+
+            foreach (var item in entries)
+            {
+                var oldValue = item.OriginalValues["Status"]?.ToString();
+                var newValue = item.OriginalValues["Status"]?.ToString();
+
+                if(int.TryParse(newValue, out int status) && status == 2)
+                {
+                    if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
+                    {
+                        await NotifyTheChangeInEntity(item.Entity, "accepted", cancellationToken);
+                    }
+                }else if(int.TryParse(newValue, out int otherStatus) && otherStatus == 3)
+                {
+                    if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
+                    {
+                        await NotifyTheChangeInEntity(item.Entity, "rejected", cancellationToken);
+                    }
+                }
+            }
+
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+
+        }
+
+        public async Task NotifyTheChangeInEntity(Friendships entity, string status, CancellationToken token)
+        {
+            if(string.Equals(status, "accepted", StringComparison.Ordinal))
+            {
+                var friend1 = new Friends
+                {
+                    UserId = entity.SenderId,
+                    FriendId = entity.ReceiverId,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                var friend2 = new Friends
+                {
+                    UserId = entity.ReceiverId,
+                    FriendId = entity.SenderId,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                base.Set<Friends>().AddRange(friend1, friend2);
+                await base.SaveChangesAsync(token);
+
+            }else if(string.Equals(status, "rejected", StringComparison.Ordinal))
+            {
+                var friendshipToRemove = await base.Set<Friendships>().FindAsync(entity.ID);
+                if(friendshipToRemove != null)
+                {
+                    base.Set<Friendships>().Remove(friendshipToRemove);
+                    await base.SaveChangesAsync(token);
+                }
+            }
+            await Task.CompletedTask;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Friends>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UsersWithFriends)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Friends>()
+                .HasOne(c => c.Friend)
+                .WithMany(c => c.Friends)
+                .HasForeignKey(c => c.FriendId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CloseFriends>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UsersWithCloseFriends)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CloseFriends>()
+                .HasOne(c => c.CloseFriend)
+                .WithMany(c => c.CloseFriends)
+                .HasForeignKey(c => c.CloseFriendId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Friendships>()
+                .HasOne(c => c.Notification)
+                .WithMany(c => c.Friendships)
+                .HasForeignKey(c => c.NotificationId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Friendships>()
+                .HasOne(c => c.Sender)
+                .WithMany(c => c.FriendshipSenders)
+                .HasForeignKey(c => c.SenderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Friendships>()
+                .HasOne(c => c.Receiver)
+                .WithMany(c => c.FriendshipReceivers)
+                .HasForeignKey(c => c.ReceiverId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Notifications>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.Notifications)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Notifications>()
+                .HasOne(c => c.NotificationReceiver)
+                .WithMany(c => c.NotificationsReceived)
+                .HasForeignKey(c => c.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Conversations>()
                 .HasOne(c => c.Sender)
@@ -87,7 +207,7 @@ namespace Database.Context
                 .HasOne(c => c.QuizQuestion)
                 .WithMany(c => c.Answers)
                 .HasForeignKey(c => c.QuestionId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
 
 

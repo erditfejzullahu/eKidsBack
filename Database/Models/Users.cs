@@ -72,5 +72,17 @@ namespace Database.Models
         public virtual ICollection<Conversations> SentMessages { get; set; } = new List<Conversations>();
         public virtual ICollection<Conversations> ReceivedMessages { get; set; } = new List<Conversations>();
 
+        public virtual ICollection<Notifications> Notifications { get; set; } = new List<Notifications>();
+        public virtual ICollection<Notifications> NotificationsReceived { get; set; } = new List<Notifications>();
+
+        public virtual ICollection<Friendships> FriendshipSenders {  get; set; } = new List<Friendships>();
+        public virtual ICollection<Friendships> FriendshipReceivers { get; set; } = new List<Friendships>();
+
+        public virtual ICollection<CloseFriends> UsersWithCloseFriends { get; set; } = new List<CloseFriends>();
+        public virtual ICollection<CloseFriends> CloseFriends { get; set; } = new List<CloseFriends>();
+
+        public virtual ICollection<Friends> UsersWithFriends { get; set; } = new List<Friends>();
+        public virtual ICollection<Friends> Friends { get; set; } = new List<Friends>();
+
     }
 }

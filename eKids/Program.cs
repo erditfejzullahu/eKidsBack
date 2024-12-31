@@ -158,6 +158,7 @@ namespace eKids
             app.MapControllers();
             app.MapHub<VideoUploadHub>("/videouploadhub");
             app.MapHub<ChatHub>("/chatHub");
+            app.MapHub<NotificationsHub>("/notificationsHub");
 
             app.Run();
         }
