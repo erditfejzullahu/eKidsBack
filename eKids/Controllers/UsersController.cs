@@ -404,6 +404,64 @@ namespace eKids.Controllers
 
         }
 
+        [HttpGet("/api/Users/GetUserById/{userId}")]
+        public async Task<IActionResult> GetUserById(int userId, CancellationToken token)
+        {
+            try
+            {
+                var user = await _userRepository
+                    .GetAll()
+                    .AsNoTracking()
+                    .Where(c => c.ID == userId)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Firstname, 
+                        c.Lastname,
+                        c.Email,
+                        c.UserMeta,
+                        c.Username,
+                        c.Package,
+                        c.Friends,
+                        c.ProfilePictureUrl,
+                        Quizzes = c.Quizzes.Select(uq => new
+                        {
+                            uq.ID,
+                            uq.QuizName,
+                            uq.QuizDescription,
+                            uq.QuizCategory,
+                            uq.CreatedAt,
+                            QuizIsCompleted = uq.QuizzesCompleted.Where(qc => qc.Completed == true).Count()
+                        }).ToList(),
+                        c.CourseCompleted,
+                        QuizzesCompleted = c.QuizzesCompleted.Select(q => new
+                        {
+
+                            q.ID,
+                            q.Quiz,
+                            q.Completed,
+                            q.Duration,
+                            q.CreatedAt,
+                            q.QuizId,
+                            q.Mistakes,
+                        }).ToList()
+                    })
+                    .FirstOrDefaultAsync(token);
+
+                if(user == null)
+                {
+                    return NotFound(new { Message = "No user Found" });
+                }
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in retriving user with id: {userId}");
+                return BadRequest(new { Message = "Error in retriving user" });
+            }
+        }
+
 
     }
 }

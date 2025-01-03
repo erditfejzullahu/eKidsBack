@@ -6,6 +6,7 @@
         Warning = 2,
         Error = 3,
         UserFriendReq = 4, //if userreq for example friend requests and stuff
-        UserActionReq = 5
+        UserActionReq = 5,
+        UserFriendAccepted = 6
     }
 }

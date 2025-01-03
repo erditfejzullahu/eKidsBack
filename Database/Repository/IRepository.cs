@@ -13,6 +13,7 @@ namespace Database.Repository
         Task<T> Get(int id, CancellationToken token, params Expression<Func<T, object>>[] includes);
         Task<T> Delete(int id, CancellationToken token);
         void UpdateRange(IEnumerable<T> entities);
+        void DeleteRange(IEnumerable<T> entities);
         Task<RefreshToken> GetToken(string token, CancellationToken cancellationToken);
         Task<RefreshToken> RemoveToken(string refreshToken, CancellationToken cancellationToken);
         IQueryable<T> GetAll();

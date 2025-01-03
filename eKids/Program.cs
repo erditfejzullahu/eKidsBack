@@ -30,8 +30,8 @@ namespace eKids
 
             builder.Services.Configure<KestrelServerOptions>(options =>
             {
-                options.Listen(IPAddress.Any, 7051);
-                options.Limits.MaxRequestBodySize = 2000 * 1024 * 1024; // 10 MB
+                options.Listen(IPAddress.Any, 5194);
+                options.Limits.MaxRequestBodySize = 500 * 1024 * 1024; // 10 MB
             });
 
             builder.Services.AddCors(options =>

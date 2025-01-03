@@ -1305,6 +1305,27 @@
   },
   {
     "ContainingType": "eKids.Controllers.UserFriendsController",
+    "Method": "AcceptFriend",
+    "RelativePath": "api/UserFriends/AcceptFriend",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "senderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "receiverId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UserFriendsController",
     "Method": "DeleteCloseFriend",
     "RelativePath": "api/UserFriends/DeleteCloseFriend/{id}",
     "HttpMethod": "DELETE",
@@ -1322,15 +1343,41 @@
   {
     "ContainingType": "eKids.Controllers.UserFriendsController",
     "Method": "DeleteFriend",
-    "RelativePath": "api/UserFriends/DeleteFriend/{id}",
+    "RelativePath": "api/UserFriends/DeleteFriend",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "userId",
         "Type": "System.Int32",
-        "IsRequired": true
+        "IsRequired": false
+      },
+      {
+        "Name": "friendId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UserFriendsController",
+    "Method": "DeleteFriendRequest",
+    "RelativePath": "api/UserFriends/DeleteFriendRequest",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "receiverId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1388,6 +1435,27 @@
   },
   {
     "ContainingType": "eKids.Controllers.UserFriendsController",
+    "Method": "GetUserRelationStatus",
+    "RelativePath": "api/UserFriends/GetUserRelationStatus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SenderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "ReceiverId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UserFriendsController",
     "Method": "MakeBestFriend",
     "RelativePath": "api/UserFriends/MakeCloseFriend",
     "HttpMethod": "POST",
@@ -1414,6 +1482,27 @@
         "Name": "friendDto",
         "Type": "Database.DTOs.FriendDto",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UserFriendsController",
+    "Method": "SearchUsers",
+    "RelativePath": "api/UserFriends/SearchUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchParam",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1627,6 +1716,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "GetUserById",
+    "RelativePath": "api/Users/GetUserById/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

@@ -1,4 +1,5 @@
-﻿using Database.DTOs;
+﻿using Database.Context;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using eKids.Hubs;
@@ -19,19 +20,25 @@ namespace eKids.Controllers
         private readonly IRepository<Notifications> _notificationsRepository;
         private readonly IHubContext<NotificationsHub> _notificationsHub;
         private readonly IRepository<Friendships> _friendshipRepository;
+        private readonly ApplicationDbContext _context;
+        private readonly IRepository<Users> _userRepository;
         private static readonly ConnectionMapping _connectionMapping = new();
 
         public NotificationsController(
             ILogger<NotificationsController> logger,
+            ApplicationDbContext context,
             IRepository<Notifications> notificationsRepository,
             IHubContext<NotificationsHub> notificationshHub,
-            IRepository<Friendships> friendshipRepository
+            IRepository<Friendships> friendshipRepository,
+            IRepository<Users> userRepository
             )
         {
             _logger = logger;
+            _context = context;
             _notificationsRepository = notificationsRepository;
             _notificationsHub = notificationshHub;
             _friendshipRepository = friendshipRepository;
+            _userRepository = userRepository;
         }
 
         [HttpPost("/api/Notifications/Info")]
@@ -39,7 +46,8 @@ namespace eKids.Controllers
         {
             try
             {
-                var username = User?.Identity?.Name;
+                //var username = User?.Identity?.Name;
+                var username = await _userRepository.Get(notificationDto.ReceiverId, token);
                 var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = int.Parse(userId);
 
@@ -56,18 +64,17 @@ namespace eKids.Controllers
                 _notificationsRepository.Add(notification);
                 await _notificationsRepository.SaveAsync(token);
 
-                if (!string.IsNullOrEmpty(username))
+                if (!string.IsNullOrEmpty(username.Username))
                 {
-                    _logger.LogError($"esht i konektum {username}");
-                    var userConnected = _connectionMapping.GetConnectionId(username);
+                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
                     if(userConnected != null)
                     {
-                        notification.IsRead = true;
-                        _notificationsRepository.Update(notification);
-                        await _notificationsRepository.SaveAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("UnreadNotifications", unreads);
+                        //notification.IsRead = true;
+                        //_notificationsRepository.Update(notification);
+                        //await _notificationsRepository.SaveAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
+                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
 
@@ -85,7 +92,8 @@ namespace eKids.Controllers
         {
             try
             {
-                var username = User?.Identity?.Name;
+                //var username = User?.Identity?.Name;
+                var username = await _userRepository.Get(notificationDto.ReceiverId, token);
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = int.Parse(userId);
 
@@ -102,18 +110,18 @@ namespace eKids.Controllers
                 _notificationsRepository.Add(notification);
                 await _notificationsRepository.SaveAsync(token);
 
-                if (!string.IsNullOrEmpty(username))
+                if (!string.IsNullOrEmpty(username.Username))
                 {
-                    var userConnected = _connectionMapping.GetConnectionId(username);
+                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
                     {
-                        notification.IsRead = true;
-                        _notificationsRepository.Update(notification);
-                        await _notificationsRepository.SaveAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("ReceiveNotification", notification);
+                        //notification.IsRead = true;
+                        //_notificationsRepository.Update(notification);
+                        //await _notificationsRepository.SaveAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
 
-                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("UnreadNotifications", unreads);
+                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
 
@@ -131,7 +139,7 @@ namespace eKids.Controllers
         {
             try
             {
-                var username = User?.Identity?.Name;
+                var username = await _userRepository.Get(notificationDto.ReceiverId, token);
                 var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = int.Parse(userId);
 
@@ -159,19 +167,21 @@ namespace eKids.Controllers
                     LastModified = DateTime.UtcNow
                 };
                 _friendshipRepository.Add(friendship);
+                //_context.Attach(friendship);
+                _context.Entry(friendship).State = EntityState.Added;
                 await _friendshipRepository.SaveAsync(token);
 
-                if (!string.IsNullOrEmpty(username))
+                if (!string.IsNullOrEmpty(username.Username))
                 {
-                    var userConnected = _connectionMapping.GetConnectionId(username);
+                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
                     {
-                        notification.IsRead = true;
-                        _notificationsRepository.Update(notification);
-                        await _notificationsRepository.SaveAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("UnreadNotifications", unreads);
+                        //notification.IsRead = true;
+                        //_notificationsRepository.Update(notification);
+                        //await _notificationsRepository.SaveAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
+                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
 
@@ -189,7 +199,7 @@ namespace eKids.Controllers
         {
             try
             {
-                var username = User?.Identity?.Name;
+                var username = await _userRepository.Get(notificationDto.ReceiverId, token);
                 var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = int.Parse(userId);
                 var notification = new Notifications
@@ -205,17 +215,17 @@ namespace eKids.Controllers
                 _notificationsRepository.Add(notification);
                 await _notificationsRepository.SaveAsync(token);
 
-                if (!string.IsNullOrEmpty(username))
+                if (!string.IsNullOrEmpty(username.Username))
                 {
-                    var userConnected = _connectionMapping.GetConnectionId(username);
+                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
                     {
-                        notification.IsRead = true;
-                        _notificationsRepository.Update(notification);
-                        await _notificationsRepository.SaveAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(token);
-                        await _notificationsHub.Clients.Client(username).SendAsync("UnreadNotifications", unreads);
+                        //notification.IsRead = true;
+                        //_notificationsRepository.Update(notification);
+                        //await _notificationsRepository.SaveAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
+                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
 
@@ -252,7 +262,7 @@ namespace eKids.Controllers
                         if(userConnected != null)
                         {
                             var countNotifications = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(token);
-                            await _notificationsHub.Clients.Client(username).SendAsync("UnreadNotifications", countNotifications);
+                            await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", countNotifications);
                         }
                     }
                 }
@@ -275,7 +285,7 @@ namespace eKids.Controllers
                 var notifications = await _notificationsRepository
                     .GetAll()
                     .AsNoTracking()
-                    .Where(c => c.UserId == userId || c.ReceiverId == userId)
+                    .Where(c => c.ReceiverId == userId)
                     .Include(c => c.User)
                     .Include(c => c.NotificationReceiver)
                     .Select(c => new
@@ -338,7 +348,7 @@ namespace eKids.Controllers
         {
             try
             {
-                var notification = await _notificationsRepository.GetAll().FirstOrDefaultAsync(c => c.ID == id && c.UserId == userId, token);
+                var notification = await _notificationsRepository.GetAll().FirstOrDefaultAsync(c => c.ID == id && c.ReceiverId == userId, token);
                 if(notification == null)
                 {
                     return NotFound(new { Message = "No notification found" });

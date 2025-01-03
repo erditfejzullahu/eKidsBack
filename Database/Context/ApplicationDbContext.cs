@@ -25,6 +25,7 @@ namespace Database.Context
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Friendships> Friendships { get; set; }
+        public DbSet<Friends> Friends { get; set; }
         public DbSet<CloseFriends> CloseFriends { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -37,11 +38,14 @@ namespace Database.Context
             var entries = ChangeTracker.Entries<Friendships>()
                 .Where(c => c.State == EntityState.Modified);
 
+            var pending = ChangeTracker.Entries<Friendships>()
+                .Where(c => c.State == EntityState.Added);
+
             foreach (var item in entries)
             {
-                var oldValue = item.OriginalValues["Status"]?.ToString();
+                var oldValue = item.OriginalValues["Status"]?.ToString(); 
                 var newValue = item.OriginalValues["Status"]?.ToString();
-
+                
                 if(int.TryParse(newValue, out int status) && status == 2)
                 {
                     if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
@@ -121,6 +125,10 @@ namespace Database.Context
                 .WithMany(c => c.CloseFriends)
                 .HasForeignKey(c => c.CloseFriendId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Friendships>()
+                .HasIndex(f => new { f.SenderId, f.ReceiverId })
+                .IsUnique();
 
             modelBuilder.Entity<Friendships>()
                 .HasOne(c => c.Notification)
