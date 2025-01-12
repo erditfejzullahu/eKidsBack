@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Database.Models
         public int TagId { get; set; }
         public int UserId { get; set; }
         public string Content { get; set; }
+        public BlogStatus Status { get; set; }
 
         [ForeignKey("CategoryId")]
         public Categories Category { get; set; }

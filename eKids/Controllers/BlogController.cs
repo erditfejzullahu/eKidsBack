@@ -38,15 +38,36 @@ namespace eKids.Controllers
             }
         }
 
+        [HttpGet("/api/Blogs/GetAllTagsWithChild/")]
+        public async Task<IActionResult> GetAllTags([FromQuery] PaginationDto paginationDto, CancellationToken token)
+        {
+            try
+            {
+                var tags = await _tagsRepository.GetAll().AsNoTracking().Skip(paginationDto.Skip).Take(paginationDto.Take).ToListAsync(token);
+
+                if(tags.Count == 0)
+                {
+                    return NotFound(new { Message = "No tags found" });
+                }
+
+                return Ok(tags);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in retriving tag data");
+                return BadRequest(new { Message = "Error in retriving data" });
+            }
+        }
+
         [HttpGet("/api/Blogs/GetAllTags/{categoryId}")]
-        public async Task<IActionResult> GetAllTags(int categoryId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllParentTags(int categoryId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
                 var tags = await _tagsRepository
                     .GetAll()
                     .AsNoTracking()
-                    .Where(c => c.Category_Id == categoryId)
+                    .Where(c => c.Category_Id == categoryId && c.Parent_Id == null)
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
                     .ToListAsync(token);

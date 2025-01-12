@@ -64,6 +64,7 @@ namespace Database.Repository
                     Title = blogDto.Title,
                     Content = blogDto.Content,
                     CategoryId = blogDto.CategoryId,
+                    Status = blogDto.Status,
                     UserId = blogDto.UserId,
                     TagId = tagId.Value,
                     CreatedAt = DateTime.UtcNow,

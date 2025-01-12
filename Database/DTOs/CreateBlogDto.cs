@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace Database.DTOs
         public int CategoryId { get; set; }
         public int UserId { get; set; }
         public int? TagId { get; set; }
+        public BlogStatus Status { get; set; }
         public string Content { get; set; }
 
     }
