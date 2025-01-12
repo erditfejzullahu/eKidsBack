@@ -28,10 +28,12 @@ namespace eKids.Controllers
         private readonly ITokenService _tokenService;
         private readonly IRepository<Categories> _categoryRepository;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IRepository<Courses> _courseRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<UpdateUser> _userValidator;
 
         public UsersController(IRepository<Users> userRepository,
+                               IRepository<Courses> courseRepository,
                                IRepository<Usermeta> usermetaRepository,
                                IWebHostEnvironment environment,
                                ILogger<UsersController> logger,
@@ -47,6 +49,7 @@ namespace eKids.Controllers
             _userRepository = userRepository;
             _usermetaRepository = usermetaRepository;
             _environment = environment;
+            _courseRepository = courseRepository;
             _logger = logger;
             _tokenService = tokenService;
             _categoryRepository = categoryRepository;
@@ -431,9 +434,27 @@ namespace eKids.Controllers
                             uq.QuizDescription,
                             uq.QuizCategory,
                             uq.CreatedAt,
-                            QuizIsCompleted = uq.QuizzesCompleted.Where(qc => qc.Completed == true).Count()
+                            uq.ViewCount,
+                            QuizIsCompleted = uq.QuizzesCompleted.Where(qc => qc.QuizId == uq.ID && qc.Completed == true).Count(),
+                            Mistakes = uq.QuizzesCompleted.Select(mis => mis.Mistakes).FirstOrDefault()
                         }).ToList(),
-                        c.CourseCompleted,
+                        CourseCompleted = c.CourseCompleted.Select(cc => new
+                        {
+                            cc.ID,
+                            cc.CourseId,
+                            cc.Testimonial,
+                            cc.UserId,
+                            cc.CreatedAt,
+                            cc.LastModified,
+                            Course = new
+                            {
+                                cc.Course.ID,
+                                cc.Course.CourseName,
+                                cc.Course.CourseDescription,
+                                cc.Course.CourseFeaturedImage,
+                                cc.Course.CourseCategory,
+                            }
+                        }),
                         QuizzesCompleted = c.QuizzesCompleted.Select(q => new
                         {
 
@@ -444,6 +465,17 @@ namespace eKids.Controllers
                             q.CreatedAt,
                             q.QuizId,
                             q.Mistakes,
+                        }).ToList(),
+                        CourseCreated = c.CoursesCreated.Select(ck => new
+                        {
+                            ck.ID,
+                            ck.CourseName,
+                            ck.CourseCategory,
+                            ck.CourseFeaturedImage,
+                            ck.CourseDescription,
+                            ck.CourseEnrolled,
+                            ck.ViewCount,
+                            ck.CreatedAt,
                         }).ToList()
                     })
                     .FirstOrDefaultAsync(token);

@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Database.Models
+{
+    public class Blogs : BaseModel
+    {
+        [Column("Id")]
+        public override int ID { get; set; }
+        public string Title { get; set; }
+        public int CategoryId { get; set; }
+        public int TagId { get; set; }
+        public int UserId { get; set; }
+        public string Content { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public Categories Category { get; set; }
+
+        [ForeignKey("TagId")]
+        public Tags Tag { get; set; }
+
+        [ForeignKey("UserId")]
+        public Users User { get; set; }
+    }
+}

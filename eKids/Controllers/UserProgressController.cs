@@ -142,7 +142,7 @@ namespace eKids.Controllers
                     return BadRequest(new { Message = "Course not enrolled bc lesson id missing!" });
                 }
                 
-                var userProgressList = allLessonsByCourseId.Select((lesson, index )=> new UserProgress
+                var userProgressList = allLessonsByCourseId.Select((lesson, index ) => new UserProgress
                 {
                     UserId = progressDto.UserId,
                     LessonId = lesson.ID,

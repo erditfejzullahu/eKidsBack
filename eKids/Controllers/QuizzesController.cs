@@ -70,7 +70,6 @@ namespace eKids.Controllers
 
                     if (parts[3] == "question")
                     {
-
                         var question = new QuizQuestions
                         {
                             QuizId = quiz.ID,

@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\images\\profiles\\067b4761-82b7-44b5-bd8c-410651fb9c64.jpg"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\0baf6b1e-1b89-4d72-9048-29b32930b259.png",
+      "PackagePath": "staticwebassets\\images\\profiles\\0baf6b1e-1b89-4d72-9048-29b32930b259.png"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\0cf4197e-ff80-4c33-85b6-31b8e2fb57b0.jpg",
       "PackagePath": "staticwebassets\\images\\profiles\\0cf4197e-ff80-4c33-85b6-31b8e2fb57b0.jpg"
     },
@@ -19,6 +23,10 @@
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\2884828d-83a4-423d-9eb1-99315b666380.png",
       "PackagePath": "staticwebassets\\images\\profiles\\2884828d-83a4-423d-9eb1-99315b666380.png"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\2e88c033-1ea9-4dfb-98b9-6c8d0f00e1e3.png",
+      "PackagePath": "staticwebassets\\images\\profiles\\2e88c033-1ea9-4dfb-98b9-6c8d0f00e1e3.png"
     },
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\images\\profiles\\3d529d42-f455-44a7-b499-00d770cf43ed.webp",
@@ -233,8 +241,16 @@
       "PackagePath": "staticwebassets\\other\\0b51a558-33e1-4bc4-9d25-d707e407e5a5.jpg"
     },
     {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\0f77ea91-ac8a-47cd-9c2d-ad2b0bb78dec.jpg",
+      "PackagePath": "staticwebassets\\other\\0f77ea91-ac8a-47cd-9c2d-ad2b0bb78dec.jpg"
+    },
+    {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\1608fb71-3220-4f87-b059-4d3b26fe6a70.jpg",
       "PackagePath": "staticwebassets\\other\\1608fb71-3220-4f87-b059-4d3b26fe6a70.jpg"
+    },
+    {
+      "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\1dba3e91-939c-4feb-81d6-31f69e96717d.jpg",
+      "PackagePath": "staticwebassets\\other\\1dba3e91-939c-4feb-81d6-31f69e96717d.jpg"
     },
     {
       "Id": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\237e11b0-d211-40f0-9e27-42c0420cb253.jpg",

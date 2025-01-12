@@ -166,10 +166,12 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                _friendshipRepository.Add(friendship);
+                _context.Friendships.Add(friendship);
                 //_context.Attach(friendship);
+                var state = _context.Entry(friendship).State;
                 _context.Entry(friendship).State = EntityState.Added;
-                await _friendshipRepository.SaveAsync(token);
+                await _context.SaveChangesAsync(token);
+                //await _friendshipRepository.SaveAsync(token);
 
                 if (!string.IsNullOrEmpty(username.Username))
                 {

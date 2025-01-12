@@ -84,5 +84,10 @@ namespace Database.Models
         public virtual ICollection<Friends> UsersWithFriends { get; set; } = new List<Friends>();
         public virtual ICollection<Friends> Friends { get; set; } = new List<Friends>();
 
+        public virtual ICollection<Courses> CoursesCreated { get; set; } = new List<Courses>();
+        
+        public virtual ICollection<UserInformations> UserInformations { get; set; } = new List<UserInformations>();
+        public virtual ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
+
     }
 }

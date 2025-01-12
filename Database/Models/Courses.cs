@@ -31,6 +31,10 @@ namespace Database.Models
         public int? CourseEnrolled { get; set; }
 
         public int? ViewCount { get; set; }
+        public int? UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public Users User { get; set; }
 
         [ForeignKey("CourseCategory")]
         public virtual Categories Category { get; set; }

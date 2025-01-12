@@ -21,5 +21,6 @@ namespace Database.Models
         public int? ViewCount { get; set; }
         public virtual ICollection<Courses> Courses { get; set; } = new List<Courses>();
         public virtual ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
+        public virtual ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
     }
 }

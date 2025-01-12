@@ -18,6 +18,7 @@ using Database.DTOs;
 using eKids.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace eKids
 {
@@ -28,9 +29,14 @@ namespace eKids
             //var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
 
+            var certificate = new X509Certificate2("C:/Program Files/Git/usr/bin/client-cert01.pfx", "erditbaba1234");
             builder.Services.Configure<KestrelServerOptions>(options =>
             {
-                options.Listen(IPAddress.Any, 5194);
+
+                options.Listen(IPAddress.Any, 7051, listenOptions =>
+                {
+                    listenOptions.UseHttps(certificate);
+                });
                 options.Limits.MaxRequestBodySize = 500 * 1024 * 1024; // 10 MB
             });
 
@@ -96,6 +102,7 @@ namespace eKids
             builder.Services.AddScoped<ILessonNavigationService, LessonNavigationService>();
             builder.Services.AddScoped<ICourseCompletationService, CourseCompletationService>();
             builder.Services.AddScoped<IVideoFileService, VideoFileService>();
+            builder.Services.AddScoped<ICreateBlogService, CreateBlogService>();
             builder.Services.AddScoped(typeof(ISorterService<>), typeof(SorterService<>));
             builder.Services.AddSignalR(options =>
             {
@@ -144,10 +151,10 @@ namespace eKids
 
 
             // Add custom services for authorization
-           /* builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-            });*/
+            /* builder.Services.AddAuthorization(options =>
+             {
+                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+             });*/
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAllOrigins");

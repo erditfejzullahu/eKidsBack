@@ -27,24 +27,31 @@ namespace Database.Context
         public DbSet<Friendships> Friendships { get; set; }
         public DbSet<Friends> Friends { get; set; }
         public DbSet<CloseFriends> CloseFriends { get; set; }
+        public DbSet<UserInformations> UserInformations { get; set; }
+        public DbSet<UserJobs> UserJobs { get; set; }
+        public DbSet<UserEducations> UserEducations { get; set; }
+        public DbSet<Tags> Tags { get; set; }
+        public DbSet<Blogs> Blogs { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
 
+        //to fixxxxx
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken)
         {
             var entries = ChangeTracker.Entries<Friendships>()
                 .Where(c => c.State == EntityState.Modified);
-
+            var entries1 = ChangeTracker.Entries();
             var pending = ChangeTracker.Entries<Friendships>()
                 .Where(c => c.State == EntityState.Added);
 
             foreach (var item in entries)
             {
                 var oldValue = item.OriginalValues["Status"]?.ToString(); 
-                var newValue = item.OriginalValues["Status"]?.ToString();
+                var newValue = item.CurrentValues["Status"]?.ToString();
                 
                 if(int.TryParse(newValue, out int status) && status == 2)
                 {
@@ -64,7 +71,6 @@ namespace Database.Context
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
 
         }
-
         public async Task NotifyTheChangeInEntity(Friendships entity, string status, CancellationToken token)
         {
             if(string.Equals(status, "accepted", StringComparison.Ordinal))
@@ -97,10 +103,59 @@ namespace Database.Context
             }
             await Task.CompletedTask;
         }
+        //to fixx
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Users>()
+                .HasMany(c => c.Blogs)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Blogs>()
+                .HasOne(c => c.Category)
+                .WithMany(c => c.Blogs)
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Blogs>()
+                .HasOne(c => c.Tag)
+                .WithMany(c => c.Blogs)
+                .HasForeignKey(c => c.TagId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Tags>()
+                .HasMany(c => c.Blogs)
+                .WithOne(c => c.Tag)
+                .HasForeignKey(c => c.TagId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Tags>()
+                .HasOne(c => c.Parent)
+                .WithMany(c => c.Children)
+                .HasForeignKey(c => c.Parent_Id)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<UserJobs>()
+                .HasOne(c => c.UserInformation)
+                .WithMany(c => c.UserJobs)
+                .HasForeignKey(c => c.UserInformationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserEducations>()
+                .HasOne(c => c.UserInformation)
+                .WithMany(c => c.UserEducations)
+                .HasForeignKey(c => c.UserInformationId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<UserInformations>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UserInformations)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Friends>()
                 .HasOne(c => c.User)
@@ -288,6 +343,12 @@ namespace Database.Context
                 .HasOne(c => c.Category)
                 .WithMany(c => c.Courses)
                 .HasForeignKey(c => c.CourseCategory);
+
+            modelBuilder.Entity<Courses>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.CoursesCreated)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<UserProgress>();
 
