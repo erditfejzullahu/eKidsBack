@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -26,37 +27,155 @@ namespace Database.Repository
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             var blogDto = request.blogDto;
             var tagDto = request.tagDto;
+            if(tagDto == null || blogDto == null)
+            {
+                throw new ApplicationException("Dtos null");
+            }
             try
             {
-                int? tagId = blogDto.TagId;
+                int? tagId = blogDto?.TagId;
                 if (!tagId.HasValue)
                 {
-                    var tag = new Tags
+                    var tagsAsQueryable = _context.Tags.AsQueryable();
+                    //var existingTags = await _context.Tags.Where(c => (c.Name.ToLower() == tagDto.Name.ToLower() || tagDto.Children.Any(child => child.Name.ToLower() == c.Name.ToLower())) && c.Category_Id.Value == tagDto.Category_Id.Value).ToListAsync(token);
+                    var childNames = tagDto.Children.Select(child => child.Name.ToLower());
+                    if(tagDto.Children.Count > 0)
                     {
-                        Name = tagDto.Name,
-                        Category_Id = tagDto.Category_Id,
-                        CreatedAt = DateTime.UtcNow,
-                        LastModified = DateTime.UtcNow
-                    };
-
-                    await _context.Tags.AddAsync(tag, token);
-                    await _context.SaveChangesAsync(token);
-
-                    tagId = tag.ID;
-
-                    if (tagDto.Children != null && tagDto.Children.Count == 0)
-                    {
-                        var children = tagDto.Children.Select(child => new Tags
-                        {
-                            Name = child.Name,
-                            Parent_Id = tag.ID,
-                            Category_Id = tagDto.Category_Id,
-                            CreatedAt = DateTime.UtcNow,
-                            LastModified = DateTime.UtcNow
-                        }).ToList();
-                        await _context.AddRangeAsync(children, token);
-                        //await _context.SaveChangesAsync(token);
+                        tagsAsQueryable = tagsAsQueryable.Where(c => (c.Name.ToLower() == tagDto.Name.ToLower() || childNames.Contains(c.Name.ToLower())) && c.Category_Id == tagDto.Category_Id);
                     }
+                    else
+                    {
+                        tagsAsQueryable = tagsAsQueryable.Where(c => c.Name.ToLower() == tagDto.Name.ToLower() && c.Category_Id.Value == tagDto.Category_Id.Value);
+                    }
+                    var existingTags = await tagsAsQueryable.ToListAsync(token);
+                    var existingParent = existingTags.FirstOrDefault(c => c.Parent_Id == null);
+                    var existingChilds = existingTags.Where(c => c.Parent_Id != null);
+                    //_logger.LogError($"ExistingChilds: {existingParent.Name}");
+                    if (tagDto.Children.Count > 0)
+                    {
+                        if(existingTags.Count == 0)
+                        {
+                            var createTag = new Tags
+                            {
+                                Name = tagDto.Name,
+                                Category_Id = tagDto.Category_Id,
+                                Parent_Id = null,
+                                CreatedAt = DateTime.UtcNow,
+                                LastModified = DateTime.UtcNow
+                            };
+                            await _context.AddAsync(createTag, token);
+                            await _context.SaveChangesAsync(token);
+
+                            tagId = createTag.ID;
+
+                            foreach (var child in tagDto.Children)
+                            {
+                                if (!existingChilds.Any(c => c.Name.ToLower() == child.Name.ToLower()))
+                                {
+                                    var childs = new Tags
+                                    {
+                                        Name = child.Name,
+                                        Category_Id = child.Category_Id,
+                                        Parent_Id = tagId,
+                                        CreatedAt = DateTime.UtcNow,
+                                        LastModified = DateTime.UtcNow
+                                    };
+                                    await _context.Tags.AddAsync(childs, token);
+                                }
+                            }
+                                    await _context.SaveChangesAsync(token);
+                        }
+                        else
+                        {
+                            if(existingParent == null)
+                            {
+                                if(existingChilds.Select(c => c.Name.ToLower()).Contains(tagDto.Name))
+                                {
+                                    tagId = existingChilds?.FirstOrDefault(c => c.Name.ToLower() == tagDto.Name.ToLower())?.Parent_Id;
+                                }
+                                else
+                                {
+                                    var parent = new Tags
+                                    {
+                                        Name = tagDto.Name,
+                                        Category_Id = tagDto.Category_Id.Value,
+                                        CreatedAt = DateTime.UtcNow,
+                                        LastModified = DateTime.UtcNow
+                                    };
+                                    await _context.Tags.AddAsync(parent, token);
+                                    await _context.SaveChangesAsync(token);
+                                    tagId = parent.ID;
+                                }
+                            }
+                            else
+                            {
+                                tagId = existingParent.ID;
+                            }
+
+                            foreach (var child in tagDto.Children)
+                            {
+                                if(!existingChilds.Any(c => c.Name.ToLower() == child.Name.ToLower()))
+                                {
+                                    var childs = new Tags
+                                    {
+                                        Name = child.Name,
+                                        Category_Id = child.Category_Id,
+                                        Parent_Id = tagId,
+                                        CreatedAt = DateTime.UtcNow,
+                                        LastModified = DateTime.UtcNow
+                                    };
+                                    await _context.Tags.AddAsync(childs, token);
+                                    await _context.SaveChangesAsync(token);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (existingTags.Count == 0)
+                        {
+                            var createTag = new Tags
+                            {
+                                Name = tagDto.Name,
+                                Category_Id = tagDto.Category_Id,
+                                Parent_Id = null,
+                                CreatedAt = DateTime.UtcNow,
+                                LastModified = DateTime.UtcNow
+                            };
+                            await _context.Tags.AddAsync(createTag, token);
+                            await _context.SaveChangesAsync(token);
+
+                            tagId = createTag.ID;
+                        }
+                        else
+                        {
+                            if(existingParent == null)
+                            {
+                                if (existingChilds.Select(c => c.Name.ToLower()).Contains(tagDto.Name.ToLower()))
+                                {
+                                    tagId = existingChilds?.FirstOrDefault(c => c.Name.ToLower() == tagDto.Name.ToLower())?.Parent_Id;
+                                }
+                                else
+                                {
+                                    var parent = new Tags
+                                    {
+                                        Name = tagDto.Name,
+                                        Category_Id = tagDto.Category_Id,
+                                        Parent_Id = null,
+                                        CreatedAt = DateTime.UtcNow,
+                                        LastModified = DateTime.UtcNow
+                                    };
+                                    await _context.Tags.AddAsync(parent, token);
+                                    await _context.SaveChangesAsync(token);
+                                }
+                            }
+                            else
+                            {
+                                tagId = existingParent.ID;
+                            }
+                        }
+                    }
+
                 }
 
                 var blog = new Blogs

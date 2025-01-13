@@ -34,9 +34,34 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "paginationDto",
-        "Type": "Database.DTOs.PaginationDto",
-        "IsRequired": true
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DefaultPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Take",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -89,7 +114,7 @@
   },
   {
     "ContainingType": "eKids.Controllers.BlogController",
-    "Method": "GetAllTags",
+    "Method": "GetAllParentTags",
     "RelativePath": "api/Blogs/GetAllTags/{categoryId}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -127,6 +152,22 @@
       },
       {
         "Name": "Take",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.BlogController",
+    "Method": "GetAllTags",
+    "RelativePath": "api/Blogs/GetAllTagsWithChild",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
         "Type": "System.Int32",
         "IsRequired": false
       }

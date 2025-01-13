@@ -16,9 +16,14 @@ namespace eKids.Controllers
         private readonly IRepository<Blogs> _blogRepository;
         private readonly IRepository<Tags> _tagsRepository;
 
-        public BlogController(ILogger<BlogController> logger, IRepository<Tags> tagsRepository, ICreateBlogService createBlogService)
+        public BlogController(
+            ILogger<BlogController> logger,
+            IRepository<Tags> tagsRepository,
+            ICreateBlogService createBlogService,
+            IRepository<Blogs> blogRepository)
         {
             _logger = logger;
+            _blogRepository = blogRepository;
             _createBlogService = createBlogService;
             _tagsRepository = tagsRepository;
         }
@@ -39,11 +44,30 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Blogs/GetAllTagsWithChild/")]
-        public async Task<IActionResult> GetAllTags([FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllTags([FromQuery] int categoryId, CancellationToken token)
         {
             try
             {
-                var tags = await _tagsRepository.GetAll().AsNoTracking().Skip(paginationDto.Skip).Take(paginationDto.Take).ToListAsync(token);
+                var tags = await _tagsRepository
+                    .GetAll()
+                    .Where(c => c.Parent_Id == null && c.Category_Id == categoryId)
+                    .Include(c => c.Children)
+                    .AsNoTracking()
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Name,
+                        c.Parent_Id,
+                        Children = c.Children.Select(t => new
+                        {
+                            t.ID,
+                            t.Name,
+                            t.Parent_Id
+                        }).ToList()
+                    })
+                    //.Skip(paginationDto.Skip)
+                    //.Take(paginationDto.Take)
+                    .ToListAsync(token);
 
                 if(tags.Count == 0)
                 {
@@ -68,6 +92,16 @@ namespace eKids.Controllers
                     .GetAll()
                     .AsNoTracking()
                     .Where(c => c.Category_Id == categoryId && c.Parent_Id == null)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Name,
+                        Children = c.Children.Select(t => new
+                        {
+                            t.ID,
+                            t.Name
+                        })
+                    })
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
                     .ToListAsync(token);
@@ -114,7 +148,7 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Blogs/GetAllBlogs")]
-        public async Task<IActionResult> GetAllBlogs(PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllBlogs([FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
