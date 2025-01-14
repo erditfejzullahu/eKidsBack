@@ -219,6 +219,7 @@ namespace Database.Repository
                     .Take(paginationDto.Take)
                     .Select(c => new BlogRetrieveDto
                     {
+                        ID = c.ID,
                         Title = c.Title,
                         CategoryId = c.CategoryId,
                         UserId = c.UserId,
@@ -239,6 +240,7 @@ namespace Database.Repository
                         },
                         TagId = c.TagId,
                         Content = c.Content,
+                        Likes = c.Likes,
                         Status = c.Status,
                         IsLiked = c.BlogLikes.Any(bl => bl.UserId == userId),
                         ImageUrls = c.ImageUrls,
@@ -260,7 +262,8 @@ namespace Database.Repository
             {
 
                 var blogLikeStatus = await _context.BlogLikes.FirstOrDefaultAsync(c => c.UserId == userId && c.BlogId == blogId);
-                if (blogLikeStatus == null)
+                var addBlogLike = await _context.Blogs.FirstOrDefaultAsync(c => c.ID == blogId);
+                if (blogLikeStatus == null && addBlogLike != null)
                 {
                     var blogLike = new BlogLikes
                     {
@@ -270,14 +273,25 @@ namespace Database.Repository
                         LastModified = DateTime.UtcNow
                     };
                     await _context.BlogLikes.AddAsync(blogLike, token);
+                    addBlogLike.Likes += 1;
+                    _context.Blogs.Update(addBlogLike);
                     await _context.SaveChangesAsync(token);
                     return 1; // 1 for adding like 0 for removing like
                 }
-                else
+                else if(blogLikeStatus != null && addBlogLike != null)
                 {
                     _context.Remove(blogLikeStatus);
+                    if(addBlogLike.Likes > 0)
+                    {
+                        addBlogLike.Likes -= 1;
+                    }
+                    _context.Blogs.Update(addBlogLike);
                     await _context.SaveChangesAsync(token);
                     return 0;
+                }
+                else
+                {
+                    throw new ApplicationException("other type error");
                 }
             }
             catch (Exception ex)

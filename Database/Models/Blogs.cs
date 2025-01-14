@@ -16,6 +16,7 @@ namespace Database.Models
         public int CategoryId { get; set; }
         public int TagId { get; set; }
         public int UserId { get; set; }
+        public int Likes { get; set; }
         public string Content { get; set; }
         public BlogStatus Status { get; set; }
         public string? ImageUrls { get; set; }

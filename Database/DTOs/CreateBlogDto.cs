@@ -34,10 +34,12 @@ namespace Database.DTOs
 
     public class BlogRetrieveDto
     {
+        public int ID { get; set; }
         public string Title { get; set; }
         public int CategoryId { get; set; }
         public int UserId { get; set; }
         public bool IsLiked { get; set; }
+        public int Likes { get; set; }
         public BlogRetrieveUserDto User { get; set; }
         public BlogRetrieveTagDto Tags { get; set; }
         public int TagId { get; set; }

@@ -32,12 +32,13 @@ namespace Database.Repository
             _logger = logger;
         }
 
-        public async Task<int> HandleStatusBlogComment(int blogCommentId, int userId, CancellationToken token)
+        public async Task<int> HandleStatusBlogComment(int blogCommentId, int userId, int blogId, CancellationToken token)
         {
             try
             {
                 var blogCommentLike = await _context.BlogCommentLikes.FirstOrDefaultAsync(c => c.UserId == userId && c.CommentId == blogCommentId);
-                if(blogCommentLike == null)
+                var getBlogComment = await _context.BlogComments.FirstOrDefaultAsync(c => c.BlogId == blogId && c.UserId == userId, token);
+                if(blogCommentLike == null && getBlogComment != null)
                 {
                     var commentLike = new BlogCommentLikes
                     {
@@ -47,12 +48,19 @@ namespace Database.Repository
                         LastModified = DateTime.UtcNow
                     };
                     await _context.BlogCommentLikes.AddAsync(commentLike, token);
+                    getBlogComment.Likes += 1;
+                    _context.BlogComments.Update(getBlogComment);
                     await _context.SaveChangesAsync(token);
                     return 1; // 1 for adding comment like 0 for removing comment
                 }
-                else
+                else if(blogCommentLike != null && getBlogComment != null)
                 {
                     _context.Remove(blogCommentLike);
+                    if(getBlogComment.Likes > 0)
+                    {
+                        getBlogComment.Likes -= 1;
+                        _context.BlogComments.Update(getBlogComment);
+                    }
                     await _context.SaveChangesAsync(token);
                     return 0;
                 }
