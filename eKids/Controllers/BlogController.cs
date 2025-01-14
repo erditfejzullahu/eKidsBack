@@ -45,12 +45,60 @@ namespace eKids.Controllers
                 return BadRequest(new { Message = "Error in creating blog comment" });
             }
         }
-        [HttpGet("/api/Blogs/GetCommentsByBlog/{blogId}")]
-        public async Task<IActionResult> GetBlogComments(int blogId, CancellationToken token)
+
+        [HttpPost("/api/Blogs/LikeComment")]
+        public async Task<IActionResult> LikeBlogComment([FromQuery] int blogCommentId, [FromQuery] int userId, CancellationToken token)
         {
             try
             {
-                var comments = await _blogCommentService.RetrieveBlogComments(blogId, token);
+                int likeStatus = await _blogCommentService.HandleStatusBlogComment(blogCommentId, userId, token);
+                if(likeStatus == 0)
+                {
+                    return Ok(new { Message = "LikeRemove" });
+                }
+                else if(likeStatus == 1)
+                {
+                    return Ok(new { Message = "LikeAdd" });
+                }
+
+                return BadRequest(new { Message = "Unexpected like status" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in changing status of like in comment with blogId: {blogCommentId} and user: {userId}");
+                return BadRequest(new { Message = "Error in changing status of blog comment like" });
+            }
+        }
+
+        [HttpPost("/api/Blogs/LikeBlog")]
+        public async Task<IActionResult> LikeBlog([FromQuery] int blogId, [FromQuery] int userId, CancellationToken token)
+        {
+            try
+            {
+                int likeStatus = await _createBlogService.HandleStatusBlogLike(blogId, userId, token);
+                if (likeStatus == 0)
+                {
+                    return Ok(new { Message = "LikeRemove" });
+                }
+                else if(likeStatus == 1)
+                {
+                    return Ok(new { Message = "LikeAdd" });
+                }
+                return BadRequest(new { Message = "Unexpected like status" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating like status for blogID: {blogId} and userID: {userId}");
+                return BadRequest(new { Message = "Error in updating like status" });
+            }
+        }
+
+        [HttpGet("/api/Blogs/GetCommentsByBlog/{blogId}/{userId}")]
+        public async Task<IActionResult> GetBlogComments(int blogId, int userId, CancellationToken token)
+        {
+            try
+            {
+                var comments = await _blogCommentService.RetrieveBlogComments(blogId, userId, token);
                 if(comments.Count == 0)
                 {
                     return NotFound(new { Message = "No comments are made" });
@@ -183,19 +231,13 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("/api/Blogs/GetAllBlogs")]
-        public async Task<IActionResult> GetAllBlogs([FromQuery] PaginationDto paginationDto, CancellationToken token)
+        [HttpGet("/api/Blogs/GetAllBlogs/{userId}")]
+        public async Task<IActionResult> GetAllBlogs(int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
                 paginationDto.Validate();
-                var blogs = await _blogRepository
-                    .GetAll()
-                    .AsNoTracking()
-                    .Include(c => c.Tag)
-                    .Skip(paginationDto.Skip)
-                    .Take(paginationDto.Take)
-                    .ToListAsync(token);
+                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token);
 
                 if(blogs.Count == 0)
                 {

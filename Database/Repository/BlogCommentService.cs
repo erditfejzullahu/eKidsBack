@@ -32,7 +32,39 @@ namespace Database.Repository
             _logger = logger;
         }
 
-        public async Task<List<BlogCommentDto>> RetrieveBlogComments(int blogId, CancellationToken token)
+        public async Task<int> HandleStatusBlogComment(int blogCommentId, int userId, CancellationToken token)
+        {
+            try
+            {
+                var blogCommentLike = await _context.BlogCommentLikes.FirstOrDefaultAsync(c => c.UserId == userId && c.CommentId == blogCommentId);
+                if(blogCommentLike == null)
+                {
+                    var commentLike = new BlogCommentLikes
+                    {
+                        CommentId = blogCommentId,
+                        UserId = userId,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    };
+                    await _context.BlogCommentLikes.AddAsync(commentLike, token);
+                    await _context.SaveChangesAsync(token);
+                    return 1; // 1 for adding comment like 0 for removing comment
+                }
+                else
+                {
+                    _context.Remove(blogCommentLike);
+                    await _context.SaveChangesAsync(token);
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating status of blog comments with blogID: {blogCommentId} and userID: {userId}");
+                throw new ApplicationException("Error in updating blog comment status");
+            }
+        }
+
+        public async Task<List<BlogCommentDto>> RetrieveBlogComments(int blogId, int userId, CancellationToken token)
         {
             try
             {
@@ -40,12 +72,14 @@ namespace Database.Repository
                     .Where(c => c.BlogId == blogId)
                     .Include(c => c.User)
                     .Include(c => c.Replies)
+                    .Include(c => c.BlogCommentLikes)
                     .Select(c => new BlogCommentDto
                     {
                         CommentId = c.ID,
                         Comment_Content = c.Comment_Content,
                         ParentId = c.ParentId,
                         Likes = c.Likes,
+                        IsLiked = c.BlogCommentLikes.Any(bl => bl.UserId == userId),
                         User = new BlogUserDto
                         {
                             Name = c.User.Firstname + " " + c.User.Lastname,
@@ -56,7 +90,7 @@ namespace Database.Repository
                         createdAt = c.CreatedAt,
                         Replies = new List<BlogCommentDto>()
                     })
-                    .OrderByDescending(c => c.createdAt)
+                    .OrderBy(c => c.createdAt)
                     .AsNoTracking()
                     .ToListAsync(token);
 
@@ -80,7 +114,7 @@ namespace Database.Repository
                             BlogId = c.BlogId,
                             Replies = BuildHierarky(c.CommentId)
                         })
-                        .OrderByDescending(c => c.createdAt)
+                        .OrderBy(c => c.createdAt)
                         .ToList();
                 }
                 return BuildHierarky(null);

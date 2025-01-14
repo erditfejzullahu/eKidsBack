@@ -18,6 +18,7 @@ namespace Database.Models
         public int UserId { get; set; }
         public string Content { get; set; }
         public BlogStatus Status { get; set; }
+        public string ImageUrls { get; set; }
 
         [ForeignKey("CategoryId")]
         public Categories Category { get; set; }

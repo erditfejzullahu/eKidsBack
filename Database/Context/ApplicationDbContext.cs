@@ -34,6 +34,7 @@ namespace Database.Context
         public DbSet<Blogs> Blogs { get; set; }
         public DbSet<BlogLikes> BlogLikes { get; set; }
         public DbSet<BlogComments> BlogComments { get; set; }
+        public DbSet<BlogCommentLikes> BlogCommentLikes { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -110,6 +111,18 @@ namespace Database.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BlogCommentLikes>()
+                .HasOne(c => c.BlogComment)
+                .WithMany(c => c.BlogCommentLikes)
+                .HasForeignKey(c => c.CommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BlogCommentLikes>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.BlogCommentLikes)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BlogComments>()
                 .HasOne(c => c.User)

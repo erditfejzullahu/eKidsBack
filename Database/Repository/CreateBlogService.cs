@@ -204,5 +204,86 @@ namespace Database.Repository
                 throw new ApplicationException("Failed to create blog.", ex);
             }
         }
+
+        public async Task<List<BlogRetrieveDto>> AllBlogRetrieve(int userId, PaginationDto paginationDto, CancellationToken token)
+        {
+            try
+            {
+                var blogs = await _context.Blogs
+                    .AsNoTracking()
+                    .Include(c => c.Tag)
+                    .ThenInclude(c => c.Children)
+                    .Include(c => c.User)
+                    .Include(c => c.BlogLikes)
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
+                    .Select(c => new BlogRetrieveDto
+                    {
+                        Title = c.Title,
+                        CategoryId = c.CategoryId,
+                        UserId = c.UserId,
+                        User = new BlogRetrieveUserDto
+                        {
+                            Name = c.User.Firstname + " " + c.User.Lastname,
+                            ProfilePicture = c.User.ProfilePictureUrl
+                        },
+                        Tags = new BlogRetrieveTagDto
+                        {
+                            Name = c.Tag.Name,
+                            TagId = c.Tag.ID,
+                            Children = c.Tag.Children.Select(t => new BlogRetrieveTagDto
+                            {
+                                Name = t.Name,
+                                TagId = t.ID
+                            }).ToList()
+                        },
+                        Content = c.Content,
+                        Status = c.Status,
+                        IsLiked = c.BlogLikes.Any(bl => bl.UserId == userId),
+                        ImageUrls = c.ImageUrls,
+                        CreatedAt = c.CreatedAt,
+                    })
+                    .ToListAsync(token);
+                return blogs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in retriving blogs including userID: {userId}");
+                throw new ApplicationException("Error retriving blogs");
+            }
+        }
+
+        public async Task<int> HandleStatusBlogLike(int blogId, int userId, CancellationToken token)
+        {
+            try
+            {
+
+                var blogLikeStatus = await _context.BlogLikes.FirstOrDefaultAsync(c => c.UserId == userId && c.BlogId == blogId);
+                if (blogLikeStatus == null)
+                {
+                    var blogLike = new BlogLikes
+                    {
+                        BlogId = blogId,
+                        UserId = userId,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    };
+                    await _context.BlogLikes.AddAsync(blogLike, token);
+                    await _context.SaveChangesAsync(token);
+                    return 1; // 1 for adding like 0 for removing like
+                }
+                else
+                {
+                    _context.Remove(blogLikeStatus);
+                    await _context.SaveChangesAsync(token);
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating status of like with blogID: {blogId} and userID: {userId}");
+                throw new ApplicationException("Error in updating status of like");
+            }
+        }
     }
 }

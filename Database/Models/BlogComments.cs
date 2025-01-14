@@ -19,13 +19,14 @@ namespace Database.Models
         public int UserId { get; set; }
 
         public BlogComments Parent { get; set; }
-        public ICollection<BlogComments> Replies { get; set; }
 
         [ForeignKey("BlogId")]
         public Blogs Blog { get; set; }
 
         [ForeignKey("UserId")]
         public Users User { get; set; }
+        public ICollection<BlogComments> Replies { get; set; }
+        public ICollection<BlogCommentLikes> BlogCommentLikes { get; set; }
 
     }
 }

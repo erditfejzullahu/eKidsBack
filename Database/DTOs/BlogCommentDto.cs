@@ -25,6 +25,7 @@ namespace Database.DTOs
         public int UserId { get; set; }
         public int? ParentId { get; set; }
         public int Likes { get; set; }
+        public bool IsLiked { get; set; }
         public BlogUserDto User { get; set; }
         public List<BlogCommentDto> Replies { get; set; } = new List<BlogCommentDto>();
         public DateTime createdAt { get; set; }

@@ -11,5 +11,7 @@ namespace Database.DTOs
     public interface ICreateBlogService
     {
         Task<Blogs> CreateBlog(CreateBlogDto request, CancellationToken token);
+        Task<List<BlogRetrieveDto>> AllBlogRetrieve(int userId, PaginationDto paginationDto, CancellationToken token);
+        Task<int> HandleStatusBlogLike(int blogId, int userId, CancellationToken token);
     }
 }

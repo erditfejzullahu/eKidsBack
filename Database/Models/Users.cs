@@ -90,6 +90,8 @@ namespace Database.Models
         public virtual ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
         public virtual ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
         public virtual ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();
+        public virtual ICollection<BlogCommentLikes> BlogCommentLikes { get; set; }
+
 
     }
 }

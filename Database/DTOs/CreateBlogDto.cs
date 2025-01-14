@@ -31,4 +31,31 @@ namespace Database.DTOs
         public int? Category_Id { get; set; }
         public List<CreateTag> Children { get; set; } = new List<CreateTag>();
     }
+
+    public class BlogRetrieveDto
+    {
+        public string Title { get; set; }
+        public int CategoryId { get; set; }
+        public int UserId { get; set; }
+        public bool IsLiked { get; set; }
+        public BlogRetrieveUserDto User { get; set; }
+        public BlogRetrieveTagDto Tags { get; set; }
+        public int TagId { get; set; }
+        public string Content { get; set; }
+        public BlogStatus Status { get; set; }
+        public string ImageUrls { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
+
+    public class BlogRetrieveTagDto
+    {
+        public string Name { get; set; }
+        public int TagId { get; set; }
+        public List<BlogRetrieveTagDto> Children = new List<BlogRetrieveTagDto>();
+    }
+    public class BlogRetrieveUserDto
+    {
+        public string Name { get; set; }
+        public string ProfilePicture { get; set; }
+    }
 }
