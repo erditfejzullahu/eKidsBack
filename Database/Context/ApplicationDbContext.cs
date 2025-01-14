@@ -32,6 +32,8 @@ namespace Database.Context
         public DbSet<UserEducations> UserEducations { get; set; }
         public DbSet<Tags> Tags { get; set; }
         public DbSet<Blogs> Blogs { get; set; }
+        public DbSet<BlogLikes> BlogLikes { get; set; }
+        public DbSet<BlogComments> BlogComments { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -108,6 +110,37 @@ namespace Database.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BlogComments>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.BlogComments)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<BlogComments>()
+                .HasOne(c => c.Blog)
+                .WithMany(c => c.BlogComments)
+                .HasForeignKey(c => c.BlogId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BlogComments>()
+                .HasOne(c => c.Parent)
+                .WithMany(c => c.Replies)
+                .HasForeignKey(c => c.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+
+            modelBuilder.Entity<BlogLikes>()
+                .HasOne(c => c.Blog)
+                .WithMany(c => c.BlogLikes)
+                .HasForeignKey(c => c.BlogId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BlogLikes>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.BlogLikes)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Users>()
                 .HasMany(c => c.Blogs)

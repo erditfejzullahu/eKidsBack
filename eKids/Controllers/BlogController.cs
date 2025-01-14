@@ -15,17 +15,53 @@ namespace eKids.Controllers
         private readonly ICreateBlogService _createBlogService;
         private readonly IRepository<Blogs> _blogRepository;
         private readonly IRepository<Tags> _tagsRepository;
+        private readonly IBlogCommentService _blogCommentService;
 
         public BlogController(
             ILogger<BlogController> logger,
             IRepository<Tags> tagsRepository,
             ICreateBlogService createBlogService,
-            IRepository<Blogs> blogRepository)
+            IRepository<Blogs> blogRepository,
+            IBlogCommentService blogCommentService)
         {
             _logger = logger;
             _blogRepository = blogRepository;
             _createBlogService = createBlogService;
             _tagsRepository = tagsRepository;
+            _blogCommentService = blogCommentService;
+        }
+
+        [HttpPost("/api/Blogs/CreateComment")]
+        public async Task<IActionResult> CreateBlogComment([FromBody] CreateBlogComment blogComment, CancellationToken token)
+        {
+            try
+            {
+                var comment = await _blogCommentService.CreateBlogComment(blogComment, token);
+                return Ok(comment);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in creating blog comment");
+                return BadRequest(new { Message = "Error in creating blog comment" });
+            }
+        }
+        [HttpGet("/api/Blogs/GetCommentsByBlog/{blogId}")]
+        public async Task<IActionResult> GetBlogComments(int blogId, CancellationToken token)
+        {
+            try
+            {
+                var comments = await _blogCommentService.RetrieveBlogComments(blogId, token);
+                if(comments.Count == 0)
+                {
+                    return NotFound(new { Message = "No comments are made" });
+                }
+                return Ok(comments);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in retriving blog comments for blog id: {blogId}");
+                return BadRequest(new { Message = "Error in retriving blog comments" });
+            }
         }
 
         [HttpPost]

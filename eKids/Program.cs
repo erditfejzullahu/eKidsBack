@@ -93,6 +93,7 @@ namespace eKids
 
 
             // Add services to the container.
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IFileUploadService, FileUploadService>();
             builder.Services.AddScoped<IFileChecker, FileChecker>();
@@ -103,7 +104,9 @@ namespace eKids
             builder.Services.AddScoped<ICourseCompletationService, CourseCompletationService>();
             builder.Services.AddScoped<IVideoFileService, VideoFileService>();
             builder.Services.AddScoped<ICreateBlogService, CreateBlogService>();
+            builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
             builder.Services.AddScoped(typeof(ISorterService<>), typeof(SorterService<>));
+
             builder.Services.AddSignalR(options =>
             {
                 options.MaximumReceiveMessageSize = 64 * 1024 * 1024;
