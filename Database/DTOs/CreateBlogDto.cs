@@ -43,7 +43,7 @@ namespace Database.DTOs
         public int TagId { get; set; }
         public string Content { get; set; }
         public BlogStatus Status { get; set; }
-        public string ImageUrls { get; set; }
+        public string? ImageUrls { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 

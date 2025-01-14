@@ -235,8 +235,9 @@ namespace Database.Repository
                             {
                                 Name = t.Name,
                                 TagId = t.ID
-                            }).ToList()
+                            }).ToList() ?? new List<BlogRetrieveTagDto>()
                         },
+                        TagId = c.TagId,
                         Content = c.Content,
                         Status = c.Status,
                         IsLiked = c.BlogLikes.Any(bl => bl.UserId == userId),

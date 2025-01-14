@@ -44,11 +44,16 @@
   {
     "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetAllBlogs",
-    "RelativePath": "api/Blogs/GetAllBlogs",
+    "RelativePath": "api/Blogs/GetAllBlogs/{userId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
       {
         "Name": "PageNumber",
         "Type": "System.Int32",
@@ -193,7 +198,7 @@
   {
     "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetBlogComments",
-    "RelativePath": "api/Blogs/GetCommentsByBlog/{blogId}",
+    "RelativePath": "api/Blogs/GetCommentsByBlog/{blogId}/{userId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -202,6 +207,53 @@
         "Name": "blogId",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.BlogController",
+    "Method": "LikeBlog",
+    "RelativePath": "api/Blogs/LikeBlog",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "blogId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.BlogController",
+    "Method": "LikeBlogComment",
+    "RelativePath": "api/Blogs/LikeComment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "blogCommentId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
