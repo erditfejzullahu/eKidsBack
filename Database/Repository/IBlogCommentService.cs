@@ -12,7 +12,7 @@ namespace Database.Repository
     {
         Task<BlogComments> CreateBlogComment(CreateBlogComment blogDto, CancellationToken token);
         Task<List<BlogCommentDto>> RetrieveBlogComments(int blogId, int userId, CancellationToken token);
-        Task<int> HandleStatusBlogComment(int blogCommentId, int userId, CancellationToken token);
+        Task<int> HandleStatusBlogComment(int blogCommentId, int userId, int blogId, CancellationToken token);
 
 
     }

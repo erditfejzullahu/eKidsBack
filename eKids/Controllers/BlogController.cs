@@ -47,11 +47,11 @@ namespace eKids.Controllers
         }
 
         [HttpPost("/api/Blogs/LikeComment")]
-        public async Task<IActionResult> LikeBlogComment([FromQuery] int blogCommentId, [FromQuery] int userId, CancellationToken token)
+        public async Task<IActionResult> LikeBlogComment([FromQuery] int blogCommentId, [FromQuery] int userId, [FromQuery] int blogId, CancellationToken token)
         {
             try
             {
-                int likeStatus = await _blogCommentService.HandleStatusBlogComment(blogCommentId, userId, token);
+                int likeStatus = await _blogCommentService.HandleStatusBlogComment(blogCommentId, userId, blogId, token);
                 if(likeStatus == 0)
                 {
                     return Ok(new { Message = "LikeRemove" });

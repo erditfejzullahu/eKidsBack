@@ -64,6 +64,10 @@ namespace Database.Repository
                     await _context.SaveChangesAsync(token);
                     return 0;
                 }
+                else
+                {
+                    throw new ApplicationException("other error");
+                }
             }
             catch (Exception ex)
             {
