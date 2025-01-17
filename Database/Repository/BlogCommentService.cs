@@ -36,9 +36,15 @@ namespace Database.Repository
         {
             try
             {
+
+                var getBlogComment = await _context.BlogComments.FirstOrDefaultAsync(c => c.BlogId == blogId && c.UserId == userId && c.ID == blogCommentId);
+                if(getBlogComment == null)
+                {
+                    throw new ApplicationException("No blog comment found");
+                }
+                using var transaction = await _context.Database.BeginTransactionAsync(token);
                 var blogCommentLike = await _context.BlogCommentLikes.FirstOrDefaultAsync(c => c.UserId == userId && c.CommentId == blogCommentId);
-                var getBlogComment = await _context.BlogComments.FirstOrDefaultAsync(c => c.BlogId == blogId && c.UserId == userId, token);
-                if(blogCommentLike == null && getBlogComment != null)
+                if(blogCommentLike == null)
                 {
                     var commentLike = new BlogCommentLikes
                     {
@@ -50,24 +56,19 @@ namespace Database.Repository
                     await _context.BlogCommentLikes.AddAsync(commentLike, token);
                     getBlogComment.Likes += 1;
                     _context.BlogComments.Update(getBlogComment);
-                    await _context.SaveChangesAsync(token);
-                    return 1; // 1 for adding comment like 0 for removing comment
                 }
-                else if(blogCommentLike != null && getBlogComment != null)
+                else
                 {
-                    _context.Remove(blogCommentLike);
+                    _context.BlogCommentLikes.Remove(blogCommentLike);
                     if(getBlogComment.Likes > 0)
                     {
                         getBlogComment.Likes -= 1;
                         _context.BlogComments.Update(getBlogComment);
                     }
-                    await _context.SaveChangesAsync(token);
-                    return 0;
                 }
-                else
-                {
-                    throw new ApplicationException("other error");
-                }
+                await _context.SaveChangesAsync(token);
+                await _context.Database.CommitTransactionAsync(token);
+                return blogCommentLike == null ? 1 : 0;
             }
             catch (Exception ex)
             {

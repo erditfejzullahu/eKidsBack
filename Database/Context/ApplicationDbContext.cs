@@ -199,9 +199,10 @@ namespace Database.Context
             
             modelBuilder.Entity<UserInformations>()
                 .HasOne(c => c.User)
-                .WithMany(c => c.UserInformations)
-                .HasForeignKey(c => c.UserId)
+                .WithOne(c => c.UserInformations)
+                .HasForeignKey<UserInformations>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<Friends>()
                 .HasOne(c => c.User)

@@ -20,23 +20,25 @@ namespace Database.DTOs
 
     public class UserEducationsDto
     {
+        public int? ID { get; set; }
         [MaxLength(255)]
         public string Place_Name { get; set; }
         public SchoolDegrees SchoolDegree { get; set; }
 
         [MaxLength(255)]
         public string Field { get; set; }
-        public int? Start_Year { get; set; }
+        public int Start_Year { get; set; }
         public int? End_Year { get; set; }
     }
     public class UserJobsDto
     {
+        public int? ID { get; set; }
         [MaxLength(255)]
         public string Job_Place { get; set; }
 
         [MaxLength(255)]
         public string Job_Title { get; set; }
-        public int? Start_Year { get; set; }
+        public int Start_Year { get; set; }
         public int? End_Year { get; set; }
     }
 }

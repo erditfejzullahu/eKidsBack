@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
@@ -18,6 +19,7 @@ namespace eKids.Controllers
         private readonly ILogger<UserInformationController> _logger;
         private readonly IRepository<Users> _userRepository;
         private readonly IMapper _mapper;
+        //private readonly ApplicationDbContext _context;
 
         public UserInformationController(
             IRepository<UserInformations> userInformationRepository,
@@ -25,8 +27,11 @@ namespace eKids.Controllers
             ILogger<UserInformationController> logger,
             IMapper mapper,
             IRepository<UserEducations> userEducationRepository,
-            IRepository<UserJobs> userJobsRepository)
+            IRepository<UserJobs> userJobsRepository
+            //ApplicationDbContext context
+            )
         {
+            //_context = context;
             _userInformationRepository = userInformationRepository;
             _userRepository = userRepository;
             _logger = logger;
@@ -40,7 +45,12 @@ namespace eKids.Controllers
         {
             try
             {
-                var userInformation = await _userInformationRepository.GetAll().AsNoTracking().FirstOrDefaultAsync(c => c.UserId == userId, token);
+                var userInformation = await _userInformationRepository
+                    .GetAll()
+                    .AsNoTracking()
+                    .Include(c => c.UserJobs)
+                    .Include(c => c.UserEducations)
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
                 if(userInformation == null){
                     return NotFound(new { Message = "userinformation not found" });
                 }
@@ -56,6 +66,7 @@ namespace eKids.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUserInformation(UserInformationsDto infoDto, CancellationToken token)
         {
+            //using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 var userInformation = new UserInformations
@@ -70,43 +81,44 @@ namespace eKids.Controllers
                 _userInformationRepository.Add(userInformation);
                 await _userInformationRepository.SaveAsync(token);
 
-                foreach (var jobInfo in infoDto.UserJobs)
+                if(infoDto.UserJobs.Count != 0)
                 {
-                    var userJob = new UserJobs
+                    var usersJob = infoDto.UserJobs.Select(c => new UserJobs
                     {
-                        Job_Place = jobInfo.Job_Place,
-                        Job_Title = jobInfo.Job_Title,
-                        Start_Year = jobInfo.Start_Year.Value,
-                        End_Year = jobInfo.End_Year,
+                        Job_Place = c.Job_Place,
+                        Job_Title = c.Job_Title,
+                        Start_Year = c.Start_Year,
+                        End_Year = c.End_Year,
                         UserInformationId = userInformation.ID,
                         CreatedAt = DateTime.UtcNow,
                         LastModified = DateTime.UtcNow
-                    };
-                    _userJobsRepository.Add(userJob);
+                    });
+                    _userJobsRepository.AddRange(usersJob);
                     await _userJobsRepository.SaveAsync(token);
                 }
 
-                foreach (var educationInfo in infoDto.UserEducations)
+                if(infoDto.UserEducations.Count != 0)
                 {
-                    var userEducations = new UserEducations
+                    var usersEducation = infoDto.UserEducations.Select(c => new UserEducations
                     {
-                        Place_Name = educationInfo.Place_Name,
-                        School_Degree = educationInfo.SchoolDegree,
-                        Field = educationInfo.Field,
-                        Start_Year = educationInfo.Start_Year.Value,
-                        End_Year = educationInfo.End_Year,
+                        Place_Name = c.Place_Name,
+                        School_Degree = c.SchoolDegree,
+                        Field = c.Field,
+                        Start_Year = c.Start_Year,
+                        End_Year = c.End_Year,
                         UserInformationId = userInformation.ID,
                         CreatedAt = DateTime.UtcNow,
                         LastModified = DateTime.UtcNow
-                    };
-                    _userEducationRepository.Add(userEducations);
+                    });
+                    _userEducationRepository.AddRange(usersEducation);
                     await _userEducationRepository.SaveAsync(token);
                 }
-
+                //await _context.Database.CommitTransactionAsync(token);
                 return Ok(new { Message = "Success in adding user information" });
             }
             catch (Exception ex)
             {
+                //await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error in creating userInformation");
                 return BadRequest(new { Message = "Error in creating user information" });
             }
@@ -122,12 +134,71 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "No user information found" });
                 }
+
                 _mapper.Map(infoDto, userInformation);
                 userInformation.LastModified = DateTime.UtcNow;
+
+                if (infoDto.UserJobs != null)
+                {
+                    foreach (var jobDto in infoDto.UserJobs)
+                    {
+                        var userJob = userInformation.UserJobs.FirstOrDefault(uj => uj.ID == jobDto.ID);
+                        if(userJob == null)
+                        {
+                            var newJob = new UserJobs
+                            {
+                                Job_Place = jobDto.Job_Place,
+                                Job_Title = jobDto.Job_Title,
+                                Start_Year = jobDto.Start_Year,
+                                End_Year = jobDto.End_Year,
+                                UserInformationId = userInformation.ID,
+                                CreatedAt = DateTime.UtcNow,
+                                LastModified = DateTime.UtcNow
+                            };
+                            _userJobsRepository.Add(newJob);
+                        }
+                        else
+                        {
+                            _mapper.Map(jobDto, userJob);
+                            _userJobsRepository.Update(userJob);
+                        }
+                    }
+                    await _userJobsRepository.SaveAsync(token);
+                }
+
+                if(infoDto.UserEducations != null)
+                {
+                    foreach (var educationDto in infoDto.UserEducations)
+                    {
+                        var userEducation = userInformation.UserEducations.FirstOrDefault(ue => ue.ID == educationDto.ID);
+                        if(userEducation == null)
+                        {
+                            var newEducation = new UserEducations
+                            {
+                                Place_Name = educationDto.Place_Name,
+                                School_Degree = educationDto.SchoolDegree,
+                                Field = educationDto.Field,
+                                Start_Year = educationDto.Start_Year,
+                                End_Year = educationDto.End_Year,
+                                UserInformationId = userInformation.ID,
+                                CreatedAt = DateTime.UtcNow,
+                                LastModified = DateTime.UtcNow
+                            };
+                            _userEducationRepository.Add(newEducation);
+                        }
+                        else
+                        {
+                            _mapper.Map(educationDto, userEducation);
+                            _userEducationRepository.Update(userEducation);
+                        }
+                    }
+                    await _userEducationRepository.SaveAsync(token);
+                }
+
+
                 _userInformationRepository.Update(userInformation);
                 await _userInformationRepository.SaveAsync(token);
                 return Ok(new { Message = "Data is updated successfully" });
-                
             }
             catch (Exception ex)
             {

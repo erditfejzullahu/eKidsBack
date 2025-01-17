@@ -76,6 +76,7 @@ namespace eKids.Controllers
             try
             {
                 int likeStatus = await _createBlogService.HandleStatusBlogLike(blogId, userId, token);
+                _logger.LogError(likeStatus, " statusi");
                 if (likeStatus == 0)
                 {
                     return Ok(new { Message = "LikeRemove" });
@@ -204,25 +205,19 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("/api/Blogs/GetAllBlogsByTag/{tagId}")]
-        public async Task<IActionResult> GetAllBlogsByTag(int tagId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        [HttpGet("/api/Blogs/GetAllBlogsByTag/{userId}/{tagId}")]
+        public async Task<IActionResult> GetAllBlogsByTag(int tagId, int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
-                var blogs = await _blogRepository
-                    .GetAll()
-                    .AsNoTracking()
-                    .Where(c => c.TagId == tagId)
-                    .Skip(paginationDto.Skip)
-                    .Take(paginationDto.Take)
-                    .ToListAsync(token);
+                var blogs = await _createBlogService.AllBlogByTagRetrieve(userId, tagId, paginationDto, token);
 
-                if(blogs.Count == 0)
+                if(blogs.blogs.Count == 0)
                 {
                     return NotFound(new { Message = "No blogs found" });
                 }
 
-                return Ok(blogs);
+                return Ok(new {data = blogs.blogs, blogs.hasMore});
             }
             catch (Exception ex)
             {
@@ -239,12 +234,12 @@ namespace eKids.Controllers
                 paginationDto.Validate();
                 var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token);
 
-                if(blogs.Count == 0)
+                if(blogs.blogs.Count == 0)
                 {
                     return NotFound(new { Message = "No blog found" });
                 }
 
-                return Ok(blogs);
+                return Ok(new { data = blogs.blogs, blogs.hasMore });
             }
             catch (Exception ex)
             {

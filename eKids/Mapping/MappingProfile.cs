@@ -53,11 +53,12 @@ namespace eKids.Mapping
                 .ForMember(dest => dest.Place_Name, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Place_Name)))
                 .ForMember(dest => dest.School_Degree, opt => opt.Condition(src => Enum.TryParse<SchoolDegrees>(src.SchoolDegree.ToString(), out _)))
                 .ForMember(dest => dest.Field, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Field)))
-                .ForMember(dest => dest.Start_Year, opt =>
-                {
-                    opt.MapFrom(src => src.Start_Year);
-                    opt.Condition(src => src.Start_Year.HasValue && src.Start_Year.Value > 1900);
-                })
+                //.ForMember(dest => dest.Start_Year, opt =>
+                //{
+                //    opt.MapFrom(src => src.Start_Year);
+                //    opt.Condition(src => src.Start_Year && src.Start_Year > 1900);
+                //})
+                .ForMember(dest => dest.Start_Year, opt => opt.MapFrom(src => src.Start_Year)) // add automatically
                 .ForMember(dest => dest.End_Year, opt =>
                 {
                     opt.MapFrom(src => src.End_Year);
@@ -67,11 +68,12 @@ namespace eKids.Mapping
             CreateMap<UserJobsDto, UserJobs>()
                 .ForMember(dest => dest.Job_Place, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Job_Place)))
                 .ForMember(dest => dest.Job_Title, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Job_Title)))
-                .ForMember(dest => dest.Start_Year, opt =>
-                {
-                    opt.MapFrom(src => src.Start_Year);
-                    opt.Condition(src => src.Start_Year.HasValue && src.Start_Year.Value > 1900);
-                })
+                //.ForMember(dest => dest.Start_Year, opt =>
+                //{
+                //    opt.MapFrom(src => src.Start_Year);
+                //    opt.Condition(src => src.Start_Year.HasValue && src.Start_Year.Value > 1900);
+                //})
+                .ForMember(dest => dest.Start_Year, opt => opt.MapFrom(src => src.Start_Year)) // add automatically
                 .ForMember(dest => dest.End_Year, opt =>
                 {
                     opt.MapFrom((src, dest ) => src.End_Year);

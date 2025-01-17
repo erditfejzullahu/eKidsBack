@@ -90,13 +90,18 @@
   {
     "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetAllBlogsByTag",
-    "RelativePath": "api/Blogs/GetAllBlogsByTag/{tagId}",
+    "RelativePath": "api/Blogs/GetAllBlogsByTag/{userId}/{tagId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "tagId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
       },

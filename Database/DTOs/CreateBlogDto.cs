@@ -43,6 +43,7 @@ namespace Database.DTOs
         public BlogRetrieveUserDto User { get; set; }
         public BlogRetrieveTagDto Tags { get; set; }
         public int TagId { get; set; }
+        public int CommentsCount { get; set; }
         public string Content { get; set; }
         public BlogStatus Status { get; set; }
         public string? ImageUrls { get; set; }
