@@ -46,7 +46,7 @@ namespace eKids.Mapping
                 .ForMember(dest => dest.Role, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Role)));
 
             CreateMap<UserInformationsDto, UserInformations>()
-                .ForMember(dest => dest.Birthday, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Birthday.ToString())))
+                //.ForMember(dest => dest.Birthday, opt => opt.Condition(src => src.Birthday != default))
                 .ForMember(dest => dest.SoftSkills, opt => opt.Condition(src => !string.IsNullOrEmpty(src.SoftSkills)));
 
             CreateMap<UserEducationsDto, UserEducations>()

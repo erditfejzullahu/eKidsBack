@@ -22,9 +22,9 @@ namespace Database.Models
         public string? Testimonial { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual Users User { get; set; }
+        public Users User { get; set; }
 
         [ForeignKey("CourseId")]
-        public virtual Courses Course { get; set; }
+        public Courses Course { get; set; }
     }
 }

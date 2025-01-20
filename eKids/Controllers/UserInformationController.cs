@@ -134,7 +134,10 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "No user information found" });
                 }
-
+                if (infoDto.Birthday.HasValue)
+                {
+                    userInformation.Birthday = infoDto.Birthday;
+                }
                 _mapper.Map(infoDto, userInformation);
                 userInformation.LastModified = DateTime.UtcNow;
 

@@ -112,6 +112,16 @@ namespace Database.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            //indexes
+
+            modelBuilder.Entity<CourseCompleted>()
+                .HasIndex(c => new { c.UserId, c.CourseId });
+                //.HasName("IX_CourseCompleted_SomeProperty"); // not working
+
+
+
+            //indexes
+
             modelBuilder.Entity<BlogCommentLikes>()
                 .HasOne(c => c.BlogComment)
                 .WithMany(c => c.BlogCommentLikes)
@@ -195,6 +205,18 @@ namespace Database.Context
                 .HasOne(c => c.UserInformation)
                 .WithMany(c => c.UserEducations)
                 .HasForeignKey(c => c.UserInformationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserEducations>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UserEducations)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserJobs>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UserJobs)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<UserInformations>()
@@ -381,8 +403,14 @@ namespace Database.Context
                 .HasForeignKey(c => c.LessonId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Usermeta>();
+            modelBuilder.Entity<Usermeta>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UserMeta)
+                .HasForeignKey(c => c.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<RefreshToken>();
+
             modelBuilder.Entity<Categories>();
             modelBuilder.Entity<MediaLibrary>();
 

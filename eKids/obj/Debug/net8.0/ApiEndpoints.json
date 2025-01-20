@@ -202,6 +202,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.BlogController",
+    "Method": "GetBlogByName",
+    "RelativePath": "api/Blogs/GetByName",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetBlogComments",
     "RelativePath": "api/Blogs/GetCommentsByBlog/{blogId}/{userId}",
     "HttpMethod": "GET",

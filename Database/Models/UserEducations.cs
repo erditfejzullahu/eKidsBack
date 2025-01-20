@@ -16,7 +16,14 @@ namespace Database.Models
         public SchoolDegrees School_Degree { get; set; }
         public string Field { get; set; }
         public int Start_Year { get; set; }
+        
         public int? End_Year { get; set; }
+        public int UserId { get; set; }
+
+        [ForeignKey("UserID")]
+        public Users User { get; set; }
+
+
         public int UserInformationId { get; set; }
 
         [ForeignKey("UserInformationId")]

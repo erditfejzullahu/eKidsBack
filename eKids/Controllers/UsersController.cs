@@ -427,18 +427,20 @@ namespace eKids.Controllers
                         c.Package,
                         c.Friends,
                         c.ProfilePictureUrl,
-                        Quizzes = c.Quizzes.Select(uq => new
+                        Quizzes = c.Quizzes.Where(uq => uq.UserId == userId).Select(uq => new
                         {
                             uq.ID,
                             uq.QuizName,
                             uq.QuizDescription,
                             uq.QuizCategory,
                             uq.CreatedAt,
+                            uq.UserId,
                             uq.ViewCount,
-                            QuizIsCompleted = uq.QuizzesCompleted.Where(qc => qc.QuizId == uq.ID && qc.Completed == true).Count(),
+                            //QuizIsCompleted = uq.QuizzesCompleted.Where(qc => qc.QuizId == uq.ID && qc.Completed == true).Count(),
+                            QuizIsCompleted = uq.QuizzesCompleted.Count(qc => qc.Completed),
                             Mistakes = uq.QuizzesCompleted.Select(mis => mis.Mistakes).FirstOrDefault()
                         }).ToList(),
-                        CourseCompleted = c.CourseCompleted.Select(cc => new
+                        CourseCompleted = c.CourseCompleted.Where(cc => cc.UserId == userId).Select(cc => new
                         {
                             cc.ID,
                             cc.CourseId,
@@ -450,12 +452,13 @@ namespace eKids.Controllers
                             {
                                 cc.Course.ID,
                                 cc.Course.CourseName,
+                                cc.Course.UserId,
                                 cc.Course.CourseDescription,
                                 cc.Course.CourseFeaturedImage,
                                 cc.Course.CourseCategory,
                             }
-                        }),
-                        QuizzesCompleted = c.QuizzesCompleted.Select(q => new
+                        }).ToList(),
+                        QuizzesCompleted = c.QuizzesCompleted.Where(q => q.UserId == userId).Select(q => new
                         {
 
                             q.ID,
@@ -464,19 +467,46 @@ namespace eKids.Controllers
                             q.Duration,
                             q.CreatedAt,
                             q.QuizId,
+                            q.UserId,
                             q.Mistakes,
                         }).ToList(),
-                        CourseCreated = c.CoursesCreated.Select(ck => new
+                        CourseCreated = c.CoursesCreated.Where(ck => ck.UserId == userId).Select(ck => new
                         {
                             ck.ID,
                             ck.CourseName,
                             ck.CourseCategory,
+                            ck.UserId,
                             ck.CourseFeaturedImage,
                             ck.CourseDescription,
                             ck.CourseEnrolled,
                             ck.ViewCount,
                             ck.CreatedAt,
-                        }).ToList()
+                        }).ToList(),
+                        UserInformation = new
+                        {
+                            c.UserInformations.Birthday,
+                            c.UserInformations.SoftSkills,
+                            c.UserInformations.UserId,
+                            UserEducation = c.UserInformations.UserEducations.Where(ue => ue.UserId == userId).Select(ue => new
+                            {
+                                ue.Place_Name,
+                                ue.UserId,
+                                ue.School_Degree,
+                                ue.Field,
+                                ue.UserInformationId,
+                                ue.Start_Year,
+                                ue.End_Year,
+                            }).ToList(),
+                            UserJobs = c.UserInformations.UserJobs.Where(uj => uj.UserId == userId).Select(uj => new
+                            {
+                                uj.Job_Place,
+                                uj.Job_Title,
+                                uj.UserId,
+                                uj.Start_Year,
+                                uj.UserInformationId,
+                                uj.End_Year,
+                            }).ToList()
+                        }
                     })
                     .FirstOrDefaultAsync(token);
 

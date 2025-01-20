@@ -15,6 +15,12 @@ namespace Database.Models
         public string Job_Title { get; set; }
         public int Start_Year { get; set; }
         public int? End_Year { get; set; }
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public Users User { get; set; }
+
+
         public int UserInformationId { get; set; }
 
         [ForeignKey("UserInformationId")]

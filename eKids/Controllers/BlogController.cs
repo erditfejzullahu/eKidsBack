@@ -31,6 +31,32 @@ namespace eKids.Controllers
             _blogCommentService = blogCommentService;
         }
 
+        [HttpGet("/api/Blogs/GetByName")]
+        public async Task<IActionResult> GetBlogByName([FromQuery] string title, CancellationToken token)
+        {
+            try
+            {
+                var blogs = await _blogRepository
+                    .GetAll()
+                    .AsNoTracking()
+                    .Where(c => c.Title.Contains(title))
+                    .Include(c => c.Tag)
+                    .ThenInclude(c => c.Children)
+                    .ToListAsync(token);
+
+                if(blogs.Count == 0)
+                {
+                    return NotFound(new { Message = "No blogs found" });
+                }
+                return Ok(blogs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retriving blogs by name");
+                return BadRequest(new { Message = "Error retriving blogs by name" });
+            }
+        }
+
         [HttpPost("/api/Blogs/CreateComment")]
         public async Task<IActionResult> CreateBlogComment([FromBody] CreateBlogComment blogComment, CancellationToken token)
         {
