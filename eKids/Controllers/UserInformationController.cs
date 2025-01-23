@@ -74,6 +74,7 @@ namespace eKids.Controllers
                     UserId = infoDto.UserId,
                     Birthday = infoDto.Birthday,
                     SoftSkills = infoDto.SoftSkills,
+                    Skills = infoDto.Skills,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };

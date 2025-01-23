@@ -13,6 +13,7 @@ namespace Database.DTOs
         public int UserId { get; set; }
         public DateOnly? Birthday { get; set; }
         public string? SoftSkills { get; set; }
+        public string? Skills { get; set; }
         public List<UserEducationsDto> UserEducations { get; set; } = new List<UserEducationsDto>();
         public List<UserJobsDto> UserJobs { get; set; } = new List<UserJobsDto>();
 
