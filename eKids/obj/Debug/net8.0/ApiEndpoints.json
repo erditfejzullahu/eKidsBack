@@ -1581,8 +1581,8 @@
   {
     "ContainingType": "eKids.Controllers.UserFriendsController",
     "Method": "AcceptFriend",
-    "RelativePath": "api/UserFriends/AcceptFriend",
-    "HttpMethod": "POST",
+    "RelativePath": "api/UserFriends/AcceptFriendRequest",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1640,7 +1640,7 @@
     "ContainingType": "eKids.Controllers.UserFriendsController",
     "Method": "DeleteFriendRequest",
     "RelativePath": "api/UserFriends/DeleteFriendRequest",
-    "HttpMethod": "PUT",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [

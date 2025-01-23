@@ -43,70 +43,70 @@ namespace Database.Context
         }
 
         //to fixxxxx
-        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken)
-        {
-            var entries = ChangeTracker.Entries<Friendships>()
-                .Where(c => c.State == EntityState.Modified);
-            var entries1 = ChangeTracker.Entries();
-            var pending = ChangeTracker.Entries<Friendships>()
-                .Where(c => c.State == EntityState.Added);
+        //public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+        //{
+        //    var entries = ChangeTracker.Entries<Friendships>()
+        //        .Where(c => c.State == EntityState.Modified);
+        //    var entries1 = ChangeTracker.Entries();
+        //    var pending = ChangeTracker.Entries<Friendships>()
+        //        .Where(c => c.State == EntityState.Added);
 
-            foreach (var item in entries)
-            {
-                var oldValue = item.OriginalValues["Status"]?.ToString(); 
-                var newValue = item.CurrentValues["Status"]?.ToString();
+        //    foreach (var item in entries)
+        //    {
+        //        var oldValue = item.OriginalValues["Status"]?.ToString(); 
+        //        var newValue = item.CurrentValues["Status"]?.ToString();
                 
-                if(int.TryParse(newValue, out int status) && status == 2)
-                {
-                    if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
-                    {
-                        await NotifyTheChangeInEntity(item.Entity, "accepted", cancellationToken);
-                    }
-                }else if(int.TryParse(newValue, out int otherStatus) && otherStatus == 3)
-                {
-                    if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
-                    {
-                        await NotifyTheChangeInEntity(item.Entity, "rejected", cancellationToken);
-                    }
-                }
-            }
+        //        if(int.TryParse(newValue, out int status) && status == 2)
+        //        {
+        //            if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
+        //            {
+        //                await NotifyTheChangeInEntity(item.Entity, "accepted", cancellationToken);
+        //            }
+        //        }else if(int.TryParse(newValue, out int otherStatus) && otherStatus == 3)
+        //        {
+        //            if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
+        //            {
+        //                await NotifyTheChangeInEntity(item.Entity, "rejected", cancellationToken);
+        //            }
+        //        }
+        //    }
 
-            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        //    return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
 
-        }
-        public async Task NotifyTheChangeInEntity(Friendships entity, string status, CancellationToken token)
-        {
-            if(string.Equals(status, "accepted", StringComparison.Ordinal))
-            {
-                var friend1 = new Friends
-                {
-                    UserId = entity.SenderId,
-                    FriendId = entity.ReceiverId,
-                    CreatedAt = DateTime.UtcNow,
-                    LastModified = DateTime.UtcNow
-                };
-                var friend2 = new Friends
-                {
-                    UserId = entity.ReceiverId,
-                    FriendId = entity.SenderId,
-                    CreatedAt = DateTime.UtcNow,
-                    LastModified = DateTime.UtcNow
-                };
-                base.Set<Friends>().AddRange(friend1, friend2);
-                await base.SaveChangesAsync(token);
+        //}
+        //public async Task NotifyTheChangeInEntity(Friendships entity, string status, CancellationToken token)
+        //{
+        //    if(string.Equals(status, "accepted", StringComparison.Ordinal))
+        //    {
+        //        var friend1 = new Friends
+        //        {
+        //            UserId = entity.SenderId,
+        //            FriendId = entity.ReceiverId,
+        //            CreatedAt = DateTime.UtcNow,
+        //            LastModified = DateTime.UtcNow
+        //        };
+        //        var friend2 = new Friends
+        //        {
+        //            UserId = entity.ReceiverId,
+        //            FriendId = entity.SenderId,
+        //            CreatedAt = DateTime.UtcNow,
+        //            LastModified = DateTime.UtcNow
+        //        };
+        //        base.Set<Friends>().AddRange(friend1, friend2);
+        //        await base.SaveChangesAsync(token);
 
-            }else if(string.Equals(status, "rejected", StringComparison.Ordinal))
-            {
-                var friendshipToRemove = await base.Set<Friendships>().FindAsync(entity.ID);
-                if(friendshipToRemove != null)
-                {
-                    base.Set<Friendships>().Remove(friendshipToRemove);
-                    await base.SaveChangesAsync(token);
-                }
-            }
-            await Task.CompletedTask;
-        }
-        //to fixx
+        //    }else if(string.Equals(status, "rejected", StringComparison.Ordinal))
+        //    {
+        //        var friendshipToRemove = await base.Set<Friendships>().FindAsync(entity.ID);
+        //        if(friendshipToRemove != null)
+        //        {
+        //            base.Set<Friendships>().Remove(friendshipToRemove);
+        //            await base.SaveChangesAsync(token);
+        //        }
+        //    }
+        //    await Task.CompletedTask;
+        //}
+        ////to fixx
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -253,12 +253,6 @@ namespace Database.Context
             modelBuilder.Entity<Friendships>()
                 .HasIndex(f => new { f.SenderId, f.ReceiverId })
                 .IsUnique();
-
-            modelBuilder.Entity<Friendships>()
-                .HasOne(c => c.Notification)
-                .WithMany(c => c.Friendships)
-                .HasForeignKey(c => c.NotificationId)
-                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Friendships>()
                 .HasOne(c => c.Sender)

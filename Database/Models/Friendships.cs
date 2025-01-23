@@ -14,7 +14,6 @@ namespace Database.Models
         public override int ID { get; set; }
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
-        public int? NotificationId { get; set; }
         public FriendshipStatus Status { get; set; }
 
         [ForeignKey("SenderId")]
@@ -22,9 +21,6 @@ namespace Database.Models
 
         [ForeignKey("ReceiverId")]
         public Users Receiver { get; set; }
-
-        [ForeignKey("NotificationId")]
-        public Notifications Notification { get; set; }
 
     }
 }

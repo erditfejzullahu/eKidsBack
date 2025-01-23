@@ -87,16 +87,24 @@ namespace eKids.Controllers
                 {
                     return BadRequest(new { Message = "No data" });
                 }
-                var friend = new Friends
+                var friend1 = new Friends
                 {
                     UserId = friendDto.UserId,
                     FriendId = friendDto.FriendId,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                _friendsRepository.Add(friend);
+                _friendsRepository.Add(friend1);
+                var friend2 = new Friends
+                {
+                    UserId = friendDto.FriendId,
+                    FriendId = friendDto.UserId,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                _friendsRepository.Add(friend2);
                 await _friendsRepository.SaveAsync(token);
-                return Ok(friend);
+                return Ok(new {Message = "Friend added"});
             }
             catch (Exception ex)
             {
@@ -105,61 +113,83 @@ namespace eKids.Controllers
             }
 
         }
-        [HttpPost("/api/UserFriends/AcceptFriend")]
+
+        [HttpPut("/api/UserFriends/AcceptFriendRequest")]
         public async Task<IActionResult> AcceptFriend([FromQuery] int senderId, [FromQuery] int receiverId, CancellationToken token)
         {
             try
             {
                 var userIdAuth = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = int.Parse(userIdAuth);
-                var username = await _usersRepository.Get(senderId, token);
 
-                var friendReq = await _friendShipsRepository.GetAll().FirstOrDefaultAsync(c => c.SenderId == senderId && c.ReceiverId == receiverId, token);
-                if(friendReq == null)
+                var transaction = await _context.Database.BeginTransactionAsync(token);
+                var username = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == senderId, token);
+                var friendship = await _context.Friendships.Where(c => c.SenderId == senderId && c.ReceiverId == receiverId).FirstOrDefaultAsync(token);
+                var notificationFriendRequest = await _context.Notifications
+                    .Where(c => c.UserId == senderId && c.ReceiverId == receiverId && c.Type == NotificationsType.UserFriendReq ||
+                    c.UserId == receiverId && c.ReceiverId == senderId && c.Type == NotificationsType.UserFriendReq)
+                    .FirstOrDefaultAsync(token);
+
+                if (friendship == null)
                 {
                     return NotFound(new { Message = "Friendship not found" });
                 }
+                friendship.Status = FriendshipStatus.Accepted;
+                friendship.LastModified = DateTime.UtcNow;
+                _context.Friendships.Update(friendship);
+                await _context.SaveChangesAsync(token);
 
-                friendReq.Status = FriendshipStatus.Accepted;
-                friendReq.LastModified = DateTime.UtcNow;
-                _friendShipsRepository.Update(friendReq);
-                await _friendShipsRepository.SaveAsync(token);
-
-                if(friendReq.NotificationId != null)
+                var newFriend1 = new Friends
                 {
-                    var notificationId = await _notificationRepository.Get(friendReq.NotificationId.Value, token);
-                    await _notificationRepository.Delete(notificationId.ID, token);
-                    await _notificationRepository.SaveAsync(token);
+                    UserId = senderId,
+                    FriendId = receiverId,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Friends.AddAsync(newFriend1, token);
+                var newFriend2 = new Friends
+                {
+                    UserId = receiverId,
+                    FriendId = senderId,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Friends.AddAsync(newFriend2, token);
+                await _context.SaveChangesAsync(token);
 
-                    var newNotification = new Notifications
-                    {
-                        ReceiverId = senderId,
-                        Information = "Friend accepted",
-                        Type = NotificationsType.UserFriendAccepted,
-                        IsRead = false,
-                        CreatedAt = DateTime.UtcNow,
-                        LastModified = DateTime.UtcNow
-                    };
-                    
-                    _notificationRepository.Add(newNotification);
-                    await _notificationRepository.SaveAsync(token);
-
-                    var countNotifications = await _notificationRepository.GetAll().AsNoTracking().Where(c => c.UserId == senderId).CountAsync(token);
-
-                    var connectedUserId = _connectionMapping.GetConnectionId(username.Username);
-                    if(connectedUserId != null)
-                    {
-                        await _notificationsHub.Clients.Client(connectedUserId).SendAsync("UnreadNotifications", countNotifications);
-                        await _notificationsHub.Clients.Client(connectedUserId).SendAsync("ReceiveNotification", newNotification);
-                    }
+                if(notificationFriendRequest != null)
+                {
+                    _context.Notifications.Remove(notificationFriendRequest);
                 }
 
-                return Ok(new { Message = "Successfully accepted friend" });
+                var notification = new Notifications
+                {
+                    ReceiverId = senderId,
+                    Information = "Friend accepted",
+                    Type = NotificationsType.UserFriendAccepted,
+                    IsRead = false,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
+                await _context.SaveChangesAsync(token);
+                var connectedUserId = _connectionMapping.GetConnectionId(username.Username);
+                if(connectedUserId != null)
+                {
+                    var countNotifications = await _context.Notifications.Where(c => c.ReceiverId == senderId && c.IsRead == false).CountAsync(token);
+                    await _notificationsHub.Clients.Client(connectedUserId).SendAsync("UnreadNotifications", countNotifications);
+                }
+                await transaction.CommitAsync(token);
+                return Ok(new { Message = "Friend accepted successfully" });
             }
             catch (Exception ex)
             {
+                if (_context.Database.CurrentTransaction != null)
+                {
+                    await _context.Database.RollbackTransactionAsync(token);
+                }
                 _logger.LogError(ex, "Error in accepting friend");
-                return BadRequest(new { Message = "Error in accepting friend" });
+                return BadRequest(new { Message = "Error in accepting frined" });
             }
         }
 
@@ -260,74 +290,6 @@ namespace eKids.Controllers
             }
         }
 
-
-        [HttpDelete("/api/UserFriends/DeleteCloseFriend/{id}")]
-        public async Task<IActionResult> DeleteCloseFriend(int id, CancellationToken token)
-        {
-            try
-            {
-                var closefriend = await _closeRepository.Get(id, token);
-                if(closefriend == null)
-                {
-                    return NotFound(new { Message = "CloseFriend not found" });
-                }
-                await _closeRepository.Delete(closefriend.ID, token);
-                await _closeRepository.SaveAsync(token);
-                return Ok(new { Message = "Close friend deleted" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error in deleting close friend with column ID: {id}");
-                return BadRequest(new { Message = "Error in deleting close friend" });
-            }
-        }
-
-        [HttpDelete("/api/UserFriends/DeleteFriend/")]
-        public async Task<IActionResult> DeleteFriend([FromQuery] int userId, [FromQuery] int friendId, CancellationToken token)
-        {
-            try
-            {
-                var friend = await _friendsRepository.GetAll().Where(c => c.UserId == userId && c.FriendId == friendId || c.UserId == friendId && c.FriendId == userId).ToListAsync(token);
-                if(friend.Count == 0)
-                {
-                    return NotFound(new { Message = "No friend found" });
-                }
-                _friendsRepository.DeleteRange(friend);
-                await _friendsRepository.SaveAsync(token);
-                return Ok(new { Message = "Friend Deleted" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error deleting friend with");
-                return BadRequest(new { Message = "Error deleting friend" });
-            }
-        }
-
-        [HttpPut("/api/UserFriends/DeleteFriendRequest")]
-        public async Task<IActionResult> DeleteFriendRequest([FromQuery] int userId, [FromQuery] int receiverId, CancellationToken token)
-        {
-            try
-            {
-                var friendReq = await _friendShipsRepository.GetAll().FirstOrDefaultAsync(c => c.SenderId == userId && c.ReceiverId == receiverId, token);
-                if(friendReq == null)
-                {
-                    return NotFound(new { Message = "Not found" });
-                }
-                friendReq.Status = FriendshipStatus.Rejected;
-                _friendShipsRepository.Update(friendReq);
-                //_context.Attach(friendReq);
-                _context.Entry(friendReq).State = EntityState.Modified;
-
-                await _friendShipsRepository.SaveAsync(token);
-                return Ok(new { Message = "Friendship deleted" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error in deleting friend request");
-                return BadRequest(new { Message = "Error in deleting friend request" });
-            }
-        }
-
         [HttpGet("/api/UserFriends/SearchUsers/")]
         public async Task<IActionResult> SearchUsers([FromQuery] int userId, [FromQuery] string searchParam, CancellationToken token)
         {
@@ -404,5 +366,95 @@ namespace eKids.Controllers
             }
         }
 
+        [HttpDelete("/api/UserFriends/DeleteCloseFriend/{id}")]
+        public async Task<IActionResult> DeleteCloseFriend(int id, CancellationToken token)
+        {
+            try
+            {
+                var closefriend = await _closeRepository.Get(id, token);
+                if(closefriend == null)
+                {
+                    return NotFound(new { Message = "CloseFriend not found" });
+                }
+                await _closeRepository.Delete(closefriend.ID, token);
+                await _closeRepository.SaveAsync(token);
+                return Ok(new { Message = "Close friend deleted" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in deleting close friend with column ID: {id}");
+                return BadRequest(new { Message = "Error in deleting close friend" });
+            }
+        }
+
+        [HttpDelete("/api/UserFriends/DeleteFriend/")]
+        public async Task<IActionResult> DeleteFriend([FromQuery] int userId, [FromQuery] int friendId, CancellationToken token)
+        {
+            try
+            {
+                using var transation = await _context.Database.BeginTransactionAsync(token);
+                var friend = await _context.Friends.Where(c => c.UserId == userId && c.FriendId == friendId || c.UserId == friendId && c.FriendId == userId).ToListAsync(token);
+                var friendships = await _context.Friendships
+                    .Where(c => c.SenderId == userId && c.ReceiverId == friendId || c.SenderId == friendId && c.ReceiverId == userId)
+                    .FirstOrDefaultAsync(token);
+                var notifications = await _context.Notifications
+                    .Where(c => c.UserId == userId && c.ReceiverId == friendId && c.Type == NotificationsType.UserFriendAccepted ||
+                    c.UserId == friendId && c.ReceiverId == userId && c.Type == NotificationsType.UserFriendAccepted)
+                    .FirstOrDefaultAsync(token);
+                if (friend.Count == 0 || friendships == null)
+                {
+                    return NotFound(new { Message = "No friend found" });
+                }
+                if(notifications != null)
+                {
+                    _context.Notifications.Remove(notifications);
+                }
+                _context.Friendships.Remove(friendships);
+                _context.Friends.RemoveRange(friend);
+                await _context.SaveChangesAsync(token);
+                await transation.CommitAsync(token);
+                return Ok(new { Message = "Friend Deleted" });
+            }
+            catch (Exception ex)
+            {
+                await _context.Database.RollbackTransactionAsync(token);
+                _logger.LogError(ex, $"Error deleting friend with");
+                return BadRequest(new { Message = "Error deleting friend" });
+            }
+        }
+
+        [HttpDelete("/api/UserFriends/DeleteFriendRequest")]
+        public async Task<IActionResult> DeleteFriendRequest([FromQuery] int userId, [FromQuery] int receiverId, CancellationToken token)
+        {
+            try
+            {
+                var transation = await _context.Database.BeginTransactionAsync(token);
+                var friendReq = await _context.Friendships.Where(c => c.SenderId == userId && c.ReceiverId == receiverId).FirstOrDefaultAsync(token);
+                var notification = await _context.Notifications.Where(c => c.UserId == userId && c.ReceiverId == receiverId && c.Type == NotificationsType.UserFriendReq).FirstOrDefaultAsync(token);
+                if(friendReq == null)
+                {
+                    return NotFound(new { Message = "Not found" });
+                }
+                _context.Friendships.Remove(friendReq);
+                if(notification != null)
+                {
+                    _context.Notifications.Remove(notification);
+                }
+                await _context.SaveChangesAsync(token);
+                await transation.CommitAsync(token);
+                return Ok(new { Message = "Friendship deleted" });
+            }
+            catch (Exception ex)
+            {
+                if(_context.Database.CurrentTransaction != null)
+                {
+                    await _context.Database.RollbackTransactionAsync(token);
+                }
+                _logger.LogError(ex, "Error in deleting friend request");
+                return BadRequest(new { Message = "Error in deleting friend request" });
+            }
+        }
+
+        
     }
 }

@@ -24,6 +24,5 @@ namespace Database.Models
         [ForeignKey("ReceiverId")]
         public Users NotificationReceiver { get; set; }
 
-        public virtual ICollection<Friendships> Friendships { get; set; } = new List<Friendships>();
     }
 }

@@ -139,9 +139,10 @@ namespace eKids.Controllers
         {
             try
             {
-                var username = await _userRepository.Get(notificationDto.ReceiverId, token);
+                using var transaction = await _context.Database.BeginTransactionAsync(token);
+                var username = await _context.Users.AsNoTracking().Where(c => c.ID == notificationDto.ReceiverId).FirstOrDefaultAsync(token);
                 var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.Parse(userId);
+                var user = int.TryParse(userId, out var currentUserId);
 
                 var notification = new Notifications
                 {
@@ -154,24 +155,19 @@ namespace eKids.Controllers
                     LastModified = DateTime.UtcNow,
                 };
 
-                _notificationsRepository.Add(notification);
-                await _notificationsRepository.SaveAsync(token);
+                await _context.Notifications.AddAsync(notification, token);
+                //await _context.SaveChangesAsync(token);
 
                 var friendship = new Friendships
                 {
                     SenderId = notificationDto.UserId.Value,
                     ReceiverId = notificationDto.ReceiverId,
-                    NotificationId = notification.ID,
                     Status = Database.Shared.Enums.FriendshipStatus.Pending,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                _context.Friendships.Add(friendship);
-                //_context.Attach(friendship);
-                var state = _context.Entry(friendship).State;
-                _context.Entry(friendship).State = EntityState.Added;
+                await _context.Friendships.AddAsync(friendship, token);
                 await _context.SaveChangesAsync(token);
-                //await _friendshipRepository.SaveAsync(token);
 
                 if (!string.IsNullOrEmpty(username.Username))
                 {
@@ -186,11 +182,15 @@ namespace eKids.Controllers
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
-
+                await transaction.CommitAsync(token);
                 return Ok(new { Message = "Action sended" });
             }
             catch (Exception ex)
             {
+                if(_context.Database.CurrentTransaction != null)
+                {
+                await _context.Database.RollbackTransactionAsync(token);
+                }
                 _logger.LogError(ex, "Error in creating notification with user req");
                 return BadRequest(new { Message = "Error in sending action" });
             }

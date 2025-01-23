@@ -31,6 +31,7 @@ namespace eKids.Controllers
         private readonly IRepository<Courses> _courseRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<UpdateUser> _userValidator;
+        private readonly ApplicationDbContext _context;
 
         public UsersController(IRepository<Users> userRepository,
                                IRepository<Courses> courseRepository,
@@ -41,10 +42,12 @@ namespace eKids.Controllers
                                IRepository<Categories> categoryRepository,
                                IFileUploadService fileUploadService,
                                IMapper mapper,
-                               IValidator<UpdateUser> userValidator
+                               IValidator<UpdateUser> userValidator,
+                               ApplicationDbContext context
                                )
         {
             _fileUploadService = fileUploadService;
+            _context = context;
             _userValidator = userValidator;
             _userRepository = userRepository;
             _usermetaRepository = usermetaRepository;
@@ -412,9 +415,10 @@ namespace eKids.Controllers
         {
             try
             {
-                var user = await _userRepository
-                    .GetAll()
+                var user = await _context
+                    .Users
                     .AsNoTracking()
+                    .AsSplitQuery()
                     .Where(c => c.ID == userId)
                     .Select(c => new
                     {
@@ -470,7 +474,7 @@ namespace eKids.Controllers
                             q.UserId,
                             q.Mistakes,
                         }).ToList(),
-                        CourseCreated = c.CoursesCreated.Where(ck => ck.UserId == userId).Select(ck => new
+                        CourseCreated = c.CoursesCreated.Select(ck => new
                         {
                             ck.ID,
                             ck.CourseName,
@@ -482,7 +486,7 @@ namespace eKids.Controllers
                             ck.ViewCount,
                             ck.CreatedAt,
                         }).ToList(),
-                        UserInformation = new
+                        UserInformation = c.UserInformations == null ? null : new 
                         {
                             c.UserInformations.Birthday,
                             c.UserInformations.SoftSkills,
@@ -496,7 +500,7 @@ namespace eKids.Controllers
                                 ue.UserInformationId,
                                 ue.Start_Year,
                                 ue.End_Year,
-                            }).ToList(),
+                            }).ToList() ?? null,
                             UserJobs = c.UserInformations.UserJobs.Where(uj => uj.UserId == userId).Select(uj => new
                             {
                                 uj.Job_Place,
@@ -505,7 +509,7 @@ namespace eKids.Controllers
                                 uj.Start_Year,
                                 uj.UserInformationId,
                                 uj.End_Year,
-                            }).ToList()
+                            }).ToList() ?? null
                         }
                     })
                     .FirstOrDefaultAsync(token);

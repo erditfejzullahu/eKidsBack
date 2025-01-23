@@ -14,7 +14,6 @@ namespace Database.Models
         public int UserId { get; set; }
         public DateOnly? Birthday { get; set; }
 
-        [Column(TypeName = "json")]
         public string? SoftSkills { get; set; }
 
         [ForeignKey("UserId")]
