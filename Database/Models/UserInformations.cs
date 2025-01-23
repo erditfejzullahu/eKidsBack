@@ -14,6 +14,7 @@ namespace Database.Models
         public int UserId { get; set; }
         public DateOnly? Birthday { get; set; }
         public string? Skills { get; set; }
+        public string? Profession { get; set; }
         public string? SoftSkills { get; set; }
 
         [ForeignKey("UserId")]
