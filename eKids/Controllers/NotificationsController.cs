@@ -47,7 +47,7 @@ namespace eKids.Controllers
             try
             {
                 //var username = User?.Identity?.Name;
-                var username = await _userRepository.Get(notificationDto.ReceiverId, token);
+                var username = await _context.Users.Where(c => c.ID == notificationDto.ReceiverId).FirstOrDefaultAsync(token);
                 var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = int.Parse(userId);
 
@@ -61,10 +61,10 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                _notificationsRepository.Add(notification);
-                await _notificationsRepository.SaveAsync(token);
+                await _context.Notifications.AddAsync(notification);
+                await _context.SaveChangesAsync(token);
 
-                if (!string.IsNullOrEmpty(username.Username))
+                if (!string.IsNullOrEmpty(username?.Username))
                 {
                     var userConnected = ConnectionMapping.GetConnectionId(username.Username);
                     if(userConnected != null)
@@ -73,7 +73,7 @@ namespace eKids.Controllers
                         //_notificationsRepository.Update(notification);
                         //await _notificationsRepository.SaveAsync(token);
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        var unreads = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
@@ -93,7 +93,7 @@ namespace eKids.Controllers
             try
             {
                 //var username = User?.Identity?.Name;
-                var username = await _userRepository.Get(notificationDto.ReceiverId, token);
+                var username = await _context.Users.Where(c => c.ID == notificationDto.ReceiverId).FirstOrDefaultAsync(token);
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = int.Parse(userId);
 
@@ -107,10 +107,10 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                _notificationsRepository.Add(notification);
-                await _notificationsRepository.SaveAsync(token);
+                await _context.Notifications.AddAsync(notification);
+                await _context.SaveChangesAsync(token);
 
-                if (!string.IsNullOrEmpty(username.Username))
+                if (!string.IsNullOrEmpty(username?.Username))
                 {
                     var userConnected = ConnectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
@@ -119,8 +119,7 @@ namespace eKids.Controllers
                         //_notificationsRepository.Update(notification);
                         //await _notificationsRepository.SaveAsync(token);
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
-
-                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        var unreads = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
@@ -169,7 +168,7 @@ namespace eKids.Controllers
                 await _context.Friendships.AddAsync(friendship, token);
                 await _context.SaveChangesAsync(token);
 
-                if (!string.IsNullOrEmpty(username.Username))
+                if (!string.IsNullOrEmpty(username?.Username))
                 {
                     var userConnected = ConnectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
@@ -178,7 +177,7 @@ namespace eKids.Controllers
                         //_notificationsRepository.Update(notification);
                         //await _notificationsRepository.SaveAsync(token);
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        var unreads = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
@@ -203,12 +202,12 @@ namespace eKids.Controllers
             {
                 var username = await _userRepository.Get(notificationDto.ReceiverId, token);
                 var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.Parse(userId);
+                var user = int.TryParse(userId, out var currentUserId);
                 var notification = new Notifications
                 {
                     UserId = notificationDto.UserId,
                     ReceiverId = notificationDto.ReceiverId,
-                    Information = "Action to be made",
+                    Information = notificationDto.Information,
                     Type = NotificationsType.UserActionReq,
                     IsRead = false,
                     CreatedAt = DateTime.UtcNow,
@@ -247,7 +246,8 @@ namespace eKids.Controllers
             {
                 var username = User?.Identity?.Name;
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.Parse(userId);
+                //var user = int.Parse(userId);
+                int.TryParse(userId, out var user);
                 var unReads = await _notificationsRepository.GetAll().Where(c => c.ReceiverId == user && c.IsRead == false).ToListAsync(token);
                 if(unReads.Count != 0)
                 {
@@ -258,15 +258,14 @@ namespace eKids.Controllers
                     _notificationsRepository.UpdateRange(unReads);
                     await _notificationsRepository.SaveAsync(token);
 
-                    if (!string.IsNullOrEmpty(username))
-                    {
-                        var userConnected = ConnectionMapping.GetConnectionId(username);
-                        if(userConnected != null)
-                        {
-                            var countNotifications = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(token);
-                            await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", countNotifications);
-                        }
-                    }
+                    //if (!string.IsNullOrEmpty(username))
+                    //{
+                    //    var userConnected = ConnectionMapping.GetConnectionId(username);
+                    //    if(userConnected != null)
+                    //    {
+                    //        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", 0);
+                    //    }
+                    //}
                 }
 
 
