@@ -13,7 +13,7 @@ namespace eKids.Hubs
     public class NotificationsHub : Hub
     {
         private readonly ApplicationDbContext _context;
-        private static readonly ConnectionMapping _connectionMapping = new ();
+        //private static readonly ConnectionMapping _connectionMapping = new ConnectionMapping();
         private readonly ILogger<NotificationsHub> _logger;
 
         public NotificationsHub(ApplicationDbContext context, ILogger<NotificationsHub> logger)
@@ -25,24 +25,30 @@ namespace eKids.Hubs
         public override async Task OnConnectedAsync()
         {
             string username = Context?.User?.Identity?.Name;
+            _logger.LogError($"USER {username}");
             //var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier).Value;
             //var convertedUser = int.TryParse(userId, out var user);
             //var notificationsCount = await _context.Notifications.Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(default);
 
             if (!string.IsNullOrEmpty(username))
             {
-                _connectionMapping.Add(username, Context.ConnectionId);
+                ConnectionMapping.Add(username, Context.ConnectionId);
+                _logger.LogInformation($"{username} connected with connection ID: {Context.ConnectionId}");
                 //await Clients.Client(username).SendAsync("UnreadNotifications", notificationsCount);
+            }
+            else
+            {
+                _logger.LogInformation("Not connected");
             }
             await base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            string userId = Context?.User?.Identity?.Name;
-            if (!string.IsNullOrEmpty(userId))
+            string username = Context?.User?.Identity?.Name;
+            if (!string.IsNullOrEmpty(username))
             {
-                _connectionMapping.Remove(userId);
+                ConnectionMapping.Remove(username);
             }
             return base.OnDisconnectedAsync(exception);
         }
@@ -56,7 +62,7 @@ namespace eKids.Hubs
 
                 var username = Context?.User?.Identity?.Name;
                 var notificationsCount = await _context.Notifications.Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(default);
-                var connectedUser = _connectionMapping.GetConnectionId(username);
+                var connectedUser = ConnectionMapping.GetConnectionId(username);
                 if(connectedUser != null)
                 {
                     await Clients.Client(connectedUser).SendAsync("UnreadNotifications", notificationsCount);
@@ -84,7 +90,7 @@ namespace eKids.Hubs
                 {
                     if(notifications.UserId.ToString() == userId.Value.ToString())
                     {
-                        var userConnected = _connectionMapping.GetConnectionId(username);
+                        var userConnected = ConnectionMapping.GetConnectionId(username);
                         if (userConnected != null)
                         {
                             await Clients.Client(userConnected).SendAsync("ReceiveNotification", notifications);

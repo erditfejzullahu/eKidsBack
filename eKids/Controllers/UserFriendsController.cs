@@ -173,7 +173,7 @@ namespace eKids.Controllers
                 };
                 await _context.Notifications.AddAsync(notification, token);
                 await _context.SaveChangesAsync(token);
-                var connectedUserId = _connectionMapping.GetConnectionId(username.Username);
+                var connectedUserId = ConnectionMapping.GetConnectionId(username.Username);
                 if(connectedUserId != null)
                 {
                     var countNotifications = await _context.Notifications.Where(c => c.ReceiverId == senderId && c.IsRead == false).CountAsync(token);
@@ -225,8 +225,8 @@ namespace eKids.Controllers
                                 LastMessage = new
                                 {
                                     Message = c.ReceivedMessages
-                                    .Where(r => r.ReceiverUsername == currentUser.Username)
-                                    .Union(c.SentMessages.Where(r => r.SenderUsername == c.Username))
+                                    .Where(ru => ru.ReceiverUsername == currentUser.Username || ru.SenderUsername == currentUser.Username)
+                                    .Union(c.SentMessages.Where(su => su.SenderUsername == c.Username || su.ReceiverUsername == c.Username))
                                     .Select(s => new
                                     {
                                         s.Content,

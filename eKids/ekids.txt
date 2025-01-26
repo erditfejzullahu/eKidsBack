@@ -827,3 +827,100 @@ Error Number:7630,State:2,Class:15
    at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
    at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
 2025-01-26 15:23:46.2827 | Info | erditbaba connected with connection ID: cUnE6iIsk7JmL5_bL2sQRg | 
+2025-01-26 15:30:30.0903 | Info | erditbaba connected with connection ID: C2KK1FXs27FHxFRrEhBY1g | 
+2025-01-26 15:30:37.0028 | Info | erditbaba connected with connection ID: X6JKkBg5XQnqR1s-lTb2UA | 
+2025-01-26 15:31:47.8057 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:31:47.8057 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:31:47.9509 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:31:47.9618 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.1306 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.1306 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.2715 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.2985 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0124 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0124 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. | 
+2025-01-26 15:34:30.0469 | Warn | The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. | 
+2025-01-26 15:34:41.7099 | Info | erditbaba connected with connection ID: f60WJF4JpMHrIR-xtVDR4w | 
+2025-01-26 15:35:26.3441 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:35:26.3475 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:35:26.3475 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:35:26.3638 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:38:29.3292 | Info | erditbaba disconnected | 
+2025-01-26 15:38:29.3338 | Info | erditbaba disconnected | 
+2025-01-26 15:38:29.3338 | Info | erditbaba disconnected | 
+2025-01-26 15:38:29.3338 | Info | erditbaba disconnected | 
+2025-01-26 16:12:18.4688 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 10, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=21503,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-01-26 16:12:18.4688 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 10, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=21503,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-01-26 17:30:39.4364 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 17:30:57.6171 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:30:57.6266 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:31:24.6273 | Error | erditbaba | 
+2025-01-26 17:35:10.7319 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:35:10.7358 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:35:10.7915 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:35:10.7915 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:53:21.5152 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 17:57:18.5920 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 17:57:23.5439 | Error | Error in retriving notifications for user 49 | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Controllers.NotificationsController.GetNotificationByUser(Int32 userId, CancellationToken token)
+2025-01-26 17:57:25.7180 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 17:58:11.4373 | Error | USER armendfejzullahu | 
+2025-01-26 17:58:41.9392 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:03:35.0661 | Error | USER armendfejzullahu | 
+2025-01-26 18:03:35.0661 | Info | armendfejzullahu connected with connection ID: 7o-eEsqMdBii5CTyH64c4Q | 
+2025-01-26 18:04:05.1314 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:09:22.5872 | Error | error not armendfejzullahu | 
+2025-01-26 18:09:22.5872 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:11:37.1182 | Error | error not (null) | 
+2025-01-26 18:11:37.1182 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:14:15.0846 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 18:15:31.0737 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 18:15:53.8288 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 18:16:12.0584 | Error | USER armendfejzullahu | 
+2025-01-26 18:16:12.0584 | Info | armendfejzullahu connected with connection ID: uUZyv3OxNNP6FwSvCtEnZQ | 
+2025-01-26 18:16:34.4609 | Error | USER armendfejzullahu | 
+2025-01-26 18:16:34.4609 | Info | armendfejzullahu connected with connection ID: lFdsdoUJ1WyntyFoIqejhQ | 
+2025-01-26 18:16:35.4587 | Error | error not (null) | 
+2025-01-26 18:16:35.4587 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:17:23.4783 | Error | error not armendfejzullahu | 
+2025-01-26 18:17:23.4783 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:26:51.5149 | Error | error not armendfejzullahu | 
+2025-01-26 18:26:51.5188 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:31:26.9366 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 18:32:10.2481 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 18:32:10.2666 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 18:32:11.6990 | Error | USER armendfejzullahu | 
+2025-01-26 18:32:11.6990 | Info | armendfejzullahu connected with connection ID: NqLYMyo1QmjCGtAoMJAu9Q | 
+2025-01-26 18:32:40.1788 | Error | error not armendfejzullahu | 
+2025-01-26 18:33:54.2664 | Error | error not armendfejzullahu | 

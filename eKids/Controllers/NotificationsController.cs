@@ -22,7 +22,7 @@ namespace eKids.Controllers
         private readonly IRepository<Friendships> _friendshipRepository;
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Users> _userRepository;
-        private static readonly ConnectionMapping _connectionMapping = new();
+        private static readonly ConnectionMapping _connectionMapping = new ConnectionMapping();
 
         public NotificationsController(
             ILogger<NotificationsController> logger,
@@ -66,7 +66,7 @@ namespace eKids.Controllers
 
                 if (!string.IsNullOrEmpty(username.Username))
                 {
-                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
+                    var userConnected = ConnectionMapping.GetConnectionId(username.Username);
                     if(userConnected != null)
                     {
                         //notification.IsRead = true;
@@ -112,7 +112,7 @@ namespace eKids.Controllers
 
                 if (!string.IsNullOrEmpty(username.Username))
                 {
-                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
+                    var userConnected = ConnectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
                     {
                         //notification.IsRead = true;
@@ -171,7 +171,7 @@ namespace eKids.Controllers
 
                 if (!string.IsNullOrEmpty(username.Username))
                 {
-                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
+                    var userConnected = ConnectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
                     {
                         //notification.IsRead = true;
@@ -219,7 +219,7 @@ namespace eKids.Controllers
 
                 if (!string.IsNullOrEmpty(username.Username))
                 {
-                    var userConnected = _connectionMapping.GetConnectionId(username.Username);
+                    var userConnected = ConnectionMapping.GetConnectionId(username.Username);
                     if (userConnected != null)
                     {
                         //notification.IsRead = true;
@@ -260,7 +260,7 @@ namespace eKids.Controllers
 
                     if (!string.IsNullOrEmpty(username))
                     {
-                        var userConnected = _connectionMapping.GetConnectionId(username);
+                        var userConnected = ConnectionMapping.GetConnectionId(username);
                         if(userConnected != null)
                         {
                             var countNotifications = await _notificationsRepository.GetAll().AsNoTracking().Where(c => c.ReceiverId == user && c.IsRead == false).CountAsync(token);
@@ -284,6 +284,10 @@ namespace eKids.Controllers
         {
             try
             {
+                var username = User?.Identity?.Name;
+                var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                int.TryParse(currentUser, out var user);
+
                 var notifications = await _notificationsRepository
                     .GetAll()
                     .AsNoTracking()
@@ -317,6 +321,21 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "No notifications found" });
                 }
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectedUser = ConnectionMapping.GetConnectionId(username);
+                    _logger.LogError("error not {username}", username);
+                    if (connectedUser == null)
+                    {
+                        _logger.LogWarning("User {username} is not connected", username);
+                    }
+                    else
+                    {
+                        await _notificationsHub.Clients.Client(connectedUser).SendAsync("UnreadNotifications", 0);
+                    }
+                }
+
                 return Ok(notifications);
             }
             catch (Exception ex)

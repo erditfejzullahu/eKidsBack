@@ -14,7 +14,7 @@ namespace eKids.Hubs
     public class ChatHub : Hub
     {
         private readonly ApplicationDbContext _context;
-        private static readonly ConnectionMapping _connections = new();
+        //private static readonly ConnectionMapping _connections = new ConnectionMapping();
         private readonly ILogger<ChatHub> _logger;
         private IFileUploadService _fileUploadService;
 
@@ -31,7 +31,7 @@ namespace eKids.Hubs
 
             if (!string.IsNullOrEmpty(username))
             {
-                _connections.Add(username, Context.ConnectionId);
+                ConnectionMapping.Add(username, Context.ConnectionId);
                 _logger.LogInformation($"{username} connected with connection ID: {Context.ConnectionId}");
             }
             else
@@ -47,7 +47,7 @@ namespace eKids.Hubs
             string username = Context?.User?.Identity.Name;
             if (!string.IsNullOrEmpty(username))
             {
-                _connections.Remove(username);
+                ConnectionMapping.Remove(username);
                 _logger.LogInformation($"{username} disconnected");
             }
             return base.OnDisconnectedAsync(exception);
@@ -126,7 +126,7 @@ namespace eKids.Hubs
                     })
                     .FirstOrDefaultAsync(default);
 
-                var recipientConnectionId = _connections.GetConnectionId(receiver);
+                var recipientConnectionId = ConnectionMapping.GetConnectionId(receiver);
                 if (recipientConnectionId != null)
                 {
                     newMessage.IsRead = true;
@@ -135,7 +135,7 @@ namespace eKids.Hubs
                     await Clients.Client(recipientConnectionId).SendAsync("ReceiveMessage", messageData);
                 }
 
-                var senderConnectionId = _connections.GetConnectionId(username);
+                var senderConnectionId = ConnectionMapping.GetConnectionId(username);
                 if (senderConnectionId != null)
                 {
                     await Clients.Client(senderConnectionId).SendAsync("MessageSent", messageData);
