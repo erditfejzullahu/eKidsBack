@@ -2064,9 +2064,57 @@
   },
   {
     "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "GetAllUsersStatistics",
+    "RelativePath": "api/Users/GetAllUsersStatistics",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchParam",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "GetCommitments",
+    "RelativePath": "api/Users/GetCommitments/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
     "Method": "GetUserById",
     "RelativePath": "api/Users/GetUserById/{userId}",
     "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "IncreaseCommitment",
+    "RelativePath": "api/Users/IncreaseCommitment/{userId}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [

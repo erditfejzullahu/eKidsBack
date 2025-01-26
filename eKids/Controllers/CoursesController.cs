@@ -176,7 +176,9 @@ namespace eKids.Controllers
                 var sortedQuery = _sorterService.SortData(coursesQuery, sortQuery);
 
                 paginationDto.Validate();
-                var paginatedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);
+                var paginatedQuery = sortQuery != null 
+                    ? sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take)
+                    : coursesQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);
 
                 var courses = await paginatedQuery
                     .Include(c => c.Lessons)

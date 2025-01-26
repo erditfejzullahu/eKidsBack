@@ -198,6 +198,12 @@ namespace eKids.Controllers
         {
             try
             {
+                var currentUser = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == userId);
+                if(currentUser == null)
+                {
+                    return NotFound(new { Message = "User not found" });
+                }
+
                 IQueryable<object>? result = null;
 
                 switch (types)
@@ -215,7 +221,21 @@ namespace eKids.Controllers
                                 c.Age,
                                 c.ProfilePictureUrl,
                                 c.CreatedAt,
-                                c.Username
+                                c.Username,
+                                LastMessage = new
+                                {
+                                    Message = c.ReceivedMessages
+                                    .Where(r => r.ReceiverUsername == currentUser.Username)
+                                    .Union(c.SentMessages.Where(r => r.SenderUsername == c.Username))
+                                    .Select(s => new
+                                    {
+                                        s.Content,
+                                        s.IsRead,
+                                        s.CreatedAt
+                                    })
+                                    .OrderByDescending(c => c.CreatedAt)
+                                    .FirstOrDefault()
+                                }
                             });
                         break;
                     case UsersRelationshipTypes.Friends:
@@ -226,20 +246,27 @@ namespace eKids.Controllers
                             .Include(c => c.Friend)
                             .Select(c => new
                             {
-                                c.ID,
-                                c.UserId,
-                                c.FriendId,
-                                c.CreatedAt,
-                                UserData = new
+                                c.Friend.ID,
+                                c.Friend.Firstname,
+                                c.Friend.Lastname,
+                                c.Friend.Email,
+                                c.Friend.Age,
+                                c.Friend.ProfilePictureUrl,
+                                c.Friend.CreatedAt,
+                                c.Friend.Username,
+                                LastMessage = new
                                 {
-                                    c.Friend.ID,
-                                    c.Friend.Firstname,
-                                    c.Friend.Lastname,
-                                    c.Friend.Email,
-                                    c.Friend.Age,
-                                    c.Friend.ProfilePictureUrl,
-                                    c.Friend.CreatedAt,
-                                    c.Friend.Username,
+                                    Message = c.Friend.ReceivedMessages
+                                    .Where(r => r.ReceiverUsername == currentUser.Username)
+                                    .Union(c.Friend.SentMessages.Where(r => r.SenderUsername == c.Friend.Username))
+                                    .Select(s => new
+                                    {
+                                        s.Content,
+                                        s.IsRead,
+                                        s.CreatedAt
+                                    })
+                                    .OrderByDescending(c => c.CreatedAt)
+                                    .FirstOrDefault()
                                 }
                             });                            
                         break;
@@ -251,20 +278,27 @@ namespace eKids.Controllers
                             .Include(c => c.CloseFriend)
                             .Select(c => new
                             {
-                                c.ID,
-                                c.User,
-                                c.CloseFriend,
-                                c.CreatedAt,
-                                UserData = new
+                                c.CloseFriend.ID,
+                                c.CloseFriend.Firstname,
+                                c.CloseFriend.Lastname,
+                                c.CloseFriend.Email,
+                                c.CloseFriend.Age,
+                                c.CloseFriend.ProfilePictureUrl,
+                                c.CloseFriend.CreatedAt,
+                                c.CloseFriend.Username,
+                                LastMessage = new
                                 {
-                                    c.CloseFriend.ID,
-                                    c.CloseFriend.Firstname,
-                                    c.CloseFriend.Lastname,
-                                    c.CloseFriend.Email,
-                                    c.CloseFriend.Age,
-                                    c.CloseFriend.ProfilePictureUrl,
-                                    c.CloseFriend.CreatedAt,
-                                    c.CloseFriend.Username,
+                                    Message = c.CloseFriend.ReceivedMessages
+                                    .Where(r => r.ReceiverUsername == currentUser.Username)
+                                    .Union(c.CloseFriend.SentMessages.Where(r => r.SenderUsername == c.CloseFriend.Username))
+                                    .Select(s => new
+                                    {
+                                        s.Content,
+                                        s.IsRead,
+                                        s.CreatedAt
+                                    })
+                                    .OrderByDescending(c => c.CreatedAt)
+                                    .FirstOrDefault()
                                 }
                             });
                         break;

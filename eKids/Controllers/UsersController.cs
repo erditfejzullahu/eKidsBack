@@ -70,33 +70,74 @@ namespace eKids.Controllers
                     return BadRequest(new { message = "Username and password are required." });
                 }
 
-                var checkUser = await _userRepository.GetAll().FirstOrDefaultAsync(u => u.Username == loginDto.Username);
+                var checkUser = await _userRepository
+                    .GetAll()
+                    .AsNoTracking()
+                    .Include(u => u.UserMeta)
+                    .Include(u => u.Payment)
+                    .Include(u => u.Payment)
+                    .FirstOrDefaultAsync(u => u.Username == loginDto.Username);
                 if (checkUser == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, checkUser.Password))
                 {
                     return Unauthorized(new { Message = "Login incorrect!" });
                 }
 
-                var user = await _userRepository.GetAll()
-                .Include(u => u.UserMeta)
-                .Include(u => u.Package)
-                .Include(u => u.Payment)
-                .Select(user => new
+                var existingCommit = await _context.Commits.Where(c => c.UserId == checkUser.ID && c.Date == DateOnly.FromDateTime(DateTime.UtcNow.Date)).FirstOrDefaultAsync(cancToken);
+                if (existingCommit == null)
                 {
-                    user.ID,
-                    user.Firstname,
-                    user.Lastname,
-                    user.Email,
-                    user.Package,
-                    user.UserMeta,
-                    user.Payment,
-                    user.Username,
-                    user.ProfilePictureUrl
-                })
-                .FirstOrDefaultAsync(u => u.Username == loginDto.Username, cancToken);
+                    var newCommit = new Commits
+                    {
+                        UserId = checkUser.ID,
+                        Date = DateOnly.FromDateTime(DateTime.UtcNow.Date),
+                        Count = 1,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow,
+                    };
+                    await _context.Commits.AddAsync(newCommit, cancToken);
+                    await _context.SaveChangesAsync(cancToken);
+                }
+                else
+                {
+                    existingCommit.Count += 1;
+                    existingCommit.LastModified = DateTime.UtcNow;
+                    _context.Commits.Update(existingCommit);
+                    await _context.SaveChangesAsync(cancToken);
+                }
 
-                var token = await _tokenService.GenerateTokens(user.ID.ToString(), cancToken);
+                var response = new
+                {
+                    checkUser.ID,
+                    checkUser.Firstname,
+                    checkUser.Lastname,
+                    checkUser.Email,
+                    checkUser.Package,
+                    checkUser.UserMeta,
+                    checkUser.Payment,
+                    checkUser.Username,
+                    checkUser.ProfilePictureUrl
+                };
 
-                return Ok(new { Token = token, userdata = user });
+                //var user = await _userRepository.GetAll()
+                //.Include(u => u.UserMeta)
+                //.Include(u => u.Package)
+                //.Include(u => u.Payment)
+                //.Select(user => new
+                //{
+                //    user.ID,
+                //    user.Firstname,
+                //    user.Lastname,
+                //    user.Email,
+                //    user.Package,
+                //    user.UserMeta,
+                //    user.Payment,
+                //    user.Username,
+                //    user.ProfilePictureUrl
+                //})
+                //.FirstOrDefaultAsync(u => u.Username == loginDto.Username, cancToken);
+
+                var token = await _tokenService.GenerateTokens(checkUser.ID.ToString(), cancToken);
+
+                return Ok(new { Token = token, userdata = checkUser });
 
             }
             catch (Exception ex)
@@ -491,6 +532,8 @@ namespace eKids.Controllers
                             c.UserInformations.Birthday,
                             c.UserInformations.SoftSkills,
                             c.UserInformations.UserId,
+                            c.UserInformations.Skills,
+                            c.UserInformations.Profession,
                             UserEducation = c.UserInformations.UserEducations.Where(ue => ue.UserId == userId).Select(ue => new
                             {
                                 ue.Place_Name,
@@ -510,7 +553,12 @@ namespace eKids.Controllers
                                 uj.UserInformationId,
                                 uj.End_Year,
                             }).ToList() ?? null
-                        }
+                        },
+                        CommitsData = c.Commits.Where(c => c.UserId == userId).Select(cm => new
+                        {
+                            cm.Date,
+                            cm.Count,
+                        })
                     })
                     .FirstOrDefaultAsync(token);
 
@@ -525,6 +573,107 @@ namespace eKids.Controllers
             {
                 _logger.LogError(ex, $"Error in retriving user with id: {userId}");
                 return BadRequest(new { Message = "Error in retriving user" });
+            }
+        }
+
+        [HttpPut("/api/Users/IncreaseCommitment/{userId}")]
+        public async Task<IActionResult> IncreaseCommitment(int userId, CancellationToken token)
+        {
+            try
+            {
+                var commitment = await _context.Commits
+                    .Where(c => c.UserId == userId && c.Date == DateOnly.FromDateTime(DateTime.UtcNow.Date))
+                    .FirstOrDefaultAsync(token);
+                if (commitment == null)
+                {
+                    var newCommit = new Commits
+                    {
+                        UserId = userId,
+                        Count = 1,
+                        Date = DateOnly.FromDateTime(DateTime.UtcNow.Date),
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    };
+                    await _context.Commits.AddAsync(newCommit, token);
+                    await _context.SaveChangesAsync(token);
+                    return Ok(new { Message = "Commitment created" });
+                }
+                else
+                {
+                    commitment.Count += 1;
+                    commitment.LastModified = DateTime.UtcNow;
+                    _context.Commits.Update(commitment);
+                    await _context.SaveChangesAsync(token);
+                    return Ok(new { Message = "Commitment updated" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in increasing commitment for userId: {userId}");
+                return BadRequest(new { Message = "Error in incresing commitment" });
+            }
+        }
+
+        [HttpGet("/api/Users/GetCommitments/{userId}")]
+        public async Task<IActionResult> GetCommitments(int userId, CancellationToken token)
+        {
+            try
+            {
+                var commitments = await _context.Commits.AsNoTracking()
+                    .Where(c => c.UserId == userId)
+                    .Select(c => new
+                    {
+                        c.Date,
+                        c.Count,
+                    })
+                    .ToListAsync(token);
+                return Ok(commitments);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in retriving user commitments with userid: {userId}");
+                return BadRequest(new { Message = "Error in retriving user commitments" });
+            }
+        }
+
+        [HttpGet("/api/Users/GetAllUsersStatistics")]
+        public async Task<IActionResult> GetAllUsersStatistics([FromQuery] string ?searchParam, CancellationToken token)
+        {
+            try
+            {
+                var query = _context.Users.AsNoTracking();
+                if (!string.IsNullOrEmpty(searchParam))
+                {
+                    query = query.Where(s =>
+                    EF.Functions.Contains(s.Firstname, searchParam) ||
+                    EF.Functions.Contains(s.Lastname, searchParam) ||
+                    EF.Functions.Contains(s.Username, searchParam)
+                    );
+                }
+                
+                var userStatistics = await query
+                    .Select(c => new
+                    {
+                        c.ID,
+                        Name = c.Firstname + " " + c.Lastname,
+                        c.Username,
+                        c.Email,
+                        c.UserMeta,
+                        CoursesCreated = c.CoursesCreated.Count(),
+                        LessonsCompleted = c.UserProgress.Where(lc => lc.IsCompleted != false).Count(),
+                        QuizzesCreated = c.Quizzes.Count(),
+                        BlogsCreated = c.Blogs.Count(),
+                        Commitmens = c.Commits.Where(cm => cm.UserId == c.ID).Sum(commitment => commitment.Count)
+                    })
+                    .ToListAsync(token);
+
+                return Ok(userStatistics);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in retriing all users statistics");
+                return BadRequest(new { Message = "Error in retriving all user statistics" });
+                throw;
             }
         }
 

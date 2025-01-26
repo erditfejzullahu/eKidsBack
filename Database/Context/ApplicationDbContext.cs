@@ -35,6 +35,7 @@ namespace Database.Context
         public DbSet<BlogLikes> BlogLikes { get; set; }
         public DbSet<BlogComments> BlogComments { get; set; }
         public DbSet<BlogCommentLikes> BlogCommentLikes { get; set; }
+        public DbSet<Commits> Commits { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -116,11 +117,17 @@ namespace Database.Context
 
             modelBuilder.Entity<CourseCompleted>()
                 .HasIndex(c => new { c.UserId, c.CourseId });
-                //.HasName("IX_CourseCompleted_SomeProperty"); // not working
+            //.HasName("IX_CourseCompleted_SomeProperty"); // not working
 
 
 
             //indexes
+
+            modelBuilder.Entity<Commits>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.Commits)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BlogCommentLikes>()
                 .HasOne(c => c.BlogComment)
@@ -419,7 +426,23 @@ namespace Database.Context
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<UserProgress>();
+            modelBuilder.Entity<UserProgress>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UserProgress)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserProgress>()
+                .HasOne(c => c.Courses)
+                .WithMany(c => c.CoursesProgress)
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UserProgress>()
+                .HasOne(c => c.Lessons)
+                .WithMany(c => c.LessonProgress)
+                .HasForeignKey(c => c.LessonId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Bookmarks>();
         }

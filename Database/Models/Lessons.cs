@@ -51,6 +51,8 @@ namespace Database.Models
         public virtual Courses ?Course { get; set; }
 
         public virtual ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
+        public virtual ICollection<UserProgress> LessonProgress { get; set; } = new List<UserProgress>();
+
 
         //[Required]
         //public DateTime CreatedAt { get; set; }

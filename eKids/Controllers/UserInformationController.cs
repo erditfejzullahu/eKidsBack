@@ -48,9 +48,10 @@ namespace eKids.Controllers
                 var userInformation = await _userInformationRepository
                     .GetAll()
                     .AsNoTracking()
+                    .Where(c => c.UserId == userId)
                     .Include(c => c.UserJobs)
                     .Include(c => c.UserEducations)
-                    .FirstOrDefaultAsync(c => c.UserId == userId);
+                    .FirstOrDefaultAsync(token);
                 if(userInformation == null){
                     return NotFound(new { Message = "userinformation not found" });
                 }

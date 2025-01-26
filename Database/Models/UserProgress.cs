@@ -32,5 +32,11 @@ namespace Database.Models
         [Required]
         public bool HasStarted { get; set; }
 
+        [ForeignKey("UserId")]
+        public Users User { get; set; }
+
+        public Lessons Lessons { get; set; }
+        public Courses Courses { get; set; }
+
     }
 }
