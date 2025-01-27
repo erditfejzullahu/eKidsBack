@@ -50,7 +50,7 @@ namespace eKids.Controllers
                 if(string.IsNullOrEmpty(shareDto.SenderUsername) || string.IsNullOrEmpty(shareDto.ReceiverUsername))
                 {
                     return BadRequest(new { Message = "Missing data" });
-                }decimal 
+                } 
 
                 switch (shareType)
                 {
