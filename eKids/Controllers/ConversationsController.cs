@@ -1,6 +1,8 @@
-﻿using Database.DTOs;
+﻿using Database.Context;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Database.Shared.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +15,13 @@ namespace eKids.Controllers
     {
         private readonly IRepository<Conversations> _conversationsRepository;
         private readonly ILogger<ConversationsController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public ConversationsController(IRepository<Conversations> conversationsRepository, ILogger<ConversationsController> logger)
+        public ConversationsController(IRepository<Conversations> conversationsRepository, ApplicationDbContext context, ILogger<ConversationsController> logger)
         {
             _conversationsRepository = conversationsRepository;
             _logger = logger;
+            _context = context;
         }
 
         [HttpPost]
@@ -36,6 +40,95 @@ namespace eKids.Controllers
             _conversationsRepository.Add(message);
             await _conversationsRepository.SaveAsync(default);
             return Ok(message);
+        }
+
+        [HttpPost("/api/Conversations/ShareToUser")]
+        public async Task<IActionResult> ShareToUser([FromQuery] ShareType shareType, [FromBody] ShareItemDto shareDto)
+        {
+            try
+            {
+                if(string.IsNullOrEmpty(shareDto.SenderUsername) || string.IsNullOrEmpty(shareDto.ReceiverUsername))
+                {
+                    return BadRequest(new { Message = "Missing data" });
+                }decimal 
+
+                switch (shareType)
+                {
+                    case ShareType.Quiz:
+                        await HandleQuizShare(shareDto);
+                        break;
+                    case ShareType.Lesson:
+                        await HandleLessonShare(shareDto);
+                        break;
+                    case ShareType.Course:
+                        await HandleCourseShare(shareDto);
+                        break;
+                    default: return BadRequest(new { Message = "invalid share type" });
+                }
+
+                return Ok(new { Message = "Item shared successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in sharing to user${shareDto.ReceiverUsername}");
+                return BadRequest(new { Message = "Error in sharing user" });
+            }
+        }
+
+        public async Task HandleLessonShare(ShareItemDto shareItem)
+        {
+            var lessonCheck = await _context.Lessons.FindAsync(shareItem.LessonId);
+            if(lessonCheck == null)
+            {
+                throw new ArgumentException("Invalid lesson id provided");
+            }
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                LessonId = shareItem.LessonId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
+        }
+        public async Task HandleCourseShare(ShareItemDto shareItem)
+        {
+            var courseCheck = await _context.Courses.FindAsync(shareItem.CourseId);
+            if(courseCheck == null)
+            {
+                throw new ArgumentException("Invalid course id provided");
+            }
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                CourseId = shareItem.CourseId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task HandleQuizShare(ShareItemDto shareItem)
+        {
+            var quizCheck = await _context.Courses.FindAsync(shareItem.QuizId);
+            if(quizCheck == null)
+            {
+                throw new ArgumentException("Invalid quizid provided");
+            }
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                QuizId = shareItem.QuizId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
         }
 
         [HttpGet("/api/Conversations/{sender}/{receiver}")]
@@ -57,6 +150,7 @@ namespace eKids.Controllers
 
                 var messages = await _conversationsRepository.GetAll()
                     .AsNoTracking()
+                    .AsSplitQuery()
                     .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
                     .Select(c => new
                     {
@@ -80,7 +174,10 @@ namespace eKids.Controllers
                             c.Receiver.Lastname,
                             c.Receiver.Username,
                             c.Receiver.ProfilePictureUrl
-                        }
+                        },
+                        c.Quiz,
+                        c.Lesson,
+                        c.Course
                     })
                     .OrderByDescending(c => c.CreatedAt)
                     .Skip(skip)

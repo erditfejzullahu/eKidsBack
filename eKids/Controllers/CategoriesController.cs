@@ -134,7 +134,7 @@ namespace eKids.Controllers
 
             if (!string.IsNullOrEmpty(searchParam))
             {
-                query = query.Where(c => c.CategoryName.Contains(searchParam));
+                query = query.Where(c => EF.Functions.Contains(c.CategoryName, searchParam));
             }
 
             var sortedQuery = _sortService.SortData(query, sortQuery);

@@ -25,5 +25,18 @@ namespace Database.Models
 
         public string? FileUrl { get; set; }
         public bool IsRead { get; set; }
+
+        public int? QuizId { get; set; }
+        public int? LessonId { get; set; }
+        public int? CourseId { get; set; }
+
+        [ForeignKey("QuizId")]
+        public Quizzes Quiz { get; set; }
+
+        [ForeignKey("LessonId")]
+        public Lessons Lesson { get; set; }
+
+        [ForeignKey("CourseId")]
+        public Courses Course { get; set; }
     }
 }

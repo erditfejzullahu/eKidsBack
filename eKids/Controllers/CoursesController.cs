@@ -161,7 +161,7 @@ namespace eKids.Controllers
                 //    ? await _courseRepository.CountAsync(c => c.CourseCategory == categoryId, token)
                 //    : await _courseRepository.CountAsync(token: token);
 
-                IQueryable<Courses> coursesQuery = _courseRepository.GetAll().AsNoTracking();
+                IQueryable<Courses> coursesQuery = _courseRepository.GetAll().AsNoTracking().OrderBy(c => c.ID);
 
                 if (categoryId.HasValue)
                 {
@@ -170,7 +170,7 @@ namespace eKids.Controllers
 
                 if(!string.IsNullOrEmpty(searchParam))
                 {
-                    coursesQuery = coursesQuery.Where(c => c.CourseName.Contains(searchParam));
+                    coursesQuery = coursesQuery.Where(c => EF.Functions.Contains(c.CourseName, searchParam));
                 }
 
                 var sortedQuery = _sorterService.SortData(coursesQuery, sortQuery);

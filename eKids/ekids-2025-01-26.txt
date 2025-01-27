@@ -1,0 +1,1111 @@
+2025-01-26 14:04:16.6354 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 14:05:00.0440 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:05:00.0621 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:32:23.3904 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 14:32:33.5437 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-01-26 14:33:22.5907 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-01-26 14:34:27.3677 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 14:41:36.9545 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:41:36.9682 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:42:13.4189 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 14:43:34.9894 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:43:35.0110 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:43:37.2229 | Error | Error in retrieving Courses | System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.CoursesController.GetAllCoursesP(PaginationDto paginationDto, SortQueryDto sortQuery, String searchParam, Nullable`1 categoryId, CancellationToken token)
+2025-01-26 14:43:37.2229 | Error | Error in retrieving Courses | System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.CoursesController.GetAllCoursesP(PaginationDto paginationDto, SortQueryDto sortQuery, String searchParam, Nullable`1 categoryId, CancellationToken token)
+2025-01-26 14:48:02.4300 | Error | Failed executing DbCommand (61ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:02.4660 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:02.5900 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:03.6709 | Error | Failed executing DbCommand (5ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:03.6837 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:03.7705 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:04.6784 | Error | Failed executing DbCommand (6ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:04.6946 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:04.7782 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:10.7257 | Error | Failed executing DbCommand (6ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:10.7414 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:10.8026 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:17.7290 | Error | Failed executing DbCommand (87ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:17.7468 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:17.8302 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:26.8799 | Error | Failed executing DbCommand (3ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:26.8966 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:26.9504 | Error | Failed executing DbCommand (52ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:26.9598 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:26.9598 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:27.0215 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:27.7011 | Error | Failed executing DbCommand (3ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:27.7011 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:27.7846 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:40.3617 | Error | Failed executing DbCommand (10ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:40.3617 | Error | Failed executing DbCommand (10ms) [Parameters=[@__searchParam_1='?' (Size = 4000), @__searchParam_1_1='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[UserID], [u].[Firstname] + N' ' + [u].[Lastname], [u].[Username], [u].[Email], [u0].[UMetaID], [u0].[MetaKey], [u0].[MetaValue], [u0].[UserMID], (
+    SELECT COUNT(*)
+    FROM [Courses] AS [c]
+    WHERE [u].[UserID] = [c].[UserId]), (
+    SELECT COUNT(*)
+    FROM [UserProgress] AS [u1]
+    WHERE [u].[UserID] = [u1].[UserId] AND [u1].[IsCompleted] = CAST(1 AS bit)), (
+    SELECT COUNT(*)
+    FROM [Quizzes] AS [q]
+    WHERE [u].[UserID] = [q].[UserId]), (
+    SELECT COUNT(*)
+    FROM [Blogs] AS [b]
+    WHERE [u].[UserID] = [b].[UserId]), (
+    SELECT COALESCE(SUM([c0].[Count]), 0)
+    FROM [Commits] AS [c0]
+    WHERE [u].[UserID] = [c0].[UserId] AND [c0].[UserId] = [u].[UserID])
+FROM [Users] AS [u]
+LEFT JOIN [Usermeta] AS [u0] ON [u].[UserID] = [u0].[UserMID]
+WHERE CONTAINS([u].[Firstname], @__searchParam_1) OR CONTAINS([u].[Lastname], @__searchParam_1) OR CONTAINS([u].[Username], @__searchParam_1_1)
+ORDER BY [u].[UserID] | 
+2025-01-26 14:48:40.3781 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:40.4288 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:bb8712d4-e5e2-4aea-bc50-bea02c40cb65
+Error Number:7630,State:2,Class:15 | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:bb8712d4-e5e2-4aea-bc50-bea02c40cb65
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:40.5283 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:9436586f-368c-4e34-9868-7ec3f1b39907
+Error Number:7630,State:2,Class:15
+2025-01-26 14:48:40.5283 | Error | Error in retriing all users statistics | Microsoft.Data.SqlClient.SqlException (0x80131904): Syntax error near '[' in the full-text search condition '[object Object]'.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.UsersController.GetAllUsersStatistics(String searchParam, CancellationToken token)
+ClientConnectionId:bb8712d4-e5e2-4aea-bc50-bea02c40cb65
+Error Number:7630,State:2,Class:15
+2025-01-26 14:56:35.8650 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:56:35.8650 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:56:35.9218 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 14:56:35.9218 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:01:04.7209 | Info | erditbaba connected with connection ID: fY7Pr2kcu0JLtVEBsQWzug | 
+2025-01-26 15:01:12.0977 | Info | erditbaba connected with connection ID: JJKwdBW_JyPEcjy8RIanoA | 
+2025-01-26 15:02:00.0697 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:02:00.0697 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:02:00.1068 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:02:00.1068 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:02:07.3380 | Info | erditbaba connected with connection ID: g8w6BUzcjvpIhWMSWVRB9A | 
+2025-01-26 15:23:40.1261 | Info | erditbaba disconnected | 
+2025-01-26 15:23:40.1283 | Info | erditbaba disconnected | 
+2025-01-26 15:23:40.1283 | Info | erditbaba disconnected | 
+2025-01-26 15:23:45.0080 | Error | Error in invalidating refresh token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+2025-01-26 15:23:45.0080 | Error | Error in invalidating refresh token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+2025-01-26 15:23:45.0080 | Error | Error in invalidating refresh token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+2025-01-26 15:23:45.0080 | Error | Error in invalidating refresh token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+2025-01-26 15:23:45.4714 | Error | Error in refreshing token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+   at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+2025-01-26 15:23:45.4714 | Error | Error in refreshing token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+   at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+2025-01-26 15:23:45.5430 | Error | Error in refreshing token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+   at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+2025-01-26 15:23:45.5515 | Error | Error in refreshing token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+   at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+2025-01-26 15:23:46.2827 | Info | erditbaba connected with connection ID: cUnE6iIsk7JmL5_bL2sQRg | 
+2025-01-26 15:30:30.0903 | Info | erditbaba connected with connection ID: C2KK1FXs27FHxFRrEhBY1g | 
+2025-01-26 15:30:37.0028 | Info | erditbaba connected with connection ID: X6JKkBg5XQnqR1s-lTb2UA | 
+2025-01-26 15:31:47.8057 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:31:47.8057 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:31:47.9509 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:31:47.9618 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.1306 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.1306 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.2715 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:33:51.2985 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0124 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0124 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. | 
+2025-01-26 15:34:30.0288 | Warn | The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. | 
+2025-01-26 15:34:30.0469 | Warn | The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. | 
+2025-01-26 15:34:41.7099 | Info | erditbaba connected with connection ID: f60WJF4JpMHrIR-xtVDR4w | 
+2025-01-26 15:35:26.3441 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:35:26.3475 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:35:26.3475 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:35:26.3638 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 15:38:29.3292 | Info | erditbaba disconnected | 
+2025-01-26 15:38:29.3338 | Info | erditbaba disconnected | 
+2025-01-26 15:38:29.3338 | Info | erditbaba disconnected | 
+2025-01-26 15:38:29.3338 | Info | erditbaba disconnected | 
+2025-01-26 16:12:18.4688 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 10, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=21503,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-01-26 16:12:18.4688 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Initializing, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 10, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=21503,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-01-26 17:30:39.4364 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 17:30:57.6171 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:30:57.6266 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:31:24.6273 | Error | erditbaba | 
+2025-01-26 17:35:10.7319 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:35:10.7358 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:35:10.7915 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:35:10.7915 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 17:53:21.5152 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 17:57:18.5920 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 17:57:23.5439 | Error | Error in retriving notifications for user 49 | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Controllers.NotificationsController.GetNotificationByUser(Int32 userId, CancellationToken token)
+2025-01-26 17:57:25.7180 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 17:58:11.4373 | Error | USER armendfejzullahu | 
+2025-01-26 17:58:41.9392 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:03:35.0661 | Error | USER armendfejzullahu | 
+2025-01-26 18:03:35.0661 | Info | armendfejzullahu connected with connection ID: 7o-eEsqMdBii5CTyH64c4Q | 
+2025-01-26 18:04:05.1314 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:09:22.5872 | Error | error not armendfejzullahu | 
+2025-01-26 18:09:22.5872 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:11:37.1182 | Error | error not (null) | 
+2025-01-26 18:11:37.1182 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:14:15.0846 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 18:15:31.0737 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 18:15:53.8288 | Error | Error in making reads | System.ArgumentNullException: Value cannot be null. (Parameter 's')
+   at System.Int32.Parse(String s)
+   at eKids.Controllers.NotificationsController.MakeReads(CancellationToken token)
+2025-01-26 18:16:12.0584 | Error | USER armendfejzullahu | 
+2025-01-26 18:16:12.0584 | Info | armendfejzullahu connected with connection ID: uUZyv3OxNNP6FwSvCtEnZQ | 
+2025-01-26 18:16:34.4609 | Error | USER armendfejzullahu | 
+2025-01-26 18:16:34.4609 | Info | armendfejzullahu connected with connection ID: lFdsdoUJ1WyntyFoIqejhQ | 
+2025-01-26 18:16:35.4587 | Error | error not (null) | 
+2025-01-26 18:16:35.4587 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:17:23.4783 | Error | error not armendfejzullahu | 
+2025-01-26 18:17:23.4783 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:26:51.5149 | Error | error not armendfejzullahu | 
+2025-01-26 18:26:51.5188 | Warn | User armendfejzullahu is not connected | 
+2025-01-26 18:31:26.9366 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 18:32:10.2481 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 18:32:10.2666 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 18:32:11.6990 | Error | USER armendfejzullahu | 
+2025-01-26 18:32:11.6990 | Info | armendfejzullahu connected with connection ID: NqLYMyo1QmjCGtAoMJAu9Q | 
+2025-01-26 18:32:40.1788 | Error | error not armendfejzullahu | 
+2025-01-26 18:33:54.2664 | Error | error not armendfejzullahu | 
+2025-01-26 19:11:34.2927 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 5, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=6878,Timers=5), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-01-26 19:11:34.3019 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 5, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=6878,Timers=5), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-01-26 19:34:58.2180 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 19:35:10.1321 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 19:35:10.1321 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 19:35:10.5701 | Error | USER erditbaba | 
+2025-01-26 19:35:10.5897 | Info | erditbaba connected with connection ID: np_djY23GUqiBlWolByudQ | 
+2025-01-26 19:36:26.4491 | Error | USER armendfejzullahu | 
+2025-01-26 19:36:26.4491 | Info | armendfejzullahu connected with connection ID: qsMZUscT3YlBT_DlBGupkA | 
+2025-01-26 19:37:19.0947 | Error | error not armendfejzullahu | 
+2025-01-26 19:37:20.4580 | Error | USER armendfejzullahu | 
+2025-01-26 19:37:20.4608 | Info | armendfejzullahu connected with connection ID: cbp6QF6hr6EI3f-Usney5Q | 
+2025-01-26 19:43:42.3856 | Error | error not armendfejzullahu | 
+2025-01-26 19:54:13.1126 | Error | USER erditbaba | 
+2025-01-26 19:54:13.1126 | Info | erditbaba connected with connection ID: y-UO94j-r0Il9UT-gAwLZA | 
+2025-01-26 19:54:28.0172 | Error | USER erditbaba | 
+2025-01-26 19:54:28.0172 | Info | erditbaba connected with connection ID: JEJ_5LYWZv_gtRClChAsqA | 
+2025-01-26 19:54:29.1994 | Error | error not erditbaba | 
+2025-01-26 19:55:02.9879 | Error | error not erditbaba | 
+2025-01-26 19:58:25.0690 | Error | error not erditbaba | 
+2025-01-26 19:59:13.0188 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 19:59:13.0241 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 19:59:13.0884 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 19:59:13.0884 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 19:59:15.8842 | Error | error not erditbaba | 
+2025-01-26 19:59:29.1886 | Error | error not erditbaba | 
+2025-01-26 20:08:18.8595 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-26 20:09:24.8934 | Error | USER erditbaba | 
+2025-01-26 20:09:24.9020 | Info | erditbaba connected with connection ID: 8cfuZS7IZc3CVkCTnYqy4w | 
+2025-01-26 20:09:36.5368 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 20:09:36.5494 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 20:09:37.0674 | Error | USER erditbaba | 
+2025-01-26 20:09:37.0708 | Info | erditbaba connected with connection ID: -eiEMFgATizseNA6ibcj7A | 
+2025-01-26 20:13:57.7090 | Error | Failed executing DbCommand (55ms) [Parameters=[@__searchParam_1='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[CategoryID], [c].[CategoryName], [c].[CategoryPictureUrl], [c].[CategorySlug], [c].[CreatedAt], [c].[LastModified], [c].[ViewCount], [c0].[CourseID], [c0].[CourseCategory], [c0].[CourseDescription], [c0].[CourseEnrolled], [c0].[CourseFeaturedImage], [c0].[CourseName], [c0].[CreatedAt], [c0].[LastModified], [c0].[UserId], [c0].[ViewCount]
+FROM [Categories] AS [c]
+LEFT JOIN [Courses] AS [c0] ON [c].[CategoryID] = [c0].[CourseCategory]
+WHERE CONTAINS([c].[CategoryName], @__searchParam_1)
+ORDER BY [c].[CategoryID] | 
+2025-01-26 20:13:57.8464 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot use a CONTAINS or FREETEXT predicate on table or indexed view 'Categories' because it is not full-text indexed.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:4cd9c49a-a763-4fcf-8fc2-8057b492ce02
+Error Number:7601,State:2,Class:16 | Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot use a CONTAINS or FREETEXT predicate on table or indexed view 'Categories' because it is not full-text indexed.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:4cd9c49a-a763-4fcf-8fc2-8057b492ce02
+Error Number:7601,State:2,Class:16
+2025-01-26 20:13:58.1593 | Error | An unhandled exception has occurred while executing the request. | Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot use a CONTAINS or FREETEXT predicate on table or indexed view 'Categories' because it is not full-text indexed.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.CategoriesController.getAllCategories(String searchParam, SortQueryDto sortQuery, CancellationToken token)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:4cd9c49a-a763-4fcf-8fc2-8057b492ce02
+Error Number:7601,State:2,Class:16
+2025-01-26 20:14:16.9232 | Error | USER erditbaba | 
+2025-01-26 20:14:16.9232 | Info | erditbaba connected with connection ID: 53_oNIaMOIS0V5kfYXqoWw | 
+2025-01-26 20:15:33.2341 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 20:15:33.2341 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 20:15:33.3075 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 20:15:33.3075 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 20:26:57.8814 | Info | erditbaba connected with connection ID: Td2d8EtzuEFt_Q-C45NWqQ | 
+2025-01-26 20:27:00.8462 | Info | erditbaba connected with connection ID: b-_4pJe3B4o2BAbNusJ1Xw | 
+2025-01-26 20:27:18.9755 | Info | erditbaba connected with connection ID: DwMs0nr3yp9lZI12YGI4Ug | 
+2025-01-26 20:27:21.7812 | Info | erditbaba connected with connection ID: cXSBeVRUxnGoPFpCt67cxw | 
+2025-01-26 20:35:09.7865 | Info | erditbaba connected with connection ID: wPY_dIjnIDgqxtHKWhBrQA | 
+2025-01-26 20:37:17.5356 | Info | erditbaba disconnected | 
+2025-01-26 20:37:17.5385 | Info | erditbaba disconnected | 
+2025-01-26 20:37:17.5385 | Info | erditbaba disconnected | 
+2025-01-26 20:37:17.5708 | Info | erditbaba disconnected | 
+2025-01-26 20:37:17.5708 | Info | erditbaba disconnected | 
+2025-01-26 20:38:49.2539 | Error | USER erditbaba | 
+2025-01-26 20:38:49.2580 | Info | erditbaba connected with connection ID: iSW3xB_VE2pMuBkcoIWLQg | 
+2025-01-26 20:40:25.7716 | Info | erditbaba connected with connection ID: 3yZifYRyXcPs1FFU42clzw | 
+2025-01-26 20:40:32.4898 | Info | erditbaba connected with connection ID: 8rT4S-ssEGG3meOwMXvxmg | 
+2025-01-26 20:40:39.9075 | Info | erditbaba connected with connection ID: hXPUkp2PJNDERRsRZS7MzQ | 
+2025-01-26 20:52:04.9328 | Error | USER armendfejzullahu | 
+2025-01-26 20:52:04.9328 | Info | armendfejzullahu connected with connection ID: EQ4mxEd73QPp2qsr6xNJGg | 
+2025-01-26 20:52:09.4229 | Error | error not armendfejzullahu | 
+2025-01-26 20:56:23.2563 | Error | USER erditbaba | 
+2025-01-26 20:56:23.2563 | Info | erditbaba connected with connection ID: lwUEYaBW3zWjwH9BE9tTRw | 
+2025-01-26 20:56:24.2898 | Error | error not erditbaba | 
+2025-01-26 20:56:39.9870 | Error | error not erditbaba | 
+2025-01-26 21:27:31.8074 | Info | erditbaba disconnected | 
+2025-01-26 21:27:31.8074 | Info | erditbaba disconnected | 
+2025-01-26 21:27:31.8074 | Info | erditbaba disconnected | 
+2025-01-26 21:56:56.7792 | Error | USER erditbaba | 
+2025-01-26 21:56:56.7792 | Info | erditbaba connected with connection ID: wbXdeuTM11LxuMG7Elbv8Q | 
+2025-01-26 21:57:32.6340 | Error | error not erditbaba | 
+2025-01-26 21:57:48.9115 | Error | error not erditbaba | 
+2025-01-26 21:58:13.0219 | Error | error not erditbaba | 
+2025-01-26 21:58:38.9891 | Error | error not erditbaba | 
+2025-01-26 21:58:59.6215 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 21:58:59.6215 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-01-26 21:59:02.3455 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-01-26 22:18:29.4890 | Error | USER erditbaba | 
+2025-01-26 22:18:29.4933 | Info | erditbaba connected with connection ID: hX1beET8Gh1nXDqYEQcMxA | 
+2025-01-26 22:24:49.6794 | Error | USER erditbaba | 
+2025-01-26 22:24:49.6794 | Info | erditbaba connected with connection ID: MwAhlb6wqek1SosShiAs1w | 
+2025-01-26 22:27:36.3282 | Error | USER erditbaba | 
+2025-01-26 22:27:36.3282 | Info | erditbaba connected with connection ID: sNXNsCqPyKSGFot4bRErrQ | 
+2025-01-26 22:29:18.8328 | Error | USER erditbaba | 
+2025-01-26 22:29:18.8360 | Info | erditbaba connected with connection ID: FrdqdyHnzvmKEcYCylTsnA | 
+2025-01-26 22:46:26.4248 | Error | USER erditbaba | 
+2025-01-26 22:46:26.4248 | Info | erditbaba connected with connection ID: B7eFZ36JJbRaLlgWjsqMgQ | 
+2025-01-26 22:50:06.9712 | Error | USER erditbaba | 
+2025-01-26 22:50:06.9712 | Info | erditbaba connected with connection ID: DS70hBVwaSkHbkfKNHnuRA | 
+2025-01-26 23:00:12.3711 | Error | USER erditbaba | 
+2025-01-26 23:00:12.3711 | Info | erditbaba connected with connection ID: RhMSvwYDSmpATAOXN3bZog | 
+2025-01-26 23:58:24.1163 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 3, async-ops: 24, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=56594,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-01-26 23:58:24.1163 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 3, async-ops: 24, serverEndpoint: 192.168.1.16:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=56594,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)

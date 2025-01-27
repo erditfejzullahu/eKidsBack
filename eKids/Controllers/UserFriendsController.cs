@@ -24,7 +24,7 @@ namespace eKids.Controllers
         private readonly IRepository<Notifications> _notificationRepository;
         private readonly IHubContext<NotificationsHub> _notificationsHub;
         private readonly ApplicationDbContext _context;
-        private static readonly ConnectionMapping _connectionMapping = new();
+        //private static readonly ConnectionMapping _connectionMapping = new();
 
         private readonly ILogger<UserFriendsController> _logger;
 
@@ -120,7 +120,7 @@ namespace eKids.Controllers
             try
             {
                 var userIdAuth = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.Parse(userIdAuth);
+                var user = int.TryParse(userIdAuth, out var currentUserID);
 
                 var transaction = await _context.Database.BeginTransactionAsync(token);
                 var username = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == senderId, token);
@@ -164,6 +164,7 @@ namespace eKids.Controllers
 
                 var notification = new Notifications
                 {
+                    UserId = receiverId,
                     ReceiverId = senderId,
                     Information = "Friend accepted",
                     Type = NotificationsType.UserFriendAccepted,
@@ -173,7 +174,7 @@ namespace eKids.Controllers
                 };
                 await _context.Notifications.AddAsync(notification, token);
                 await _context.SaveChangesAsync(token);
-                var connectedUserId = ConnectionMapping.GetConnectionId(username.Username);
+                var connectedUserId = ConnectionMapping.GetConnectionId(username?.Username);
                 if(connectedUserId != null)
                 {
                     var countNotifications = await _context.Notifications.Where(c => c.ReceiverId == senderId && c.IsRead == false).CountAsync(token);
@@ -211,7 +212,9 @@ namespace eKids.Controllers
                     case UsersRelationshipTypes.All:
                         result = _usersRepository
                             .GetAll()
+                            .AsSplitQuery()
                             .AsNoTracking()
+                            .OrderBy(c => c.ID)
                             .Select(c => new
                             {
                                 c.ID,
@@ -225,8 +228,10 @@ namespace eKids.Controllers
                                 LastMessage = new
                                 {
                                     Message = c.ReceivedMessages
-                                    .Where(ru => ru.ReceiverUsername == currentUser.Username || ru.SenderUsername == currentUser.Username)
-                                    .Union(c.SentMessages.Where(su => su.SenderUsername == c.Username || su.ReceiverUsername == c.Username))
+                                    .Where(ru => ru.ReceiverUsername == currentUser.Username && ru.SenderUsername == c.Username ||
+                                    ru.ReceiverUsername == c.Username && ru.SenderUsername == currentUser.Username)
+                                    .Union(c.SentMessages.Where(su => su.SenderUsername == c.Username && su.ReceiverUsername == currentUser.Username ||
+                                    su.SenderUsername == currentUser.Username && su.ReceiverUsername == c.Username))
                                     .Select(s => new
                                     {
                                         s.Content,
@@ -241,7 +246,9 @@ namespace eKids.Controllers
                     case UsersRelationshipTypes.Friends:
                         result = _friendsRepository
                             .GetAll()
+                            .AsSplitQuery()
                             .AsNoTracking()
+                            .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
                             .Include(c => c.Friend)
                             .Select(c => new
@@ -273,7 +280,9 @@ namespace eKids.Controllers
                     case UsersRelationshipTypes.CloseFriends:
                         result = _closeRepository
                             .GetAll()
+                            .AsSplitQuery()
                             .AsNoTracking()
+                            .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
                             .Include(c => c.CloseFriend)
                             .Select(c => new

@@ -29,6 +29,7 @@ namespace Database.Models
 
         public virtual ICollection<QuizQuestions> Questions { get; set; } = new List<QuizQuestions>();
         public virtual ICollection<QuizzesCompleted> QuizzesCompleted { get; set; } = new List<QuizzesCompleted>();
+        public virtual ICollection<Conversations> QuizConversations { get; set; } = new List<Conversations>();
 
     }
 }

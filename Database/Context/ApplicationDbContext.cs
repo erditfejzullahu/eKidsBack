@@ -286,6 +286,24 @@ namespace Database.Context
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Conversations>()
+                .HasOne(c => c.Quiz)
+                .WithMany(c => c.QuizConversations)
+                .HasForeignKey(c => c.QuizId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Conversations>()
+                .HasOne(c => c.Lesson)
+                .WithMany(c => c.LessonConversations)
+                .HasForeignKey(c => c.LessonId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Conversations>()
+                .HasOne(c => c.Course)
+                .WithMany(c => c.CourseConversations)
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Conversations>()
                 .HasOne(c => c.Sender)
                 .WithMany(u => u.SentMessages) // Assuming the Users model has a collection of SentMessages
                 .HasForeignKey(c => c.SenderUsername)

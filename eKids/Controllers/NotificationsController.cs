@@ -290,9 +290,10 @@ namespace eKids.Controllers
                 var notifications = await _notificationsRepository
                     .GetAll()
                     .AsNoTracking()
+                    .OrderByDescending(c => c.ID)
                     .Where(c => c.ReceiverId == userId)
-                    .Include(c => c.User)
-                    .Include(c => c.NotificationReceiver)
+                    //.Include(c => c.User)
+                    //.Include(c => c.NotificationReceiver)
                     .Select(c => new
                     {
                         c.ID,
@@ -313,7 +314,6 @@ namespace eKids.Controllers
                         },
                         c.CreatedAt
                     })
-                    .OrderByDescending(c => c.CreatedAt)
                     .ToListAsync(token);
 
                 if (notifications.Count == 0)

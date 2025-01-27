@@ -52,6 +52,7 @@ namespace Database.Models
 
         public virtual ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
         public virtual ICollection<UserProgress> LessonProgress { get; set; } = new List<UserProgress>();
+        public virtual ICollection<Conversations> LessonConversations { get; set; } = new List<Conversations>();
 
 
         //[Required]
