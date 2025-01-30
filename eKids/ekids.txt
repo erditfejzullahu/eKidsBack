@@ -1,5 +1,23 @@
-2025-01-27 01:00:53.1424 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-01-27 01:03:40.0913 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-01-27 01:05:51.1232 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-01-27 01:07:09.9246 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-01-27 01:40:37.1790 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-30 02:24:03.6557 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-01-30 02:25:44.6426 | Error | USER erditbaba | 
+2025-01-30 02:25:44.6426 | Info | erditbaba connected with connection ID: K2ovsQOk5V2fdvtozUG0Aw | 
+2025-01-30 02:25:57.7110 | Info | erditbaba connected with connection ID: t0jQEPoQFyyKLOLcqzDubw | 
+2025-01-30 02:26:48.2544 | Info | erditbaba connected with connection ID: chY25IBVaT-9-1gtBshhaQ | 
+2025-01-30 03:14:14.4141 | Info | erditbaba disconnected | 
+2025-01-30 03:14:18.2367 | Info | erditbaba connected with connection ID: 23l5qL8dC9zW85SrzfO97g | 
+2025-01-30 03:14:19.8343 | Info | erditbaba connected with connection ID: NpBDDHmN89w1mZTcamZrtg | 
+2025-01-30 03:14:50.8598 | Error | USER armendfejzullahu | 
+2025-01-30 03:14:50.8598 | Info | armendfejzullahu connected with connection ID: PHcHvnGwKBdXFYsyIWJJUw | 
+2025-01-30 03:14:56.5775 | Info | armendfejzullahu connected with connection ID: KLD5IFANDgvbKXIga5ZxDw | 
+2025-01-30 03:19:27.1093 | Error | USER erditbaba | 
+2025-01-30 03:19:27.1093 | Info | erditbaba connected with connection ID: 4BmsMxdbldINSHEvrh3FiA | 
+2025-01-30 03:19:33.4243 | Info | erditbaba connected with connection ID: _Au3HWdZIHSdG_f6w1Yjlg | 
+2025-01-30 04:05:56.0342 | Info | erditbaba connected with connection ID: wXa6o9DB1ZF2e-cuuSFHog | 
+2025-01-30 04:06:43.0934 | Info | erditbaba disconnected | 
+2025-01-30 04:06:45.2580 | Info | erditbaba connected with connection ID: fFPbHIFNBp_HjIrjlBq9gQ | 
+2025-01-30 04:06:48.5370 | Info | erditbaba connected with connection ID: yuocC-OEimT32mTvY3EXiA | 
+2025-01-30 04:14:56.2743 | Info | erditbaba connected with connection ID: Br9ilzMM5BnItExR8O2roQ | 
+2025-01-30 04:17:37.3238 | Info | erditbaba connected with connection ID: SZUAoj9sM__GImdgxD7-yQ | 
+2025-01-30 04:17:37.3238 | Error | USER erditbaba | 
+2025-01-30 04:17:37.3238 | Info | erditbaba connected with connection ID: sFG2CdPMdrKx9qhlcqWbGQ | 
+2025-01-30 04:18:56.9908 | Info | erditbaba connected with connection ID: h-JqNwpTp4mE8smD3se7wQ | 

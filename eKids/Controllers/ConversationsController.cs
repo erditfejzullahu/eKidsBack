@@ -75,7 +75,7 @@ namespace eKids.Controllers
             }
         }
 
-        public async Task HandleLessonShare(ShareItemDto shareItem)
+        private async Task HandleLessonShare(ShareItemDto shareItem)
         {
             var lessonCheck = await _context.Lessons.FindAsync(shareItem.LessonId);
             if(lessonCheck == null)
@@ -93,7 +93,7 @@ namespace eKids.Controllers
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
         }
-        public async Task HandleCourseShare(ShareItemDto shareItem)
+        private async Task HandleCourseShare(ShareItemDto shareItem)
         {
             var courseCheck = await _context.Courses.FindAsync(shareItem.CourseId);
             if(courseCheck == null)
@@ -112,9 +112,9 @@ namespace eKids.Controllers
             await _context.SaveChangesAsync();
         }
 
-        public async Task HandleQuizShare(ShareItemDto shareItem)
+        private async Task HandleQuizShare(ShareItemDto shareItem)
         {
-            var quizCheck = await _context.Courses.FindAsync(shareItem.QuizId);
+            var quizCheck = await _context.Quizzes.FindAsync(shareItem.QuizId);
             if(quizCheck == null)
             {
                 throw new ArgumentException("Invalid quizid provided");
@@ -148,7 +148,7 @@ namespace eKids.Controllers
 
                 var skip = (page - 1) * pageSize;
 
-                var messages = await _conversationsRepository.GetAll()
+                var messages = await _context.Conversations
                     .AsNoTracking()
                     .AsSplitQuery()
                     .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
@@ -182,8 +182,8 @@ namespace eKids.Controllers
                     .OrderByDescending(c => c.CreatedAt)
                     .Skip(skip)
                     .Take(pageSize)
-                    //.OrderBy(c => c.CreatedAt)
                     .ToListAsync(token);
+
 
                 return Ok(messages);
             }
@@ -191,6 +191,25 @@ namespace eKids.Controllers
             {
                 _logger.LogError(ex, $"Error in retriving messages for {sender} and reciver {receiver}");
                 return BadRequest(new { Message = "Error retriving messages" });
+            }
+        }
+
+        [HttpPatch("/api/Conversations/ReadMessages/{sender}/{receiver}")]
+        public async Task<IActionResult> ReadMessages(string sender, string receiver, CancellationToken token)
+        {
+            try
+            {
+                var messages = await _context.Conversations
+                    .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
+                    .Where(r => (r.ReceiverUsername == receiver || r.SenderUsername == receiver))
+                    .ExecuteUpdateAsync(setter => setter.SetProperty(m => m.IsRead, true));
+
+                return Ok(new { Message = "Messages read suscessfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error making read messages for users: {sender} and {receiver}");
+                return BadRequest(new { Message = "Error reading messages" });
             }
         }
 
