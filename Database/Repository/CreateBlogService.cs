@@ -207,6 +207,51 @@ namespace Database.Repository
                 throw new ApplicationException("Failed to create blog.", ex);
             }
         }
+
+        public async Task<BlogRetrieveDto> GetBlogById(int blogId, int userId, CancellationToken token)
+        {
+            try
+            {
+                var blog = await _context.Blogs
+                    .AsNoTracking()
+                    .Where(c => c.ID == blogId)
+                    .Include(c => c.Tag)
+                    .ThenInclude(c => c.Children)
+                    .Include(c => c.BlogLikes)
+                    .Select(c => new BlogRetrieveDto
+                    {
+                        ID = c.ID,
+                        Title = c.Title,
+                        CategoryId = c.CategoryId,
+                        UserId = c.UserId,
+                        CommentsCount = c.BlogComments.Count,
+                        Tags = new BlogRetrieveTagDto
+                        {
+                            Name = c.Tag.Name,
+                            TagId = c.Tag.ID,
+                            Children = c.Tag.Children.Select(t => new BlogRetrieveTagDto
+                            {
+                                Name = t.Name,
+                                TagId = t.ID
+                            }).ToList() ?? new List<BlogRetrieveTagDto>(),
+                        },
+                        TagId = c.TagId,
+                        Content = c.Content,
+                        Likes = c.Likes,
+                        Status = c.Status,
+                        IsLiked = c.BlogLikes.Any(bl => bl.UserId == userId),
+                        ImageUrls = c.ImageUrls,
+                        CreatedAt = c.CreatedAt,
+                    })
+                    .FirstOrDefaultAsync(token);
+                return blog;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in getting post with id {blogId}");
+                throw new ApplicationException("Error in getting blog post");
+            }
+        }
         public async Task<(List<BlogRetrieveDto> blogs, bool hasMore)> AllBlogByTagRetrieve(int userId, int tagId, PaginationDto paginationDto, CancellationToken token)
         {
             try
