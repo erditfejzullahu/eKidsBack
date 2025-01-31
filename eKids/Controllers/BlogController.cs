@@ -39,7 +39,7 @@ namespace eKids.Controllers
                 var blogs = await _blogRepository
                     .GetAll()
                     .AsNoTracking()
-                    .Where(c => c.Title.Contains(title))
+                    .Where(c => EF.Functions.Contains(c.Title, title))
                     .Include(c => c.Tag)
                     .ThenInclude(c => c.Children)
                     .ToListAsync(token);

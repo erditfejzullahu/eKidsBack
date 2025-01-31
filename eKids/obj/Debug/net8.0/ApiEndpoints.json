@@ -581,6 +581,27 @@
   },
   {
     "ContainingType": "eKids.Controllers.ConversationsController",
+    "Method": "ReadMessages",
+    "RelativePath": "api/Conversations/ReadMessages/{sender}/{receiver}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sender",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "receiver",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.ConversationsController",
     "Method": "ShareToUser",
     "RelativePath": "api/Conversations/ShareToUser",
     "HttpMethod": "POST",
