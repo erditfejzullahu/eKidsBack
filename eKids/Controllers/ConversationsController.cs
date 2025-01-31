@@ -152,6 +152,9 @@ namespace eKids.Controllers
                     .AsNoTracking()
                     .AsSplitQuery()
                     .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
+                    .Include(c => c.Quiz)      // Include Quiz if it's related to Conversations
+                    .Include(c => c.Lesson)    // Include Lesson if it's related to Conversations
+                    .Include(c => c.Course)
                     .Select(c => new
                     {
                         c.ID,
