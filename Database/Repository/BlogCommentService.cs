@@ -77,7 +77,7 @@ namespace Database.Repository
             }
         }
 
-        public async Task<(List<BlogCommentDto> blogs, bool hasMore)> RetrieveBlogComments(int blogId, int userId, bool fullBlogComments, PaginationDto paginationDto, CancellationToken token)
+        public async Task<(List<BlogCommentDto> blogComments, bool hasMore)> RetrieveBlogComments(int blogId, int userId, bool fullBlogComments, PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
@@ -88,19 +88,19 @@ namespace Database.Repository
                     commentCount = await _context.BlogComments.Where(c => c.BlogId == blogId).CountAsync(token);
                 }
 
-                var commentsQuery = _context.BlogComments
+                var commentsQuery = await _context.BlogComments
                     .AsNoTracking()
                     .Where(c => c.BlogId == blogId)
                     .Include(c => c.User)
-                    .Include(c => c.Replies)
-                    .Include(c => c.BlogCommentLikes)
+                    //.Include(c => c.Replies)
+                    //.Include(c => c.BlogCommentLikes)
                     .Select(c => new BlogCommentDto
                     {
                         CommentId = c.ID,
                         Comment_Content = c.Comment_Content,
                         ParentId = c.ParentId,
                         Likes = c.Likes,
-                        IsLiked = c.BlogCommentLikes.Any(bl => bl.UserId == userId),
+                        IsLiked = c.BlogCommentLikes.Any(bl => bl.CommentId == c.ID && bl.UserId == userId),
                         User = new BlogUserDto
                         {
                             Name = c.User.Firstname + " " + c.User.Lastname,
@@ -108,27 +108,18 @@ namespace Database.Repository
                         },
                         Item_Url = c.Item_Url,
                         BlogId = c.BlogId,
+                        UserId = c.UserId,
                         createdAt = c.CreatedAt,
                         Replies = new List<BlogCommentDto>()
-                    });
+                    })
+                    .OrderByDescending(c => c.createdAt)
+                    .ToListAsync();
 
-
-                if (!fullBlogComments)
-                {
-                    commentsQuery = commentsQuery.Skip(paginationDto.Skip).Take(paginationDto.Take).OrderBy(c => c.createdAt);
-                }
-                else
-                {
-                    commentsQuery = commentsQuery.OrderBy(c => c.createdAt);
-                }
-
-                var comments = await commentsQuery.ToListAsync(token);
-
-                var commentLookup = comments.ToLookup(c => c.ParentId);
+                var commentLookup = commentsQuery.ToLookup(c => c.ParentId);
 
                 List<BlogCommentDto> BuildHierarky(int? parentId)
                 {
-                    return commentLookup[parentId]
+                    return fullBlogComments ? commentLookup[parentId]
                         .Select(c => new BlogCommentDto
                         {
                             CommentId = c.CommentId,
@@ -140,11 +131,37 @@ namespace Database.Repository
                                 ProfilePicture = c.User.ProfilePicture
                             },
                             Likes = c.Likes,
+                            UserId = c.UserId,
+                            IsLiked = c.IsLiked,
+                            Item_Url = c.Item_Url,
                             createdAt = c.createdAt,
                             BlogId = c.BlogId,
                             Replies = BuildHierarky(c.CommentId)
                         })
-                        .OrderBy(c => c.createdAt)
+                        .OrderByDescending(c => c.createdAt)
+                        .ToList()
+                        : commentLookup[parentId]
+                        .Select(c => new BlogCommentDto
+                        {
+                            CommentId = c.CommentId,
+                            Comment_Content = c.Comment_Content,
+                            ParentId = c.ParentId,
+                            User = new BlogUserDto
+                            {
+                                Name = c.User.Name,
+                                ProfilePicture = c.User.ProfilePicture
+                            },
+                            Likes = c.Likes,
+                            UserId = c.UserId,
+                            IsLiked = c.IsLiked,
+                            Item_Url = c.Item_Url,
+                            createdAt = c.createdAt,
+                            BlogId = c.BlogId,
+                            Replies = BuildHierarky(c.CommentId)
+                        })
+                        .OrderByDescending(c => c.createdAt)
+                        .Skip(paginationDto.Skip)
+                        .Take(paginationDto.Take)
                         .ToList();
                 }
 

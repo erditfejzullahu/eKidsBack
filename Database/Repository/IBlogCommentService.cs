@@ -11,7 +11,7 @@ namespace Database.Repository
     public interface IBlogCommentService
     {
         Task<BlogComments> CreateBlogComment(CreateBlogComment blogDto, CancellationToken token);
-        Task<(List<BlogCommentDto> blogs, bool hasMore)> RetrieveBlogComments(int blogId, int userId, bool fullBlogComments, PaginationDto paginationDto, CancellationToken token);
+        Task<(List<BlogCommentDto> blogComments, bool hasMore)> RetrieveBlogComments(int blogId, int userId, bool fullBlogComments, PaginationDto paginationDto, CancellationToken token);
         Task<int> HandleStatusBlogComment(int blogCommentId, int userId, int blogId, CancellationToken token);
 
     }

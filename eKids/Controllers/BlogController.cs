@@ -145,11 +145,11 @@ namespace eKids.Controllers
             try
             {
                 var comments = await _blogCommentService.RetrieveBlogComments(blogId, userId, fullBlogComments, paginationDto, token);
-                if(comments.blogs.Count == 0)
+                if(comments.blogComments.Count == 0)
                 {
                     return NotFound(new { Message = "No comments are made" });
                 }
-                return Ok(comments);
+                return Ok(new {comments.blogComments, comments.hasMore});
             }
             catch (Exception ex)
             {
