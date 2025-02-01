@@ -77,11 +77,19 @@ namespace Database.Repository
             }
         }
 
-        public async Task<List<BlogCommentDto>> RetrieveBlogComments(int blogId, int userId, CancellationToken token)
+        public async Task<(List<BlogCommentDto> blogs, bool hasMore)> RetrieveBlogComments(int blogId, int userId, bool fullBlogComments, PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
-                var comments = await _context.BlogComments
+                int? commentCount = null;
+
+                if (!fullBlogComments)
+                {
+                    commentCount = await _context.BlogComments.Where(c => c.BlogId == blogId).CountAsync(token);
+                }
+
+                var commentsQuery = _context.BlogComments
+                    .AsNoTracking()
                     .Where(c => c.BlogId == blogId)
                     .Include(c => c.User)
                     .Include(c => c.Replies)
@@ -102,10 +110,19 @@ namespace Database.Repository
                         BlogId = c.BlogId,
                         createdAt = c.CreatedAt,
                         Replies = new List<BlogCommentDto>()
-                    })
-                    .OrderBy(c => c.createdAt)
-                    .AsNoTracking()
-                    .ToListAsync(token);
+                    });
+
+
+                if (!fullBlogComments)
+                {
+                    commentsQuery = commentsQuery.Skip(paginationDto.Skip).Take(paginationDto.Take).OrderBy(c => c.createdAt);
+                }
+                else
+                {
+                    commentsQuery = commentsQuery.OrderBy(c => c.createdAt);
+                }
+
+                var comments = await commentsQuery.ToListAsync(token);
 
                 var commentLookup = comments.ToLookup(c => c.ParentId);
 
@@ -130,7 +147,14 @@ namespace Database.Repository
                         .OrderBy(c => c.createdAt)
                         .ToList();
                 }
-                return BuildHierarky(null);
+
+                bool hasMore = false;
+                if (!fullBlogComments)
+                {
+                    hasMore = commentLookup.Count == paginationDto.Take && commentLookup.Count < commentCount;
+                }
+
+                return (BuildHierarky(null), hasMore);
 
                 //return comments;
             }

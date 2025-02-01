@@ -235,6 +235,11 @@ namespace Database.Repository
                                 TagId = t.ID
                             }).ToList() ?? new List<BlogRetrieveTagDto>(),
                         },
+                        User = new BlogRetrieveUserDto
+                        {
+                            Name = c.User.Firstname + " " + c.User.Lastname,
+                            ProfilePicture = c.User.ProfilePictureUrl
+                        },
                         TagId = c.TagId,
                         Content = c.Content,
                         Likes = c.Likes,

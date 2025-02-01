@@ -140,12 +140,12 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Blogs/GetCommentsByBlog/{blogId}/{userId}")]
-        public async Task<IActionResult> GetBlogComments(int blogId, int userId, CancellationToken token)
+        public async Task<IActionResult> GetBlogComments(int blogId, int userId, [FromQuery] bool fullBlogComments, [FromQuery] PaginationDto paginationDto,  CancellationToken token)
         {
             try
             {
-                var comments = await _blogCommentService.RetrieveBlogComments(blogId, userId, token);
-                if(comments.Count == 0)
+                var comments = await _blogCommentService.RetrieveBlogComments(blogId, userId, fullBlogComments, paginationDto, token);
+                if(comments.blogs.Count == 0)
                 {
                     return NotFound(new { Message = "No comments are made" });
                 }
