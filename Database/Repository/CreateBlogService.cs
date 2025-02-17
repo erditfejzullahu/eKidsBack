@@ -319,13 +319,10 @@ namespace Database.Repository
                 var blogsCount = await _context.Blogs.CountAsync(token);
                 var blogs = await _context.Blogs
                     .AsNoTracking()
-                    .Include(c => c.Tag)
-                    .ThenInclude(c => c.Children)
-                    .Include(c => c.User)
-                    .Include(c => c.BlogLikes)
-                    .OrderByDescending(c => c.CreatedAt)
-                    .Skip(paginationDto.Skip)
-                    .Take(paginationDto.Take)
+                    //.Include(c => c.Tag)
+                    //.ThenInclude(c => c.Children)
+                    //.Include(c => c.User)
+                    //.Include(c => c.BlogLikes)
                     .Select(c => new BlogRetrieveDto
                     {
                         ID = c.ID,
@@ -342,7 +339,7 @@ namespace Database.Repository
                         {
                             Name = c.Tag.Name,
                             TagId = c.Tag.ID,
-                            Children = c.Tag.Children.Select(t => new BlogRetrieveTagDto
+                            Children = c.Tag.Children.Where(t => t.Parent_Id == c.Tag.ID).Select(t => new BlogRetrieveTagDto
                             {
                                 Name = t.Name,
                                 TagId = t.ID
@@ -352,10 +349,13 @@ namespace Database.Repository
                         Content = c.Content,
                         Likes = c.Likes,
                         Status = c.Status,
-                        IsLiked = c.BlogLikes.Any(bl => bl.UserId == userId),
+                        IsLiked = c.BlogLikes.Any(bl => bl.BlogId == c.ID && bl.UserId == userId),
                         ImageUrls = c.ImageUrls,
                         CreatedAt = c.CreatedAt,
                     })
+                    .OrderByDescending(c => c.CreatedAt)
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
                     .ToListAsync(token);
                 bool hasMore = blogs.Count == paginationDto.Take && blogs.Count < blogsCount;
                 return (blogs, hasMore);

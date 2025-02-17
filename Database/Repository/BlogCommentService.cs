@@ -164,11 +164,10 @@ namespace Database.Repository
                         .Take(paginationDto.Take)
                         .ToList();
                 }
-
                 bool hasMore = false;
                 if (!fullBlogComments)
                 {
-                    hasMore = commentLookup.Count == paginationDto.Take && commentLookup.Count < commentCount;
+                    hasMore = BuildHierarky(null).Count == paginationDto.Take && BuildHierarky(null).Count < commentCount;
                 }
 
                 return (BuildHierarky(null), hasMore);

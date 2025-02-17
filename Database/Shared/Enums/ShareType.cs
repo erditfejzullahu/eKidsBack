@@ -10,6 +10,7 @@ namespace Database.Shared.Enums
     {
         Quiz = 1,
         Lesson = 2,
-        Course = 3
+        Course = 3,
+        Blogs = 4
     }
 }

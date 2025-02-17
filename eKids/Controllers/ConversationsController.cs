@@ -63,6 +63,9 @@ namespace eKids.Controllers
                     case ShareType.Course:
                         await HandleCourseShare(shareDto);
                         break;
+                    case ShareType.Blogs:
+                        await HandleBlogShare(shareDto);
+                        break;
                     default: return BadRequest(new { Message = "invalid share type" });
                 }
 
@@ -73,6 +76,24 @@ namespace eKids.Controllers
                 _logger.LogError(ex, $"Error in sharing to user${shareDto.ReceiverUsername}");
                 return BadRequest(new { Message = "Error in sharing user" });
             }
+        }
+
+        private async Task HandleBlogShare(ShareItemDto shareItem)
+        {
+            var blogCheck = await _context.Blogs.FindAsync(shareItem.BlogId);
+            if(blogCheck == null)
+            {
+                throw new ApplicationException("Inavlid blog id provided");
+            }
+
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                BlogId = shareItem.BlogId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow
+            };
         }
 
         private async Task HandleLessonShare(ShareItemDto shareItem)

@@ -1,34 +1,16 @@
-2025-02-01 00:01:10.1215 | Error | USER erditbaba | 
-2025-02-01 00:01:10.1454 | Info | erditbaba connected with connection ID: GGdtjaWDmhG-Eg3syqFYlg | 
-2025-02-01 00:01:46.3927 | Error | USER erditbaba | 
-2025-02-01 00:01:46.3927 | Info | erditbaba connected with connection ID: _N7FHR22ffVqoMzFvffrcA | 
-2025-02-01 00:08:03.4204 | Error | USER erditbaba | 
-2025-02-01 00:08:03.4204 | Info | erditbaba connected with connection ID: JdxDH_zCD1_LyoMlvqe6fQ | 
-2025-02-01 00:08:21.9063 | Error | USER erditbaba | 
-2025-02-01 00:08:21.9063 | Info | erditbaba connected with connection ID: 3il_gpaa-c9002Vu4DcjPQ | 
-2025-02-01 00:21:26.7112 | Error | USER erditbaba | 
-2025-02-01 00:21:26.7112 | Info | erditbaba connected with connection ID: -eXDyztXAuQcBKKbfouF1A | 
-2025-02-01 01:32:55.9935 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-02-01 01:48:13.1116 | Error | USER erditbaba | 
-2025-02-01 01:48:13.1116 | Info | erditbaba connected with connection ID: CAMxqkBGEO1a9UIC7uh2fA | 
-2025-02-01 01:51:00.0562 | Error | USER erditbaba | 
-2025-02-01 01:51:00.0562 | Info | erditbaba connected with connection ID: vRYerkToK8w1UQaDS8NthA | 
-2025-02-01 01:53:58.1048 | Error | USER erditbaba | 
-2025-02-01 01:53:58.1048 | Info | erditbaba connected with connection ID: CDg3_1cYaHNMSn1yFyVJaA | 
-2025-02-01 01:54:52.8730 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-02-01 01:54:52.8848 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-02-01 01:56:43.3702 | Error | USER erditbaba | 
-2025-02-01 01:56:43.3702 | Info | erditbaba connected with connection ID: Vts0kksvL_7tfQW_8ZTeEg | 
-2025-02-01 02:01:03.1663 | Error | USER erditbaba | 
-2025-02-01 02:01:03.1663 | Info | erditbaba connected with connection ID: 4x5AV9iuVJgD9S0jEncg0Q | 
-2025-02-01 02:07:36.8267 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-02-01 02:07:36.8267 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-02-01 02:10:37.0712 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-02-01 02:10:37.0712 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-02-01 02:20:28.9430 | Error | USER erditbaba | 
-2025-02-01 02:20:28.9458 | Info | erditbaba connected with connection ID: LQDHbn8K5cOCHHl7dop6ug | 
-2025-02-01 02:20:33.2049 | Error | USER erditbaba | 
-2025-02-01 02:20:33.2049 | Info | erditbaba connected with connection ID: gnA0JohZ2Tcwps3BCZL4BQ | 
-2025-02-01 02:22:07.2285 | Error | USER erditbaba | 
-2025-02-01 02:22:07.2285 | Info | erditbaba connected with connection ID: 3m6JR1kNXYhsTGcV3xdG7w | 
-2025-02-01 02:51:46.1176 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-02-17 03:40:20.3235 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-02-17 03:40:37.6693 | Error | USER erditbaba | 
+2025-02-17 03:40:37.6747 | Info | erditbaba connected with connection ID: a1REymUmYVjDzH30kmsvmQ | 
+2025-02-17 03:40:52.1094 | Error | USER erditbaba | 
+2025-02-17 03:40:52.1142 | Info | erditbaba connected with connection ID: m5zaw9eUVgHdFzdD5dQLHQ | 
+2025-02-17 03:42:10.7337 | Error | error not erditbaba | 
+2025-02-17 04:11:14.6567 | Error | USER erditbaba | 
+2025-02-17 04:11:14.6567 | Info | erditbaba connected with connection ID: fyoGohUDhWBmjPMUILmLlg | 
+2025-02-17 04:12:51.6421 | Error | USER erditbaba | 
+2025-02-17 04:12:51.6421 | Info | erditbaba connected with connection ID: NvjRhRKBU0Fbr_puqjATfA | 
+2025-02-17 04:13:21.1375 | Error | USER erditbaba | 
+2025-02-17 04:13:21.1375 | Info | erditbaba connected with connection ID: bj6Ij0T8dYxZ07shSJas1g | 
+2025-02-17 04:19:14.4048 | Error | USER erditbaba | 
+2025-02-17 04:19:14.4048 | Info | erditbaba connected with connection ID: jVMPAEKLBNV4Oj8aJcI8Xw | 
+2025-02-17 04:26:46.8382 | Error | USER erditbaba | 
+2025-02-17 04:26:46.8382 | Info | erditbaba connected with connection ID: O3Ywy6Ky51763ztUzFdWdw | 

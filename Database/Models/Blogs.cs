@@ -32,5 +32,7 @@ namespace Database.Models
 
         public virtual ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
         public virtual ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();
+
+        public virtual ICollection<Conversations> BlogConversations { get; set; } = new List<Conversations>();
     }
 }

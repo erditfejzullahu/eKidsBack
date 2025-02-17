@@ -123,6 +123,12 @@ namespace Database.Context
 
             //indexes
 
+            modelBuilder.Entity<Conversations>()
+                .HasOne(c => c.Blog)
+                .WithMany(c => c.BlogConversations)
+                .HasForeignKey(c => c.BlogId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<Commits>()
                 .HasOne(c => c.User)
                 .WithMany(c => c.Commits)

@@ -29,6 +29,10 @@ namespace Database.Models
         public int? QuizId { get; set; }
         public int? LessonId { get; set; }
         public int? CourseId { get; set; }
+        public int? BlogId { get; set; }
+
+        [ForeignKey("BlogId")]
+        public Blogs Blog { get; set; }
 
         [ForeignKey("QuizId")]
         public Quizzes Quiz { get; set; }

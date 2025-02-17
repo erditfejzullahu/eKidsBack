@@ -13,6 +13,7 @@ namespace Database.DTOs
         public int? LessonId { get; set; }
         public int? CourseId { get; set; }
         public int? QuizId { get; set; }
+        public int? BlogId { get; set; }
 
     }
 }
