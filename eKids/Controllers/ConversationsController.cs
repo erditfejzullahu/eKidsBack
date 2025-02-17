@@ -3,8 +3,10 @@ using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Database.Shared.Enums;
+using eKids.Hubs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace eKids.Controllers
@@ -16,12 +18,14 @@ namespace eKids.Controllers
         private readonly IRepository<Conversations> _conversationsRepository;
         private readonly ILogger<ConversationsController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<NotificationsHub> _notificationsHub;
 
-        public ConversationsController(IRepository<Conversations> conversationsRepository, ApplicationDbContext context, ILogger<ConversationsController> logger)
+        public ConversationsController(IRepository<Conversations> conversationsRepository, IHubContext<NotificationsHub> notificationsHub, ApplicationDbContext context, ILogger<ConversationsController> logger)
         {
             _conversationsRepository = conversationsRepository;
             _logger = logger;
             _context = context;
+            _notificationsHub = notificationsHub;
         }
 
         [HttpPost]
@@ -36,6 +40,7 @@ namespace eKids.Controllers
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
             };
+            
 
             _conversationsRepository.Add(message);
             await _conversationsRepository.SaveAsync(default);
@@ -47,6 +52,12 @@ namespace eKids.Controllers
         {
             try
             {
+                var getReceiver = await _context.Users.FirstOrDefaultAsync(c => c.Username == shareDto.ReceiverUsername);
+                if(getReceiver == null)
+                {
+                    return BadRequest(new { Message = "Invalid username" });
+                }
+
                 if(string.IsNullOrEmpty(shareDto.SenderUsername) || string.IsNullOrEmpty(shareDto.ReceiverUsername))
                 {
                     return BadRequest(new { Message = "Missing data" });
@@ -67,6 +78,26 @@ namespace eKids.Controllers
                         await HandleBlogShare(shareDto);
                         break;
                     default: return BadRequest(new { Message = "invalid share type" });
+                }
+
+                var connectedUser = ConnectionMapping.GetConnectionId(getReceiver.Username);
+                if(connectedUser != null)
+                {
+                    var responseTitle =
+                        shareType == ShareType.Blogs ? $"{shareDto.SenderUsername} të dërgoi një blog"
+                        : shareType == ShareType.Lesson ? $"{shareDto.SenderUsername} të dërgoi nje leksion"
+                        : shareType == ShareType.Course ? $"{shareDto.SenderUsername} të dërgoi nje kurs"
+                        : $"{shareDto.SenderUsername} të dërgoi nje kuiz";
+
+                    var responseId =
+                        shareType == ShareType.Blogs ? shareDto.BlogId : shareType == ShareType.Course ? shareDto.CourseId : shareType == ShareType.Lesson ? shareDto.LessonId : shareDto.QuizId;
+                    var response = new
+                    {
+                        toastTitle = responseTitle,
+                        toastShareType = shareType,
+                        toastShareId = responseId
+                    };
+                    await _notificationsHub.Clients.Client(connectedUser).SendAsync("ShareToaster", response);
                 }
 
                 return Ok(new { Message = "Item shared successfully" });
