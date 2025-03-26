@@ -234,6 +234,8 @@ namespace eKids.Controllers
                                     su.SenderUsername == currentUser.Username && su.ReceiverUsername == c.Username))
                                     .Select(s => new
                                     {
+                                        s.SenderUsername,
+                                        s.ReceiverUsername,
                                         s.Content,
                                         s.IsRead,
                                         s.CreatedAt
