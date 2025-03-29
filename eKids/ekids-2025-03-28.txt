@@ -1,0 +1,78 @@
+2025-03-28 16:48:17.5376 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-28 16:55:45.2762 | Error | USER erditbaba | 
+2025-03-28 16:55:45.2762 | Info | erditbaba connected with connection ID: 2XgLeCG6XW81N_OvJgcM3A | 
+2025-03-28 16:57:51.1307 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-03-28 16:57:51.1307 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
+2025-03-28 17:05:39.0137 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-28 17:09:22.1667 | Error | USER erditbaba | 
+2025-03-28 17:09:22.1667 | Info | erditbaba connected with connection ID: 9jf87aNTaziWoSYFPGEEyA | 
+2025-03-28 17:18:18.7646 | Info | erditbaba connected with connection ID: ZhrgS3dQuLhfDadpEl2fag | 
+2025-03-28 17:18:21.6925 | Info | erditbaba connected with connection ID: 8mUQRbmUad0PzCi1un6OPw | 
+2025-03-28 17:18:29.1493 | Info | erditbaba connected with connection ID: 6GetsTJ13JWvN0vEYHF8mQ | 
+2025-03-28 17:19:30.5098 | Info | erditbaba connected with connection ID: 3oA5BDBnnoo4Kks8u_VdKA | 
+2025-03-28 17:19:33.8329 | Info | erditbaba connected with connection ID: UmUsifMfe0c98sqyJueGjw | 
+2025-03-28 17:26:43.6109 | Info | erditbaba disconnected | 
+2025-03-28 17:26:43.6453 | Info | erditbaba disconnected | 
+2025-03-28 17:26:43.6494 | Info | erditbaba disconnected | 
+2025-03-28 17:26:44.9528 | Info | erditbaba disconnected | 
+2025-03-28 17:26:46.6620 | Info | erditbaba disconnected | 
+2025-03-28 17:26:48.4878 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), next: SCAN, inst: 1, qu: 0, qs: 1, aw: False, bw: Inactive, rs: ReadAsync, ws: Idle, in: 0, in-pipe: 0, out-pipe: 0, last-in: 350, cur-in: 0, sync-ops: 0, async-ops: 3, serverEndpoint: 192.168.1.20:6379, conn-sec: 1249.18, aoc: 1, mc: 1/1/0, mgr: 9 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=5,Free=32762,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=29,CompletedItems=9307,Timers=7), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-03-28 17:26:48.5057 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), next: SCAN, inst: 1, qu: 0, qs: 1, aw: False, bw: Inactive, rs: ReadAsync, ws: Idle, in: 0, in-pipe: 0, out-pipe: 0, last-in: 350, cur-in: 0, sync-ops: 0, async-ops: 3, serverEndpoint: 192.168.1.20:6379, conn-sec: 1249.18, aoc: 1, mc: 1/1/0, mgr: 9 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=5,Free=32762,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=29,CompletedItems=9307,Timers=7), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-03-28 17:26:58.8078 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-28 17:27:49.5160 | Info | erditbaba connected with connection ID: rJYvuG7mkNepd8BwSVbCNg | 
+2025-03-28 17:27:49.5160 | Info | erditbaba connected with connection ID: snV-RrvwFwdKclme5XoaPg | 
+2025-03-28 17:27:49.5160 | Info | erditbaba connected with connection ID: Sx3yALg62uDx8UTclYNd3A | 
+2025-03-28 17:27:49.5160 | Error | USER erditbaba | 
+2025-03-28 17:27:49.5160 | Info | erditbaba connected with connection ID: xqq9isov4CF22hXwUYaimg | 
+2025-03-28 17:27:49.5160 | Info | erditbaba connected with connection ID: tDq4mU9xcebsLBGizzXBnA | 
+2025-03-28 17:27:49.5242 | Info | erditbaba connected with connection ID: 6PqFoCqiOKksSEK4Z0r_Aw | 
+2025-03-28 17:28:54.6512 | Info | erditbaba connected with connection ID: WxIUmxaq-HkTauM5Ogcd-Q | 
+2025-03-28 17:32:38.4345 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-28 17:32:55.6845 | Info | erditbaba connected with connection ID: GFEmndEe_3hWY3PQARq6xA | 
+2025-03-28 17:32:55.6845 | Info | erditbaba connected with connection ID: SHuUwlvY3LtVnxi2l24Puw | 
+2025-03-28 17:32:55.6845 | Info | erditbaba connected with connection ID: h47LCqf0JuroHmxEyG5ODA | 
+2025-03-28 17:32:55.6845 | Info | erditbaba connected with connection ID: dLCDO-ZATreeOpW6RFdX9A | 
+2025-03-28 17:32:55.7116 | Info | erditbaba connected with connection ID: UNmFNu5QVwb-VUlm4t5R3g | 
+2025-03-28 17:32:55.7116 | Info | erditbaba connected with connection ID: I4PAW9_6mSAQ7R4SxDmjQQ | 
+2025-03-28 17:32:55.7116 | Error | USER erditbaba | 
+2025-03-28 17:32:55.7116 | Info | erditbaba connected with connection ID: ncWohnJSZRj1LDRhMJNO2Q | 
+2025-03-28 17:44:15.3711 | Info | erditbaba connected with connection ID: hhTOgjSvlpevT62gVHQyGg | 
+2025-03-28 17:45:31.7811 | Info | erditbaba connected with connection ID: -9mOwdsFZ2qfx2BbxpNebw | 
+2025-03-28 18:36:35.1570 | Info | erditbaba disconnected | 
+2025-03-28 18:36:35.1570 | Info | erditbaba disconnected | 
+2025-03-28 18:36:35.1640 | Info | erditbaba disconnected | 
+2025-03-28 18:36:35.1640 | Info | erditbaba disconnected | 
+2025-03-28 18:36:35.1773 | Info | erditbaba disconnected | 
+2025-03-28 18:36:35.1773 | Info | erditbaba disconnected | 
+2025-03-28 18:36:35.1773 | Info | erditbaba disconnected | 
+2025-03-28 18:36:35.1773 | Info | erditbaba disconnected | 
+2025-03-28 19:22:47.5092 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 12, serverEndpoint: 192.168.1.20:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=22850,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-03-28 19:22:47.5242 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 12, serverEndpoint: 192.168.1.20:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=22850,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)

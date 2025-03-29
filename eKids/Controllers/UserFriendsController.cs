@@ -238,6 +238,10 @@ namespace eKids.Controllers
                                         s.ReceiverUsername,
                                         s.Content,
                                         s.IsRead,
+                                        s.BlogId,
+                                        s.LessonId,
+                                        s.CourseId,
+                                        s.QuizId,
                                         s.CreatedAt
                                     })
                                     .OrderByDescending(c => c.CreatedAt)

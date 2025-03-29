@@ -1,77 +1,240 @@
-2025-03-26 19:54:49.2697 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-03-26 19:56:13.7231 | Error | USER erditbaba | 
-2025-03-26 19:56:13.7277 | Info | erditbaba connected with connection ID: lMezufhJlJS1xb8tWcj0xg | 
-2025-03-26 19:57:09.9088 | Info | erditbaba connected with connection ID: xiECy-pgjYJeEr2d9psvRA | 
-2025-03-26 20:05:16.2989 | Info | erditbaba connected with connection ID: 1Tn-75n9i0v8pzCcEuWQww | 
-2025-03-26 20:07:18.7553 | Info | erditbaba connected with connection ID: 9uExTD6UAr0a1Zq0myxPpQ | 
-2025-03-26 20:07:42.5973 | Info | erditbaba connected with connection ID: IAhenrgCJ9vCNZwnO4hv-w | 
-2025-03-26 20:10:04.5405 | Error | error not erditbaba | 
-2025-03-26 20:12:20.6442 | Info | erditbaba connected with connection ID: J9Q-PEdvAYXTORpWOvzLIQ | 
-2025-03-26 20:14:13.9070 | Info | erditbaba connected with connection ID: _jeBPZp39EOXb5Sn42j8xQ | 
-2025-03-26 20:15:28.3848 | Info | erditbaba connected with connection ID: BSGmJxNvuaxzvDC0y_veCQ | 
-2025-03-26 20:16:46.5420 | Info | erditbaba connected with connection ID: 1get3szTxVXIRar5q9HXYg | 
-2025-03-26 20:21:55.9542 | Info | erditbaba disconnected | 
-2025-03-26 20:21:55.9569 | Info | erditbaba disconnected | 
-2025-03-26 20:21:55.9569 | Info | erditbaba disconnected | 
-2025-03-26 20:21:55.9569 | Info | erditbaba disconnected | 
-2025-03-26 20:21:55.9569 | Info | erditbaba disconnected | 
-2025-03-26 20:22:07.4423 | Error | USER erditbaba | 
-2025-03-26 20:22:07.4423 | Info | erditbaba connected with connection ID: mqpC5ZxTPge2nGOnDi3iKQ | 
-2025-03-26 20:22:07.5985 | Info | erditbaba connected with connection ID: dsemx1JBFJSGw_jGeVyq_g | 
-2025-03-26 20:22:07.5985 | Info | erditbaba connected with connection ID: qNldMTsuWQogHlYh0pw2tw | 
-2025-03-26 20:22:07.8351 | Info | erditbaba connected with connection ID: ez86bWy8nLvF8adIVYdLzQ | 
-2025-03-26 20:22:07.8351 | Info | erditbaba connected with connection ID: zmEDSbwg6-M7n8Uhk6NZxg | 
-2025-03-26 20:22:07.8351 | Info | erditbaba connected with connection ID: NBWc1-rpYoGJuu7gusBidA | 
-2025-03-26 20:22:07.8351 | Info | erditbaba connected with connection ID: 87wgfxC8GoX46qxCN_4WBw | 
-2025-03-26 20:22:07.8351 | Info | erditbaba connected with connection ID: hwggShDwbzAGFm1NsbfX0A | 
-2025-03-26 20:23:38.6693 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
-2025-03-26 20:23:46.9055 | Info | erditbaba connected with connection ID: 11jDUzv3bt-sZ6ishxVu2g | 
-2025-03-26 20:24:56.7893 | Info | erditbaba connected with connection ID: 7ovK9Ta2qkuRz4IDwMS7xA | 
-2025-03-26 20:31:35.3710 | Info | erditbaba connected with connection ID: D-zQMNFwadFoA2-2StDoNw | 
-2025-03-26 20:33:21.7315 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-03-26 20:34:47.1759 | Info | erditbaba connected with connection ID: VROM5RIZJDSOv4Uq21W-ag | 
-2025-03-26 20:34:47.1759 | Error | USER erditbaba | 
-2025-03-26 20:34:47.1759 | Info | erditbaba connected with connection ID: IwG9Qdj1kCF9D5YEh_wh_w | 
-2025-03-26 20:34:47.1759 | Info | erditbaba connected with connection ID: Sy0sKsVwmlgB0OW4jNbq8Q | 
-2025-03-26 20:34:47.1759 | Info | erditbaba connected with connection ID: N60E4q-hJ3U0IRg2eoiVgA | 
-2025-03-26 20:34:47.2030 | Info | erditbaba connected with connection ID: T1X7k-xBCg1nc8_fLzudSA | 
-2025-03-26 20:34:47.2030 | Info | erditbaba connected with connection ID: XiJWvLPIvSC-mdbQbQoC8g | 
-2025-03-26 20:34:47.2087 | Info | erditbaba connected with connection ID: z32H3vUAIWpr3APnFG3pmA | 
-2025-03-26 20:34:47.2087 | Info | erditbaba connected with connection ID: 8FnPPDbuQkyZjT-qmEFH3A | 
-2025-03-26 20:34:47.2087 | Info | erditbaba connected with connection ID: eBdKjMbOttIsp-yilueOew | 
-2025-03-26 20:34:47.2087 | Info | erditbaba connected with connection ID: PooSzRi6eNNJWXT_qN0qaw | 
-2025-03-26 20:34:47.3689 | Info | erditbaba connected with connection ID: qewogfLNBYG2X8oxcTiQjA | 
-2025-03-26 20:34:48.9494 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9494 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9586 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9586 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9586 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9586 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9752 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9752 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9881 | Info | erditbaba disconnected | 
-2025-03-26 20:34:48.9881 | Info | erditbaba disconnected | 
-2025-03-26 20:35:36.7912 | Error | USER erditbaba | 
-2025-03-26 20:35:36.7912 | Info | erditbaba connected with connection ID: eAgoZSt-pYl1RivRMTqSgg | 
-2025-03-26 20:38:41.7078 | Info | erditbaba connected with connection ID: WCQqQ_zve0Bv6f52gt-9Ww | 
-2025-03-26 20:51:59.2244 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-03-26 20:51:59.2244 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-03-26 20:52:07.1458 | Info | Sorting by: QuizName, Order: asc | 
-2025-03-26 20:52:10.2064 | Info | Sorting by: QuizName, Order: asc | 
-2025-03-26 20:52:12.8403 | Info | Sorting by: QuizName, Order: asc | 
-2025-03-26 20:52:15.8805 | Info | Sorting by: QuizName, Order: asc | 
-2025-03-26 20:52:18.0639 | Info | Sorting by: QuizName, Order: asc | 
-2025-03-26 20:52:20.1528 | Info | Sorting by: QuizName, Order: asc | 
-2025-03-26 20:52:22.4650 | Info | Sorting by: QuizName, Order: asc | 
-2025-03-26 20:52:27.1655 | Info | Sorting by: QuizName, Order: desc | 
-2025-03-26 20:52:30.5889 | Info | Sorting by: QuizName, Order: desc | 
-2025-03-26 20:52:34.0307 | Info | Sorting by: QuizName, Order: desc | 
-2025-03-26 20:52:36.1624 | Info | Sorting by: QuizName, Order: desc | 
-2025-03-26 20:53:30.9314 | Info | Sorting by: QuizName, Order: desc | 
-2025-03-26 20:53:30.9612 | Info | Sorting by: QuizName, Order: desc | 
-2025-03-26 20:53:42.6026 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-03-26 20:53:42.6026 | Warn | The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased. | 
-2025-03-26 21:15:14.8449 | Error | USER erditbaba | 
-2025-03-26 21:15:14.8500 | Info | erditbaba connected with connection ID: uvPd-o72AFQI9B2_hq2ACQ | 
-2025-03-26 21:19:18.1582 | Info | erditbaba connected with connection ID: KoVnsPtVTsCwTl0yHSB-nQ | 
-2025-03-26 21:19:54.0199 | Info | erditbaba connected with connection ID: cXt2Oea-NzO6xsLb2iBwNw | 
+2025-03-29 18:35:50.4674 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-29 18:39:45.9076 | Error | USER erditbaba | 
+2025-03-29 18:39:45.9076 | Info | erditbaba connected with connection ID: ARr76xLWSuf_eZAfJ0SCTQ | 
+2025-03-29 18:39:53.3195 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:39:53.3195 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:39:53.6973 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:39:53.6973 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:39:53.8539 | Info | erditbaba connected with connection ID: tmV0wDVr9OSk8DV2-PFJcA | 
+2025-03-29 18:39:58.3475 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:39:58.4223 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:39:58.4429 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:39:58.5347 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method1084(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:39:58.7294 | Info | erditbaba connected with connection ID: Mw7r6z00uu2J3CdqI7VskQ | 
+2025-03-29 18:43:19.5783 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-29 18:43:26.5565 | Error | USER erditbaba | 
+2025-03-29 18:43:26.5607 | Info | erditbaba connected with connection ID: ivzaEMOHz_Iz_WvCAi6-BA | 
+2025-03-29 18:43:26.5607 | Info | erditbaba connected with connection ID: Y7FCct593D3sDQMnMC3Buw | 
+2025-03-29 18:43:26.5607 | Info | erditbaba connected with connection ID: l18VC8rNFeGIvaPTTgBfxw | 
+2025-03-29 18:43:29.5951 | Info | erditbaba connected with connection ID: vaadp3lt6Fh11IuroVTwtQ | 
+2025-03-29 18:43:29.9112 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method164(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method164(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:43:29.9112 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method164(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method164(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:43:30.1383 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method164(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:43:30.1383 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method164(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:43:52.0937 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-29 18:43:57.1713 | Info | erditbaba connected with connection ID: LX76J3c1nxF6Bl7o9evYMg | 
+2025-03-29 18:44:01.1070 | Info | erditbaba connected with connection ID: 6txrUZmNKvQ-uW0yjnA9DQ | 
+2025-03-29 18:44:01.1265 | Info | erditbaba connected with connection ID: umFtymLo9p0pNO8g885CKg | 
+2025-03-29 18:44:01.2930 | Error | USER erditbaba | 
+2025-03-29 18:44:01.2930 | Info | erditbaba connected with connection ID: LVaNuYDeqD1N48H2zX8sbw | 
+2025-03-29 18:44:01.3615 | Info | erditbaba connected with connection ID: S7ooeNOluZ_9fnr0Q_Qysg | 
+2025-03-29 18:44:03.9895 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:44:03.9895 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:44:04.2388 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:44:04.2388 | Error | Error in retriving messages for erditbaba and reciver armendfejzullahu | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:44:04.4029 | Info | erditbaba connected with connection ID: tTnYGWgj53z9cFeEbZTgcw | 
+2025-03-29 18:44:11.3035 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:44:11.3766 | Error | Error in retriving messages for erditbaba and reciver erditbaba | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:44:11.4007 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:44:11.4858 | Error | Error in retriving messages for erditbaba and reciver erditbaba | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:44:11.7020 | Info | erditbaba connected with connection ID: _VloNFvQGFQwnbY-30TQCA | 
+2025-03-29 18:44:49.3476 | Info | erditbaba connected with connection ID: phrs9EwHdWZWvhSzupwswQ | 
+2025-03-29 18:44:49.9837 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:45:19.4340 | Error | Error in retriving messages for erditbaba and reciver erditbaba | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:45:19.7215 | Info | erditbaba disconnected | 
+2025-03-29 18:45:19.7215 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:45:19.7321 | Info | erditbaba disconnected | 
+2025-03-29 18:45:19.7321 | Info | erditbaba disconnected | 
+2025-03-29 18:45:19.8049 | Info | erditbaba disconnected | 
+2025-03-29 18:45:19.8049 | Info | erditbaba disconnected | 
+2025-03-29 18:45:19.8149 | Info | erditbaba disconnected | 
+2025-03-29 18:45:23.6310 | Error | Error in retriving messages for erditbaba and reciver erditbaba | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method168(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:45:24.2527 | Info | erditbaba connected with connection ID: TMFUJiZyoVG6lxWuKFX6KA | 
+2025-03-29 18:45:24.2842 | Info | erditbaba connected with connection ID: jGDmYS_lXFFKZLDV5YGHCg | 
+2025-03-29 18:45:24.3090 | Info | erditbaba connected with connection ID: Zc59Z6dvqjHvLmJkv2FN1w | 
+2025-03-29 18:45:24.3176 | Info | erditbaba connected with connection ID: ZfDjROunTedsbKDm54I5-w | 
+2025-03-29 18:45:24.3549 | Info | erditbaba connected with connection ID: _LfZLhkauDoI5DYPItM-8g | 
+2025-03-29 18:45:24.3812 | Error | USER erditbaba | 
+2025-03-29 18:45:24.3812 | Info | erditbaba connected with connection ID: W6S2ZkIUW44uxRHzZcawhA | 
+2025-03-29 18:45:24.3812 | Info | erditbaba connected with connection ID: f_a_7E1Vp4UL0rslTaR-YQ | 
+2025-03-29 18:46:05.4577 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-29 18:46:40.7021 | Info | erditbaba connected with connection ID: tdAkn2GMEKd_8Ltgr9TnwA | 
+2025-03-29 18:46:40.7021 | Info | erditbaba connected with connection ID: _gHYXeJ11kVSoC4kZ8sovA | 
+2025-03-29 18:46:40.7021 | Info | erditbaba connected with connection ID: QH9EHtoznP_zhf-Cl5l3Iw | 
+2025-03-29 18:46:40.7021 | Info | erditbaba connected with connection ID: H2zIX2jXMELXxn3m7yQtuw | 
+2025-03-29 18:46:40.7182 | Info | erditbaba connected with connection ID: Fijvacu4GqW2Uk571mQHfw | 
+2025-03-29 18:46:40.7182 | Info | erditbaba connected with connection ID: u9iNyA-3EHBjvT9qxWGW6g | 
+2025-03-29 18:46:40.7387 | Info | erditbaba connected with connection ID: k_ohwYg6BkzPF70ezOlFJQ | 
+2025-03-29 18:46:40.8048 | Error | USER erditbaba | 
+2025-03-29 18:46:40.8302 | Info | erditbaba connected with connection ID: YDNj85cHP2aDiUTQ3egQQg | 
+2025-03-29 18:46:53.5296 | Info | erditbaba connected with connection ID: pDlqif3e8DoL6TBZGprfjQ | 
+2025-03-29 18:46:55.7873 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method183(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method183(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:46:55.7873 | Error | An exception occurred while iterating over the results of a query for context type 'Database.Context.ApplicationDbContext'.
+System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method183(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync() | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method183(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-03-29 18:46:56.4079 | Error | Error in retriving messages for erditbaba and reciver erditbaba | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method183(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:46:56.4079 | Error | Error in retriving messages for erditbaba and reciver erditbaba | System.InvalidOperationException: Nullable object must have a value.
+   at lambda_method183(Closure, QueryContext, DbDataReader, ResultContext, SplitQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at eKids.Controllers.ConversationsController.GetMessagesMade(String sender, String receiver, Int32 page, Int32 pageSize, CancellationToken token) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 206
+2025-03-29 18:50:44.6131 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-29 18:50:55.2025 | Error | USER erditbaba | 
+2025-03-29 18:50:55.2025 | Info | erditbaba connected with connection ID: kq6WLMwDPTRbHREhpevAqQ | 
+2025-03-29 18:50:55.2025 | Info | erditbaba connected with connection ID: hYiUJOGsMWWkOIQlRviG-Q | 
+2025-03-29 18:50:55.2025 | Info | erditbaba connected with connection ID: 3F4o8Yx5nH-c5MG4721pZQ | 
+2025-03-29 18:50:55.2025 | Info | erditbaba connected with connection ID: E0II2-AhC1AqsfU09M0h7Q | 
+2025-03-29 18:50:55.2025 | Info | erditbaba connected with connection ID: u6U1X-Ddf6v9ne4XCl0WfQ | 
+2025-03-29 18:50:55.2175 | Info | erditbaba connected with connection ID: csyEQPAi-ENpPd40jWIbqw | 
+2025-03-29 18:50:55.2175 | Info | erditbaba connected with connection ID: HSRukVvNKhVQOb1WxUDQDA | 
+2025-03-29 18:50:55.2175 | Info | erditbaba connected with connection ID: 7pky6ycII3xXDBtf8NtOhw | 
+2025-03-29 18:50:55.2175 | Info | erditbaba connected with connection ID: TrC2pk3YS869dAUBRGdYJg | 
+2025-03-29 18:51:01.9801 | Info | erditbaba connected with connection ID: klZcvLAOOUThARbXmfMWIw | 
+2025-03-29 18:52:34.5043 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-03-29 18:52:45.5587 | Info | erditbaba connected with connection ID: Vm-paH-iCiokk_F080qMjA | 
+2025-03-29 18:52:45.5587 | Info | erditbaba connected with connection ID: -CWc8R7ODoRQycjgo8kONQ | 
+2025-03-29 18:52:45.5587 | Info | erditbaba connected with connection ID: ksPVtrOAXKjCTwOZmvtxFw | 
+2025-03-29 18:52:45.5594 | Error | USER erditbaba | 
+2025-03-29 18:52:45.5594 | Info | erditbaba connected with connection ID: XEPlGPNAoc_kFFyH7qk3fQ | 
+2025-03-29 18:52:45.5871 | Info | erditbaba connected with connection ID: zzj1vRJbJS8BvbGx1P6sQQ | 
+2025-03-29 18:52:45.5871 | Info | erditbaba connected with connection ID: lm-OoYaaF-wXEgk9LDlkTw | 
+2025-03-29 18:52:45.5972 | Info | erditbaba connected with connection ID: giERtMjoGMd1p29V2VqeuA | 
+2025-03-29 18:52:45.5972 | Info | erditbaba connected with connection ID: 9mozkfZwG7itGvOsiemxGw | 
+2025-03-29 18:52:45.5972 | Info | erditbaba connected with connection ID: _u2aGZrqR_p_nLoJmIpw9w | 
+2025-03-29 18:52:45.6070 | Info | erditbaba connected with connection ID: SzyIt6hIkJ2mZbIgzszbiA | 
+2025-03-29 18:52:47.3276 | Info | erditbaba connected with connection ID: hxiASj83NsM9sYY-O-XhNw | 
+2025-03-29 18:53:20.4962 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 

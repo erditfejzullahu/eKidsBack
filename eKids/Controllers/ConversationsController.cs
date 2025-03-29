@@ -125,6 +125,9 @@ namespace eKids.Controllers
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
             };
+
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
         }
 
         private async Task HandleLessonShare(ShareItemDto shareItem)
@@ -205,8 +208,9 @@ namespace eKids.Controllers
                     .AsSplitQuery()
                     .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
                     .Include(c => c.Quiz)      // Include Quiz if it's related to Conversations
-                    .Include(c => c.Lesson)    // Include Lesson if it's related to Conversations
+                    .Include(c => c.Lesson).ThenInclude(c => c.Course)    // Include Lesson if it's related to Conversations
                     .Include(c => c.Course)
+                    .Include(c => c.Blog)
                     .Select(c => new
                     {
                         c.ID,
@@ -230,9 +234,42 @@ namespace eKids.Controllers
                             c.Receiver.Username,
                             c.Receiver.ProfilePictureUrl
                         },
-                        c.Quiz,
-                        c.Lesson,
-                        c.Course
+                        Quiz = c.Quiz != null ? new
+                        {
+                            c.Quiz.ID,
+                            c.Quiz.QuizName,
+                            c.Quiz.QuizDescription,
+                            c.Quiz.QuizCategory,
+                            c.Quiz.CreatedAt
+                        } : null,
+                        Lesson = c.Lesson != null ? new
+                        {
+                            c.Lesson.ID,
+                            c.Lesson.LessonName,
+                            c.Lesson.LessonExcerpt,
+                            c.Lesson.LessonFeaturedImage,
+                            CourseCategory = c.Lesson.Course != null ? c.Lesson.Course.CourseCategory : 1,
+                            c.Lesson.CreatedAt
+                        } : null,
+                        Blog = c.Blog != null ? new
+                        {
+                            c.Blog.ID,
+                            c.Blog.Title,
+                            c.Blog.Content,
+                            c.Blog.Category,
+                            Username = c.Blog.User != null ? c.Blog.User.Username : null,
+                            ProfilePictureUrl = c.Blog.User != null ? c.Blog.User.ProfilePictureUrl : null,
+                            UserId = c.Blog.User != null ? c.Blog.User.ID : 0,
+                            c.Blog.CreatedAt
+                        } : null,
+                        Course = c.Course != null ? new
+                        {
+                            c.Course.ID,
+                            c.Course.CourseFeaturedImage,
+                            c.Course.CourseName,
+                            c.Course.CourseDescription,
+                            c.Course.CreatedAt
+                        } : null
                     })
                     .OrderByDescending(c => c.CreatedAt)
                     .Skip(skip)
