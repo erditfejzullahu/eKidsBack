@@ -256,7 +256,7 @@ namespace eKids.Controllers
                             c.Blog.ID,
                             c.Blog.Title,
                             c.Blog.Content,
-                            c.Blog.Category,
+                            c.Blog.CategoryId,
                             Username = c.Blog.User != null ? c.Blog.User.Username : null,
                             ProfilePictureUrl = c.Blog.User != null ? c.Blog.User.ProfilePictureUrl : null,
                             UserId = c.Blog.User != null ? c.Blog.User.ID : 0,

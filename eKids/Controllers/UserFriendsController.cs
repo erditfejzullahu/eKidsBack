@@ -257,6 +257,7 @@ namespace eKids.Controllers
                             .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
                             .Include(c => c.Friend)
+                            .Include(c => c.User)
                             .Select(c => new
                             {
                                 c.Friend.ID,
@@ -270,12 +271,20 @@ namespace eKids.Controllers
                                 LastMessage = new
                                 {
                                     Message = c.Friend.ReceivedMessages
-                                    .Where(r => r.ReceiverUsername == currentUser.Username)
-                                    .Union(c.Friend.SentMessages.Where(r => r.SenderUsername == c.Friend.Username))
+                                    .Where(ru => ru.ReceiverUsername == currentUser.Username && ru.SenderUsername == c.Friend.Username ||
+                                    ru.ReceiverUsername == c.Friend.Username && ru.SenderUsername == currentUser.Username)
+                                    .Union(c.Friend.SentMessages.Where(su => su.SenderUsername == c.Friend.Username && su.ReceiverUsername == currentUser.Username ||
+                                    su.SenderUsername == currentUser.Username && su.ReceiverUsername == c.Friend.Username))
                                     .Select(s => new
                                     {
+                                        s.SenderUsername,
+                                        s.ReceiverUsername,
                                         s.Content,
                                         s.IsRead,
+                                        s.BlogId,
+                                        s.LessonId,
+                                        s.CourseId,
+                                        s.QuizId,
                                         s.CreatedAt
                                     })
                                     .OrderByDescending(c => c.CreatedAt)
@@ -304,12 +313,20 @@ namespace eKids.Controllers
                                 LastMessage = new
                                 {
                                     Message = c.CloseFriend.ReceivedMessages
-                                    .Where(r => r.ReceiverUsername == currentUser.Username)
-                                    .Union(c.CloseFriend.SentMessages.Where(r => r.SenderUsername == c.CloseFriend.Username))
+                                    .Where(ru => ru.ReceiverUsername == currentUser.Username && ru.SenderUsername == c.CloseFriend.Username ||
+                                    ru.ReceiverUsername == c.CloseFriend.Username && ru.SenderUsername == currentUser.Username)
+                                    .Union(c.CloseFriend.SentMessages.Where(su => su.SenderUsername == c.CloseFriend.Username && su.ReceiverUsername == currentUser.Username ||
+                                    su.SenderUsername == currentUser.Username && su.ReceiverUsername == c.CloseFriend.Username))
                                     .Select(s => new
                                     {
+                                        s.SenderUsername,
+                                        s.ReceiverUsername,
                                         s.Content,
                                         s.IsRead,
+                                        s.BlogId,
+                                        s.LessonId,
+                                        s.CourseId,
+                                        s.QuizId,
                                         s.CreatedAt
                                     })
                                     .OrderByDescending(c => c.CreatedAt)
