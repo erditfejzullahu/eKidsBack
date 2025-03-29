@@ -1,8 +1,10 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,15 @@ namespace Database.Repository
     {
         private readonly ILogger<CreateBlogService> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IFileUploadService _fileUpload;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CreateBlogService(ILogger<CreateBlogService> logger, ApplicationDbContext context)
+        public CreateBlogService(ILogger<CreateBlogService> logger, IHttpContextAccessor httpContextAccessor, ApplicationDbContext context, IFileUploadService fileUpload)
         {
             _logger = logger;
             _context = context;
+            _fileUpload = fileUpload;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Blogs> CreateBlog(CreateBlogDto request, CancellationToken token)
@@ -27,6 +33,30 @@ namespace Database.Repository
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             var blogDto = request.blogDto;
             var tagDto = request.tagDto;
+            string? blogImageUrl = null;
+
+            if(request.blogDto.Images != null && request.blogDto.Images.Count != 0)
+            {
+                try
+                {
+                    var imageUrls = new List<string>();
+                    var requestUrl = _httpContextAccessor.HttpContext?.Request;
+                    foreach (var image in request.blogDto.Images)
+                    {
+                        var imageUrl = await _fileUpload.UploadFile(image, FileCategory.Other);
+                        var fullUrl = $"{requestUrl.Scheme}://{requestUrl.Host}{imageUrl}";
+                        imageUrls.Add(fullUrl);
+                    }
+
+                    blogImageUrl = JsonConvert.SerializeObject(imageUrls);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, " Error in uploading blog image");
+                    throw new ApplicationException("Error in uploading blog image", ex);
+                }
+            }
+
             if(blogDto == null)
             {
                 throw new ApplicationException("Dtos null");
@@ -189,6 +219,7 @@ namespace Database.Repository
                     Status = blogDto.Status,
                     UserId = blogDto.UserId,
                     TagId = tagId.Value,
+                    ImageUrls = blogImageUrl,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
