@@ -61,6 +61,23 @@ namespace eKids.Controllers
                     .Where(c => EF.Functions.Contains(c.Title, title))
                     .Include(c => c.Tag)
                     .ThenInclude(c => c.Children)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Title,
+                        c.CategoryId,
+                        c.Tag.Name,
+                        Children = c.Tag.Children != null ? c.Tag.Children.Select(ch => new
+                        {
+                            ch.Name
+                        }) : null,
+                        User = c.User != null ? new
+                        {
+                            c.User.Username,
+                            c.User.ProfilePictureUrl,
+                            c.User.ID
+                        } : null
+                    })
                     .ToListAsync(token);
 
                 if(blogs.Count == 0)

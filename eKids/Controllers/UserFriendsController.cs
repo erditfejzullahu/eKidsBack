@@ -364,7 +364,7 @@ namespace eKids.Controllers
                 var users = await _usersRepository
                     .GetAll()
                     .AsNoTracking()
-                    .Where(c => c.Firstname.Contains(searchParam) || c.Lastname.Contains(searchParam))
+                    .Where(c => EF.Functions.Contains(c.Firstname, searchParam) || EF.Functions.Contains(c.Lastname, searchParam))
                     .Select(c => new
                     {
                         c.ID,
