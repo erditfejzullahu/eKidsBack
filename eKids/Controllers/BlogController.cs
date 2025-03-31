@@ -58,7 +58,7 @@ namespace eKids.Controllers
                 var blogs = await _blogRepository
                     .GetAll()
                     .AsNoTracking()
-                    .Where(c => EF.Functions.Contains(c.Title, title))
+                    .Where(c => EF.Functions.Contains(c.Title, $"\"{title}*\""))
                     .Include(c => c.Tag)
                     .ThenInclude(c => c.Children)
                     .Select(c => new
@@ -67,6 +67,7 @@ namespace eKids.Controllers
                         c.Title,
                         c.CategoryId,
                         c.Tag.Name,
+                        c.CreatedAt,
                         Children = c.Tag.Children != null ? c.Tag.Children.Select(ch => new
                         {
                             ch.Name
