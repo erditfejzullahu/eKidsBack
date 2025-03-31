@@ -122,6 +122,23 @@ namespace Database.Context
 
 
             //indexes
+            modelBuilder.Entity<Discussions>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UserDiscussions)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DiscussionWithTags>()
+                .HasOne(c => c.Discussion)
+                .WithMany(c => c.DiscussionWithTags)
+                .HasForeignKey(c => c.DiscussionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DiscussionWithTags>()
+                .HasOne(c => c.DiscussionTag)
+                .WithMany(c => c.DiscussionWithTags)
+                .HasForeignKey(c => c.TagId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Conversations>()
                 .HasOne(c => c.Blog)

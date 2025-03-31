@@ -98,5 +98,8 @@ namespace Database.Models
 
         public virtual ICollection<UserProgress> UserProgress { get; set; } = new List<UserProgress>();
 
+
+        public virtual ICollection<Discussions> UserDiscussions { get; set; } = new List<Discussions>();
+
     }
 }
