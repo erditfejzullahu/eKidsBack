@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,7 @@ namespace Database.Models
         [Required]
         public int UserId { get; set; }
         [Required]
-        public bool PreferAnonimity { get; set; }
+        public DiscussionAnonimityStatus PreferAnonimity { get; set; }
 
         public int Views { get; set; }
         public int Votes { get; set; }

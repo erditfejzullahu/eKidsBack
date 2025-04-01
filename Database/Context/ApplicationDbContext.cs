@@ -36,6 +36,9 @@ namespace Database.Context
         public DbSet<BlogComments> BlogComments { get; set; }
         public DbSet<BlogCommentLikes> BlogCommentLikes { get; set; }
         public DbSet<Commits> Commits { get; set; }
+        public DbSet<Discussions> Discussions { get; set; }
+        public DbSet<DiscussionTags> DiscussionTags { get; set; }
+        public DbSet<DiscussionWithTags> discussionWithTags { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
