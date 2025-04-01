@@ -170,6 +170,31 @@ namespace eKids.Controllers
                 _logger.LogError(ex, " Error in changing anonimity");
                 return BadRequest();
             }
-        } 
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDiscussion(int id, CancellationToken token)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var discussion = await _context.Discussions.FindAsync(id, token);
+                if(discussion == null)
+                {
+                    return NotFound(new { Message = "No discussion found" });
+                }
+
+                _context.Discussions.Remove(discussion);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                return Ok(new { Message = "Discussion deleted" });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, " Error in deleting discussion");
+                return BadRequest();
+            }
+        }
     }
 }
