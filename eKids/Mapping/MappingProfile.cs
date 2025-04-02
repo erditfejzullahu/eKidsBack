@@ -15,6 +15,11 @@ namespace eKids.Mapping
 
             //mapfrom instead of condition can set values for a field if condition is not mets
 
+            CreateMap<DiscussionDto, Discussions>()
+                .ForMember(dest => dest.Title, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Title)))
+                .ForMember(dest => dest.Content, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Content)))
+                .ForMember(dest => dest.Edited, opt => opt.MapFrom(src => true));
+
             CreateMap<UpdateLessons, Lessons>()
                 .ForMember(dest => dest.LessonName, opt => opt.Condition(src => !string.IsNullOrEmpty(src.LessonName)))
                 .ForMember(dest => dest.LessonContent, opt => opt.Condition(src => !string.IsNullOrEmpty(src.LessonContent)))

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Database.DTOs
         [Required]
         public int UserId { get; set; }
         [Required]
-        public bool PreferAnonimity { get; set; }
+        public DiscussionAnonimityStatus PreferAnonimity { get; set; }
         public List<DiscussionTagsDto> Tags { get; set; } = new List<DiscussionTagsDto>();
     }
 

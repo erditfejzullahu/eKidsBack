@@ -1,4 +1,5 @@
-﻿using Database.Context;
+﻿using AutoMapper;
+using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Shared.Enums;
@@ -15,11 +16,13 @@ namespace eKids.Controllers
     {
         private readonly ILogger<DiscussionsController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public DiscussionsController( ILogger<DiscussionsController> logger, ApplicationDbContext context )
+        public DiscussionsController(IMapper mapper, ILogger<DiscussionsController> logger, ApplicationDbContext context )
         {
             _logger = logger;
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -105,7 +108,7 @@ namespace eKids.Controllers
                     }
                     else
                     {
-                        tag = await _context.DiscussionTags.FirstOrDefaultAsync(c => c.Title == item.Title);
+                        tag = await _context.DiscussionTags.FirstOrDefaultAsync(c => c.Title == item.Title, token);
                         if(tag == null)
                         {
                             tag = new DiscussionTags
@@ -139,6 +142,80 @@ namespace eKids.Controllers
             {
                 await transaction.RollbackAsync(token);    
                 _logger.LogError(ex, " Error in creating discussion");
+                return BadRequest();
+            }
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> EditDiscussion(int id, DiscussionDto discussionDto, CancellationToken token)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var discussion = await _context.Discussions
+                    .Include(d => d.DiscussionWithTags)
+                    .FirstOrDefaultAsync(d => d.ID == id, token);
+                if (discussion == null)
+                {
+                    return NotFound(new { Message = "Discussion not found" });
+                }
+                _mapper.Map(discussionDto, discussion);
+                discussion.LastModified = DateTime.UtcNow;
+
+                if(discussionDto.Tags.Count > 0)
+                {
+                    var tags = await _context.discussionWithTags.Where(c => c.DiscussionId == id).ToListAsync(token);
+                    _context.discussionWithTags.RemoveRange(tags);
+
+                    foreach (var item in discussionDto.Tags)
+                    {
+                        DiscussionTags tag;
+                        if (item.TagId.HasValue)
+                        {
+                            tag = await _context.DiscussionTags.FindAsync(item.TagId.Value, token);
+                            if(tag == null)
+                            {
+                                return NotFound(new { Message = "Tag id not found" });
+                            }
+                        }
+                        else
+                        {
+                            tag = await _context.DiscussionTags.FirstOrDefaultAsync(c => c.Title == item.Title, token);
+                            if(tag == null)
+                            {
+                                tag = new DiscussionTags
+                                {
+                                    Title = item.Title,
+                                    Description = item.Description,
+                                    CreatedAt = DateTime.UtcNow,
+                                    LastModified = DateTime.UtcNow
+                                };
+
+                                await _context.DiscussionTags.AddAsync(tag); 
+                                await _context.SaveChangesAsync(token);
+                            }
+                        }
+
+                        discussion.DiscussionWithTags.Add(new DiscussionWithTags
+                        {
+                            TagId = tag.ID,
+                            Discussion = discussion,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow
+                        });
+                    }
+                }
+
+                _context.Discussions.Update(discussion);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                return Ok(new { Message = "Discussion updated successfully" });
+
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, "Error in edditing discussion");
                 return BadRequest();
             }
         }
