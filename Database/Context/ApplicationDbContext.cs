@@ -38,7 +38,7 @@ namespace Database.Context
         public DbSet<Commits> Commits { get; set; }
         public DbSet<Discussions> Discussions { get; set; }
         public DbSet<DiscussionTags> DiscussionTags { get; set; }
-        public DbSet<DiscussionWithTags> discussionWithTags { get; set; }
+        public DbSet<DiscussionsWithTags> DiscussionsWithTags { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -122,7 +122,8 @@ namespace Database.Context
                 .HasIndex(c => new { c.UserId, c.CourseId });
             //.HasName("IX_CourseCompleted_SomeProperty"); // not working
 
-
+            modelBuilder.Entity<DiscussionsWithTags>()
+                .HasKey(c => new { c.DiscussionId, c.TagId });
 
             //indexes
             modelBuilder.Entity<Discussions>()
@@ -131,13 +132,13 @@ namespace Database.Context
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<DiscussionWithTags>()
+            modelBuilder.Entity<DiscussionsWithTags>()
                 .HasOne(c => c.Discussion)
                 .WithMany(c => c.DiscussionWithTags)
                 .HasForeignKey(c => c.DiscussionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<DiscussionWithTags>()
+            modelBuilder.Entity<DiscussionsWithTags>()
                 .HasOne(c => c.DiscussionTag)
                 .WithMany(c => c.DiscussionWithTags)
                 .HasForeignKey(c => c.TagId)

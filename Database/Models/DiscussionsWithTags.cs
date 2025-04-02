@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Database.Models
 {
-    public class DiscussionWithTags
+    public class DiscussionsWithTags
     {
         public int DiscussionId { get; set; }
         public int TagId { get; set; }

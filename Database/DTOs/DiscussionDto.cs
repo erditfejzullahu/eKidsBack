@@ -18,12 +18,12 @@ namespace Database.DTOs
         public int UserId { get; set; }
         [Required]
         public DiscussionAnonimityStatus PreferAnonimity { get; set; }
+        [Required]
         public List<DiscussionTagsDto> Tags { get; set; } = new List<DiscussionTagsDto>();
     }
 
     public class DiscussionTagsDto
     {
-        public int? TagId { get; set; }
         [Required]
         public string Title { get; set; }
         public string? Description { get; set; }

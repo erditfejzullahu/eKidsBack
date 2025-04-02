@@ -1,0 +1,132 @@
+2025-04-02 19:20:19.6157 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-02 19:23:31.7962 | Error | Error in logging user in | System.InvalidOperationException: The entity type 'DiscussionWithTags' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelValidator.ValidateNonNullPrimaryKeys(IModel model, IDiagnosticsLogger`1 logger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelValidator.Validate(IModel model, IDiagnosticsLogger`1 logger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.RelationalModelValidator.Validate(IModel model, IDiagnosticsLogger`1 logger)
+   at Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal.SqlServerModelValidator.Validate(IModel model, IDiagnosticsLogger`1 logger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelRuntimeInitializer.Initialize(IModel model, Boolean designTime, IDiagnosticsLogger`1 validationLogger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelSource.GetModel(DbContext context, ModelCreationDependencies modelCreationDependencies, Boolean designTime)
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.CreateModel(Boolean designTime)
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.get_Model()
+   at Microsoft.EntityFrameworkCore.Infrastructure.EntityFrameworkServicesBuilder.<>c.<TryAddCoreServices>b__8_4(IServiceProvider p)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.Set[TEntity]()
+   at Database.Repository.Repository`1.GetAll() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 86
+   at eKids.Controllers.UsersController.Login(LoginDto loginDto, CancellationToken cancToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\UsersController.cs:line 73
+2025-04-02 19:28:26.1724 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-02 19:28:42.7905 | Error | USER erditbaba | 
+2025-04-02 19:28:42.7905 | Info | erditbaba connected with connection ID: oWeDU41wtDTbhGGPN7rOIQ | 
+2025-04-02 19:30:00.9259 | Error | USER erditbaba | 
+2025-04-02 19:30:00.9259 | Info | erditbaba connected with connection ID: EccBfRCEm7XWiarroHUU5w | 
+2025-04-02 19:49:56.3657 | Error | USER erditbaba | 
+2025-04-02 19:49:56.3657 | Info | erditbaba connected with connection ID: gDVWXrOteVV3SKI34pukpw | 
+2025-04-02 19:55:22.6268 | Error | USER erditbaba | 
+2025-04-02 19:55:22.6268 | Info | erditbaba connected with connection ID: FN-fP0OLiJnlTAoP2vM1Tw | 
+2025-04-02 20:01:23.2114 | Error | USER erditbaba | 
+2025-04-02 20:01:23.2159 | Info | erditbaba connected with connection ID: 6ZrHzH9-ZMR8RV0IgNgjcw | 
+2025-04-02 20:03:43.4664 | Error | USER erditbaba | 
+2025-04-02 20:03:43.4664 | Info | erditbaba connected with connection ID: ux4PpSwNVoEi--midw55nQ | 
+2025-04-02 20:04:10.8724 | Error | USER erditbaba | 
+2025-04-02 20:04:10.8724 | Info | erditbaba connected with connection ID: oQRmlxxOMy0SdSN-6U54Kg | 
+2025-04-02 20:07:12.5890 | Error | USER erditbaba | 
+2025-04-02 20:07:12.5921 | Info | erditbaba connected with connection ID: wgS_WQuf6WF_pvLXwb5Z-g | 
+2025-04-02 20:09:35.9491 | Error | USER erditbaba | 
+2025-04-02 20:09:35.9491 | Info | erditbaba connected with connection ID: mNUJynLbQsqSyawN6k2UxA | 
+2025-04-02 20:19:04.7555 | Error | USER erditbaba | 
+2025-04-02 20:19:04.7555 | Info | erditbaba connected with connection ID: gBJ0LdDvpFJuum04NnV3Ng | 
+2025-04-02 20:19:04.7932 | Error | USER erditbaba | 
+2025-04-02 20:19:04.7932 | Info | erditbaba connected with connection ID: p-vKBzFJXLP6YPiwzuO4gw | 
+2025-04-02 20:25:39.8896 | Error | USER erditbaba | 
+2025-04-02 20:25:39.8896 | Info | erditbaba connected with connection ID: mg5ZtZ0G2HqOF6igGIK6Rg | 
+2025-04-02 20:27:57.6777 | Error | USER erditbaba | 
+2025-04-02 20:27:57.6777 | Info | erditbaba connected with connection ID: mCnkkiK8Hz0uKg4h5UcPlw | 
+2025-04-02 20:35:14.4799 | Error | USER erditbaba | 
+2025-04-02 20:35:14.4863 | Info | erditbaba connected with connection ID: xSj9Stmc_ZMNsgqsrxAJzA | 
+2025-04-02 20:58:35.2599 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), next: SCAN, inst: 0, qu: 0, qs: 1, aw: False, bw: Inactive, rs: ReadAsync, ws: Idle, in: 0, in-pipe: 0, out-pipe: 0, last-in: 350, cur-in: 0, sync-ops: 0, async-ops: 10, serverEndpoint: 192.168.1.20:6379, conn-sec: 5409.91, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=4,QueuedItems=0,CompletedItems=20088,Timers=3), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-04-02 20:58:35.2722 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), next: SCAN, inst: 0, qu: 0, qs: 1, aw: False, bw: Inactive, rs: ReadAsync, ws: Idle, in: 0, in-pipe: 0, out-pipe: 0, last-in: 350, cur-in: 0, sync-ops: 0, async-ops: 10, serverEndpoint: 192.168.1.20:6379, conn-sec: 5409.91, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=4,QueuedItems=0,CompletedItems=20088,Timers=3), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-04-02 21:00:41.2259 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-02 21:01:01.0818 | Error | USER erditbaba | 
+2025-04-02 21:01:01.0818 | Info | erditbaba connected with connection ID: AUOKEJFl6OzLA3bikDsZBQ | 
+2025-04-02 21:52:59.7211 | Error | USER erditbaba | 
+2025-04-02 21:52:59.7211 | Info | erditbaba connected with connection ID: OkKnLV4RSne1OceU1G4KZQ | 
+2025-04-02 21:55:20.3110 | Error | USER erditbaba | 
+2025-04-02 21:55:20.3110 | Info | erditbaba connected with connection ID: zNUf1SEnRUfBcBDa-365Tg | 
+2025-04-02 22:06:15.5613 | Error | USER erditbaba | 
+2025-04-02 22:06:15.5613 | Info | erditbaba connected with connection ID: WWHjNmL9mWQFxUXLEycjMw | 
+2025-04-02 22:06:15.6059 | Error | USER erditbaba | 
+2025-04-02 22:06:15.6059 | Info | erditbaba connected with connection ID: xz3BwYBHViQV_KOSgLTRZA | 
+2025-04-02 22:10:02.9403 | Error | USER erditbaba | 
+2025-04-02 22:10:02.9403 | Info | erditbaba connected with connection ID: mJcANAkLgaakAJdTP-LqpQ | 
+2025-04-02 22:11:38.9975 | Error | USER erditbaba | 
+2025-04-02 22:11:38.9975 | Info | erditbaba connected with connection ID: 2xnrGJuXzUHSNd_szeZpSA | 
+2025-04-02 22:11:50.6436 | Error | USER erditbaba | 
+2025-04-02 22:11:50.6436 | Info | erditbaba connected with connection ID: r10ppj-MleXyRJolg9YAyg | 
+2025-04-02 22:13:51.3842 | Error | USER erditbaba | 
+2025-04-02 22:13:51.3870 | Info | erditbaba connected with connection ID: 1Pkqbben0ILpWwbPsY8wVQ | 
+2025-04-02 23:00:47.8133 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 13, serverEndpoint: 192.168.1.20:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=6,QueuedItems=0,CompletedItems=24611,Timers=5), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-04-02 23:00:47.8274 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 13, serverEndpoint: 192.168.1.20:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=6,QueuedItems=0,CompletedItems=24611,Timers=5), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-04-02 23:20:48.6217 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-02 23:28:25.4409 | Error | USER erditbaba | 
+2025-04-02 23:28:25.4409 | Info | erditbaba connected with connection ID: xam0x6FWlvtI2vMIwUahJw | 
+2025-04-02 23:41:34.4350 | Error | USER erditbaba | 
+2025-04-02 23:41:34.4350 | Info | erditbaba connected with connection ID: TgY1gj2bSD4COxhX6CuhlA | 

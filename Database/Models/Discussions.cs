@@ -29,7 +29,7 @@ namespace Database.Models
         [ForeignKey("UserId")]
         public Users User { get; set; }
 
-        public virtual List<DiscussionWithTags> DiscussionWithTags { get; set; } = new List<DiscussionWithTags>();
+        public virtual List<DiscussionsWithTags> DiscussionWithTags { get; set; } = new List<DiscussionsWithTags>();
 
     }
 }

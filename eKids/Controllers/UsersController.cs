@@ -645,9 +645,9 @@ namespace eKids.Controllers
                 if (!string.IsNullOrEmpty(searchParam))
                 {
                     query = query.Where(s =>
-                    EF.Functions.Contains(s.Firstname, searchParam) ||
-                    EF.Functions.Contains(s.Lastname, searchParam) ||
-                    EF.Functions.Contains(s.Username, searchParam)
+                    EF.Functions.Contains(s.Firstname, $"\"{searchParam}*\"") ||
+                    EF.Functions.Contains(s.Lastname, $"\"{searchParam}*\"") ||
+                    EF.Functions.Contains(s.Username, $"\"{searchParam}*\"")
                     );
                 }
                 

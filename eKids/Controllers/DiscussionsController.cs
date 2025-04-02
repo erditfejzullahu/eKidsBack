@@ -77,6 +77,25 @@ namespace eKids.Controllers
             }
         }
 
+        [HttpGet("TypingTags")]
+        public async Task<IActionResult> GetTypingTags([FromQuery] string title)
+        {
+            try
+            {
+                var tags = await _context.DiscussionTags.Where(c => EF.Functions.Contains(c.Title, $"\"{title}*\"")).Select(c => new {c.Title}).ToListAsync();
+                if(tags.Count == 0)
+                {
+                    return NotFound(new { Message = "No tags found" });
+                }
+                return Ok(tags);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, " Error in retriving tags gettypingtags");
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateDiscussion([FromBody] DiscussionDto discussionDto, CancellationToken token)
         {
@@ -90,6 +109,7 @@ namespace eKids.Controllers
                     Content = discussionDto.Content,
                     UserId = discussionDto.UserId,
                     PreferAnonimity = discussionDto.PreferAnonimity,
+                    Edited = false,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
@@ -98,33 +118,22 @@ namespace eKids.Controllers
                 {
                     DiscussionTags tag;
 
-                    if (item.TagId.HasValue)
+                    tag = await _context.DiscussionTags.FirstOrDefaultAsync(c => c.Title.ToLower() == item.Title.ToLower(), token);
+                    if(tag == null)
                     {
-                        tag = await _context.DiscussionTags.FindAsync(item.TagId.Value, token);
-                        if (tag == null)
+                        tag = new DiscussionTags
                         {
-                            return BadRequest(new { Message = "Id provided does not exist" });
-                        }
-                    }
-                    else
-                    {
-                        tag = await _context.DiscussionTags.FirstOrDefaultAsync(c => c.Title == item.Title, token);
-                        if(tag == null)
-                        {
-                            tag = new DiscussionTags
-                            {
-                                Title = item.Title,
-                                Description = item.Description,
-                                CreatedAt = DateTime.UtcNow,
-                                LastModified = DateTime.UtcNow
-                            };
+                            Title = item.Title,
+                            Description = item.Description,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow
+                        };
 
-                            await _context.DiscussionTags.AddAsync(tag, token);
-                            await _context.SaveChangesAsync(token);
-                        }
+                        await _context.DiscussionTags.AddAsync(tag, token);
+                        await _context.SaveChangesAsync(token);
                     }
 
-                    discussion.DiscussionWithTags.Add(new DiscussionWithTags
+                    discussion.DiscussionWithTags.Add(new DiscussionsWithTags
                     {
                         TagId = tag.ID,
                         Discussion = discussion,
@@ -134,9 +143,10 @@ namespace eKids.Controllers
 
                 }
 
-                    await _context.Discussions.AddAsync(discussion, token);
-                    await _context.SaveChangesAsync(token);
-                    return Ok(new { Message = "Discussion Created" });
+                await _context.Discussions.AddAsync(discussion, token);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                return Ok(new { Message = "Discussion Created" });
             }
             catch (Exception ex)
             {
@@ -164,39 +174,29 @@ namespace eKids.Controllers
 
                 if(discussionDto.Tags.Count > 0)
                 {
-                    var tags = await _context.discussionWithTags.Where(c => c.DiscussionId == id).ToListAsync(token);
-                    _context.discussionWithTags.RemoveRange(tags);
+                    var tags = await _context.DiscussionsWithTags.Where(c => c.DiscussionId == id).ToListAsync(token);
+                    _context.DiscussionsWithTags.RemoveRange(tags);
 
                     foreach (var item in discussionDto.Tags)
                     {
                         DiscussionTags tag;
-                        if (item.TagId.HasValue)
+                        
+                        tag = await _context.DiscussionTags.FirstOrDefaultAsync(c => c.Title.ToLower() == item.Title.ToLower(), token);
+                        if(tag == null)
                         {
-                            tag = await _context.DiscussionTags.FindAsync(item.TagId.Value, token);
-                            if(tag == null)
+                            tag = new DiscussionTags
                             {
-                                return NotFound(new { Message = "Tag id not found" });
-                            }
-                        }
-                        else
-                        {
-                            tag = await _context.DiscussionTags.FirstOrDefaultAsync(c => c.Title == item.Title, token);
-                            if(tag == null)
-                            {
-                                tag = new DiscussionTags
-                                {
-                                    Title = item.Title,
-                                    Description = item.Description,
-                                    CreatedAt = DateTime.UtcNow,
-                                    LastModified = DateTime.UtcNow
-                                };
+                                Title = item.Title,
+                                Description = item.Description,
+                                CreatedAt = DateTime.UtcNow,
+                                LastModified = DateTime.UtcNow
+                            };
 
-                                await _context.DiscussionTags.AddAsync(tag); 
-                                await _context.SaveChangesAsync(token);
-                            }
+                            await _context.DiscussionTags.AddAsync(tag); 
+                            await _context.SaveChangesAsync(token);
                         }
 
-                        discussion.DiscussionWithTags.Add(new DiscussionWithTags
+                        discussion.DiscussionWithTags.Add(new DiscussionsWithTags
                         {
                             TagId = tag.ID,
                             Discussion = discussion,

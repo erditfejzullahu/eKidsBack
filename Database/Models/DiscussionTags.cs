@@ -16,6 +16,6 @@ namespace Database.Models
         public string Title { get; set; }
         public string? Description { get; set; }
 
-        public List<DiscussionWithTags> DiscussionWithTags { get; set; } = new List<DiscussionWithTags>();
+        public List<DiscussionsWithTags> DiscussionWithTags { get; set; } = new List<DiscussionsWithTags>();
     }
 }
