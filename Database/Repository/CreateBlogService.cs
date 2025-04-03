@@ -19,13 +19,15 @@ namespace Database.Repository
         private readonly ApplicationDbContext _context;
         private readonly IFileUploadService _fileUpload;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly RabbitMqService _rabbitMqService;
 
-        public CreateBlogService(ILogger<CreateBlogService> logger, IHttpContextAccessor httpContextAccessor, ApplicationDbContext context, IFileUploadService fileUpload)
+        public CreateBlogService(RabbitMqService rabbitMqService, ILogger<CreateBlogService> logger, IHttpContextAccessor httpContextAccessor, ApplicationDbContext context, IFileUploadService fileUpload)
         {
             _logger = logger;
             _context = context;
             _fileUpload = fileUpload;
             _httpContextAccessor = httpContextAccessor;
+            _rabbitMqService = rabbitMqService;
         }
 
         public async Task<Blogs> CreateBlog(CreateBlogDto request, CancellationToken token)
@@ -211,6 +213,7 @@ namespace Database.Repository
                     }
                 }
 
+                string generateAiMessage = $"Me pergatit nje pershkrim nga kjo permbajtje e ketij blogu dhe ne pershkrimin e tij fillo me 'Mesa duket ky blog ka te beje me'. Permbajtja eshte kjo: {blogDto.Content}";
                 var blog = new Blogs
                 {
                     Title = blogDto.Title,
@@ -228,6 +231,13 @@ namespace Database.Repository
                 await _context.SaveChangesAsync(token);
 
                 await transaction.CommitAsync(token);
+                var aiMessageToGenerate = new AIMessageGenerationDto
+                {
+                    Id = blog.ID,
+                    Message = generateAiMessage
+                };
+
+                _rabbitMqService.SendMessage(aiMessageToGenerate);
                 return blog;
             }
             catch (Exception ex)

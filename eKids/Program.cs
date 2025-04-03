@@ -94,6 +94,7 @@ namespace eKids
 
             // Add services to the container.
             builder.Services.AddHttpContextAccessor();
+            
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IFileUploadService, FileUploadService>();
             builder.Services.AddScoped<IFileChecker, FileChecker>();
@@ -105,6 +106,7 @@ namespace eKids
             builder.Services.AddScoped<IVideoFileService, VideoFileService>();
             builder.Services.AddScoped<ICreateBlogService, CreateBlogService>();
             builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
+            builder.Services.AddSingleton<AiMessageConsumer>();
             builder.Services.AddScoped(typeof(ISorterService<>), typeof(SorterService<>));
 
             builder.Services.AddSignalR(options =>
@@ -144,6 +146,9 @@ namespace eKids
             builder.Host.UseNLog(new NLogAspNetCoreOptions { RemoveLoggerFactoryFilter = false });
 
             var app = builder.Build();
+
+            var aiMessageConsumer = app.Services.GetRequiredService<AiMessageConsumer>();
+            Task.Run(() => aiMessageConsumer.StartConsuming());
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

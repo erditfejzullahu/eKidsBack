@@ -536,3 +536,4 @@ C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\obj\Debug\net8.
 C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\obj\Debug\net8.0\eKids.pdb
 C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\obj\Debug\net8.0\eKids.genruntimeconfig.cache
 C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\obj\Debug\net8.0\ref\eKids.dll
+C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\bin\Debug\net8.0\RabbitMQ.Client.dll
