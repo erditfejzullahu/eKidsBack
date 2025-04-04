@@ -855,11 +855,6 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
         "Name": "PageNumber",
         "Type": "System.Int32",
         "IsRequired": false

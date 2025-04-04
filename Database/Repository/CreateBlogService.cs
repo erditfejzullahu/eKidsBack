@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Database.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -353,17 +354,20 @@ namespace Database.Repository
                 throw new ApplicationException("Error in retriving blogs by tags");
             }
         }
-        public async Task<(List<BlogRetrieveDto> blogs, bool hasMore)> AllBlogRetrieve(int userId, PaginationDto paginationDto, CancellationToken token)
+        public async Task<(List<BlogRetrieveDto> blogs, bool hasMore)> AllBlogRetrieve(int userId, PaginationDto paginationDto, CancellationToken token, BlogDiscussionRetrivalType retrivalType)
         {
             try
             {
-                var blogsCount = await _context.Blogs.CountAsync(token);
-                var blogs = await _context.Blogs
-                    .AsNoTracking()
-                    //.Include(c => c.Tag)
-                    //.ThenInclude(c => c.Children)
-                    //.Include(c => c.User)
-                    //.Include(c => c.BlogLikes)
+                var query = _context.Blogs.AsNoTracking();
+
+                if (retrivalType == BlogDiscussionRetrivalType.ProfileSection)
+                {
+                    query = query.Where(c => c.UserId == userId);
+                }
+
+                var blogsCount = await query.CountAsync(token);
+
+                var blogs = await query
                     .Select(c => new BlogRetrieveDto
                     {
                         ID = c.ID,

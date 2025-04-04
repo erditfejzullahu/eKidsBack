@@ -38,7 +38,7 @@ public class ViewCountSyncService : BackgroundService
        
 
         // Get all Redis keys that store view counts for courses and lessons
-        var server = _redis.GetServer("192.168.1.20", 6379);
+        var server = _redis.GetServer("192.168.1.12", 6379);
         var redisKeys = server.Keys(pattern: "*:*:views");
 
         var updateTasks = new List<Task>();

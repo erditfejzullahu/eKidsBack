@@ -1,6 +1,7 @@
 ﻿using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Database.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -286,6 +287,26 @@ namespace eKids.Controllers
             {
                 _logger.LogError(ex, $"Error in retriving blogs by tagID: {tagId}");
                 return BadRequest(new { Message = "Error in retriving blogs" });
+            }
+        }
+
+        [HttpGet("/api/Blogs/GetAllBlogsByUser/{userId}")]
+        public async Task<IActionResult> GetAllBlogsByUser(int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        {
+            try
+            {
+                paginationDto.Validate();
+                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token, BlogDiscussionRetrivalType.ProfileSection);
+                if(blogs.blogs.Count == 0)
+                {
+                    return NotFound(new { Message = "No blogs found" });
+                }
+                return Ok(new { data = blogs.blogs, blogs.hasMore });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, " error in getting all blogs by user given");
+                return BadRequest();
             }
         }
 

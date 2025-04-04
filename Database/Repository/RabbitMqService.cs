@@ -12,7 +12,7 @@ namespace Database.Repository
 {
     public class RabbitMqService
     {
-        private readonly string _hostName = "http://192.168.1.20";
+        private readonly string _hostName = "192.168.1.12";
         private readonly string _queueName = "aiBlogContentGeneration";
         private readonly ILogger<RabbitMqService> _logger;
 
@@ -25,7 +25,7 @@ namespace Database.Repository
             try
             {
 
-                var factory = new ConnectionFactory() { HostName = _hostName };
+                var factory = new ConnectionFactory() { HostName = _hostName, Port = 5672, UserName = "guest", Password = "guest" };
 
                 using (var connection = await factory.CreateConnectionAsync())
                 using (var channel = await connection.CreateChannelAsync())

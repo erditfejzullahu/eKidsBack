@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -15,22 +16,25 @@ namespace Database.Repository
 {
     public class AiMessageConsumer
     {
-        private readonly string _hostName = "http://192.168.1.20";
+        private readonly string _hostName = "192.168.1.12";
         private readonly string _queueName = "aiBlogContentGeneration";
         private readonly ILogger<AiMessageConsumer> _logger;
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public AiMessageConsumer(ILogger<AiMessageConsumer> logger, ApplicationDbContext context)
+
+        public AiMessageConsumer(IServiceScopeFactory serviceScopeFactory, ILogger<AiMessageConsumer> logger)
         {
             _logger = logger;
-            _context = context;
+            //_context = context;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task StartConsuming()
         {
             try
             {
-                var factory = new ConnectionFactory() { HostName = _hostName };
+                var factory = new ConnectionFactory() { HostName = _hostName, Port = 5672, UserName = "guest", Password = "guest" };
 
                 using (var connection = await factory.CreateConnectionAsync())
                 using (var channel = await connection.CreateChannelAsync())
@@ -59,11 +63,15 @@ namespace Database.Repository
                             }
 
                             var aiGeneratedMessage = await GenerateAiMessage(aiMessageRequest.Message);
-                            var updatedBlog = await SaveGeneratedMessage(aiMessageRequest.Id, aiGeneratedMessage);
 
-                            if (updatedBlog == null)
+                            using (var scope = _serviceScopeFactory.CreateScope())
                             {
-                                _logger.LogWarning($"Failed to update blog with ID {aiMessageRequest.Id}");
+                                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                                var updatedBlog = await SaveGeneratedMessage(dbContext, aiMessageRequest.Id, aiMessageRequest.Message);
+                                if (updatedBlog == null)
+                                {
+                                    _logger.LogWarning($"Failed to update blog with ID {aiMessageRequest.Id}");
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -89,23 +97,23 @@ namespace Database.Repository
         private async Task<string> GenerateAiMessage(string blogContent)
         {
             //here ai api call
-            await Task.Delay(2000);
+            await Task.Delay(5000);
             return "Ok";
         }
 
-        private async Task<Blogs> SaveGeneratedMessage(int blogId, string generatedMessage)
+        private async Task<Blogs> SaveGeneratedMessage(ApplicationDbContext context, int blogId, string generatedMessage)
         {
             try
             {
-                var blog = await _context.Blogs.FindAsync(blogId);
+                var blog = await context.Blogs.FindAsync(blogId);
                 if(blog == null)
                 {
                     throw new ApplicationException("No blog found with that id");
                 }
                 blog.GeneratedContent = generatedMessage;
                 blog.LastModified = DateTime.UtcNow;
-                _context.Blogs.Update(blog);
-                await _context.SaveChangesAsync();
+                context.Blogs.Update(blog);
+                await context.SaveChangesAsync();
                 return blog;
             }
             catch (Exception ex)

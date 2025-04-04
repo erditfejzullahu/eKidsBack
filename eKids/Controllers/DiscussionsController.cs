@@ -25,17 +25,18 @@ namespace eKids.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllDiscussions([FromBody] int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        [HttpGet("GetAllDiscussionsByUser/{userId}")]
+        public async Task<IActionResult> GetDiscussionsByUserCreated(int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
-                //using var transation = await _context.Database.BeginTransactionAsync(token);
-                var allDiscussions = await _context.Discussions.CountAsync(token);
+                paginationDto.Validate();
+                var discussionsCount = await _context.Discussions.Where(c => c.UserId == userId).CountAsync(token);
                 var discussions = await _context.Discussions
-                    .Include(c => c.User)
-                    .Include(c => c.DiscussionWithTags)
-                    .ThenInclude(dt => dt.DiscussionTag)
+                    .AsNoTracking()
+                    .AsSplitQuery()
+                    .Where(c => c.UserId == userId)
+                    .OrderBy(c => c.CreatedAt)
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
                     .Select(c => new
@@ -46,13 +47,14 @@ namespace eKids.Controllers
                         c.UserId,
                         c.PreferAnonimity,
                         c.Views,
+                        c.Edited,
                         c.Votes,
-                        User = new
+                        User = c.PreferAnonimity == DiscussionAnonimityStatus.Visible ? new
                         {
                             c.User.Username,
                             Name = c.User.Firstname + " " + c.User.Lastname,
                             c.User.ProfilePictureUrl,
-                        },
+                        } : null,
                         Tags = c.DiscussionWithTags.Select(dt => new
                         {
                             dt.DiscussionTag.ID,
@@ -60,7 +62,64 @@ namespace eKids.Controllers
                         }),
                         c.CreatedAt
                     })
-                    .ToListAsync();
+                    .ToListAsync(token);
+
+                if(discussions.Count == 0)
+                {
+                    return NotFound(new { Message = "no discussions found" });
+                }
+                var hasMore = discussions.Count == paginationDto.Take && discussions.Count < discussionsCount;
+                return Ok(new { discussionsCount, discussions, hasMore });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, " Error in retriving discussions created by user");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllDiscussions([FromQuery] PaginationDto paginationDto, CancellationToken token)
+        {
+            try
+            {
+                paginationDto.Validate();
+                //using var transation = await _context.Database.BeginTransactionAsync(token);
+                var allDiscussions = await _context.Discussions.AsNoTracking().CountAsync(token);
+                var discussions = await _context.Discussions
+                    .AsNoTracking()
+                    .AsSplitQuery()
+                    //.Include(c => c.User)
+                    //.Include(c => c.DiscussionWithTags)
+                    //.ThenInclude(dt => dt.DiscussionTag)
+                    //.OrderByDescending(c => c.CreatedAt)
+                    .OrderBy(c => c.CreatedAt)
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Title,
+                        c.Content,
+                        c.UserId,
+                        c.PreferAnonimity,
+                        c.Views,
+                        c.Edited,
+                        c.Votes,
+                        User = c.PreferAnonimity == DiscussionAnonimityStatus.Visible ? new
+                        {
+                            c.User.Username,
+                            Name = c.User.Firstname + " " + c.User.Lastname,
+                            c.User.ProfilePictureUrl,
+                        } : null,
+                        Tags = c.DiscussionWithTags.Select(dt => new
+                        {
+                            dt.DiscussionTag.ID,
+                            dt.DiscussionTag.Title
+                        }),
+                        c.CreatedAt
+                    })
+                    .ToListAsync(token);
 
                 if(discussions.Count == 0)
                 {

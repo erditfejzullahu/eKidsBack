@@ -24,7 +24,7 @@ namespace Database.Models
 
         public int Views { get; set; }
         public int Votes { get; set; }
-        public bool? Edited { get; set; }
+        public bool Edited { get; set; }
 
         [ForeignKey("UserId")]
         public Users User { get; set; }

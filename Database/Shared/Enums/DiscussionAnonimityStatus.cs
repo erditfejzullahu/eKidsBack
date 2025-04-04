@@ -8,7 +8,7 @@ namespace Database.Shared.Enums
 {
     public enum DiscussionAnonimityStatus
     {
-        Visible = 1,
-        NotVisible = 2
+        Visible = 0,
+        NotVisible = 1
     }
 }
