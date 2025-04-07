@@ -100,6 +100,10 @@ namespace Database.Models
 
 
         public virtual ICollection<Discussions> UserDiscussions { get; set; } = new List<Discussions>();
+        public virtual ICollection<DiscussionAnswers> DiscussionAnswers { get; set; } = new List<DiscussionAnswers>();
+
+        public virtual ICollection<DiscussionVotes> DiscussionVotes { get; set; } = new List<DiscussionVotes>();
+        public virtual ICollection<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; }
 
     }
 }

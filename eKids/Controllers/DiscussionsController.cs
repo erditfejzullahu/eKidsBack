@@ -2,6 +2,7 @@
 using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Database.Repository;
 using Database.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,108 @@ namespace eKids.Controllers
         private readonly ILogger<DiscussionsController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IDiscussionAnswerService _discussionAnswerService;
 
-        public DiscussionsController(IMapper mapper, ILogger<DiscussionsController> logger, ApplicationDbContext context )
+        public DiscussionsController(IMapper mapper, ILogger<DiscussionsController> logger, ApplicationDbContext context, IDiscussionAnswerService discussionAnswerService)
         {
             _logger = logger;
             _context = context;
             _mapper = mapper;
+            _discussionAnswerService = discussionAnswerService;
+        }
+
+        [HttpPatch("HandleDiscussionVotes")]
+        public async Task<IActionResult> HandleDiscussionVotes([FromBody] DiscussionHandleVoteDto discussionHandleVoteDto, CancellationToken token)
+        {
+            try
+            {
+                var handleVote = await _discussionAnswerService.HandleDiscussionVoteStatusAsync(discussionHandleVoteDto.UserId, discussionHandleVoteDto.DiscussionId, discussionHandleVoteDto.DiscussionVoteType, token);
+                return Ok(new { VoteResponse = handleVote });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in handling discussion vote");
+                return BadRequest();
+            }
+        }
+
+        [HttpPatch("HandleAnswerVotes")]
+        public async Task<IActionResult> HandleAnswerVotes([FromBody] DiscussionAnswerHandleVoteDto handleVoteDto, CancellationToken token)
+        {
+            try
+            {
+                var handleVote = await _discussionAnswerService.HandleAnswerVoteStatusAsync(handleVoteDto.UserId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionVoteType, token);
+                return Ok(new { VoteResponse = handleVote }); //0 for voteup, 1 for votedown
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error handling comment votes");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetDiscussionComments/{id}")]
+        public async Task<IActionResult> GetDiscussionComments(int id, [FromQuery] int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        {
+            try
+            {
+                var discussionAnswers = await _discussionAnswerService.GetDiscussionAnswersDtoAsync(id, userId, paginationDto, token);
+                if(discussionAnswers.Item1.Count == 0)
+                {
+                    return NotFound(new { Message = "No answersFound" });
+                }
+                return Ok(new { data = discussionAnswers.Item1, discussionAnswers.hasMore });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting discussion comments");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDiscussionById(int id)
+        {
+            try
+            {
+                var discussion = await _context.Discussions
+                    .AsNoTracking()
+                    .Where(c => c.ID == id)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Title,
+                        c.Content,
+                        c.UserId,
+                        c.PreferAnonimity,
+                        c.Views,
+                        c.Edited,
+                        c.Votes,
+                        User = c.PreferAnonimity == DiscussionAnonimityStatus.Visible ? new
+                        {
+                            c.User.Username,
+                            Name = c.User.Firstname + " " + c.User.Lastname,
+                            c.User.ProfilePictureUrl,
+                        } : null,
+                        Tags = c.DiscussionWithTags.Select(dt => new
+                        {
+                            dt.DiscussionTag.ID,
+                            dt.DiscussionTag.Title
+                        }),
+                        c.CreatedAt
+                    })
+                    .FirstOrDefaultAsync();
+                if(discussion == null)
+                {
+                    return NotFound(new { Message = "No discussion found" });
+                }
+                return Ok(discussion);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in getting discussionid");
+                return BadRequest();
+            }
         }
 
         [HttpGet("GetAllDiscussionsByUser/{userId}")]

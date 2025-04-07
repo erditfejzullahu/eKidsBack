@@ -106,6 +106,7 @@ namespace eKids
             builder.Services.AddScoped<IVideoFileService, VideoFileService>();
             builder.Services.AddScoped<ICreateBlogService, CreateBlogService>();
             builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
+            builder.Services.AddScoped<IDiscussionAnswerService, DiscussionAnswerService>();
             builder.Services.AddSingleton<AiMessageConsumer>();
             builder.Services.AddSingleton<RabbitMqService>();
             builder.Services.AddScoped(typeof(ISorterService<>), typeof(SorterService<>));

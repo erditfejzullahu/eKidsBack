@@ -30,6 +30,8 @@ namespace Database.Models
         public Users User { get; set; }
 
         public virtual List<DiscussionsWithTags> DiscussionWithTags { get; set; } = new List<DiscussionsWithTags>();
+        public virtual List<DiscussionAnswers> DiscussionAnswers { get; set; } = new List<DiscussionAnswers>();
+        public virtual List<DiscussionVotes> DiscussionVotes { get; set; } = new List<DiscussionVotes>();
 
     }
 }

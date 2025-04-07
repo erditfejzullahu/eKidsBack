@@ -39,6 +39,9 @@ namespace Database.Context
         public DbSet<Discussions> Discussions { get; set; }
         public DbSet<DiscussionTags> DiscussionTags { get; set; }
         public DbSet<DiscussionsWithTags> DiscussionsWithTags { get; set; }
+        public DbSet<DiscussionAnswers> DiscussionAnswers { get; set; }
+        public DbSet<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; }
+        public DbSet<DiscussionVotes> DiscussionVotes { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -125,7 +128,52 @@ namespace Database.Context
             modelBuilder.Entity<DiscussionsWithTags>()
                 .HasKey(c => new { c.DiscussionId, c.TagId });
 
+            modelBuilder.Entity<DiscussionAnswerVotes>()
+                .HasKey(c => new { c.DiscussionCommentId, c.UserId });
             //indexes
+
+            modelBuilder.Entity<DiscussionVotes>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.DiscussionVotes)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DiscussionVotes>()
+                .HasOne(c => c.Discussion)
+                .WithMany(c => c.DiscussionVotes)
+                .HasForeignKey(c => c.DiscussionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DiscussionAnswerVotes>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.DiscussionAnswerVotes)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DiscussionAnswerVotes>()
+                .HasOne(c => c.DiscussionAnswer)
+                .WithMany(c => c.DiscussionAnswerVotes)
+                .HasForeignKey(c => c.DiscussionCommentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<DiscussionAnswers>()
+                .HasOne(c => c.Discussion)
+                .WithMany(c => c.DiscussionAnswers)
+                .HasForeignKey(c => c.DiscussionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DiscussionAnswers>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.DiscussionAnswers)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DiscussionAnswers>()
+                .HasOne(c => c.Parent)
+                .WithMany(c => c.Replies)
+                .HasForeignKey(c => c.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Discussions>()
                 .HasOne(c => c.User)
                 .WithMany(c => c.UserDiscussions)

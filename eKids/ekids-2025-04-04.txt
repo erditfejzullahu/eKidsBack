@@ -1,0 +1,102 @@
+2025-04-04 17:34:42.2984 | Info | Waiting for messages in AI Queue | 
+2025-04-04 17:34:43.9723 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-04 17:35:20.5459 | Error | USER erditbaba | 
+2025-04-04 17:35:20.6238 | Info | erditbaba connected with connection ID: mUZbr60-PX0kJvseU_-Bww | 
+2025-04-04 17:42:06.0217 | Error | USER erditbaba | 
+2025-04-04 17:42:06.0217 | Info | erditbaba connected with connection ID: GAXWVdEJ6jpz1Pyt-6FLkg | 
+2025-04-04 17:43:33.5869 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-04-04 18:48:42.3207 | Info | Waiting for messages in AI Queue | 
+2025-04-04 18:48:43.5107 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-04 18:51:03.9455 | Error | Error in invalidating refresh token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+2025-04-04 18:51:04.1368 | Error | Error in refreshing token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+   at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\UsersController.cs:line 163
+2025-04-04 18:51:05.0220 | Error | USER erditbaba | 
+2025-04-04 18:51:05.0220 | Info | erditbaba connected with connection ID: wYrdqsn9589TJb3I1bOQNw | 
+2025-04-04 18:51:17.7734 | Error | USER erditbaba | 
+2025-04-04 18:51:17.7734 | Info | erditbaba connected with connection ID: zgD2ocZb6-oO02M1F7Lm3Q | 
+2025-04-04 18:53:36.8879 | Error | USER erditbaba | 
+2025-04-04 18:53:36.8879 | Info | erditbaba connected with connection ID: BcYA0urmZp0RqTKcG07sjQ | 
+2025-04-04 18:55:32.9326 | Error | USER erditbaba | 
+2025-04-04 18:55:32.9326 | Info | erditbaba connected with connection ID: yY1u53cyRaRdmet3DtyF_g | 
+2025-04-04 19:00:54.2902 | Error | USER erditbaba | 
+2025-04-04 19:00:54.2902 | Info | erditbaba connected with connection ID: bKi9ea-cRdIPKLOLS5xUJA | 
+2025-04-04 19:01:35.7000 | Error | USER erditbaba | 
+2025-04-04 19:01:35.7000 | Info | erditbaba connected with connection ID: huSCb-8fPwP_Z3qBAHC-1g | 
+2025-04-04 19:01:56.1152 | Error | USER erditbaba | 
+2025-04-04 19:01:56.1152 | Info | erditbaba connected with connection ID: cQfE2HzZH0p76HkuJqLv_A | 
+2025-04-04 19:06:29.1177 | Error | USER erditbaba | 
+2025-04-04 19:06:29.1177 | Info | erditbaba connected with connection ID: BxVFyMFdX06ZJPDJk0C4cQ | 
+2025-04-04 19:11:00.1849 | Error | USER erditbaba | 
+2025-04-04 19:11:00.1849 | Info | erditbaba connected with connection ID: Ih32Hjy_b2ERIPLzWD1IJw | 
+2025-04-04 19:18:42.7935 | Error | USER erditbaba | 
+2025-04-04 19:18:42.7935 | Info | erditbaba connected with connection ID: SkcYo1JNitVRCXrBReJFmA | 
+2025-04-04 19:32:49.4242 | Error | USER erditbaba | 
+2025-04-04 19:32:49.4271 | Info | erditbaba connected with connection ID: VljztsIxV1Fdiuu1hiqH6w | 
+2025-04-04 20:13:30.8621 | Error | USER erditbaba | 
+2025-04-04 20:13:30.8621 | Info | erditbaba connected with connection ID: Hcq1pXoK04WF0KnVyGzuMg | 
+2025-04-04 20:17:08.0443 | Error | USER erditbaba | 
+2025-04-04 20:17:08.0443 | Info | erditbaba connected with connection ID: gvz61ewM6zcrvirS27g5Cg | 
+2025-04-04 20:17:09.0198 | Error | USER erditbaba | 
+2025-04-04 20:17:09.0198 | Info | erditbaba connected with connection ID: eIdFHaPccmEOdReAqhYCKQ | 
+2025-04-04 20:24:06.6936 | Error | USER erditbaba | 
+2025-04-04 20:24:06.6936 | Info | erditbaba connected with connection ID: zSwWfcKOpLBrqQ0kjxn21w | 
+2025-04-04 20:24:30.2235 | Error | USER erditbaba | 
+2025-04-04 20:24:30.2235 | Info | erditbaba connected with connection ID: ukg0G0TuHbs4Zioh043lWw | 
+2025-04-04 20:30:08.7969 | Error | USER erditbaba | 
+2025-04-04 20:30:08.7969 | Info | erditbaba connected with connection ID: tKBmiIXJyI-WQWOGhhn-fw | 
+2025-04-04 20:30:25.4332 | Error | USER erditbaba | 
+2025-04-04 20:30:25.4332 | Info | erditbaba connected with connection ID: UuNVcOgV_Uhw3QbDzWiQsA | 
+2025-04-04 20:34:58.7815 | Error | USER erditbaba | 
+2025-04-04 20:34:58.7815 | Info | erditbaba connected with connection ID: neiRF1oXALqlcFRuK_tV5w | 
+2025-04-04 20:38:18.6046 | Error | USER erditbaba | 
+2025-04-04 20:38:18.6046 | Info | erditbaba connected with connection ID: B3REGzSoRhrgyLepU0B1JQ | 
+2025-04-04 20:40:58.4077 | Error | USER erditbaba | 
+2025-04-04 20:40:58.4077 | Info | erditbaba connected with connection ID: 6_vFNOpSKbnfWKXn8ginTQ | 
+2025-04-04 20:53:00.9259 | Error | USER erditbaba | 
+2025-04-04 20:53:00.9259 | Info | erditbaba connected with connection ID: rGBVaJnlp2T66BC81q2erA | 
+2025-04-04 22:08:50.2091 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 21, serverEndpoint: 192.168.1.12:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=39006,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-04-04 22:08:50.2209 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 21, serverEndpoint: 192.168.1.12:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=39006,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
