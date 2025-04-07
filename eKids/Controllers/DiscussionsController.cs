@@ -78,7 +78,7 @@ namespace eKids.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDiscussionById(int id)
+        public async Task<IActionResult> GetDiscussionById(int id, [FromQuery] int userId)
         {
             try
             {
@@ -106,6 +106,7 @@ namespace eKids.Controllers
                             dt.DiscussionTag.ID,
                             dt.DiscussionTag.Title
                         }),
+                        VoteDetails = c.DiscussionVotes.Where(dv => dv.DiscussionId == id && dv.UserId == userId).FirstOrDefault(),
                         c.CreatedAt
                     })
                     .FirstOrDefaultAsync();
