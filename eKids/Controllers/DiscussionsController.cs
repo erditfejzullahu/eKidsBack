@@ -19,13 +19,49 @@ namespace eKids.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IDiscussionAnswerService _discussionAnswerService;
+        private readonly IFileUploadService _fileUploadService;
 
-        public DiscussionsController(IMapper mapper, ILogger<DiscussionsController> logger, ApplicationDbContext context, IDiscussionAnswerService discussionAnswerService)
+        public DiscussionsController(IFileUploadService fileUploadService, IMapper mapper, ILogger<DiscussionsController> logger, ApplicationDbContext context, IDiscussionAnswerService discussionAnswerService)
         {
+            _fileUploadService = fileUploadService;
             _logger = logger;
             _context = context;
             _mapper = mapper;
             _discussionAnswerService = discussionAnswerService;
+        }
+
+        [HttpPost("CreateDiscussionAnswer")]
+        public async Task<IActionResult> CreateDiscussionAnswer([FromBody] CreateDiscussionAnswerDto createDiscussionAnswer, CancellationToken token)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                string item_url = string.Empty;
+                if (!string.IsNullOrEmpty(createDiscussionAnswer.DiscussionFile))
+                {
+                    var uploadPath = await _fileUploadService.UploadFile(createDiscussionAnswer.DiscussionFile, FileCategory.Other);
+                    item_url = $"{Request.Scheme}://{Request.Host}/{uploadPath}";
+                }
+
+                var createAnswer = new DiscussionAnswers
+                {
+                    Content = createDiscussionAnswer.DiscussionAnswerContent,
+                    UserId = createDiscussionAnswer.UserId,
+                    DiscussionId = createDiscussionAnswer.DiscussionId,
+                    Votes = 0,
+                    Item_Url = item_url,
+                    ParentId = createDiscussionAnswer.ParentId,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                return Ok(createAnswer);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, "Error creating discussion answer");
+                return BadRequest();
+            }
         }
 
         [HttpPatch("HandleDiscussionVotes")]

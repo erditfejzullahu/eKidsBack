@@ -19,3 +19,5 @@
 2025-04-07 03:59:53.0232 | Info | erditbaba connected with connection ID: KCFjNpVRNcUoa4ixzRz0ww | 
 2025-04-07 04:00:05.5009 | Error | USER erditbaba | 
 2025-04-07 04:00:05.5054 | Info | erditbaba connected with connection ID: LEfF0CKpZa-58w7h6jc1Mg | 
+2025-04-07 18:16:52.7580 | Info | Waiting for messages in AI Queue | 
+2025-04-07 18:16:55.7383 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
