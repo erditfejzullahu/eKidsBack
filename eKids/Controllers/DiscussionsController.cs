@@ -221,21 +221,36 @@ namespace eKids.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllDiscussions([FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllDiscussions([FromQuery] DiscussionSorterDto sortDto, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
                 paginationDto.Validate();
+                var query = _context.Discussions.AsNoTracking().AsQueryable().AsSplitQuery();
+                switch (sortDto.SortBy)
+                {
+                    case DiscussionSortOptions.Latest:
+                        query = query.OrderByDescending(c => c.CreatedAt);
+                        break;
+                    case DiscussionSortOptions.Active:
+                        query = query.Where(c => c.DiscussionAnswers.Count > 0);
+                        query = query.OrderByDescending(c => c.CreatedAt);
+                        break;
+                    case DiscussionSortOptions.Urgent:
+                        query = query.Where(c => c.IsUrgent == true);
+                        query = query.OrderByDescending(c => c.CreatedAt);
+                        break;
+                    case DiscussionSortOptions.NoAnswers:
+                        query = query.Where(c => c.DiscussionAnswers.Count == 0);
+                        query = query.OrderByDescending(c => c.CreatedAt);
+                        break;
+                    default:
+                        query = query.OrderByDescending(c => c.CreatedAt);
+                        break;
+                }
                 //using var transation = await _context.Database.BeginTransactionAsync(token);
                 var allDiscussions = await _context.Discussions.AsNoTracking().CountAsync(token);
-                var discussions = await _context.Discussions
-                    .AsNoTracking()
-                    .AsSplitQuery()
-                    //.Include(c => c.User)
-                    //.Include(c => c.DiscussionWithTags)
-                    //.ThenInclude(dt => dt.DiscussionTag)
-                    //.OrderByDescending(c => c.CreatedAt)
-                    .OrderBy(c => c.CreatedAt)
+                    var discussions = await query
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
                     .Select(c => new

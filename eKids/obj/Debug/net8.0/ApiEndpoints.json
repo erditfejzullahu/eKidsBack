@@ -901,6 +901,11 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "SortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "PageNumber",
         "Type": "System.Int32",
         "IsRequired": false
