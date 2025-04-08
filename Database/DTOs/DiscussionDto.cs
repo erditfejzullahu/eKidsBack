@@ -16,6 +16,7 @@ namespace Database.DTOs
         public string Content { get; set; }
         [Required]
         public int UserId { get; set; }
+        public bool IsUrgent { get; set; } = false;
         [Required]
         public DiscussionAnonimityStatus PreferAnonimity { get; set; }
         [Required]

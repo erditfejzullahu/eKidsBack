@@ -325,6 +325,7 @@ namespace eKids.Controllers
                     Content = discussionDto.Content,
                     UserId = discussionDto.UserId,
                     PreferAnonimity = discussionDto.PreferAnonimity,
+                    IsUrgent = discussionDto.IsUrgent,
                     Edited = false,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow

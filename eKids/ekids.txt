@@ -147,3 +147,17 @@
    at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
    at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
    at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\UsersController.cs:line 163
+2025-04-08 21:56:31.5172 | Error | USER erditbaba | 
+2025-04-08 21:56:31.5206 | Info | erditbaba connected with connection ID: ou7dNQOEsdiPC_ooGQSC9A | 
+2025-04-08 22:01:58.1640 | Error | USER erditbaba | 
+2025-04-08 22:01:58.1640 | Info | erditbaba connected with connection ID: K4JxTJOyk_q-e9tgrUiBRQ | 
+2025-04-08 22:02:26.0916 | Error | USER erditbaba | 
+2025-04-08 22:02:26.0956 | Info | erditbaba connected with connection ID: 0fdEPR2Nn6uqBDCiGs_dxw | 
+2025-04-08 22:16:42.0372 | Error | USER erditbaba | 
+2025-04-08 22:16:42.0372 | Info | erditbaba connected with connection ID: ATUT0og9SyStySZb-R1MMQ | 
+2025-04-08 22:22:19.3736 | Error | USER erditbaba | 
+2025-04-08 22:22:19.3787 | Info | erditbaba connected with connection ID: OiZAN_LvT4IyCd8yiDlXaQ | 
+2025-04-08 22:23:19.6462 | Error | USER erditbaba | 
+2025-04-08 22:23:19.6462 | Info | erditbaba connected with connection ID: 47oJO7c3Lwil_U6IvxWjLA | 
+2025-04-08 22:32:01.1380 | Error | USER erditbaba | 
+2025-04-08 22:32:01.1380 | Info | erditbaba connected with connection ID: OHbyRq-O5OX2TDPMtqIMLA | 
