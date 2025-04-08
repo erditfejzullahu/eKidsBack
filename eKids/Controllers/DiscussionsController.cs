@@ -36,6 +36,11 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                var getDiscussion = await _context.Discussions.FindAsync(createDiscussionAnswer.DiscussionId);
+                if(getDiscussion == null)
+                {
+                    return NotFound("Not found discussion");
+                }
                 string item_url = string.Empty;
                 if (!string.IsNullOrEmpty(createDiscussionAnswer.DiscussionFile))
                 {
@@ -54,6 +59,9 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
+                await _context.DiscussionAnswers.AddAsync(createAnswer);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
                 return Ok(createAnswer);
             }
             catch (Exception ex)
@@ -84,7 +92,7 @@ namespace eKids.Controllers
         {
             try
             {
-                var handleVote = await _discussionAnswerService.HandleAnswerVoteStatusAsync(handleVoteDto.UserId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionVoteType, token);
+                var handleVote = await _discussionAnswerService.HandleAnswerVoteStatusAsync(handleVoteDto.UserId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionId, handleVoteDto.DiscussionVoteType, token);
                 return Ok(new { VoteResponse = handleVote }); //0 for voteup, 1 for votedown
             }
             catch (Exception ex)

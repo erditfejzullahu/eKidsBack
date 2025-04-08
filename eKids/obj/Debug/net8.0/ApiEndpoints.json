@@ -1030,6 +1030,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.DiscussionsController",
+    "Method": "CreateDiscussionAnswer",
+    "RelativePath": "api/Discussions/CreateDiscussionAnswer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDiscussionAnswer",
+        "Type": "Database.DTOs.CreateDiscussionAnswerDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.DiscussionsController",
     "Method": "GetDiscussionsByUserCreated",
     "RelativePath": "api/Discussions/GetAllDiscussionsByUser/{userId}",
     "HttpMethod": "GET",

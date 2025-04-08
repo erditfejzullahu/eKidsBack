@@ -71,7 +71,7 @@ namespace Database.Repository
                     }
                     else if (existingVote.IsVotedDown && voteType == DiscussionVoteType.VoteDown)
                     {
-                        discussion.Votes -= 1;
+                        discussion.Votes += 1;
                         existingVote.IsVotedDown = false;
                         _context.Discussions.Update(discussion);
                         _context.DiscussionVotes.Update(existingVote);
@@ -89,6 +89,14 @@ namespace Database.Repository
                         discussion.Votes += 2;
                         existingVote.IsVotedUp = true;
                         existingVote.IsVotedDown = false;
+                        _context.Discussions.Update(discussion);
+                        _context.DiscussionVotes.Update(existingVote);
+                    }
+                    else if (!existingVote.IsVotedUp && !existingVote.IsVotedDown)
+                    {
+                        discussion.Votes = voteType == DiscussionVoteType.VoteUp ? discussion.Votes += 1 : discussion.Votes -= 1;
+                        existingVote.IsVotedUp = voteType == DiscussionVoteType.VoteUp;
+                        existingVote.IsVotedDown = voteType == DiscussionVoteType.VoteDown;
                         _context.Discussions.Update(discussion);
                         _context.DiscussionVotes.Update(existingVote);
                     }
@@ -154,7 +162,7 @@ namespace Database.Repository
                     } 
                     else if (existingVote.IsVotedDown && voteType == DiscussionVoteType.VoteDown)
                     {
-                        discussionAnswer.Votes -= 1;
+                        discussionAnswer.Votes += 1;
                         existingVote.IsVotedDown = false;
                         _context.DiscussionAnswers.Update(discussionAnswer);
                         _context.DiscussionAnswerVotes.Update(existingVote);
@@ -175,6 +183,14 @@ namespace Database.Repository
                         _context.DiscussionAnswers.Update(discussionAnswer);
                         _context.DiscussionAnswerVotes.Update(existingVote);
                     }
+                    else if(!existingVote.IsVotedUp && !existingVote.IsVotedDown)
+                    {
+                        discussionAnswer.Votes = voteType == DiscussionVoteType.VoteUp ? discussionAnswer.Votes += 1 : discussionAnswer.Votes -= 1;
+                        existingVote.IsVotedUp = voteType == DiscussionVoteType.VoteUp;
+                        existingVote.IsVotedDown = voteType == DiscussionVoteType.VoteDown;
+                        _context.DiscussionAnswers.Update(discussionAnswer);
+                        _context.DiscussionAnswerVotes.Update(existingVote);
+                    }
                 }
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
@@ -188,7 +204,7 @@ namespace Database.Repository
             }
         }
 
-        public async Task<(List<DiscussionAnswerDto>, bool hasMore)> GetDiscussionAnswersDtoAsync(int discussionId, int userId, PaginationDto paginationDto, CancellationToken token)
+        public async Task<(List<DiscussionAnswerDto>, bool hasMore, int answersCount)> GetDiscussionAnswersDtoAsync(int discussionId, int userId, PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
@@ -244,7 +260,7 @@ namespace Database.Repository
                 }
 
                 bool hasMore = BuildHierarky(null).Count == paginationDto.Take && BuildHierarky(null).Count < answersCount;
-                return (BuildHierarky(null), hasMore);
+                return (BuildHierarky(null), hasMore, answersCount);
             }
             catch (Exception ex)
             {

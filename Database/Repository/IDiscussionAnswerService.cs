@@ -11,7 +11,7 @@ namespace Database.Repository
     public interface IDiscussionAnswerService
     {
         Task<int> HandleAnswerVoteStatusAsync(int userId, int discussionAnswerId, int discussionId, DiscussionVoteType voteType, CancellationToken token);
-        Task<(List<DiscussionAnswerDto>, bool hasMore)> GetDiscussionAnswersDtoAsync(int discussionId, int userId, PaginationDto paginationDto, CancellationToken token);
+        Task<(List<DiscussionAnswerDto>, bool hasMore, int answersCount)> GetDiscussionAnswersDtoAsync(int discussionId, int userId, PaginationDto paginationDto, CancellationToken token);
         Task<int> HandleDiscussionVoteStatusAsync(int userId, int discussionId, DiscussionVoteType voteType, CancellationToken token);
     }
 }
