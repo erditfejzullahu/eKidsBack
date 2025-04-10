@@ -193,6 +193,12 @@ namespace Database.Context
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Conversations>()
+                .HasOne(c => c.Discussion)
+                .WithMany(c => c.DiscussionConversations)
+                .HasForeignKey(c => c.DiscussionId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Conversations>()
                 .HasOne(c => c.Blog)
                 .WithMany(c => c.BlogConversations)
                 .HasForeignKey(c => c.BlogId)

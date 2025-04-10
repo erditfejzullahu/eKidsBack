@@ -294,16 +294,36 @@ namespace eKids.Controllers
         }
 
         [HttpGet("TypingTags")]
-        public async Task<IActionResult> GetTypingTags([FromQuery] string title)
+        public async Task<IActionResult> GetTypingTags([FromQuery] string? title)
         {
             try
             {
-                var tags = await _context.DiscussionTags.Where(c => EF.Functions.Contains(c.Title, $"\"{title}*\"")).Select(c => new {c.Title}).ToListAsync();
-                if(tags.Count == 0)
+                var allTagsQuery = _context.DiscussionTags.AsNoTracking().AsQueryable();
+
+                List<object> allTags;
+                if (string.IsNullOrEmpty(title))
+                {
+                    allTags = await allTagsQuery
+                        .Select(c => new
+                        {
+                            c.ID,
+                            c.Title
+                        })
+                        .ToListAsync<object>();
+                }
+                else
+                {
+                    allTags = await allTagsQuery
+                        .Where(c => EF.Functions.Contains(c.Title, $"\"{title}*\""))
+                        .Select(c => new { c.Title, c.ID })
+                        .ToListAsync<object>();
+                }
+                
+                if(allTags.Count == 0)
                 {
                     return NotFound(new { Message = "No tags found" });
                 }
-                return Ok(tags);
+                return Ok(allTags);
             }
             catch (Exception ex)
             {

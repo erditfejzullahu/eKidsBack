@@ -14,6 +14,7 @@ namespace Database.DTOs
         public int? CourseId { get; set; }
         public int? QuizId { get; set; }
         public int? BlogId { get; set; }
+        public int? DiscussionId { get; set; }
 
     }
 }

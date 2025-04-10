@@ -77,6 +77,9 @@ namespace eKids.Controllers
                     case ShareType.Blogs:
                         await HandleBlogShare(shareDto);
                         break;
+                    case ShareType.Discussion:
+                        await HandleDiscussionShare(shareDto);
+                        break;
                     default: return BadRequest(new { Message = "invalid share type" });
                 }
 
@@ -87,10 +90,11 @@ namespace eKids.Controllers
                         shareType == ShareType.Blogs ? $"{shareDto.SenderUsername} të dërgoi një blog"
                         : shareType == ShareType.Lesson ? $"{shareDto.SenderUsername} të dërgoi nje leksion"
                         : shareType == ShareType.Course ? $"{shareDto.SenderUsername} të dërgoi nje kurs"
-                        : $"{shareDto.SenderUsername} të dërgoi nje kuiz";
+                        : shareType == ShareType.Quiz ? $"{shareDto.SenderUsername} të dërgoi nje kuiz"
+                        : $"{shareDto.SenderUsername} të dërgoi nje diskutim";
 
                     var responseId =
-                        shareType == ShareType.Blogs ? shareDto.BlogId : shareType == ShareType.Course ? shareDto.CourseId : shareType == ShareType.Lesson ? shareDto.LessonId : shareDto.QuizId;
+                        shareType == ShareType.Blogs ? shareDto.BlogId : shareType == ShareType.Course ? shareDto.CourseId : shareType == ShareType.Lesson ? shareDto.LessonId : shareType == ShareType.Quiz ? shareDto.QuizId : shareDto.DiscussionId;
                     var response = new
                     {
                         toastTitle = responseTitle,
@@ -109,6 +113,25 @@ namespace eKids.Controllers
             }
         }
 
+        private async Task HandleDiscussionShare(ShareItemDto shareItem)
+        {
+            var discussionCheck = await _context.Discussions.FindAsync(shareItem.DiscussionId);
+            if(discussionCheck == null)
+            {
+                throw new ApplicationException("Invalid discussion id provided");
+            }
+
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                DiscussionId = shareItem.DiscussionId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
+        }
         private async Task HandleBlogShare(ShareItemDto shareItem)
         {
             var blogCheck = await _context.Blogs.FindAsync(shareItem.BlogId);

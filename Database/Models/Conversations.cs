@@ -30,6 +30,7 @@ namespace Database.Models
         public int? LessonId { get; set; }
         public int? CourseId { get; set; }
         public int? BlogId { get; set; }
+        public int? DiscussionId { get; set; }
 
         [ForeignKey("BlogId")]
         public Blogs Blog { get; set; }
@@ -39,6 +40,9 @@ namespace Database.Models
 
         [ForeignKey("LessonId")]
         public Lessons Lesson { get; set; }
+
+        [ForeignKey("DiscussionId")]
+        public Discussions Discussion { get; set; }
 
         [ForeignKey("CourseId")]
         public Courses Course { get; set; }
