@@ -13,7 +13,6 @@ namespace Database.Models
         public override int ID { get; set; }
         public int UserId { get; set; }
         public string Expertise { get; set; }
-        public string Image { get; set; }
         public string Bio { get; set; }
         public string Socials { get; set; }
 

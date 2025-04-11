@@ -46,6 +46,7 @@ namespace Database.Context
         public DbSet<InstructorCourses> InstructorCourses { get; set; }
         public DbSet<InstructorCourseSections> InstructorCourseSections { get; set; }
         public DbSet<InstructorLessons> InstructorLessons { get; set; }
+        public DbSet<StudentCourseLessonProgress> StudentCourseLessonProgress { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -134,9 +135,38 @@ namespace Database.Context
 
             modelBuilder.Entity<DiscussionAnswerVotes>()
                 .HasKey(c => new { c.DiscussionCommentId, c.UserId });
+
             modelBuilder.Entity<Instructors>()
                 .HasKey(c => c.UserId);
+
+            modelBuilder.Entity<StudentCourseLessonProgress>()
+                .HasKey(c => new { c.UserId, c.LessonId });
+
+            modelBuilder.Entity<InstructorStudents>()
+                .HasKey(c => new { c.UserId, c.CourseId });
             //indexes
+
+            modelBuilder.Entity<InstructorStudents>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.InstructorStudents)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<InstructorStudents>()
+                .HasOne(c => c.InstructorCourse)
+                .WithMany(c => c.InstructorStudents)
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StudentCourseLessonProgress>()
+                .HasOne(c => c.Lesson)
+                .WithMany(c => c.StudentCourseLessonsProgresses)
+                .HasForeignKey(c => c.LessonId)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<StudentCourseLessonProgress>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.StudentCourseLessonProgresses)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Instructors>()
                 .HasOne(c => c.User)

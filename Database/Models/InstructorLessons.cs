@@ -18,5 +18,7 @@ namespace Database.Models
 
         [ForeignKey("Section_Id")]
         public InstructorCourseSections InstructorCourseSections { get; set; }
+
+        public virtual ICollection<StudentCourseLessonProgress> StudentCourseLessonsProgresses { get; set; } = new List<StudentCourseLessonProgress>();
     }
 }
