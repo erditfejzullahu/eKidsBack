@@ -42,6 +42,10 @@ namespace Database.Context
         public DbSet<DiscussionAnswers> DiscussionAnswers { get; set; }
         public DbSet<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; }
         public DbSet<DiscussionVotes> DiscussionVotes { get; set; }
+        public DbSet<Instructors> Instructors { get; set; }
+        public DbSet<InstructorCourses> InstructorCourses { get; set; }
+        public DbSet<InstructorCourseSections> InstructorCourseSections { get; set; }
+        public DbSet<InstructorLessons> InstructorLessons { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -130,7 +134,33 @@ namespace Database.Context
 
             modelBuilder.Entity<DiscussionAnswerVotes>()
                 .HasKey(c => new { c.DiscussionCommentId, c.UserId });
+            modelBuilder.Entity<Instructors>()
+                .HasKey(c => c.UserId);
             //indexes
+
+            modelBuilder.Entity<Instructors>()
+                .HasOne(c => c.User)
+                .WithOne(c => c.Instructor)
+                .HasForeignKey<Instructors>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<InstructorCourses>()
+                .HasOne(c => c.Instructor)
+                .WithMany(c => c.InstructorCourses)
+                .HasForeignKey(c => c.InstructorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<InstructorCourseSections>()
+                .HasOne(c => c.InstructorCourses)
+                .WithMany(c => c.InstructorCourseSections)
+                .HasForeignKey(c => c.Course_Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<InstructorLessons>()
+                .HasOne(c => c.InstructorCourseSections)
+                .WithMany(c => c.InstructorLessons)
+                .HasForeignKey(c => c.Section_Id)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<DiscussionVotes>()
                 .HasOne(c => c.User)
