@@ -210,6 +210,27 @@ namespace eKids.Controllers
             }
         }
 
+        [HttpDelete("CourseDelete/{id}")]
+        public async Task<IActionResult> DeleteCourse(int id)
+        {
+            try
+            {
+                var course = await _context.InstructorCourses.FindAsync(id);
+                if (course == null)
+                {
+                    return NotFound();
+                }
+                _context.Remove(course);
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Course deleted" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting course");
+                return BadRequest();
+            }
+        }
+
         
     }
 }
