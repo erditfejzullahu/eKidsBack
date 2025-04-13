@@ -677,6 +677,42 @@ namespace eKids.Controllers
             }
         }
 
+        [HttpPatch("ChangeRoleInstructor/{id}")]
+        public async Task<IActionResult> ChangeRoleToInstructor(int id, [FromBody] CreateInstructor instructorDto, CancellationToken token)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+                if(user  == null)
+                {
+                    return NotFound();
+                }
+                user.Role = "Instructor";
+                user.LastModified = DateTime.Now;
+                _context.Users.Update(user);
+
+                var newInstructor = new Instructors
+                {
+                    UserId = user.ID,
+                    Expertise = instructorDto.Expertise,
+                    Bio = instructorDto.Bio,
+                    Socials = instructorDto.Socials,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Instructors.AddAsync(newInstructor, token);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                return Ok(new { Message = "Instructor created successfully" });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, "Error changing role");
+                return BadRequest();
+            }
+        }
 
     }
 }

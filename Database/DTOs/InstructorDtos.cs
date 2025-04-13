@@ -43,4 +43,12 @@ namespace Database.DTOs
         public int LessonId { get; set; }
         //completed then to be hardcoded to true if smth or false if smth else?
     }
+
+    public class CreateInstructor
+    {
+        public string Expertise { get; set; }
+        public string Bio { get; set; }
+        public string Socials { get; set; }
+
+    }
 }
