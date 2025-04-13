@@ -1227,6 +1227,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "eKids.Controllers.InstructorController",
+    "Method": "GetInstructorById",
+    "RelativePath": "api/Instructor/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetCourse",
+    "RelativePath": "api/Instructors/Course/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetInstructorWithDetails",
+    "RelativePath": "api/Instructors/Instructor/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "eKids.Controllers.LessonsController",
     "Method": "CreateLessons",
     "RelativePath": "api/Lessons",

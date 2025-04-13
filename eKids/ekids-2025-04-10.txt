@@ -1,0 +1,23 @@
+2025-04-10 16:59:49.3409 | Info | Waiting for messages in AI Queue | 
+2025-04-10 17:03:51.8139 | Info | Waiting for messages in AI Queue | 
+2025-04-10 17:03:52.9229 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-10 17:04:25.8813 | Error | USER erditbaba | 
+2025-04-10 17:04:25.8813 | Info | erditbaba connected with connection ID: zSaahWbDTPRHG8OIO65W2A | 
+2025-04-10 17:07:40.7734 | Error | USER erditbaba | 
+2025-04-10 17:07:40.7734 | Info | erditbaba connected with connection ID: ExD4MMCdiffvBnQkB2Xa0Q | 
+2025-04-10 17:21:17.8831 | Error | USER erditbaba | 
+2025-04-10 17:21:17.8831 | Info | erditbaba connected with connection ID: fB6IGyZW2S-7FtKcJBHavQ | 
+2025-04-10 17:21:50.1228 | Error | USER erditbaba | 
+2025-04-10 17:21:50.1228 | Info | erditbaba connected with connection ID: F6Y9gpFcq3FInT2dE7a1Jw | 
+2025-04-10 17:42:19.2385 | Error | USER erditbaba | 
+2025-04-10 17:42:19.2385 | Info | erditbaba connected with connection ID: _UmR1kVkFfWI9LFdqCpCEg | 
+2025-04-10 17:53:48.3490 | Error | USER erditbaba | 
+2025-04-10 17:53:48.3490 | Info | erditbaba connected with connection ID: _Q8odjVEtvHbRpYK_6eQrA | 
+2025-04-10 18:13:52.7571 | Error | USER erditbaba | 
+2025-04-10 18:13:52.7571 | Info | erditbaba connected with connection ID: a7mHgQ1HTyJI4NEPbXWTiQ | 
+2025-04-10 18:16:20.0302 | Error | USER erditbaba | 
+2025-04-10 18:16:20.0302 | Info | erditbaba connected with connection ID: 9lFizWyESnwdl8MujhA3jw | 
+2025-04-10 18:18:43.2267 | Error | USER erditbaba | 
+2025-04-10 18:18:43.2267 | Info | erditbaba connected with connection ID: QXTzdlUKRfI8Xs-ea8cZwQ | 
+2025-04-10 19:19:45.9705 | Error | USER erditbaba | 
+2025-04-10 19:19:45.9705 | Info | erditbaba connected with connection ID: 2rIavd0H4Jg_hHrymjHGww | 

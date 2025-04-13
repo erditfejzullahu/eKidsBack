@@ -1,4 +1,6 @@
 ﻿using Database.Context;
+using Database.DTOs;
+using Database.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,153 @@ namespace eKids.Controllers
         {
             _logger = logger;
             _context = context;
+        }
+
+        [HttpPost("CreateCourse")]
+        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseDto courseDto, CancellationToken token)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var newCourse = new InstructorCourses
+                {
+                    InstructorId = courseDto.InstructorId,
+                    Name = courseDto.Name,
+                    Description = courseDto.Description,
+                    TopicsCovered = courseDto.TopicsCovered,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                    InstructorCourseSections = new List<InstructorCourseSections>()
+                };
+
+                if(courseDto.sectionDtos.Count != 0)
+                {
+                    foreach (var section in courseDto.sectionDtos)
+                    {
+                        var newSection = new InstructorCourseSections
+                        {
+                            Course_Id = newCourse.ID,
+                            Title = section.Title,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow,
+                            InstructorLessons = new List<InstructorLessons>()
+                        };
+                        foreach(var lesson in section.lessonDtos)
+                        {
+                            var newLesson = new InstructorLessons
+                            {
+                                Section_Id = newSection.ID,
+                                Title = lesson.Title,
+                                Content = lesson.Content,
+                                Video_Url = lesson.Video_Url,
+                                CreatedAt = DateTime.UtcNow,
+                                LastModified = DateTime.UtcNow
+                            };
+                            newSection.InstructorLessons.Add(newLesson);
+                        }
+                        newCourse.InstructorCourseSections.Add(newSection);
+                    }
+                }
+                await _context.InstructorCourses.AddAsync(newCourse, token);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                return Ok(new { Message = "Course added successfully" });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, " Error in creating course");
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("StartCourse")]
+        public async Task<IActionResult> EnrollCourse([FromBody] EnrollCourseDto enrollCourse, CancellationToken token)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var newEnrollment = new InstructorStudents
+                {
+                    UserId = enrollCourse.UserId,
+                    CourseId = enrollCourse.CourseId,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                var newLessonProgress = new StudentCourseLessonProgress
+                {
+                    UserId = enrollCourse.UserId,
+                    LessonId = enrollCourse.LessonId,
+                    IsCompleted = false,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.InstructorStudents.AddAsync(newEnrollment, token);
+                await _context.StudentCourseLessonProgress.AddAsync(newLessonProgress, token);
+
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                return Ok(new { Message = "Enrolled successfully" });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, " Error in enrollin course");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetInstructorById(int id)
+        {
+            try
+            {
+                var instructor = await _context.Instructors
+                    .AsNoTracking()
+                    .AsSplitQuery()
+                    .Where(c => c.UserId == id)
+                    .Select(c => new
+                    {
+                        c.UserId,
+                        c.Expertise,
+                        c.Bio,
+                        c.Socials,
+                        Name = c.User.Firstname + " " + c.User.Lastname,
+                        c.User.Username,
+                        c.User.Email,
+                        c.User.Age,
+                        c.User.ProfilePictureUrl,
+                        Students = c.User.InstructorStudents
+                        .Select(s => new
+                        {
+                            Name = s.User.Firstname + " " + s.User.Lastname,
+                            s.User.ProfilePictureUrl,
+                        })
+                        .ToList(),
+                        Courses = c.InstructorCourses.ToList(),
+                        Friends = c.User.Friends
+                        .Select(f => new
+                        {
+                            f.UserId,
+                            Name = f.User.Firstname + " " + f.User.Lastname,
+                            f.User.ProfilePictureUrl,
+                        })
+                        .ToList(),
+                    })
+                    .ToListAsync();
+
+                if (instructor == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(instructor);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting instructor by id");
+                return BadRequest();
+            }
         }
 
         [HttpGet("Course/{id}")]
@@ -61,39 +210,6 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("Instructor/{id}")]
-        public async Task<IActionResult> GetInstructorWithDetails(int id)
-        {
-            try
-            {
-                var instructor = await _context.Users
-                    .Where(c => c.ID == id)
-                    .AsSplitQuery()
-                    .Include(c => c.Instructor)
-                    .Select(c => new
-                    {
-                        c.ID,
-                        Name = c.Firstname + " " + c.Lastname,
-                        c.Email,
-                        c.Instructor.Bio,
-                        ProfilePicture = c.ProfilePictureUrl,
-                        c.Instructor.Socials,
-                        Joined = c.Instructor.CreatedAt,
-                        TotalCourses = c.Instructor.InstructorCourses.ToList(),
-                        TotalStudents = c.InstructorStudents.Where(s => s.UserId == id).Count(),
-                    })
-                    .ToListAsync();
-                if(instructor == null)
-                {
-                    return NotFound(new {Message = "No instructor found"});
-                }
-                return Ok(instructor);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error in getting instructor with details");
-                return BadRequest();
-            }
-        }
+        
     }
 }

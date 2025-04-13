@@ -47,6 +47,7 @@ namespace Database.Context
         public DbSet<InstructorCourseSections> InstructorCourseSections { get; set; }
         public DbSet<InstructorLessons> InstructorLessons { get; set; }
         public DbSet<StudentCourseLessonProgress> StudentCourseLessonProgress { get; set; }
+        public DbSet<InstructorStudents> InstructorStudents { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
