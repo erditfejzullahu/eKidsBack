@@ -37,17 +37,6 @@ namespace Database.Models
         [Required]
         public string Role { get; set; }
 
-        [Required]
-        [JsonIgnore]
-        public int PackageID { get; set; }
-
-        [Required]
-        [JsonIgnore]
-        public int PaymentID { get; set; }
-
-        [JsonProperty("PackageInfo")]
-        public virtual Packages Package { get; set; }
-
         [JsonProperty("UserMeta")]
         public virtual ICollection<Usermeta> UserMeta { get; set; }
 
@@ -55,7 +44,7 @@ namespace Database.Models
         public virtual ICollection<Comments> Comments { get; set; }
 
         [JsonProperty("PaymentInfo")]
-        public virtual Payments Payment { get; set; }
+        public virtual ICollection<Payments> Payments { get; set; } = new List<Payments>();
 
         [Required]
         public int Age { get; set; }

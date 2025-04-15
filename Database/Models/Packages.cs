@@ -32,5 +32,7 @@ namespace Database.Models
         [Required]
         public string PackageFeatured { get; set; }
 
+        public virtual ICollection<Payments> Payments { get; set; } = new List<Payments>();
+
     }
 }

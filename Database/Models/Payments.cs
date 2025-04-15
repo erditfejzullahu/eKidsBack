@@ -32,5 +32,10 @@ namespace Database.Models
         [Required]
         public int PaymentValue { get; set; }
 
+        [ForeignKey("UserID")]
+        public Users User { get; set; }
+        [ForeignKey("PackageID")]
+        public Packages Package { get; set; }
+
     }
 }

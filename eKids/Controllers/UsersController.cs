@@ -74,8 +74,7 @@ namespace eKids.Controllers
                     .GetAll()
                     .AsNoTracking()
                     .Include(u => u.UserMeta)
-                    .Include(u => u.Payment)
-                    .Include(u => u.Payment)
+                    .Include(u => u.Payments)
                     .FirstOrDefaultAsync(u => u.Username == loginDto.Username);
                 if (checkUser == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, checkUser.Password))
                 {
@@ -110,9 +109,8 @@ namespace eKids.Controllers
                     checkUser.Firstname,
                     checkUser.Lastname,
                     checkUser.Email,
-                    checkUser.Package,
                     checkUser.UserMeta,
-                    checkUser.Payment,
+                    checkUser.Payments,
                     checkUser.Username,
                     checkUser.ProfilePictureUrl
                 };
@@ -198,7 +196,6 @@ namespace eKids.Controllers
                 Password = hashedPassword,
                 Email = userDto.Email,
                 Age = userDto.Age,
-                PackageID = 1, // LOGIC: sepse 1shi osht free e kur osht 1 ka access ne do gjera dhe del paketa per pages ne intervale kohore
                 ProfilePictureUrl = userDto.ProfilePictureUrl,
                 Role = "Student",
                 CreatedAt = DateTime.UtcNow,
@@ -255,8 +252,8 @@ namespace eKids.Controllers
 
             var user = await _userRepository.GetAll()
                                     .Include(i => i.UserMeta)
-                                    .Include(u => u.Payment)
-                                    .Include(a => a.Package)
+                                    .Include(a => a.Payments)
+                                    .ThenInclude(p => p.Package)
                                     .Select(getUser => new
                                     {
                                         getUser.ID,
@@ -264,9 +261,8 @@ namespace eKids.Controllers
                                         getUser.Lastname,
                                         getUser.Email,
                                         getUser.Age,
-                                        getUser.Package,
                                         getUser.UserMeta,
-                                        getUser.Payment,
+                                        getUser.Payments,
                                         getUser.Username, 
                                         getUser.ProfilePictureUrl
                                     })
@@ -302,9 +298,8 @@ namespace eKids.Controllers
                     users.Role,
                     users.Age,
                     users.ProfilePictureUrl,
-                    users.Package,
                     users.UserMeta,
-                    users.Payment,
+                    users.Payments,
                     users.ID,
                     users.Username
                 })

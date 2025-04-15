@@ -49,6 +49,9 @@ namespace Database.Context
         public DbSet<StudentCourseLessonProgress> StudentCourseLessonProgress { get; set; }
         public DbSet<InstructorStudents> InstructorStudents { get; set; }
 
+        public DbSet<Packages> Packages { get; set; }
+        public DbSet<Payments> Payments { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -524,8 +527,18 @@ namespace Database.Context
                 .HasForeignKey(c => c.CourseID);
 
             modelBuilder.Entity<Stories>();
-            modelBuilder.Entity<Packages>();
-            modelBuilder.Entity<Payments>();
+
+            modelBuilder.Entity<Packages>()
+                .HasMany(c => c.Payments)
+                .WithOne(c => c.Package)
+                .HasForeignKey(c => c.PackageID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Payments>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.Payments)
+                .HasForeignKey(c => c.UserID)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Comments>()
                 .HasOne(c => c.Parent)
