@@ -4,6 +4,7 @@ using Database.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace eKids.Controllers
 {
@@ -17,6 +18,54 @@ namespace eKids.Controllers
         {
             _logger = logger;
             _context = context;
+        }
+
+        [HttpPost("BecomeInstructor")]
+        public async Task<IActionResult> BecomeInstructor([FromBody] CreateInstructor instructorDto, CancellationToken token)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var user = await _context.Users.FindAsync(instructorDto.UserId, token);
+                if(user == null)
+                {
+                    return NotFound();
+                }
+                foreach (var social in instructorDto.Socials)
+                {
+                    if(string.IsNullOrWhiteSpace(social.Label) || string.IsNullOrWhiteSpace(social.Link))
+                    {
+                        return BadRequest(new { Message = "no null data" });
+                    }
+                }
+                var serializeSocials = JsonSerializer.Serialize(instructorDto.Socials);
+
+                var newInstructor = new Instructors
+                {
+                    UserId = instructorDto.UserId,
+                    Expertise = instructorDto.Expertise,
+                    Bio = instructorDto.Bio,
+                    Socials = serializeSocials,
+                    LastModified = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow
+                };
+                await _context.Instructors.AddAsync(newInstructor, token);
+                user.Role = "Instructor";
+                user.LastModified = DateTime.UtcNow;
+                _context.Users.Update(user);
+
+                await _context.SaveChangesAsync(token);
+
+                await transaction.CommitAsync(token);
+
+                return Ok(new { Message = "User became instructor" });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, "Error in becoming an instructor");
+                return BadRequest();
+            }
         }
 
         [HttpPost("CreateCourse")]

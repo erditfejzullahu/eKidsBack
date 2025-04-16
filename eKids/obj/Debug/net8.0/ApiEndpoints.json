@@ -1244,6 +1244,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "BecomeInstructor",
+    "RelativePath": "api/Instructors/BecomeInstructor",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorDto",
+        "Type": "Database.DTOs.CreateInstructor",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
     "Method": "GetCourse",
     "RelativePath": "api/Instructors/Course/{id}",
     "HttpMethod": "GET",
@@ -2586,27 +2602,6 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "eKids.Controllers.UsersController",
-    "Method": "ChangeRoleToInstructor",
-    "RelativePath": "api/Users/ChangeRoleInstructor/{id}",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "instructorDto",
-        "Type": "Database.DTOs.CreateInstructor",
-        "IsRequired": true
-      }
-    ],
     "ReturnTypes": []
   },
   {
