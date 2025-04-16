@@ -77,3 +77,134 @@
 2025-04-16 02:21:46.4285 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
 2025-04-16 02:21:46.7430 | Error | USER instruktori | 
 2025-04-16 02:21:46.7430 | Info | instruktori connected with connection ID: lfRmaaYgLYRp9-LHQyt0yw | 
+2025-04-16 02:48:58.2469 | Error | USER instruktori | 
+2025-04-16 02:48:58.2469 | Info | instruktori connected with connection ID: pdsYN8s97CXjByDRUvUEeA | 
+2025-04-16 02:51:55.0934 | Error | USER instruktori | 
+2025-04-16 02:51:55.0934 | Info | instruktori connected with connection ID: SPLZ1VuJwZOVEiedltQ9WQ | 
+2025-04-16 03:13:57.2580 | Error | USER instruktori | 
+2025-04-16 03:13:57.2580 | Info | instruktori connected with connection ID: UCOAiji-ddkXf6iAyfxpLg | 
+2025-04-16 03:38:35.9871 | Error | USER instruktori | 
+2025-04-16 03:38:35.9871 | Info | instruktori connected with connection ID: NOTkxdLOD7APX1Xh1uMe_g | 
+2025-04-16 04:04:45.5179 | Error | USER instruktori | 
+2025-04-16 04:04:45.5179 | Info | instruktori connected with connection ID: 3hY0Gf79lDI2Ve7zbh24cQ | 
+2025-04-16 04:23:15.1167 | Error | USER instruktori | 
+2025-04-16 04:23:15.1167 | Info | instruktori connected with connection ID: FU8o9KQQdyOzeb6gG0JL9Q | 
+2025-04-16 04:23:55.9942 | Error | USER instruktori | 
+2025-04-16 04:23:55.9942 | Info | instruktori connected with connection ID: THRssP5ofyOl_ohdwEvVIA | 
+2025-04-16 04:26:16.4520 | Error | USER instruktori | 
+2025-04-16 04:26:16.4520 | Info | instruktori connected with connection ID: lGMJhwjAlKH820yan6QdyA | 
+2025-04-16 04:26:16.4733 | Error | USER instruktori | 
+2025-04-16 04:26:16.4733 | Info | instruktori connected with connection ID: 0ay6kFuytLO6HtR-6c5Vdw | 
+2025-04-16 04:30:44.9640 | Error | USER instruktori | 
+2025-04-16 04:30:44.9640 | Info | instruktori connected with connection ID: Rjn0L2cU9TPuQ7oMrZmbBQ | 
+2025-04-16 04:48:04.6601 | Error | USER instruktori | 
+2025-04-16 04:48:04.6601 | Info | instruktori connected with connection ID: -knbQfIfbRV8HQF8imDrUw | 
+2025-04-16 04:49:10.2920 | Error | USER instruktori | 
+2025-04-16 04:49:10.2920 | Info | instruktori connected with connection ID: loiAgGr8JV0_iLfdafqKRQ | 
+2025-04-16 04:50:30.9522 | Error | USER instruktori | 
+2025-04-16 04:50:30.9567 | Info | instruktori connected with connection ID: s8tkgTJMgsniHx9jhQrE1g | 
+2025-04-16 04:57:49.7702 | Error | USER instruktori | 
+2025-04-16 04:57:49.7702 | Info | instruktori connected with connection ID: 1Sm0vNZYOJYZEa7L7bbmyQ | 
+2025-04-16 04:59:18.8528 | Error | USER instruktori | 
+2025-04-16 04:59:18.8528 | Info | instruktori connected with connection ID: ndPGyK68VuSc_sqG60as6A | 
+2025-04-16 04:59:51.1786 | Error | USER instruktori | 
+2025-04-16 04:59:51.1786 | Info | instruktori connected with connection ID: OuwSBF4XURGBFGLIBiP67w | 
+2025-04-16 05:00:08.1114 | Error | USER instruktori | 
+2025-04-16 05:00:08.1114 | Info | instruktori connected with connection ID: 7iP6rfRS2MccdltqJTV2ZA | 
+2025-04-16 05:06:30.7229 | Error | Error in invalidating refresh token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+2025-04-16 05:06:30.7229 | Error | Error in invalidating refresh token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+2025-04-16 05:06:30.8097 | Error | USER instruktori | 
+2025-04-16 05:06:30.8818 | Info | instruktori connected with connection ID: -Q42HWmxwXEKKuPZUh43qQ | 
+2025-04-16 05:06:31.1343 | Error | USER instruktori | 
+2025-04-16 05:06:31.1343 | Error | Error in refreshing token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+   at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+2025-04-16 05:06:31.1343 | Error | Error in refreshing token | Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Database.Repository.Repository`1.RemoveToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\Repository.cs:line 68
+   at Database.Repository.TokenService.InvalidateRefreshToken(String refreshToken, CancellationToken cancellationToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\TokenService.cs:line 140
+   at eKids.Controllers.UsersController.Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+2025-04-16 05:06:31.1471 | Info | instruktori connected with connection ID: DXaEklMTdAEqL0rOaX8zSw | 
+2025-04-16 18:02:31.3588 | Info | Waiting for messages in AI Queue | 
+2025-04-16 18:03:36.3355 | Info | Waiting for messages in AI Queue | 
+2025-04-16 18:03:37.3459 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-04-16 18:05:33.5567 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-04-16 18:05:36.6002 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-04-16 18:05:36.8984 | Error | USER instruktori | 
+2025-04-16 18:05:36.8984 | Info | instruktori connected with connection ID: VZ6T5EJBp7mVDwUO6GdmOg | 
+2025-04-16 18:07:40.0510 | Error | USER instruktori | 
+2025-04-16 18:07:40.0510 | Info | instruktori connected with connection ID: hilp9-JQTPJSoKthAXiesA | 
+2025-04-16 18:08:49.4136 | Error | USER instruktori | 
+2025-04-16 18:08:49.4136 | Info | instruktori connected with connection ID: T8c1bWNQnLXSiVAMpTD2Ow | 
+2025-04-16 18:09:16.6454 | Error | USER instruktori | 
+2025-04-16 18:09:16.6454 | Info | instruktori connected with connection ID: suFLuJ3ZGIMv0gPcI-BPbg | 
+2025-04-16 18:10:05.0275 | Error | USER instruktori | 
+2025-04-16 18:10:05.0275 | Info | instruktori connected with connection ID: g4YBd5Wcab4PFWMnKyz2yA | 
+2025-04-16 18:16:31.2513 | Error | USER instruktori | 
+2025-04-16 18:16:31.2513 | Info | instruktori connected with connection ID: NVBfPqq6PBS7Gf-5AFfS1A | 
+2025-04-16 18:25:46.3681 | Error | USER instruktori | 
+2025-04-16 18:25:46.3681 | Info | instruktori connected with connection ID: DexE3oQ7S6hUWtRen4pxOQ | 
+2025-04-16 19:11:44.4337 | Error | USER instruktori | 
+2025-04-16 19:11:44.4337 | Info | instruktori connected with connection ID: xYF6vonlvGf8dOK3WJzfAQ | 
+2025-04-16 19:23:58.5755 | Error | USER instruktori | 
+2025-04-16 19:23:58.5755 | Info | instruktori connected with connection ID: NJmap1kvUlGZTrRd90FS4g | 
+2025-04-16 19:31:35.3228 | Error | USER instruktori | 
+2025-04-16 19:31:35.3228 | Info | instruktori connected with connection ID: AcW0jZHqDylOA4VQA9AA2g | 
+2025-04-16 19:38:07.9022 | Error | USER instruktori | 
+2025-04-16 19:38:07.9022 | Info | instruktori connected with connection ID: -RNAV21CmX8WF_87t3RdGw | 

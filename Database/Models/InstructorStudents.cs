@@ -9,6 +9,7 @@ namespace Database.Models
 {
     public class InstructorStudents
     {
+        public int InstructorId { get; set; }
         public int UserId { get; set; }
         public int CourseId { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -18,5 +19,7 @@ namespace Database.Models
         public Users User { get; set; }
         [ForeignKey("CourseId")]
         public InstructorCourses InstructorCourse { get; set; }
+        [ForeignKey("InstructorId")]
+        public Instructors Instructor { get; set; }
     }
 }

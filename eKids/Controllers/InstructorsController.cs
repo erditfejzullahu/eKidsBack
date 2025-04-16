@@ -199,7 +199,7 @@ namespace eKids.Controllers
                         })
                         .ToList(),
                     })
-                    .ToListAsync();
+                    .FirstOrDefaultAsync();
 
                 if (instructor == null)
                 {

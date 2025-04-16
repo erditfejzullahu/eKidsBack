@@ -48,6 +48,7 @@ namespace Database.Context
         public DbSet<InstructorLessons> InstructorLessons { get; set; }
         public DbSet<StudentCourseLessonProgress> StudentCourseLessonProgress { get; set; }
         public DbSet<InstructorStudents> InstructorStudents { get; set; }
+        public DbSet<OnlineMeetings> OnlineMeetings { get; set; }
 
         public DbSet<Packages> Packages { get; set; }
         public DbSet<Payments> Payments { get; set; }
@@ -150,6 +151,24 @@ namespace Database.Context
                 .HasKey(c => new { c.UserId, c.CourseId });
             //indexes
 
+            modelBuilder.Entity<OnlineMeetings>()
+                .HasOne(c => c.Instructor)
+                .WithMany(c => c.OnlineMeetings)
+                .HasForeignKey(c => c.InstructorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OnlineMeetings>()
+                .HasOne(c => c.Course)
+                .WithMany(c => c.OnlineMeetings)
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<OnlineMeetings>()
+                .HasOne(c => c.Lesson)
+                .WithMany(c => c.OnlineMeetings)
+                .HasForeignKey(c => c.LessonId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<InstructorStudents>()
                 .HasOne(c => c.User)
                 .WithMany(c => c.InstructorStudents)
@@ -159,6 +178,11 @@ namespace Database.Context
                 .HasOne(c => c.InstructorCourse)
                 .WithMany(c => c.InstructorStudents)
                 .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<InstructorStudents>()
+                .HasOne(c => c.Instructor)
+                .WithMany(c => c.InstructorStudents)
+                .HasForeignKey(c => c.InstructorId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StudentCourseLessonProgress>()

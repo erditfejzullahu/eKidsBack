@@ -21,5 +21,7 @@ namespace Database.Models
 
         public virtual ICollection<InstructorCourseSections> InstructorCourseSections { get; set; } = new List<InstructorCourseSections>();
         public virtual ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
+
+        public virtual ICollection<OnlineMeetings> OnlineMeetings { get; set; } = new List<OnlineMeetings>();
     }
 }
