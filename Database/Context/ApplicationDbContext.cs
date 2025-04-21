@@ -49,7 +49,7 @@ namespace Database.Context
         public DbSet<StudentCourseLessonProgress> StudentCourseLessonProgress { get; set; }
         public DbSet<InstructorStudents> InstructorStudents { get; set; }
         public DbSet<OnlineMeetings> OnlineMeetings { get; set; }
-
+        public DbSet<OnlineMeetingsParticipants> OnlineMeetingsParticipants { get; set; }
         public DbSet<Packages> Packages { get; set; }
         public DbSet<Payments> Payments { get; set; }
 
@@ -145,11 +145,26 @@ namespace Database.Context
                 .HasKey(c => c.UserId);
 
             modelBuilder.Entity<StudentCourseLessonProgress>()
-                .HasKey(c => new { c.UserId, c.LessonId });
+                .HasKey(c => new { c.UserId, c.OnlineMeetId });
 
             modelBuilder.Entity<InstructorStudents>()
                 .HasKey(c => new { c.UserId, c.CourseId });
+
+            modelBuilder.Entity<OnlineMeetingsParticipants>()
+                .HasKey(c => new {c.OnlineMeetId, c.UserId});
             //indexes
+
+            modelBuilder.Entity<OnlineMeetingsParticipants>()
+                .HasOne(c => c.OnlineMeeting)
+                .WithMany(c => c.OnlineMeetingsParticipants)
+                .HasForeignKey(c => c.OnlineMeetId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OnlineMeetingsParticipants>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.OnlineMeetingParticipated)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OnlineMeetings>()
                 .HasOne(c => c.Instructor)
@@ -186,10 +201,11 @@ namespace Database.Context
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StudentCourseLessonProgress>()
-                .HasOne(c => c.Lesson)
-                .WithMany(c => c.StudentCourseLessonsProgresses)
-                .HasForeignKey(c => c.LessonId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasOne(c => c.OnlineMeeting)
+                .WithMany(c => c.StudentCourseLessonProgresses)
+                .HasForeignKey(c => c.OnlineMeetId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<StudentCourseLessonProgress>()
                 .HasOne(c => c.User)
                 .WithMany(c => c.StudentCourseLessonProgresses)

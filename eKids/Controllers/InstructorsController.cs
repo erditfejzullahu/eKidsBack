@@ -142,7 +142,7 @@ namespace eKids.Controllers
                 var newLessonProgress = new StudentCourseLessonProgress
                 {
                     UserId = enrollCourse.UserId,
-                    LessonId = enrollCourse.LessonId,
+                    OnlineMeetId = enrollCourse.OnlineMeetId,
                     IsCompleted = false,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow

@@ -30,5 +30,8 @@ namespace Database.Models
 
         [ForeignKey("InstructorId")]
         public Instructors Instructor { get; set; }
+
+        public virtual ICollection<OnlineMeetingsParticipants> OnlineMeetingsParticipants { get; set; } = new List<OnlineMeetingsParticipants>();
+        public virtual ICollection<StudentCourseLessonProgress> StudentCourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
     }
 }

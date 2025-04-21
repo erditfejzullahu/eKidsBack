@@ -99,5 +99,7 @@ namespace Database.Models
         public virtual ICollection<StudentCourseLessonProgress> StudentCourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
         
         public virtual ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
+
+        public virtual ICollection<OnlineMeetingsParticipants> OnlineMeetingParticipated { get; set; } = new List<OnlineMeetingsParticipants>();
     }
 }
