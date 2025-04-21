@@ -2,9 +2,11 @@
 using Database.DTOs;
 using Database.Models;
 using Database.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace eKids.Controllers
 {
@@ -19,6 +21,31 @@ namespace eKids.Controllers
         {
             _logger = logger;
             _context = context;
+        }
+
+        [Authorize]
+        [HttpGet("GetAllowedParticipants/{onlineMeetUrl}")]
+        public async Task<IActionResult> GetAllowedParticipants(string onlineMeetUrl)
+        {
+            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub);
+            if(userIdClaim == null)
+            {
+                return Unauthorized(new {Message = "Not authorized"});
+            }
+            var userId = Int32.Parse(userIdClaim.Value);
+
+            var onlineMeet = await _context.OnlineMeetings.Where(c => EF.Functions.Contains(c.Title, $"\"{onlineMeetUrl}*\"")).FirstOrDefaultAsync();
+            if(onlineMeet == null)
+            {
+                return BadRequest(new { Message = "No meeting found" });
+            }
+            var getAllowedUser = await _context.InstructorStudents.Where(c => c.InstructorId == onlineMeet.InstructorId && c.UserId == userId).FirstOrDefaultAsync();
+            if(getAllowedUser == null)
+            {
+                return NotFound(new {Message = "You are not allowed in this meeting"});
+            }
+
+            return Ok(new { Message = "You are allowed in this meeting" });
         }
 
         [HttpPost("RemoveStudent")]
