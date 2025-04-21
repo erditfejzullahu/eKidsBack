@@ -1555,6 +1555,86 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "GetAllMeetings",
+    "RelativePath": "api/OnlineMeetings/AllMeetings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "CreateMeeting",
+    "RelativePath": "api/OnlineMeetings/CreateMeeting",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "meetingDto",
+        "Type": "Database.DTOs.OnlineMeetingsDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "GetAllowedParticipants",
+    "RelativePath": "api/OnlineMeetings/GetAllowedParticipants/{onlineMeetUrl}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "onlineMeetUrl",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "ChangeMeetingStatus",
+    "RelativePath": "api/OnlineMeetings/MeetingStatus",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "meetingStatusDto",
+        "Type": "Database.DTOs.ChangeMeetingStatusDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "RemoveStudentFromMeeting",
+    "RelativePath": "api/OnlineMeetings/RemoveStudent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "removeDto",
+        "Type": "Database.DTOs.RemoveStudentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "eKids.Controllers.PackagesController",
     "Method": "AddPackage",
     "RelativePath": "api/Packages",

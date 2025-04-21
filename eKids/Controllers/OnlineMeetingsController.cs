@@ -23,6 +23,41 @@ namespace eKids.Controllers
             _context = context;
         }
 
+        [HttpGet("GetMeetingInformtions/{meetingUrl}")]
+        public async Task<IActionResult> GetMeetingInformations(string meetingUrl)
+        {
+            try
+            {
+                var meeting = await _context.OnlineMeetings
+                    .Where(c => EF.Functions.Contains(c.MeetingUrl, $"\"{meetingUrl}*\""))
+                    .Select(c => new
+                    {
+                        c.ID,
+                        Instructor = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                        c.Title,
+                        c.Description,
+                        c.ScheduleDateTime,
+                        c.DurationTime,
+                        Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende" : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar" : "Ka perfunduar",
+                        Course = c.Course != null ? c.Course.Name : null,
+                        Lesson = c.Lesson != null ? c.Lesson.Title : null
+                    })
+                    .FirstOrDefaultAsync();
+
+                if(meeting == null)
+                {
+                    return NotFound(new { Message = "No meeting found" });
+                }
+                return Ok(meeting);                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting meeting informations");
+                return BadRequest();
+                throw;
+            }
+        }
+
         [Authorize]
         [HttpGet("GetAllowedParticipants/{onlineMeetUrl}")]
         public async Task<IActionResult> GetAllowedParticipants(string onlineMeetUrl)
@@ -34,7 +69,7 @@ namespace eKids.Controllers
             }
             var userId = Int32.Parse(userIdClaim.Value);
 
-            var onlineMeet = await _context.OnlineMeetings.Where(c => EF.Functions.Contains(c.Title, $"\"{onlineMeetUrl}*\"")).FirstOrDefaultAsync();
+            var onlineMeet = await _context.OnlineMeetings.Where(c => EF.Functions.Contains(c.MeetingUrl, $"\"{onlineMeetUrl}*\"")).FirstOrDefaultAsync();
             if(onlineMeet == null)
             {
                 return BadRequest(new { Message = "No meeting found" });
