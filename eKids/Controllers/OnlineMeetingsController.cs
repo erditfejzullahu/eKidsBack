@@ -55,7 +55,7 @@ namespace eKids.Controllers
                     Description = meetingDto.Description,
                     ScheduleDateTime = meetingDto.ScheduleDateTime,
                     DurationTime = meetingDto.DurationTime,
-                    MeetingUrl = "Test",
+                    MeetingUrl = Guid.NewGuid().ToString(),
                     InstructorId = user.ID,
                     Status = MeetingStatus.Scheduled,
                 };
