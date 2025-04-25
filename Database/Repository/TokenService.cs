@@ -58,18 +58,22 @@ namespace Database.Repository
                 new Claim(JwtRegisteredClaimNames.Sub, userID),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("Role", user.Role),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("Username", user.Username),
+                new Claim("Name", user.Firstname + " " + user.Lastname),
+                new Claim("Email", user.Email),
+                new Claim("ProfilePicture", user.ProfilePictureUrl)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
+            
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,    
                 claims: claims,
                 signingCredentials: creds,
-                expires: DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpiryMinutes)
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpiryMinutes)
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -52,6 +52,7 @@ namespace Database.Context
         public DbSet<OnlineMeetingsParticipants> OnlineMeetingsParticipants { get; set; }
         public DbSet<Packages> Packages { get; set; }
         public DbSet<Payments> Payments { get; set; }
+        public DbSet<PasswordResetTokens> PasswordResetTokens { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -153,6 +154,12 @@ namespace Database.Context
             modelBuilder.Entity<OnlineMeetingsParticipants>()
                 .HasKey(c => new {c.OnlineMeetId, c.UserId});
             //indexes
+
+            modelBuilder.Entity<PasswordResetTokens>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.PasswordResetTokens)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OnlineMeetingsParticipants>()
                 .HasOne(c => c.OnlineMeeting)

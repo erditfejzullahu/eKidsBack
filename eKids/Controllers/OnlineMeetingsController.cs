@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.JsonWebTokens;
+using System.Security.Claims;
 
 namespace eKids.Controllers
 {
@@ -21,6 +22,45 @@ namespace eKids.Controllers
         {
             _logger = logger;
             _context = context;
+        }
+
+        [Authorize]
+        [HttpGet("GetParticipantData")]
+        public async Task<IActionResult> GetParticipantData()
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _logger.LogError(user);
+                if (user == null)
+                {
+                    return Unauthorized(new { Message = "User not authorized" });
+                }
+                var userId = Int32.Parse(user);
+                var userData = await _context.Users
+                    .Select(c => new
+                    {
+                        id = c.ID,
+                        name = c.Firstname + " " + c.Lastname,
+                        email = c.Email,
+                        profilePicture = c.ProfilePictureUrl,
+                        role = c.Role,
+                        username = c.Username,
+
+                    })
+                    .FirstOrDefaultAsync(c => c.id == userId);
+
+                if (userData == null)
+                {
+                    return NotFound(new { Message = "No user found" });
+                }
+                return Ok(userData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting participant data");
+                return BadRequest();
+            }
         }
 
         [HttpGet("GetMeetingInformtions/{meetingUrl}")]
@@ -165,8 +205,8 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("AllMeetings")] //merri krejt kurset ku un jom student tek qai instruktor logic
-        public async Task<IActionResult> GetAllMeetings([FromQuery] int userId)
+        [HttpGet("AllMeetingsAttendedByStudentId")] //merri krejt kurset ku un jom student tek qai instruktor logic
+        public async Task<IActionResult> GetAllMeetingsAttendedByStudentId([FromQuery] int userId)
         {
             try
             {
@@ -222,5 +262,60 @@ namespace eKids.Controllers
             }
         }
 
+        [HttpGet("AllMeetings")]
+        public async Task<IActionResult> GetAllMeetings()
+        {
+            try
+            {
+                var meetings = await _context.OnlineMeetings
+                    .AsNoTracking()
+                    .AsSplitQuery()
+                    .Select(c => new
+                    {
+                        c.ID,
+                        Course = c.Course != null ? new
+                        {
+                            c.Course.ID,
+                            c.Course.Name,
+                            c.Course.Description,
+                            c.Course.TopicsCovered,
+                        } : null,
+                        Lesson = c.Lesson != null ? new
+                        {
+                            c.Lesson.ID,
+                            c.Lesson.Title,
+                            c.Lesson.Content,
+                            c.Lesson.Video_Url
+                        } : null,
+                        c.Title,
+                        c.Description,
+                        c.MeetingUrl,
+                        c.ScheduleDateTime,
+                        c.DurationTime,
+                        Instructor = new
+                        {
+                            c.Instructor.ID,
+                            Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                            c.Instructor.Expertise,
+                            InstructorCourses = c.Instructor.InstructorCourses.Count(),
+                            InstructorStudents = c.Instructor.InstructorStudents.Count(),
+                        },
+                        c.Status,
+                        c.CreatedAt
+                    })
+                    .ToListAsync();
+
+                if(meetings.Count == 0)
+                {
+                    return NotFound(new { Message = "No meetings found" });
+                }
+                return Ok(meetings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all meetings");
+                return BadRequest();
+            }
+        }
     }
 }

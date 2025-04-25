@@ -19,6 +19,7 @@ using eKids.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Claims;
 
 namespace eKids
 {
@@ -65,11 +66,12 @@ namespace eKids
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuerSigningKey = false,
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
-                    ClockSkew = TimeSpan.Zero
+                    ClockSkew = TimeSpan.Zero,
+                    RoleClaimType = ClaimTypes.Role
                 };
 
                 options.Events = new JwtBearerEvents
@@ -84,10 +86,11 @@ namespace eKids
                     }
                 };
             });
-
+            Console.WriteLine($"TEST: {builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>().Issuer}");
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("InstructorPolicy", policy => policy.RequireRole("Instructor"));
             });
 
 
@@ -107,6 +110,7 @@ namespace eKids
             builder.Services.AddScoped<ICreateBlogService, CreateBlogService>();
             builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
             builder.Services.AddScoped<IDiscussionAnswerService, DiscussionAnswerService>();
+            builder.Services.AddScoped<IPasswordResetService, PasswordResetService>();
             builder.Services.AddSingleton<AiMessageConsumer>();
             builder.Services.AddSingleton<RabbitMqService>();
             builder.Services.AddScoped(typeof(ISorterService<>), typeof(SorterService<>));
@@ -168,7 +172,7 @@ namespace eKids
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAllOrigins");
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
 

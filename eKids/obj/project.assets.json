@@ -3662,6 +3662,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "BCrypt.Net-Next": "4.0.3",
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Http.Features": "5.0.17",
           "Microsoft.EntityFrameworkCore": "8.0.6",

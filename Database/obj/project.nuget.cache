@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "cEjUY1Qv8o8=",
+  "dgSpecHash": "zSYNqHS7cIw=",
   "success": true,
   "projectFilePath": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\Database\\Database.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\fejzullahu\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\fejzullahu\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\fejzullahu\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
     "C:\\Users\\fejzullahu\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.6\\microsoft.entityframeworkcore.8.0.6.nupkg.sha512",

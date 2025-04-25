@@ -101,5 +101,7 @@ namespace Database.Models
         public virtual ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
 
         public virtual ICollection<OnlineMeetingsParticipants> OnlineMeetingParticipated { get; set; } = new List<OnlineMeetingsParticipants>();
+
+        public virtual ICollection<PasswordResetTokens> PasswordResetTokens { get; set; }
     }
 }

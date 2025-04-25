@@ -1561,6 +1561,16 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "GetAllMeetingsAttendedByStudentId",
+    "RelativePath": "api/OnlineMeetings/AllMeetingsAttendedByStudentId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
     "Parameters": [
       {
         "Name": "userId",
@@ -1600,6 +1610,32 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "GetMeetingInformations",
+    "RelativePath": "api/OnlineMeetings/GetMeetingInformtions/{meetingUrl}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "meetingUrl",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "GetParticipantData",
+    "RelativePath": "api/OnlineMeetings/GetParticipantData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

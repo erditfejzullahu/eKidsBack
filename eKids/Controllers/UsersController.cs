@@ -32,8 +32,10 @@ namespace eKids.Controllers
         private readonly IMapper _mapper;
         private readonly IValidator<UpdateUser> _userValidator;
         private readonly ApplicationDbContext _context;
+        private readonly IPasswordResetService _passwordResetService;
 
         public UsersController(IRepository<Users> userRepository,
+                               IPasswordResetService passwordResetService,
                                IRepository<Courses> courseRepository,
                                IRepository<Usermeta> usermetaRepository,
                                IWebHostEnvironment environment,
@@ -46,6 +48,7 @@ namespace eKids.Controllers
                                ApplicationDbContext context
                                )
         {
+            _passwordResetService = passwordResetService;
             _fileUploadService = fileUploadService;
             _context = context;
             _userValidator = userValidator;
@@ -57,6 +60,61 @@ namespace eKids.Controllers
             _tokenService = tokenService;
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+        }
+
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> PasswordForgot([FromBody] string email)
+        {
+            try
+            {
+                var response = new { message = "Nese emaili juaj egziston ne sistemin tone, do te merrni nje link te ndryshimit te fjalekalimit tuaj!" };
+                var token = await _passwordResetService.GeneratePasswordResetTokenAsync(email);
+                if (token == null) return Ok(response);
+                var resetLink = $"frontendUrl/reset-password?email={email}&token={token}";
+
+                //send via email...
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, " Error creating password forget");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("validate-reset-token")]
+        public async Task<IActionResult> ValidateResetToken([FromQuery] string email, [FromQuery] string token)
+        {
+            try
+            {
+                var isValid = await _passwordResetService.ValidatePasswordResetTokenAsync(email, token);
+                return Ok(new { valid = isValid });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error validating reset token");
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] PasswordResetDto resetDto)
+        {
+            try
+            {
+                var success = await _passwordResetService.ResetPasswordAsync(resetDto.Email, resetDto.Token, resetDto.NewPassword);
+                if (!success)
+                {
+                    return BadRequest(new { Message = "Invalid or expired token" });
+                }
+                return Ok(new { Message = "Password reset successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error resetting assword");
+                return BadRequest();
+            }
         }
 
         [HttpPost("/login")]
