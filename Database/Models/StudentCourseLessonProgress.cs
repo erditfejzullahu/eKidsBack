@@ -12,6 +12,7 @@ namespace Database.Models
         public int UserId { get; set; }
         public int OnlineMeetId { get; set; }
         public bool IsCompleted { get; set; }
+        public DateTime? JoinedTime { get; set; }
         public bool HasJoined { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastModified { get; set; }

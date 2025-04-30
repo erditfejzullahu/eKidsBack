@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Database.DTOs
 {
+    public class BecomeStudentDto
+    {
+        public int InstructorId { get; set; }
+        public int? CourseId { get; set; }
+    }
     public class RemoveStudentDto
     {
         public int StudentId { get; set; }

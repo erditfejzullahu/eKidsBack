@@ -24,19 +24,138 @@ namespace eKids.Controllers
             _context = context;
         }
 
-        [Authorize]
-        [HttpGet("GetParticipantData")]
-        public async Task<IActionResult> GetParticipantData()
+        [Authorize(Roles = "Instructor")]
+        [HttpPatch("MeetingCompletedFromInstructor")]
+        public async Task<IActionResult> MeetingCompletedFromInstructorAsync([FromQuery] int meetingId)
         {
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                _logger.LogError(user);
+                if(user == null)
+                {
+                    return Unauthorized();
+                }
+                var userId = Int32.Parse(user);
+                var meeting = await _context.OnlineMeetings.FindAsync(meetingId);
+
+                if(meeting == null)
+                {
+                    return NotFound(new { Message = "Meeting not found" });
+                }
+
+                var totalStudents = await _context.StudentCourseLessonProgress
+                    .Where(c => c.OnlineMeetId == meeting.ID)
+                    .ToListAsync();
+
+                if(totalStudents.Count > 0)
+                {
+                    foreach (var student in totalStudents)
+                    {
+
+                        if(student.JoinedTime != null)
+                        {
+                            if(meeting.DurationTime != null)
+                            {
+                                double actualWatchMinutes = (DateTime.UtcNow - student.JoinedTime.Value).TotalMinutes;
+                                if(actualWatchMinutes >= meeting.DurationTime.Value - 10)
+                                {
+                                    student.IsCompleted = true;
+                                    student.LastModified = DateTime.UtcNow;
+                                }
+                                else
+                                {
+                                    student.IsCompleted = false;
+                                    student.LastModified = DateTime.UtcNow;
+                                }
+                            }
+                            else
+                            {
+                                student.IsCompleted = true;
+                                student.LastModified = DateTime.UtcNow;
+                            }
+
+                        }
+                    }
+
+                }
+
+                DateTime expectedEndTime;
+                if(meeting.DurationTime != null)
+                {
+                    expectedEndTime = meeting.ScheduleDateTime.AddMinutes(meeting.DurationTime.Value);
+                    DateTime actualEndTime = DateTime.UtcNow;
+                    double actualDuration = (actualEndTime - meeting.ScheduleDateTime).TotalMinutes;
+                    if (actualDuration >= meeting.DurationTime.Value - 10)
+                    {
+                        meeting.Status = MeetingStatus.Completed;
+                    }
+                    else
+                    {
+                        meeting.Status = MeetingStatus.Cancelled;
+                    }
+                }
+                else
+                {
+                    meeting.Status = MeetingStatus.Completed;
+                }
+                //qitu ni logjik per me track a u bo completed apo jo.
+                _context.OnlineMeetings.Update(meeting);
+
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Meeting completed" });
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error completing statuses for students");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpPatch("StartMeeting")]
+        public async Task<IActionResult> StartMeetingAsync([FromQuery] int meetingId)
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(user == null)
+                {
+                    return Unauthorized();
+                }
+                var userId = Int32.Parse(user);
+                var progress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.OnlineMeetId == meetingId);
+                if(progress == null)
+                {
+                    return NotFound(new { Message = "No progress found" });
+                }
+                progress.JoinedTime = DateTime.UtcNow;
+                progress.HasJoined = true;
+                progress.LastModified = DateTime.UtcNow;
+                _context.StudentCourseLessonProgress.Update(progress);
+                await _context.SaveChangesAsync();
+                return Ok(new {Message = "Successfully joined"});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error starting meeting");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetParticipantData")]
+        public async Task<IActionResult> GetParticipantData([FromQuery] string roomUrl)
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (user == null)
                 {
                     return Unauthorized(new { Message = "User not authorized" });
                 }
                 var userId = Int32.Parse(user);
+
                 var userData = await _context.Users
                     .Select(c => new
                     {
@@ -46,7 +165,6 @@ namespace eKids.Controllers
                         profilePicture = c.ProfilePictureUrl,
                         role = c.Role,
                         username = c.Username,
-
                     })
                     .FirstOrDefaultAsync(c => c.id == userId);
 
@@ -63,7 +181,7 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("GetMeetingInformtions/{meetingUrl}")]
+        [HttpGet("GetMeetingInformations/{meetingUrl}")]
         public async Task<IActionResult> GetMeetingInformations(string meetingUrl)
         {
             try
@@ -74,6 +192,8 @@ namespace eKids.Controllers
                     {
                         c.ID,
                         Instructor = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                        c.InstructorId,
+                        c.CourseId,
                         c.Title,
                         c.Description,
                         c.ScheduleDateTime,

@@ -1,9 +1,11 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace eKids.Controllers
@@ -126,23 +128,36 @@ namespace eKids.Controllers
             }
         }
 
+        //kjo osht kur te fillon ni kurs qe e ofron instruktori ose kur kyqet me ane te url
+        [Authorize]
         [HttpPost("StartCourse")]
         public async Task<IActionResult> EnrollCourse([FromBody] EnrollCourseDto enrollCourse, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(user == null)
+                {
+                    return Unauthorized();
+                }
+
+                var userId = Int32.Parse(user);
+
                 var newEnrollment = new InstructorStudents
                 {
-                    UserId = enrollCourse.UserId,
+                    UserId = userId,
                     CourseId = enrollCourse.CourseId,
+                    InstructorId = enrollCourse.InstructorId,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
+
                 var newLessonProgress = new StudentCourseLessonProgress
                 {
-                    UserId = enrollCourse.UserId,
+                    UserId = userId,
                     OnlineMeetId = enrollCourse.OnlineMeetId,
+                    HasJoined = false,
                     IsCompleted = false,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow

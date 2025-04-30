@@ -9,8 +9,9 @@ namespace Database.DTOs
     public class EnrollCourseDto
     {
         public int UserId { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
         public int OnlineMeetId { get; set; }
+        public int InstructorId { get; set; }
     }
 
     public class CreateCourseDto

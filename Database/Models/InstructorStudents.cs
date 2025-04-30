@@ -11,7 +11,7 @@ namespace Database.Models
     {
         public int InstructorId { get; set; }
         public int UserId { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastModified { get; set; }
 
