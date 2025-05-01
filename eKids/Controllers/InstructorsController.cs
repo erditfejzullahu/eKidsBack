@@ -144,26 +144,36 @@ namespace eKids.Controllers
 
                 var userId = Int32.Parse(user);
 
-                var newEnrollment = new InstructorStudents
-                {
-                    UserId = userId,
-                    CourseId = enrollCourse.CourseId,
-                    InstructorId = enrollCourse.InstructorId,
-                    CreatedAt = DateTime.UtcNow,
-                    LastModified = DateTime.UtcNow
-                };
+                var getStudentAvailable = await _context.InstructorStudents.FirstOrDefaultAsync(c => c.UserId == userId && c.InstructorId == enrollCourse.InstructorId);
+                var getLessonProgress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.OnlineMeetId == enrollCourse.OnlineMeetId);
 
-                var newLessonProgress = new StudentCourseLessonProgress
+                if (getStudentAvailable == null)
                 {
-                    UserId = userId,
-                    OnlineMeetId = enrollCourse.OnlineMeetId,
-                    HasJoined = false,
-                    IsCompleted = false,
-                    CreatedAt = DateTime.UtcNow,
-                    LastModified = DateTime.UtcNow
-                };
+                    var newEnrollment = new InstructorStudents
+                    {
+                        UserId = userId,
+                        CourseId = enrollCourse.CourseId,
+                        InstructorId = enrollCourse.InstructorId,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    };
                 await _context.InstructorStudents.AddAsync(newEnrollment, token);
+                }
+
+                if(getLessonProgress == null)
+                {
+                    var newLessonProgress = new StudentCourseLessonProgress
+                    {
+                        UserId = userId,
+                        OnlineMeetId = enrollCourse.OnlineMeetId,
+                        HasJoined = false,
+                        IsCompleted = false,
+                        JoinedTime = null,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    };
                 await _context.StudentCourseLessonProgress.AddAsync(newLessonProgress, token);
+                }
 
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);

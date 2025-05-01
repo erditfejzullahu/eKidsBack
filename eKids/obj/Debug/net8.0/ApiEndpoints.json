@@ -1615,7 +1615,7 @@
   {
     "ContainingType": "eKids.Controllers.OnlineMeetingsController",
     "Method": "GetMeetingInformations",
-    "RelativePath": "api/OnlineMeetings/GetMeetingInformtions/{meetingUrl}",
+    "RelativePath": "api/OnlineMeetings/GetMeetingInformations/{meetingUrl}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1639,6 +1639,22 @@
       {
         "Name": "roomUrl",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "MeetingCompletedFromInstructorAsync",
+    "RelativePath": "api/OnlineMeetings/MeetingCompletedFromInstructor",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "meetingId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -1672,6 +1688,22 @@
         "Name": "removeDto",
         "Type": "Database.DTOs.RemoveStudentDto",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "StartMeetingAsync",
+    "RelativePath": "api/OnlineMeetings/StartMeeting",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "meetingId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -26,8 +26,9 @@ namespace eKids.Controllers
 
         [Authorize(Roles = "Instructor")]
         [HttpPatch("MeetingCompletedFromInstructor")]
-        public async Task<IActionResult> MeetingCompletedFromInstructorAsync([FromQuery] int meetingId)
+        public async Task<IActionResult> MeetingCompletedFromInstructorAsync([FromQuery] int meetingId, CancellationToken token)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -75,6 +76,7 @@ namespace eKids.Controllers
                             }
 
                         }
+                        _context.StudentCourseLessonProgress.Update(student);
                     }
 
                 }
@@ -102,11 +104,13 @@ namespace eKids.Controllers
                 _context.OnlineMeetings.Update(meeting);
 
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync(token);
                 return Ok(new { Message = "Meeting completed" });
                 
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error completing statuses for students");
                 return BadRequest();
             }
@@ -129,11 +133,14 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "No progress found" });
                 }
-                progress.JoinedTime = DateTime.UtcNow;
-                progress.HasJoined = true;
-                progress.LastModified = DateTime.UtcNow;
+                if (!progress.HasJoined)
+                {
+                    progress.JoinedTime = DateTime.UtcNow;
+                    progress.HasJoined = true;
+                    progress.LastModified = DateTime.UtcNow;
                 _context.StudentCourseLessonProgress.Update(progress);
                 await _context.SaveChangesAsync();
+                }
                 return Ok(new {Message = "Successfully joined"});
             }
             catch (Exception ex)
