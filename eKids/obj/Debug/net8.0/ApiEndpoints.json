@@ -1308,6 +1308,16 @@
   },
   {
     "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetAllCoursesForMeetingAdd",
+    "RelativePath": "api/Instructors/GetInstructorCoursesForMeetingAdd",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
     "Method": "EnrollCourse",
     "RelativePath": "api/Instructors/StartCourse",
     "HttpMethod": "POST",

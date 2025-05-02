@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,26 +17,21 @@ namespace Database.DTOs
 
     public class CreateCourseDto
     {
-        public int InstructorId { get; set; }
+        //[Required]
+        //public int InstructorId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Description { get; set; }
-        public string TopicsCovered { get; set; }
-        public List<CreateCourseSectionDto> sectionDtos { get; set; } = new List<CreateCourseSectionDto>();
-    }
-
-    public class CreateCourseSectionDto
-    {
-        //public int Course_Id { get; set; }
-        public string Title { get; set; }
-        public List<CreateLessonDto> lessonDtos { get; set; } = new List<CreateLessonDto>();
-    }
-
-    public class CreateLessonDto
-    {
-        //public int Section_Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Video_Url { get; set; }
+        [Required]
+        [MinLength(1)]
+        public List<string> TopicsCovered { get; set; } = new List<string>();
+        [Required]
+        [MinLength(1)]
+        public List<string> SectionTitles { get; set; } = new List<string>();
+        [Required]
+        [MinLength(1)]
+        public List<List<string>> SectionLessons { get; set; } = new List<List<string>>();
     }
 
     public class CompleteLessonDto

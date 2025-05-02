@@ -70,51 +70,76 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Instructor")]
         [HttpPost("CreateCourse")]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCourseDto courseDto, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(userId == null)
+                {
+                    return Unauthorized();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var user = await _context.Users
+                    .Select(c => new
+                    {
+                        c.ID,
+                        InstructorId = c.Instructor.ID
+                    })
+                    .FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+                if(user == null)
+                {
+                    return NotFound(new {Message = "No user"});
+                }
+
+                if(courseDto.SectionTitles.Count != courseDto.SectionLessons.Count)
+                {
+                    return BadRequest(new { Message = "Not same lengths" });
+                }
+
+                string topics = JsonSerializer.Serialize(courseDto.TopicsCovered);
+
                 var newCourse = new InstructorCourses
                 {
-                    InstructorId = courseDto.InstructorId,
+                    InstructorId = user.InstructorId,
                     Name = courseDto.Name,
                     Description = courseDto.Description,
-                    TopicsCovered = courseDto.TopicsCovered,
+                    TopicsCovered = topics,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     InstructorCourseSections = new List<InstructorCourseSections>()
                 };
 
-                if(courseDto.sectionDtos.Count != 0)
+                for (int i = 0; i < courseDto.SectionTitles.Count; i++)
                 {
-                    foreach (var section in courseDto.sectionDtos)
+                    var newSection = new InstructorCourseSections
                     {
-                        var newSection = new InstructorCourseSections
+                        Course_Id = newCourse.ID,
+                        Title = courseDto.SectionTitles[i],
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow,
+                        InstructorLessons = new List<InstructorLessons>()
+                    };
+
+                    foreach (var lessonTitle in courseDto.SectionLessons[i])
+                    {
+                        var newLesson = new InstructorLessons
                         {
-                            Course_Id = newCourse.ID,
-                            Title = section.Title,
+                            Title = lessonTitle,
                             CreatedAt = DateTime.UtcNow,
-                            LastModified = DateTime.UtcNow,
-                            InstructorLessons = new List<InstructorLessons>()
+                            LastModified = DateTime.UtcNow
                         };
-                        foreach(var lesson in section.lessonDtos)
-                        {
-                            var newLesson = new InstructorLessons
-                            {
-                                Section_Id = newSection.ID,
-                                Title = lesson.Title,
-                                Content = lesson.Content,
-                                Video_Url = lesson.Video_Url,
-                                CreatedAt = DateTime.UtcNow,
-                                LastModified = DateTime.UtcNow
-                            };
-                            newSection.InstructorLessons.Add(newLesson);
-                        }
-                        newCourse.InstructorCourseSections.Add(newSection);
+                        newSection.InstructorLessons.Add(newLesson);
                     }
+                    newCourse.InstructorCourseSections.Add(newSection);
                 }
+
                 await _context.InstructorCourses.AddAsync(newCourse, token);
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
@@ -183,6 +208,45 @@ namespace eKids.Controllers
             {
                 await transaction.RollbackAsync(token);
                 _logger.LogError(ex, " Error in enrollin course");
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "Instructor")]
+        [HttpGet("GetInstructorCoursesForMeetingAdd")]
+        public async Task<IActionResult> GetAllCoursesForMeetingAdd()
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(userId == null)
+                {
+                    return Unauthorized();
+                }
+                var user = await _context.Users
+                    .Select(c => new
+                    {
+                        c.ID,
+                        InstructorId = c.Instructor.ID
+                    })
+                    .FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+
+                if(user == null)
+                {
+                    return NotFound(new {Message = "No user found"});
+                }
+
+                var courses = await _context.InstructorCourses.Where(c => c.InstructorId == user.InstructorId).ToListAsync();
+                if(courses.Count == 0)
+                {
+                    return NotFound(new {Message = "No courses found"});
+                }
+
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting instructor courses");
                 return BadRequest();
             }
         }
