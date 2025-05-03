@@ -17,7 +17,8 @@ namespace Database.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string MeetingUrl { get; set; }
-        public DateTime ScheduleDateTime { get; set; }
+        [Column(TypeName ="datetime")]
+        public virtual DateTime ScheduleDateTime { get; set; }
         public int? DurationTime { get; set; }
         public int InstructorId { get; set; }
         public MeetingStatus Status { get; set; }

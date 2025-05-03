@@ -60,6 +60,7 @@ namespace Database.Context
 
         }
 
+
         //to fixxxxx
         //public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken)
         //{
@@ -73,7 +74,7 @@ namespace Database.Context
         //    {
         //        var oldValue = item.OriginalValues["Status"]?.ToString(); 
         //        var newValue = item.CurrentValues["Status"]?.ToString();
-                
+
         //        if(int.TryParse(newValue, out int status) && status == 2)
         //        {
         //            if(!string.Equals(oldValue, newValue, StringComparison.Ordinal))
@@ -155,6 +156,7 @@ namespace Database.Context
                 .HasKey(c => new {c.OnlineMeetId, c.UserId});
             //indexes
 
+
             modelBuilder.Entity<PasswordResetTokens>()
                 .HasOne(c => c.User)
                 .WithMany(c => c.PasswordResetTokens)
@@ -224,6 +226,7 @@ namespace Database.Context
                 .WithOne(c => c.Instructor)
                 .HasForeignKey<Instructors>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<InstructorCourses>()
                 .HasOne(c => c.Instructor)

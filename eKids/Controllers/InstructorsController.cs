@@ -212,6 +212,50 @@ namespace eKids.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Instructor")]
+        [HttpGet("GetInstructorLessonsBasedOfCoursesMeetingAdd")]
+        public async Task<IActionResult> GetInstructorLessonsBasedOfCourse([FromQuery] int courseId)
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(userId == null)
+                {
+                    return Unauthorized();
+                }
+
+                var user = await _context.Users.Select(c => new
+                {
+                    c.ID,
+                    InstructorId = c.Instructor.ID,
+                }).FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+
+                if(user == null)
+                {
+                    return NotFound(new { Message = "no user found" });
+                }
+                var lessons = await _context.InstructorCourses
+                    .Where(c => c.ID == courseId)
+                    .SelectMany(c => c.InstructorCourseSections)
+                    .SelectMany(s => s.InstructorLessons)
+                    .Select(l => new
+                    {
+                        LessonId = l.ID,
+                        l.Title
+                    })
+                    .ToListAsync();
+
+                return Ok(lessons);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lessons");
+                return BadRequest();
+            }
+        }
+
         [Authorize(Roles = "Instructor")]
         [HttpGet("GetInstructorCoursesForMeetingAdd")]
         public async Task<IActionResult> GetAllCoursesForMeetingAdd()
@@ -251,51 +295,56 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetInstructorById(int id)
+        [Authorize(Roles = "Instructor")]
+        [HttpGet]
+        public async Task<IActionResult> GetInstructorById()
         {
+            
             try
             {
-                var instructor = await _context.Instructors
+                var userIdAuthenticated = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userIdAuthenticated) || !Int32.TryParse(userIdAuthenticated, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var instructor = await _context.Users
                     .AsNoTracking()
-                    .AsSplitQuery()
-                    .Where(c => c.UserId == id)
+                    .Where(c => c.ID == userId)
                     .Select(c => new
                     {
-                        c.UserId,
-                        c.Expertise,
-                        c.Bio,
-                        c.Socials,
-                        Name = c.User.Firstname + " " + c.User.Lastname,
-                        c.User.Username,
-                        c.User.Email,
-                        c.User.Age,
-                        c.User.ProfilePictureUrl,
-                        Students = c.User.InstructorStudents
-                        .Select(s => new
-                        {
-                            Name = s.User.Firstname + " " + s.User.Lastname,
-                            s.User.ProfilePictureUrl,
-                        })
-                        .ToList(),
-                        Courses = c.InstructorCourses.ToList(),
-                        Friends = c.User.Friends
-                        .Select(f => new
-                        {
-                            f.UserId,
-                            Name = f.User.Firstname + " " + f.User.Lastname,
-                            f.User.ProfilePictureUrl,
-                        })
-                        .ToList(),
+                        c.ID,
+                        InstructorId = c.Instructor.ID,
+                        c.Instructor.Expertise,
+                        c.Instructor.Bio,
+                        c.Instructor.Socials,
+                        Name = c.Firstname + " " + c.Lastname,
+                        c.Username,
+                        c.Email,
+                        c.Age,
+                        c.ProfilePictureUrl,
                     })
                     .FirstOrDefaultAsync();
+
 
                 if (instructor == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(instructor);
+                var courses = await _context.InstructorCourses.Where(c => c.InstructorId == instructor.InstructorId).CountAsync();
+                var friends = await _context.Friends.Where(c => c.UserId == instructor.ID).ToListAsync();
+                var meetings = await _context.OnlineMeetings.Where(c => c.InstructorId == instructor.InstructorId).CountAsync();
+                var students = await _context.InstructorStudents.Where(c => c.InstructorId == instructor.InstructorId).CountAsync();
+
+                return Ok(new
+                {
+                    instructor,
+                    courses,
+                    friends,
+                    meetings,
+                    students
+                });
             }
             catch (Exception ex)
             {

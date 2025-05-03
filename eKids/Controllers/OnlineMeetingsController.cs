@@ -265,17 +265,30 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Instructor")]
         [HttpPost("CreateMeeting")]
         public async Task<IActionResult> CreateMeeting([FromBody] OnlineMeetingsDto meetingDto, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var user = await _context.Instructors.Where(c => c.UserId == meetingDto.UserId).FirstOrDefaultAsync(token);
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(userId == null)
+                {
+                    return Unauthorized();
+                }
+                var user = await _context.Users.Select(c => new
+                {
+                    c.ID,
+                    InstructorId = c.Instructor.ID
+                }).FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+
                 if(user == null)
                 {
                     return NotFound(new { Message = "No user found" });
                 }
+                var date = DateTime.UtcNow;
                 var newMeeting = new OnlineMeetings
                 {
                     CourseId = meetingDto.CourseId,
@@ -285,8 +298,10 @@ namespace eKids.Controllers
                     ScheduleDateTime = meetingDto.ScheduleDateTime,
                     DurationTime = meetingDto.DurationTime,
                     MeetingUrl = Guid.NewGuid().ToString(),
-                    InstructorId = user.ID,
+                    InstructorId = user.InstructorId,
                     Status = MeetingStatus.Scheduled,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
                 };
 
                 //logic to create meeting url

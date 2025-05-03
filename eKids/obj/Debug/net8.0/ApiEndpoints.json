@@ -1229,17 +1229,11 @@
   {
     "ContainingType": "eKids.Controllers.InstructorsController",
     "Method": "GetInstructorById",
-    "RelativePath": "api/Instructors/{id}",
+    "RelativePath": "api/Instructors",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -1314,6 +1308,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetInstructorLessonsBasedOfCourse",
+    "RelativePath": "api/Instructors/GetInstructorLessonsBasedOfCoursesMeetingAdd",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
