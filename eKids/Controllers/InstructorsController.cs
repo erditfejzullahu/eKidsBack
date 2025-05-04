@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Database.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,12 @@ namespace eKids.Controllers
     {
         private readonly ILogger<InstructorsController> _logger;
         private readonly ApplicationDbContext _context;
-        public InstructorsController(ILogger<InstructorsController> logger, ApplicationDbContext context)
+        private readonly IFileUploadService _fileUploadService;
+        public InstructorsController(IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
+            _fileUploadService = fileUploadService;
         }
 
         [HttpPost("BecomeInstructor")]
@@ -101,6 +104,13 @@ namespace eKids.Controllers
                 if(courseDto.SectionTitles.Count != courseDto.SectionLessons.Count)
                 {
                     return BadRequest(new { Message = "Not same lengths" });
+                }
+
+                string? imageUrl = string.Empty;
+                if (!string.IsNullOrEmpty(courseDto.Image))
+                {
+                    var relativeUrl = await _fileUploadService.UploadFile(courseDto.Image, FileCategory.Uploads);
+                    imageUrl = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
                 }
 
                 string topics = JsonSerializer.Serialize(courseDto.TopicsCovered);
@@ -380,11 +390,12 @@ namespace eKids.Controllers
                         c.ID,
                         c.InstructorId,
                         InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                        c.Instructor.User.ProfilePictureUrl,
+                        c.Image,
                         c.Name,
                         c.Description,
                         c.CategoryId,
                         c.Instructor,
-                        c.Category,
                         EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
                         Enrolled = user.Role == "Instructor" ? false : c.InstructorStudents.Any(s => s.UserId == user.ID),
                         c.CreatedAt,
