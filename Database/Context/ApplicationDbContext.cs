@@ -143,8 +143,8 @@ namespace Database.Context
             modelBuilder.Entity<DiscussionAnswerVotes>()
                 .HasKey(c => new { c.DiscussionCommentId, c.UserId });
 
-            modelBuilder.Entity<Instructors>()
-                .HasKey(c => c.UserId);
+            //modelBuilder.Entity<Instructors>()
+            //    .HasKey(c => c.UserId);
 
             modelBuilder.Entity<StudentCourseLessonProgress>()
                 .HasKey(c => new { c.UserId, c.OnlineMeetId });

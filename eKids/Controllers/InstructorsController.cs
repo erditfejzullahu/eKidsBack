@@ -354,28 +354,23 @@ namespace eKids.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("GetInstructorsCourses")]
         public async Task<IActionResult> GetInstructorCourses()
         {
             try
             {
-                //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int authId))
-                //{
-                //    return Unauthorized();
-                //}
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int authId))
+                {
+                    return Unauthorized();
+                }
 
-                //var user = await _context.Users.FindAsync(authId);
-                //if(user == null)
-                //{
-                //    return NotFound();
-                //}
-                var query = _context.InstructorCourses
-    .Include(ic => ic.Instructor)
-    .ToQueryString();
-
-                Console.WriteLine($"query: {query}");
+                var user = await _context.Users.FindAsync(authId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
                 var courses = await _context.InstructorCourses
                     .AsNoTracking()
@@ -384,14 +379,14 @@ namespace eKids.Controllers
                     {
                         c.ID,
                         c.InstructorId,
-                        //InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                        InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
                         c.Name,
                         c.Description,
                         c.CategoryId,
                         c.Instructor,
                         c.Category,
-                        //EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
-                        //Enrolled = user.Role == "Instructor" ? false : c.InstructorStudents.Any(s => s.UserId == user.ID),
+                        EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
+                        Enrolled = user.Role == "Instructor" ? false : c.InstructorStudents.Any(s => s.UserId == user.ID),
                         c.CreatedAt,
                     })
                     .ToListAsync();
