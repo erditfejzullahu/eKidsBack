@@ -227,6 +227,11 @@ namespace Database.Context
                 .HasForeignKey<Instructors>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<InstructorCourses>()
+                .HasOne(c => c.Category)
+                .WithMany(c => c.InstructorCourses)
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<InstructorCourses>()
                 .HasOne(c => c.Instructor)

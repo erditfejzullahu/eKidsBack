@@ -22,5 +22,6 @@ namespace Database.Models
         public virtual ICollection<Courses> Courses { get; set; } = new List<Courses>();
         public virtual ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
         public virtual ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
+        public virtual ICollection<InstructorCourses> InstructorCourses { get; set; } = new List<InstructorCourses>();
     }
 }

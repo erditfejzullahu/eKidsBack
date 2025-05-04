@@ -110,6 +110,7 @@ namespace eKids.Controllers
                     InstructorId = user.InstructorId,
                     Name = courseDto.Name,
                     Description = courseDto.Description,
+                    CategoryId = courseDto.CategoryId,
                     TopicsCovered = topics,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
@@ -349,6 +350,50 @@ namespace eKids.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting instructor by id");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetInstructorsCourses")]
+        public async Task<IActionResult> GetInstructorCourses()
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int authId))
+                {
+                    return Unauthorized();
+                }
+
+                var user = await _context.Users.FindAsync(authId);
+                if(user == null)
+                {
+                    return NotFound();
+                }
+
+
+                var courses = await _context.InstructorCourses
+                    .AsNoTracking()
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.InstructorId,
+                        InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                        c.Name,
+                        c.Description,
+                        c.CategoryId,
+                        c.Instructor.User.ProfilePictureUrl,
+                        EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
+                        Enrolled = user.Role == "Instructor" ? false : c.InstructorStudents.Any(s => s.UserId == user.ID),
+                        c.CreatedAt,
+                    })
+                    .ToListAsync();
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting instructor courses");
                 return BadRequest();
             }
         }

@@ -12,12 +12,15 @@ namespace Database.Models
         [Column("Id")]
         public override int ID { get; set ; }
         public int InstructorId { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string TopicsCovered { get; set; }
 
         [ForeignKey("InstructorId")]
         public Instructors Instructor { get; set; }
+        [ForeignKey("CategoryId")]
+        public Categories Category { get; set; }
 
         public virtual ICollection<InstructorCourseSections> InstructorCourseSections { get; set; } = new List<InstructorCourseSections>();
         public virtual ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
