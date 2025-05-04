@@ -94,7 +94,7 @@ namespace Database.Models
         public virtual ICollection<DiscussionVotes> DiscussionVotes { get; set; } = new List<DiscussionVotes>();
         public virtual ICollection<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; } = new List<DiscussionAnswerVotes>();
 
-        public Instructors Instructor { get; set; }
+        public virtual Instructors Instructor { get; set; }
 
         public virtual ICollection<StudentCourseLessonProgress> StudentCourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
         

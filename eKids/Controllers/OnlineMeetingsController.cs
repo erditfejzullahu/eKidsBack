@@ -24,6 +24,7 @@ namespace eKids.Controllers
             _context = context;
         }
 
+
         [Authorize(Roles = "Instructor")]
         [HttpPatch("MeetingCompletedFromInstructor")]
         public async Task<IActionResult> MeetingCompletedFromInstructorAsync([FromQuery] int meetingId, CancellationToken token)

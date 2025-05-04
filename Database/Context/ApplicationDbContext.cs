@@ -126,7 +126,7 @@ namespace Database.Context
         //    await Task.CompletedTask;
         //}
         ////to fixx
-
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -221,9 +221,16 @@ namespace Database.Context
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Instructors>()
-                .HasOne(c => c.User)
-                .WithOne(c => c.Instructor)
+            //modelBuilder.Entity<Instructors>()
+            //    .HasOne(c => c.User)
+            //    .WithOne(c => c.Instructor)
+            //    .HasForeignKey<Instructors>(c => c.UserId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Users>()
+                .HasOne(c => c.Instructor)
+                .WithOne(c => c.User)
                 .HasForeignKey<Instructors>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -233,11 +240,17 @@ namespace Database.Context
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<InstructorCourses>()
-                .HasOne(c => c.Instructor)
-                .WithMany(c => c.InstructorCourses)
-                .HasForeignKey(c => c.InstructorId)
+            modelBuilder.Entity<Instructors>()
+                .HasMany(c => c.InstructorCourses)
+                .WithOne(ic => ic.Instructor)
+                .HasForeignKey(ic => ic.InstructorId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<InstructorCourses>()
+            //    .HasOne(c => c.Instructor)
+            //    .WithMany(c => c.InstructorCourses)
+            //    .HasForeignKey(c => c.InstructorId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<InstructorCourseSections>()
                 .HasOne(c => c.InstructorCourses)
