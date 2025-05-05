@@ -2,6 +2,7 @@
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Database.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -306,6 +307,8 @@ namespace eKids.Controllers
             }
         }
 
+
+        //fixes bug have to add them into single query
         [Authorize(Roles = "Instructor")]
         [HttpGet]
         public async Task<IActionResult> GetInstructorById()
@@ -450,6 +453,90 @@ namespace eKids.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in retriving course");
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "Instructor")]
+        [HttpGet("GetInstructorManageContentData")]
+        public async Task<IActionResult> ManageInstructorData([FromQuery] InstructorsManageContentType manageType)
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out var authId))
+                {
+                    return Unauthorized();
+                }
+
+                IQueryable<object> query = null;
+
+                var user = await _context.Users.Select(c => new
+                {
+                    c.ID,
+                    InstructorId = c.Instructor.ID
+                }).FirstOrDefaultAsync(c => c.ID == authId);
+
+                if(user == null)
+                {
+                    return NotFound();
+                }
+
+                switch (manageType)
+                {
+                    case InstructorsManageContentType.Courses:
+                        query = _context.InstructorCourses.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => new
+                        {
+                            c.ID,
+                            c.InstructorId,
+                            InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                            c.Instructor.User.ProfilePictureUrl,
+                            c.Image,
+                            c.Name,
+                            c.Description,
+                            c.CategoryId,
+                            c.Instructor,
+                            EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
+                            c.CreatedAt,
+                        });
+                        break;
+                    case InstructorsManageContentType.Students:
+                        query = _context.InstructorStudents.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.ID).Select(c => c.User).Distinct()
+                            .Select(u => new
+                            {
+                                Name = u.Firstname + " " + u.Lastname,
+                                u.ProfilePictureUrl,
+                                u.Email,
+                                u.Username,
+                                OtherInformation = new
+                                {
+                                    Birthday = u.UserInformations != null ? u.UserInformations.Birthday : null,
+                                    Profession = u.UserInformations != null ? u.UserInformations.Profession : null,
+                                },
+                            });
+                        break;
+                    case InstructorsManageContentType.Meetings:
+                        query = _context.OnlineMeetings.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.ID).Select(c => new
+                        {
+
+                        });
+                        break;
+                    default:
+                        break;
+                }
+
+                if(query == null || query.Count() == 0)
+                {
+                    return NotFound(new {Message = "No data found"});
+                }
+
+                var returnValue = await query.ToListAsync();
+
+                return Ok(returnValue);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting data");
                 return BadRequest();
             }
         }

@@ -24,10 +24,10 @@ namespace Database.Models
         public MeetingStatus Status { get; set; }
 
         [ForeignKey("CourseId")]
-        public InstructorCourses Course { get; set; }
+        public InstructorCourses? Course { get; set; }
 
         [ForeignKey("LessonId")]
-        public InstructorLessons Lesson { get; set; }
+        public InstructorLessons? Lesson { get; set; }
 
         [ForeignKey("InstructorId")]
         public Instructors Instructor { get; set; }
