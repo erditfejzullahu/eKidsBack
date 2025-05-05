@@ -469,18 +469,22 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                IQueryable<object> query = null;
 
-                var user = await _context.Users.Select(c => new
-                {
-                    c.ID,
-                    InstructorId = c.Instructor.ID
-                }).FirstOrDefaultAsync(c => c.ID == authId);
+                var user = await _context.Users
+                    .Where(u => u.ID == authId)
+                    .Select(u => new
+                    {
+                        u.ID,
+                        InstructorId = u.Instructor.ID
+                    })
+                    .FirstOrDefaultAsync();
 
-                if(user == null)
+                if (user == null)
                 {
                     return NotFound();
                 }
+
+                IQueryable<object> query = null;
 
                 switch (manageType)
                 {
@@ -501,7 +505,7 @@ namespace eKids.Controllers
                         });
                         break;
                     case InstructorsManageContentType.Students:
-                        query = _context.InstructorStudents.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.ID).Select(c => c.User).Distinct()
+                        query = _context.InstructorStudents.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => c.User).Distinct()
                             .Select(u => new
                             {
                                 Name = u.Firstname + " " + u.Lastname,
@@ -516,13 +520,22 @@ namespace eKids.Controllers
                             });
                         break;
                     case InstructorsManageContentType.Meetings:
-                        query = _context.OnlineMeetings.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.ID).Select(c => new
+                        query = _context.OnlineMeetings.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => new
                         {
-
+                            Course = c.Course ?? null,
+                            Lesson = c.Lesson ?? null,
+                            c.Title,
+                            c.Description,
+                            c.MeetingUrl,
+                            c.ScheduleDateTime,
+                            DurationTime = c.DurationTime ?? null,
+                            c.Status,
+                            Participants = c.OnlineMeetingsParticipants.Count(),
+                            c.CreatedAt
                         });
                         break;
                     default:
-                        break;
+                        return NotFound("Invalid content type specified");
                 }
 
                 if(query == null || query.Count() == 0)
