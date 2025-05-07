@@ -24,7 +24,7 @@ namespace eKids.Controllers
             _context = context;
         }
 
-
+        //kur te kryhet meetingu butoni finish a najsen duhet mu thirr qeky api
         [Authorize(Roles = "Instructor")]
         [HttpPatch("MeetingCompletedFromInstructor")]
         public async Task<IActionResult> MeetingCompletedFromInstructorAsync([FromQuery] int meetingId, CancellationToken token)
@@ -117,6 +117,7 @@ namespace eKids.Controllers
             }
         }
 
+        //kur te hin ne miting duhet mu thirr qiky
         [Authorize]
         [HttpPatch("StartMeeting")]
         public async Task<IActionResult> StartMeetingAsync([FromQuery] int meetingId)
@@ -151,6 +152,7 @@ namespace eKids.Controllers
             }
         }
 
+        //qiky thirret ne server te callit ne express
         [Authorize]
         [HttpGet("GetParticipantData")]
         public async Task<IActionResult> GetParticipantData([FromQuery] string roomUrl)
@@ -189,6 +191,7 @@ namespace eKids.Controllers
             }
         }
 
+        // ky thirret ne nextjs per check
         [HttpGet("GetMeetingInformations/{meetingUrl}")]
         public async Task<IActionResult> GetMeetingInformations(string meetingUrl)
         {
@@ -226,6 +229,7 @@ namespace eKids.Controllers
             }
         }
 
+        //check per me lan a jo dueht me kqyr
         [Authorize]
         [HttpGet("GetAllowedParticipants/{onlineMeetUrl}")]
         public async Task<IActionResult> GetAllowedParticipants(string onlineMeetUrl)
@@ -251,6 +255,8 @@ namespace eKids.Controllers
             return Ok(new { Message = "You are allowed in this meeting" });
         }
 
+
+        //remove student from meeting ???? logic
         [HttpPost("RemoveStudent")]
         public async Task<IActionResult> RemoveStudentFromMeeting([FromBody] RemoveStudentDto removeDto, CancellationToken token)
         {
@@ -321,6 +327,8 @@ namespace eKids.Controllers
             }
         }
 
+
+        //me ndrru meeting statusin ?? duhet mu hek nashta ky api
         [HttpPatch("MeetingStatus")]
         public async Task<IActionResult> ChangeMeetingStatus([FromBody] ChangeMeetingStatusDto meetingStatusDto, CancellationToken token)
         {
@@ -348,6 +356,7 @@ namespace eKids.Controllers
             }
         }
 
+        //do fixa qitu
         [HttpGet("AllMeetingsAttendedByStudentId")] //merri krejt kurset ku un jom student tek qai instruktor logic
         public async Task<IActionResult> GetAllMeetingsAttendedByStudentId([FromQuery] int userId)
         {
@@ -405,45 +414,45 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("AllMeetings")]
         public async Task<IActionResult> GetAllMeetings()
         {
             try
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int userAuthed))
+                {
+                    return Unauthorized();
+                }
+
+                var user = await _context.Users.Where(c => c.ID == userAuthed).Select(c => new { c.ID }).FirstOrDefaultAsync();
+                if(user == null)
+                {
+                    return NotFound(new {Message = "User not found"});
+                }
+
                 var meetings = await _context.OnlineMeetings
                     .AsNoTracking()
-                    .AsSplitQuery()
                     .Select(c => new
                     {
                         c.ID,
-                        Course = c.Course != null ? new
-                        {
-                            c.Course.ID,
-                            c.Course.Name,
-                            c.Course.Description,
-                            c.Course.TopicsCovered,
-                        } : null,
-                        Lesson = c.Lesson != null ? new
-                        {
-                            c.Lesson.ID,
-                            c.Lesson.Title,
-                            c.Lesson.Content,
-                            c.Lesson.Video_Url
-                        } : null,
+                        Course = c.Course ?? null,
+                        Lesson = c.Lesson ?? null,
                         c.Title,
                         c.Description,
                         c.MeetingUrl,
                         c.ScheduleDateTime,
-                        c.DurationTime,
+                        DurationTime = c.DurationTime ?? null,
+                        c.Status,
+                        Participants = c.OnlineMeetingsParticipants.Count(),
                         Instructor = new
                         {
-                            c.Instructor.ID,
                             Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
-                            c.Instructor.Expertise,
-                            InstructorCourses = c.Instructor.InstructorCourses.Count(),
-                            InstructorStudents = c.Instructor.InstructorStudents.Count(),
+                            c.Instructor.User.ProfilePictureUrl,
+                            c.Instructor.User.Username,
+                            c.Instructor.User.Email
                         },
-                        c.Status,
                         c.CreatedAt
                     })
                     .ToListAsync();

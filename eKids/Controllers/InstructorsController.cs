@@ -498,6 +498,11 @@ namespace eKids.Controllers
                             c.Image,
                             c.Name,
                             c.Description,
+                            c.TopicsCovered,
+                            SectionTitles = c.InstructorCourseSections.Select(ic => ic.Title).ToList(),
+                            SectionLessons = c.InstructorCourseSections
+                                .Select(ic => ic.InstructorLessons.Select(il => il.Title).ToList())
+                                .ToList(),
                             c.CategoryId,
                             c.Instructor,
                             EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
@@ -508,6 +513,7 @@ namespace eKids.Controllers
                         query = _context.InstructorStudents.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => c.User).Distinct()
                             .Select(u => new
                             {
+                                u.ID,
                                 Name = u.Firstname + " " + u.Lastname,
                                 u.ProfilePictureUrl,
                                 u.Email,
@@ -522,6 +528,7 @@ namespace eKids.Controllers
                     case InstructorsManageContentType.Meetings:
                         query = _context.OnlineMeetings.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => new
                         {
+                            c.ID,
                             Course = c.Course ?? null,
                             Lesson = c.Lesson ?? null,
                             c.Title,
@@ -531,6 +538,13 @@ namespace eKids.Controllers
                             DurationTime = c.DurationTime ?? null,
                             c.Status,
                             Participants = c.OnlineMeetingsParticipants.Count(),
+                            Instructor = new
+                            {
+                                Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                                c.Instructor.User.ProfilePictureUrl,
+                                c.Instructor.User.Username,
+                                c.Instructor.User.Email
+                            },
                             c.CreatedAt
                         });
                         break;
