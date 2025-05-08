@@ -10,8 +10,9 @@ namespace Database.Models
     public class StudentCourseLessonProgress
     {
         public int UserId { get; set; }
-        public int OnlineMeetId { get; set; }
         public bool IsCompleted { get; set; }
+        public int CourseId { get; set; }
+        public int LessonId { get; set; }
         public DateTime? JoinedTime { get; set; }
         public bool HasJoined { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -19,7 +20,10 @@ namespace Database.Models
 
         [ForeignKey("UserId")]
         public Users User { get; set; }
-        [ForeignKey("OnlineMeetId")]
-        public OnlineMeetings OnlineMeeting { get; set; }
+        [ForeignKey("CourseId")]
+        public InstructorCourses Courses { get; set; }
+        [ForeignKey("LessonId")]
+        public InstructorLessons Lessons { get; set; }
+        
     }
 }

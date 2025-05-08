@@ -46,7 +46,7 @@ namespace eKids.Controllers
                 }
 
                 var totalStudents = await _context.StudentCourseLessonProgress
-                    .Where(c => c.OnlineMeetId == meeting.ID)
+                    .Where(c => c.LessonId == meeting.LessonId && c.CourseId == meeting.CourseId)
                     .ToListAsync();
 
                 if(totalStudents.Count > 0)
@@ -130,7 +130,18 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
                 var userId = Int32.Parse(user);
-                var progress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.OnlineMeetId == meetingId);
+                var meeting = await _context.OnlineMeetings.FindAsync(meetingId);
+                if(meeting == null)
+                {
+                    return NotFound(new { Message = "No meeting found" });
+                }
+
+                if(!meeting.CourseId.HasValue)
+                {
+                    return Ok(new {Message = "Nuk ka nevoje per evidentim."});
+                }
+
+                var progress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == meeting.CourseId);
                 if(progress == null)
                 {
                     return NotFound(new { Message = "No progress found" });

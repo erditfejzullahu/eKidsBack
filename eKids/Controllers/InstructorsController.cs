@@ -182,7 +182,7 @@ namespace eKids.Controllers
                 var userId = Int32.Parse(user);
 
                 var getStudentAvailable = await _context.InstructorStudents.FirstOrDefaultAsync(c => c.UserId == userId && c.InstructorId == enrollCourse.InstructorId);
-                var getLessonProgress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.OnlineMeetId == enrollCourse.OnlineMeetId);
+                var getLessonProgress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == enrollCourse.CourseId);
 
                 if (getStudentAvailable == null)
                 {
@@ -197,19 +197,34 @@ namespace eKids.Controllers
                 await _context.InstructorStudents.AddAsync(newEnrollment, token);
                 }
 
+                var getCourseLessons = await _context.InstructorCourses
+                    .Where(c => c.ID == enrollCourse.CourseId)
+                    .SelectMany(x => x.InstructorCourseSections)
+                    .SelectMany(d => d.InstructorLessons)
+                    .ToListAsync();
+
+                if(getCourseLessons.Count == 0)
+                {
+                    return BadRequest(new { Message = "Invalid data provided, no lessons found" });
+                }
+
                 if(getLessonProgress == null)
                 {
-                    var newLessonProgress = new StudentCourseLessonProgress
+                    foreach (var lesson in getCourseLessons)
                     {
-                        UserId = userId,
-                        OnlineMeetId = enrollCourse.OnlineMeetId,
-                        HasJoined = false,
-                        IsCompleted = false,
-                        JoinedTime = null,
-                        CreatedAt = DateTime.UtcNow,
-                        LastModified = DateTime.UtcNow
-                    };
-                await _context.StudentCourseLessonProgress.AddAsync(newLessonProgress, token);
+                        var newLessonProgress = new StudentCourseLessonProgress
+                        {
+                            UserId = userId,
+                            CourseId = enrollCourse.CourseId,
+                            LessonId = lesson.ID,
+                            HasJoined = false,
+                            IsCompleted = false,
+                            JoinedTime = null,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow
+                        };
+                    await _context.StudentCourseLessonProgress.AddAsync(newLessonProgress, token);
+                    }
                 }
 
                 await _context.SaveChangesAsync(token);
@@ -404,11 +419,48 @@ namespace eKids.Controllers
                         c.CreatedAt,
                     })
                     .ToListAsync();
+
+                if(courses.Count == 0)
+                {
+                    return NotFound(new { Message = "No courses found" });
+                }
+
                 return Ok(courses);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting instructor courses");
+                return BadRequest();
+            }
+        }
+
+
+        //PROGRESS OF PARTICIPATION IN MEETINGS IN COURSE ENROLLMENTS
+        [Authorize]
+        [HttpGet("GetInstructorsCoursesUserProgress")]
+        public async Task<IActionResult> GetInstructorsCoursesUserProgress()
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int user))
+                {
+                    return Unauthorized();
+                }
+
+                var courseProgresses = await _context.StudentCourseLessonProgress
+                    .Where(c => c.UserId == user)
+                    .Select(c => new
+                    {
+                        
+                    })
+                    .ToListAsync();
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting progress for user courses enrolled");
                 return BadRequest();
             }
         }
