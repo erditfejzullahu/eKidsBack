@@ -450,13 +450,28 @@ namespace eKids.Controllers
 
                 var courseProgresses = await _context.StudentCourseLessonProgress
                     .Where(c => c.UserId == user)
-                    .Select(c => new
+                    .GroupBy(c => c.CourseId)
+                    .Select(g => new
                     {
-                        
+                        Course = new
+                        {
+                            g.First().Courses.ID,
+                            g.First().Courses.InstructorId,
+                            InstructorName = g.First().Courses.Instructor.User.Firstname + " " + g.First().Courses.Instructor.User.Lastname,
+                            g.First().Courses.Instructor.User.ProfilePictureUrl,
+                            g.First().Courses.Image,
+                            g.First().Courses.Name,
+                            g.First().Courses.Description,
+                            g.First().Courses.CategoryId,
+                            EndrolledStudents = g.First().Courses.InstructorStudents.Where(s => s.CourseId == g.First().Courses.ID).Count(),
+                        },
+                        TotalLessons = g.Count(),
+                        CompletedLessons = g.Count(c => c.IsCompleted),
+                        CompletionPercentage = (int)((g.Count(c => c.IsCompleted) * 100.0 / g.Count()))
                     })
                     .ToListAsync();
 
-
+                return Ok(courseProgresses);
             }
             catch (Exception ex)
             {
