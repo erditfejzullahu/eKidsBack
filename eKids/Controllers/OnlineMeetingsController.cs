@@ -48,8 +48,8 @@ namespace eKids.Controllers
                 var totalStudents = await _context.StudentCourseLessonProgress
                     .Where(c => c.LessonId == meeting.LessonId && c.CourseId == meeting.CourseId)
                     .ToListAsync();
-
-                if(totalStudents.Count > 0)
+                
+                if(totalStudents.Count() > 0)
                 {
                     foreach (var student in totalStudents)
                     {

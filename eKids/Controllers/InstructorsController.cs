@@ -480,9 +480,16 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("Course/{id}")]
         public async Task<IActionResult> GetCourse(int id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int userAuthed))
+            {
+                return Unauthorized();
+            }
+
             try
             {
                 var course = await _context.InstructorCourses
@@ -490,15 +497,18 @@ namespace eKids.Controllers
                     .Select(c => new
                     {
                         CourseId = c.ID,
+                        Enrolled = c.InstructorStudents.Any(x => x.UserId == userAuthed && x.CourseId == c.ID),
                         c.InstructorId,
                         CourseName = c.Name,
                         CourseDescription = c.Description,
                         c.TopicsCovered,
+                        c.Image,
                         IntructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
                         InstructorProfilePicture = c.Instructor.User.ProfilePictureUrl,
                         Sections = c.InstructorCourseSections.Select(ic => new
                         {
                             ic.ID,
+                            ic.Title,
                             Lessons = ic.InstructorLessons.Select(il => new
                             {
                                 il.ID,
@@ -509,8 +519,11 @@ namespace eKids.Controllers
                                 il.LastModified,
                             }).ToList()
                         }).ToList(),
+                        Routes = c.OnlineMeetings.Where(x => x.CourseId == c.ID && 
+                            x.LessonId == c.CourseLessonProgresses.Where(cl => cl.CourseId == c.ID).OrderBy(cl => cl.LessonId).FirstOrDefault(cl => !cl.IsCompleted).LessonId).FirstOrDefault() ?? null,
+                        RouteTo = c.CourseLessonProgresses.Where(d => d.CourseId == c.ID).FirstOrDefault(d => d.IsCompleted == false) ?? null
                     })
-                    .ToListAsync();
+                    .FirstOrDefaultAsync();
                 if(course == null)
                 {
                     return NotFound(new {Message = "No course found"});

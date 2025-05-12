@@ -147,7 +147,7 @@ namespace Database.Context
             //    .HasKey(c => c.UserId);
 
             modelBuilder.Entity<StudentCourseLessonProgress>()
-                .HasKey(c => new { c.UserId, c.OnlineMeetId });
+                .HasKey(c => new { c.UserId, c.CourseId, c.LessonId });
 
             modelBuilder.Entity<InstructorStudents>()
                 .HasKey(c => new { c.UserId, c.CourseId });
@@ -210,10 +210,16 @@ namespace Database.Context
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StudentCourseLessonProgress>()
-                .HasOne(c => c.OnlineMeeting)
-                .WithMany(c => c.StudentCourseLessonProgresses)
-                .HasForeignKey(c => c.OnlineMeetId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(c => c.Courses)
+                .WithMany(c => c.CourseLessonProgresses)
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StudentCourseLessonProgress>()
+                .HasOne(c => c.Lessons)
+                .WithMany(c => c.CourseLessonProgresses)
+                .HasForeignKey(c => c.LessonId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StudentCourseLessonProgress>()
                 .HasOne(c => c.User)
