@@ -197,10 +197,9 @@ namespace eKids.Controllers
                 await _context.InstructorStudents.AddAsync(newEnrollment, token);
                 }
 
-                var getCourseLessons = await _context.InstructorCourses
-                    .Where(c => c.ID == enrollCourse.CourseId)
-                    .SelectMany(x => x.InstructorCourseSections)
-                    .SelectMany(d => d.InstructorLessons)
+                var getCourseLessons = await _context.InstructorCourseSections
+                    .Where(c => c.Course_Id == enrollCourse.CourseId)
+                    .Include(c => c.InstructorLessons)
                     .ToListAsync();
 
                 if(getCourseLessons.Count == 0)
@@ -210,20 +209,23 @@ namespace eKids.Controllers
 
                 if(getLessonProgress == null)
                 {
-                    foreach (var lesson in getCourseLessons)
+                    foreach (var sections in getCourseLessons)
                     {
-                        var newLessonProgress = new StudentCourseLessonProgress
+                        foreach (var lesson in sections.InstructorLessons)
                         {
-                            UserId = userId,
-                            CourseId = enrollCourse.CourseId,
-                            LessonId = lesson.ID,
-                            HasJoined = false,
-                            IsCompleted = false,
-                            JoinedTime = null,
-                            CreatedAt = DateTime.UtcNow,
-                            LastModified = DateTime.UtcNow
-                        };
-                    await _context.StudentCourseLessonProgress.AddAsync(newLessonProgress, token);
+                            var newLessonProgress = new StudentCourseLessonProgress
+                            {
+                                UserId = userId,
+                                CourseId = enrollCourse.CourseId,
+                                LessonId = lesson.ID,
+                                HasJoined = false,
+                                IsCompleted = false,
+                                JoinedTime = null,
+                                CreatedAt = DateTime.UtcNow,
+                                LastModified = DateTime.UtcNow
+                            };
+                            await _context.StudentCourseLessonProgress.AddAsync(newLessonProgress, token);
+                        }
                     }
                 }
 
@@ -497,7 +499,7 @@ namespace eKids.Controllers
                     .Select(c => new
                     {
                         CourseId = c.ID,
-                        Enrolled = c.InstructorStudents.Any(x => x.UserId == userAuthed && x.CourseId == c.ID),
+                        //Enrolled = c.InstructorStudents.Any(x => x.UserId == userAuthed && x.CourseId == c.ID),
                         c.InstructorId,
                         CourseName = c.Name,
                         CourseDescription = c.Description,
