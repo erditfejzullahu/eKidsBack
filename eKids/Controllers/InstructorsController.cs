@@ -519,9 +519,21 @@ namespace eKids.Controllers
                                 il.LastModified,
                             }).ToList()
                         }).ToList(),
-                        Routes = c.OnlineMeetings.Where(x => x.CourseId == c.ID && 
-                            x.LessonId == c.CourseLessonProgresses.Where(cl => cl.CourseId == c.ID).OrderBy(cl => cl.LessonId).FirstOrDefault(cl => !cl.IsCompleted).LessonId).FirstOrDefault() ?? null,
-                        RouteTo = c.CourseLessonProgresses.Where(d => d.CourseId == c.ID).FirstOrDefault(d => d.IsCompleted == false) ?? null
+                        Routes = c.InstructorStudents.Any(x => x.UserId == userAuthed && x.CourseId == c.ID) 
+                        ? new
+                        {
+                            Enrolled = true,
+                            RouteTo = (object)c.OnlineMeetings.Where(x => x.CourseId == c.ID &&
+                            x.LessonId == c.CourseLessonProgresses.Where(cl => cl.CourseId == c.ID && !cl.IsCompleted).OrderBy(cl => cl.LessonId).FirstOrDefault().LessonId).FirstOrDefault(),
+                        } 
+                        : new 
+                        {
+                            Enrolled = false,
+                            RouteTo = (object)c.OnlineMeetings.Where(x => x.CourseId == c.ID).OrderBy(cl => cl.LessonId).FirstOrDefault()
+                        },
+                            //c.OnlineMeetings.Where(x => x.CourseId == c.ID && 
+                            //x.LessonId == c.CourseLessonProgresses.Where(cl => cl.CourseId == c.ID).OrderBy(cl => cl.LessonId).FirstOrDefault(cl => !cl.IsCompleted).LessonId).FirstOrDefault() ?? null,
+                        //RouteTo = c.CourseLessonProgresses.Where(d => d.CourseId == c.ID).FirstOrDefault(d => d.IsCompleted == false) ?? null
                     })
                     .FirstOrDefaultAsync();
                 if(course == null)
