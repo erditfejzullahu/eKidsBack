@@ -467,6 +467,12 @@ namespace eKids.Controllers
                             g.First().Courses.CategoryId,
                             EndrolledStudents = g.First().Courses.InstructorStudents.Where(s => s.CourseId == g.First().Courses.ID).Count(),
                         },
+                        Lessons = g.Select(t => new
+                        {
+                            t.Lessons.ID,
+                            t.Lessons.Title,
+                            t.IsCompleted
+                        }),
                         TotalLessons = g.Count(),
                         CompletedLessons = g.Count(c => c.IsCompleted),
                         CompletionPercentage = (int)((g.Count(c => c.IsCompleted) * 100.0 / g.Count()))
