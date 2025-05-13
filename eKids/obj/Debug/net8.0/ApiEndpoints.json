@@ -1686,6 +1686,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.OnlineMeetingsController",
+    "Method": "GetMeetingMobileInformations",
+    "RelativePath": "api/OnlineMeetings/GetMobileMeetingInformations/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.OnlineMeetingsController",
     "Method": "GetParticipantData",
     "RelativePath": "api/OnlineMeetings/GetParticipantData",
     "HttpMethod": "GET",

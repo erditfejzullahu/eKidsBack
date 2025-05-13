@@ -202,6 +202,59 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("GetMobileMeetingInformations/{id}")]
+        public async Task<IActionResult> GetMeetingMobileInformations(int id)
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var meeting = await _context.OnlineMeetings
+                    .Where(c => c.ID == id)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        Instructor = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                        c.Instructor.User.ProfilePictureUrl,
+                        c.InstructorId,
+                        c.CourseId,
+                        c.Title,
+                        c.Description,
+                        c.ScheduleDateTime,
+                        c.DurationTime,
+                        c.MeetingUrl,
+                        IsAllowed = c.Instructor.InstructorStudents.Any(ins => ins.CourseId == c.CourseId && ins.UserId == userId),
+                        StatusNumber = c.Status,
+                        //Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende" : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar" : "Ka perfunduar",
+                        Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ?  "Nuk ka filluar ende" 
+                            : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar" 
+                            : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                            : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
+                        Course = c.Course != null ? c.Course : null,
+                        Lesson = c.Lesson != null ? c.Lesson : null
+                    })
+                    .FirstOrDefaultAsync();
+
+                if(meeting == null)
+                {
+                    return NotFound(new { Message = "No meeting found" });
+                }
+
+                return Ok(meeting);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting meeting information");
+                return BadRequest();
+            }
+        }
+
         // ky thirret ne nextjs per check
         [HttpGet("GetMeetingInformations/{meetingUrl}")]
         public async Task<IActionResult> GetMeetingInformations(string meetingUrl)
@@ -220,7 +273,11 @@ namespace eKids.Controllers
                         c.Description,
                         c.ScheduleDateTime,
                         c.DurationTime,
-                        Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende" : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar" : "Ka perfunduar",
+                        //Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende" : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar" : "Ka perfunduar",
+                        Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
+                            : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
+                            : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                            : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
                         Course = c.Course != null ? c.Course.Name : null,
                         Lesson = c.Lesson != null ? c.Lesson.Title : null
                     })

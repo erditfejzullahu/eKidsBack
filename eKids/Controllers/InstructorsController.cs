@@ -471,7 +471,8 @@ namespace eKids.Controllers
                         {
                             t.Lessons.ID,
                             t.Lessons.Title,
-                            t.IsCompleted
+                            t.IsCompleted,
+                            RouteTo = g.First().Courses.OnlineMeetings.Where(om => om.LessonId == t.Lessons.ID).FirstOrDefault()
                         }),
                         TotalLessons = g.Count(),
                         CompletedLessons = g.Count(c => c.IsCompleted),
