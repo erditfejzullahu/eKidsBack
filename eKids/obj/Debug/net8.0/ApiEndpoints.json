@@ -1302,12 +1302,38 @@
   },
   {
     "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetAllInstructors",
+    "RelativePath": "api/Instructors/GetAllInstructors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
     "Method": "GetAllCoursesForMeetingAdd",
     "RelativePath": "api/Instructors/GetInstructorCoursesForMeetingAdd",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetInstructorDataById",
+    "RelativePath": "api/Instructors/GetInstructorData/{instructorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

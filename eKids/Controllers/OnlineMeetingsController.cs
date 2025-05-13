@@ -273,6 +273,7 @@ namespace eKids.Controllers
                         c.Description,
                         c.ScheduleDateTime,
                         c.DurationTime,
+                        StatusNumber = c.Status,
                         //Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende" : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar" : "Ka perfunduar",
                         Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
                             : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
@@ -451,7 +452,10 @@ namespace eKids.Controllers
                         } : null,
                         c.ScheduleDateTime,
                         c.DurationTime,
-                        c.Status,
+                        Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
+                            : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
+                            : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                            : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
                         Instructor = new
                         {
                             Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
@@ -512,7 +516,10 @@ namespace eKids.Controllers
                         c.MeetingUrl,
                         c.ScheduleDateTime,
                         DurationTime = c.DurationTime ?? null,
-                        c.Status,
+                        Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
+                            : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
+                            : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                            : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
                         Participants = c.OnlineMeetingsParticipants.Count(),
                         Instructor = new
                         {

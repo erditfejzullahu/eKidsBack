@@ -325,7 +325,7 @@ namespace eKids.Controllers
         }
 
 
-        //fixes bug have to add them into single query
+        //fixes bug have to add them into single query // it is for profile part
         [Authorize(Roles = "Instructor")]
         [HttpGet]
         public async Task<IActionResult> GetInstructorById()
@@ -558,6 +558,125 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Student")]
+        [HttpGet("GetInstructorData/{instructorId}")]
+        public async Task<IActionResult> GetInstructorDataById(int instructorId)
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var instructor = await _context.Instructors
+                    .Where(c => c.ID == instructorId)
+                    .Select(c => new
+                    {
+                        InstructorId = c.ID,
+                        c.UserId,
+                        InstructorName = c.User.Firstname + " " + c.User.Lastname,
+                        c.User.ProfilePictureUrl,
+                        c.User.Email,
+                        c.Expertise,
+                        c.Bio,
+                        InstructorStudents = c.InstructorStudents.Select(std => new
+                        {
+                            std.User.ID,
+                            Name = std.User.Firstname + " " + std.User.Lastname
+                        }).ToList(),
+                        InstructorCourses = c.InstructorCourses.Select(crs => new
+                        {
+                            crs.ID,
+                            crs.InstructorId,
+                            crs.Image,
+                            crs.Name,
+                            crs.Description,
+                            crs.CategoryId,
+                            EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == crs.ID).Count(),
+                            Enrolled = c.InstructorStudents.Any(s => s.UserId == userId),
+                            c.CreatedAt,
+                        }).ToList(),
+                        OnlineMeetings = c.OnlineMeetings.Select(om => new
+                        {
+                            om.ID,
+                            Course = om.Course ?? null,
+                            Lesson = om.Lesson ?? null,
+                            om.Title,
+                            om.Description,
+                            om.MeetingUrl,
+                            om.ScheduleDateTime,
+                            DurationTime = om.DurationTime ?? null,
+                            Status = om.Status == MeetingStatus.Scheduled && om.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
+                            : om.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
+                            : om.Status == MeetingStatus.Scheduled && om.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                            : om.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
+                            Participants = om.OnlineMeetingsParticipants.Count(),
+                            c.CreatedAt
+                        }).ToList(),
+                        IsYourInstructor = c.InstructorStudents.Any(d => d.UserId == userId),
+                        WhenBecameInstructor = c.CreatedAt
+                    })
+                    .FirstOrDefaultAsync();
+
+                if(instructor == null)
+                {
+                    return NotFound(new {Message = "No instructor found or invalid data"});
+                }
+
+                return Ok(instructor);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting instructor data");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetAllInstructors")]
+        public async Task<IActionResult> GetAllInstructors()
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                var instructors = await _context.Instructors
+                    .Select(c => new
+                    {
+                        InstructorId = c.ID,
+                        c.UserId,
+                        InstructorName = c.User.Firstname + " " + c.User.Lastname,
+                        c.User.ProfilePictureUrl,
+                        c.User.Email,
+                        c.Expertise,
+                        c.Bio,
+                        InstructorStudents = c.InstructorStudents.Count(),
+                        InstructorCourses = c.InstructorCourses.Count(),
+                        IsYourInstructor = c.InstructorStudents.Any(d => d.UserId == userId),
+                        WhenBecameInstructor = c.CreatedAt
+                    })
+                    .ToListAsync();
+
+                if(instructors.Count == 0)
+                {
+                    return NotFound(new {Message = "No instructors found"});
+                }
+
+                return Ok(instructors);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all isntructors");
+                return BadRequest();
+            }
+        }
+
         [Authorize(Roles = "Instructor")]
         [HttpGet("GetInstructorManageContentData")]
         public async Task<IActionResult> ManageInstructorData([FromQuery] InstructorsManageContentType manageType)
@@ -637,7 +756,10 @@ namespace eKids.Controllers
                             c.MeetingUrl,
                             c.ScheduleDateTime,
                             DurationTime = c.DurationTime ?? null,
-                            c.Status,
+                            Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
+                            : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
+                            : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                            : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
                             Participants = c.OnlineMeetingsParticipants.Count(),
                             Instructor = new
                             {
