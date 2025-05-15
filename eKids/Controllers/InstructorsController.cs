@@ -181,6 +181,12 @@ namespace eKids.Controllers
 
                 var userId = Int32.Parse(user);
 
+                var ifInstructor = await _context.Instructors.Where(c => c.UserId == userId).FirstOrDefaultAsync();
+                if(ifInstructor != null)
+                {
+                    return Ok(new { Message = "It is instructor, no need for progress" });
+                }
+
                 var getStudentAvailable = await _context.InstructorStudents.FirstOrDefaultAsync(c => c.UserId == userId && c.InstructorId == enrollCourse.InstructorId);
                 var getLessonProgress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == enrollCourse.CourseId);
 
@@ -315,6 +321,26 @@ namespace eKids.Controllers
                     return NotFound(new {Message = "No courses found"});
                 }
 
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting instructor courses");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetInstructorCoursesCreatedById/{instructorId}")]
+        public async Task<IActionResult> GetInstructorCoursesById(int instructorId)
+        {
+            try
+            {
+                var courses = await _context.InstructorCourses.Where(c => c.InstructorId == instructorId).Select(c => new { c.ID, c.Name, c.CategoryId, c.CreatedAt }).ToListAsync();
+                if(courses.Count == 0)
+                {
+                    return NotFound();
+                }
                 return Ok(courses);
             }
             catch (Exception ex)
@@ -584,7 +610,10 @@ namespace eKids.Controllers
                         InstructorStudents = c.InstructorStudents.Select(std => new
                         {
                             std.User.ID,
-                            Name = std.User.Firstname + " " + std.User.Lastname
+                            Name = std.User.Firstname + " " + std.User.Lastname,
+                            std.User.ProfilePictureUrl,
+                            std.User.Username,
+                            std.User.Email
                         }).ToList(),
                         InstructorCourses = c.InstructorCourses.Select(crs => new
                         {

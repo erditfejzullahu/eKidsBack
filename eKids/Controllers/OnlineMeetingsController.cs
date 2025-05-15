@@ -166,7 +166,7 @@ namespace eKids.Controllers
         //qiky thirret ne server te callit ne express
         [Authorize]
         [HttpGet("GetParticipantData")]
-        public async Task<IActionResult> GetParticipantData([FromQuery] string roomUrl)
+        public async Task<IActionResult> GetParticipantData()
         {
             try
             {
@@ -303,25 +303,35 @@ namespace eKids.Controllers
         [HttpGet("GetAllowedParticipants/{onlineMeetUrl}")]
         public async Task<IActionResult> GetAllowedParticipants(string onlineMeetUrl)
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub);
-            if(userIdClaim == null)
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(string.IsNullOrEmpty(userIdClaim) || !Int32.TryParse(userIdClaim, out int userId))
             {
-                return Unauthorized(new {Message = "Not authorized"});
+                return Unauthorized(new { Message = "Not authorized" });
             }
-            var userId = Int32.Parse(userIdClaim.Value);
 
             var onlineMeet = await _context.OnlineMeetings.Where(c => EF.Functions.Contains(c.MeetingUrl, $"\"{onlineMeetUrl}*\"")).FirstOrDefaultAsync();
             if(onlineMeet == null)
             {
                 return BadRequest(new { Message = "No meeting found" });
             }
-            var getAllowedUser = await _context.InstructorStudents.Where(c => c.InstructorId == onlineMeet.InstructorId && c.UserId == userId).FirstOrDefaultAsync();
-            if(getAllowedUser == null)
+            var getAllowedUser = await _context.InstructorStudents
+                .Where(c => c.InstructorId == onlineMeet.InstructorId && c.UserId == userId)
+                .FirstOrDefaultAsync();
+            var ifInstructor = await _context.Instructors.Where(c => c.ID == onlineMeet.InstructorId).FirstOrDefaultAsync();
+            
+            if(getAllowedUser == null && ifInstructor == null)
             {
                 return NotFound(new {Message = "You are not allowed in this meeting"});
+            }else if(getAllowedUser != null && ifInstructor == null)
+            {
+                return Ok(new { Message = "You are allowed in this meeting" });
+            }
+            else if(getAllowedUser == null && ifInstructor != null)
+            {
+                return Ok(new { Message = "You are allowed in this meeting" });
             }
 
-            return Ok(new { Message = "You are allowed in this meeting" });
+            return NotFound(new { Message = "You are not allowed in this meeting" });
         }
 
 

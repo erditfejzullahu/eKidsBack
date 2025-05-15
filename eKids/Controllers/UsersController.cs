@@ -62,6 +62,26 @@ namespace eKids.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
+        [HttpGet("Check-Authorization")]
+        public async Task<IActionResult> CheckAuthorization()
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                return Ok(new {Message = "Authorized"});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error no authorization");
+                return BadRequest();
+            }
+        }
+
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> PasswordForgot([FromBody] string email)

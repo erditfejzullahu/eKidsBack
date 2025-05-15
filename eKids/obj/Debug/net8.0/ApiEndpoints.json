@@ -1312,6 +1312,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetInstructorCoursesById",
+    "RelativePath": "api/Instructors/GetInstructorCoursesCreatedById/{instructorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
     "Method": "GetAllCoursesForMeetingAdd",
     "RelativePath": "api/Instructors/GetInstructorCoursesForMeetingAdd",
     "HttpMethod": "GET",
@@ -1733,13 +1749,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "roomUrl",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -2850,6 +2860,16 @@
     "ContainingType": "eKids.Controllers.UsersController",
     "Method": "GetAllUsers",
     "RelativePath": "api/Users/allUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "CheckAuthorization",
+    "RelativePath": "api/Users/Check-Authorization",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
