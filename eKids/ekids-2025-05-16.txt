@@ -1,0 +1,187 @@
+2025-05-16 00:42:23.7712 | Error | BackgroundService failed | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 12, serverEndpoint: 192.168.1.12:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=18735,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-05-16 00:42:23.7767 | Fatal | The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted. | StackExchange.Redis.RedisTimeoutException: Timeout performing SCAN (5000ms), inst: 0, qu: 1, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 12, serverEndpoint: 192.168.1.12:6379, conn-sec: n/a, aoc: 1, mc: 1/1/0, mgr: 10 of 10 available, clientName: DESKTOP-9H1HBBQ(SE.Redis-v2.8.16.12844), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=4,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=18735,Timers=6), v: 2.8.16.12844 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.ThrowTimeout(Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 249
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.Wait[TResult](Task`1 pending, Message message) in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 202
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.SlowNextSync() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 197
+   at StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext() in /_/src/StackExchange.Redis/CursorEnumerable.cs:line 191
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 46
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2025-05-16 00:47:09.0515 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-05-16 00:47:10.6804 | Error | None of the specified endpoints were reachable | 
+2025-05-16 00:47:16.8478 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-05-16 00:53:27.1698 | Error | An unhandled exception has occurred while executing the request. | Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+eKids.Controllers.OnlineMeetingsController.GetParticipantData (eKids)
+eKids.Controllers.OnlineMeetingsController.GetParticipantData (eKids)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(Span`1 candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, Span`1 candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, Span`1 candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-05-16 00:53:27.1951 | Error | An unhandled exception has occurred while executing the request. | Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+eKids.Controllers.OnlineMeetingsController.GetParticipantData (eKids)
+eKids.Controllers.OnlineMeetingsController.GetParticipantData (eKids)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(Span`1 candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, Span`1 candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, Span`1 candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-05-16 00:54:29.1757 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-05-16 00:54:30.6446 | Error | None of the specified endpoints were reachable | 
+2025-05-16 00:55:55.2365 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-05-16 00:58:37.9973 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-05-16 00:58:39.3762 | Error | None of the specified endpoints were reachable | 
+2025-05-16 00:59:23.1865 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-05-16 00:59:46.2164 | Error | USER  | 
+2025-05-16 00:59:46.2164 | Info | Not connected | 
+2025-05-16 00:59:46.4752 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 00:59:46.5095 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-05-16 00:59:53.7338 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-05-16 00:59:54.9081 | Error | USER  | 
+2025-05-16 00:59:54.9081 | Info | Not connected | 
+2025-05-16 00:59:55.2709 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 00:59:55.3156 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-05-16 00:59:59.5714 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-05-16 01:13:38.5342 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-05-16 01:13:39.7639 | Error | None of the specified endpoints were reachable | 
+2025-05-16 01:13:41.3837 | Error | USER  | 
+2025-05-16 01:13:41.3880 | Info | Not connected | 
+2025-05-16 01:13:46.2516 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 01:13:46.3497 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-05-16 01:16:10.0834 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-05-16 01:26:17.1044 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-05-16 01:26:18.2822 | Error | USER  | 
+2025-05-16 01:26:18.2822 | Info | Not connected | 
+2025-05-16 01:26:18.5658 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 01:26:18.6257 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-05-16 01:38:24.6225 | Error | USER  | 
+2025-05-16 01:38:24.6496 | Info | Not connected | 
+2025-05-16 01:38:24.9185 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 01:38:24.9693 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-05-16 01:46:30.8377 | Error | USER  | 
+2025-05-16 01:46:30.8377 | Info | Not connected | 
+2025-05-16 01:46:31.2781 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 01:46:31.3339 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-05-16 02:02:56.8042 | Error | USER  | 
+2025-05-16 02:02:56.8042 | Info | Not connected | 
+2025-05-16 02:02:57.0506 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 02:02:57.1018 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-05-16 02:09:46.3572 | Error | USER  | 
+2025-05-16 02:09:46.3668 | Info | Not connected | 
+2025-05-16 02:09:46.8284 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-05-16 02:09:46.9058 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)

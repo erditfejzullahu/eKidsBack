@@ -273,6 +273,7 @@ namespace eKids.Controllers
                         c.Description,
                         c.ScheduleDateTime,
                         c.DurationTime,
+                        Category = c.Course != null ? c.Course.Category.CategoryName : null,
                         StatusNumber = c.Status,
                         //Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende" : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar" : "Ka perfunduar",
                         Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
@@ -317,18 +318,18 @@ namespace eKids.Controllers
             var getAllowedUser = await _context.InstructorStudents
                 .Where(c => c.InstructorId == onlineMeet.InstructorId && c.UserId == userId)
                 .FirstOrDefaultAsync();
-            var ifInstructor = await _context.Instructors.Where(c => c.ID == onlineMeet.InstructorId).FirstOrDefaultAsync();
+            var ifInstructor = await _context.Instructors.Where(c => c.UserId == userId).FirstOrDefaultAsync();
             
             if(getAllowedUser == null && ifInstructor == null)
             {
-                return NotFound(new {Message = "You are not allowed in this meeting"});
+                return NotFound(new {Message = "You are not allowed in this meeting two null"});
             }else if(getAllowedUser != null && ifInstructor == null)
             {
-                return Ok(new { Message = "You are allowed in this meeting" });
+                return Ok(new { Message = "You are allowed in this meeting STUDENT" });
             }
             else if(getAllowedUser == null && ifInstructor != null)
             {
-                return Ok(new { Message = "You are allowed in this meeting" });
+                return Ok(new { Message = "You are allowed in this meeting INSTRUCTOR" });
             }
 
             return NotFound(new { Message = "You are not allowed in this meeting" });
