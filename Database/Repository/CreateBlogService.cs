@@ -310,7 +310,7 @@ namespace Database.Repository
                     .ThenInclude(c => c.Children)
                     .Include(c => c.User)
                     .Include(c => c.BlogLikes)
-                    .Where(c => c.UserId == userId && (c.TagId == tagId || c.Tag.Children.Any(c => c.ID == tagId)))
+                    .Where(c => c.UserId == userId && (c.TagId == tagId || c.Tag.Children.Any(c => c.ID == tagId)) && c.Status == BlogStatus.Public)
                     .OrderByDescending(c => c.CreatedAt)
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
@@ -363,6 +363,10 @@ namespace Database.Repository
                 if (retrivalType == BlogDiscussionRetrivalType.ProfileSection)
                 {
                     query = query.Where(c => c.UserId == userId);
+                }
+                else
+                {
+                    query = query.Where(c => c.Status == BlogStatus.Public);
                 }
 
                 var blogsCount = await query.CountAsync(token);
