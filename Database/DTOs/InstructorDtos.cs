@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Database.DTOs
         public string? Image { get; set; }
         [Required]
         public string Description { get; set; }
+        [Required]
+        public InstructorCoursesLevels Level { get; set; }
         [Required]
         [MinLength(1)]
         public List<string> TopicsCovered { get; set; } = new List<string>();

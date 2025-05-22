@@ -123,6 +123,7 @@ namespace eKids.Controllers
                     Description = courseDto.Description,
                     CategoryId = courseDto.CategoryId,
                     TopicsCovered = topics,
+                    Level = courseDto.Level,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     InstructorCourseSections = new List<InstructorCourseSections>()
@@ -439,6 +440,7 @@ namespace eKids.Controllers
                         c.Instructor.User.ProfilePictureUrl,
                         c.Image,
                         c.Name,
+                        c.Level,
                         c.Description,
                         c.CategoryId,
                         c.Instructor,
@@ -488,6 +490,7 @@ namespace eKids.Controllers
                             InstructorName = g.First().Courses.Instructor.User.Firstname + " " + g.First().Courses.Instructor.User.Lastname,
                             g.First().Courses.Instructor.User.ProfilePictureUrl,
                             g.First().Courses.Image,
+                            g.First().Courses.Level,
                             g.First().Courses.Name,
                             g.First().Courses.Description,
                             g.First().Courses.CategoryId,
@@ -537,6 +540,7 @@ namespace eKids.Controllers
                         CourseName = c.Name,
                         CourseDescription = c.Description,
                         c.TopicsCovered,
+                        c.Level,
                         c.Image,
                         IntructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
                         InstructorProfilePicture = c.Instructor.User.ProfilePictureUrl,
@@ -606,6 +610,7 @@ namespace eKids.Controllers
                         c.User.ProfilePictureUrl,
                         c.User.Email,
                         c.Expertise,
+                        InstructorUsername = c.User.Username,
                         c.Bio,
                         InstructorStudents = c.InstructorStudents.Select(std => new
                         {
@@ -621,6 +626,7 @@ namespace eKids.Controllers
                             crs.InstructorId,
                             crs.Image,
                             crs.Name,
+                            crs.Level,
                             crs.Description,
                             crs.CategoryId,
                             EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == crs.ID).Count(),
@@ -747,6 +753,7 @@ namespace eKids.Controllers
                             c.Image,
                             c.Name,
                             c.Description,
+                            c.Level,
                             c.TopicsCovered,
                             SectionTitles = c.InstructorCourseSections.Select(ic => ic.Title).ToList(),
                             SectionLessons = c.InstructorCourseSections

@@ -47,6 +47,7 @@ namespace eKids.Controllers
                     QuizDescription = quizDto.QuizDescription,
                     UserId = quizDto.UserId,
                     QuizCategory = quizDto.QuizCategory,
+                    ViewCount = 0,
                     CreatedAt = DateTime.Now,
                     LastModified = DateTime.Now
                 };
