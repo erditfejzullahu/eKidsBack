@@ -1,89 +1,80 @@
 ﻿using Database.DTOs;
-using Database.Models;
+using Database.Repository;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Database.Repository
+public class SorterService<T> : ISorterService<T> where T : class
 {
-    public class SorterService<T> : ISorterService<T> where T : class
+    private readonly ILogger<SorterService<T>> _logger;
+
+    public SorterService(ILogger<SorterService<T>> logger)
     {
-        private readonly ILogger<SorterService<T>> _logger;
-        public SorterService(ILogger<SorterService<T>> logger)
+        _logger = logger;
+    }
+
+    public IQueryable<T> SortData(IQueryable<T> query, SortQueryDto queryDto)
+    {
+        if (queryDto == null || query == null)
+            return query;
+
+        try
         {
-            _logger = logger;
-        }
-        public IQueryable<T> SortData(IQueryable<T> query, SortQueryDto queryDto)
-        {
-            if (queryDto == null) return query;
-
-            IOrderedQueryable<T>? orderedQuery = null;
-
-            var sortFields = new List<(string? SortBy, string? SortOrder)>()
+            // Handle each sort field in priority order
+            if (!string.IsNullOrEmpty(queryDto.SortByName))
             {
-                (queryDto.SortByName, queryDto.SortNameOrder),
-                (queryDto.SortByDate, queryDto.SortDateOrder),
-                (queryDto.SortByViews, queryDto.SortViewOrder)
-            };
+                query = ApplySort(query, queryDto.SortByName, queryDto.SortNameOrder);
+            }
 
-            foreach (var (sortBy, sortOrder) in sortFields)
+            if (!string.IsNullOrEmpty(queryDto.SortByDate))
             {
-                if (!string.IsNullOrEmpty(sortBy))
-                {
+                query = ApplySort(query, queryDto.SortByDate, queryDto.SortDateOrder);
+            }
 
-                    var propertyInfo = typeof(T).GetProperty(sortBy,
-                            System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-
-                    if (propertyInfo != null)
-                    {
-                        var parameter = Expression.Parameter(typeof(T), "x");
-                        var property = Expression.Property(parameter, sortBy);
-                        var keySelector = Expression.Lambda(property, parameter);
-
-                        var methodName = sortOrder?.ToLower() == "desc" ? "OrderByDescending" : "OrderBy";
-
-                        _logger.LogInformation("Sorting by: {SortBy}, Order: {SortOrder}", sortBy, sortOrder);
-
-                        if (orderedQuery == null)
-                        {
-                            orderedQuery = query.Provider.CreateQuery<T>(
-                                Expression.Call(
-                                    typeof(Queryable),
-                                    methodName,
-                                    new Type[] { typeof(T), property.Type },
-                                    query.Expression,
-                                    Expression.Quote(keySelector)
-                                    )
-                                ) as IOrderedQueryable<T>;
-                        }
-                        else
-                        {
-                            var thenMethodName = sortOrder?.ToLower() == "desc" ? "ThenByDescending" : "ThenBy";
-
-                            orderedQuery = query.Provider.CreateQuery<T>(
-                                Expression.Call(
-                                    typeof(Queryable),
-                                    "ThenBy",
-                                    new Type[] { typeof(T), property.Type },
-                                    query.Expression,
-                                    Expression.Quote(keySelector)
-                                    )
-                                ) as IOrderedQueryable<T>;
-                        }
-
-                    }
-
-                    return orderedQuery ?? query;
-
-                }
+            if (!string.IsNullOrEmpty(queryDto.SortByViews))
+            {
+                query = ApplySort(query, queryDto.SortByViews, queryDto.SortViewOrder);
             }
 
             return query;
-
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error sorting data");
+            return query; // Return original query if sorting fails
+        }
+    }
+
+    private IQueryable<T> ApplySort(IQueryable<T> query, string propertyName, string sortOrder)
+    {
+        if (string.IsNullOrEmpty(propertyName))
+            return query;
+
+        var propertyInfo = typeof(T).GetProperty(propertyName,
+            System.Reflection.BindingFlags.IgnoreCase |
+            System.Reflection.BindingFlags.Public |
+            System.Reflection.BindingFlags.Instance);
+
+        if (propertyInfo == null)
+        {
+            _logger.LogWarning("Property {PropertyName} not found for sorting", propertyName);
+            return query;
+        }
+
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var property = Expression.Property(parameter, propertyInfo);
+        var keySelector = Expression.Lambda(property, parameter);
+
+        var methodName = string.Equals(sortOrder, "desc", StringComparison.OrdinalIgnoreCase)
+            ? "OrderByDescending"
+            : "OrderBy";
+
+        var resultExpression = Expression.Call(
+            typeof(Queryable),
+            methodName,
+            new Type[] { typeof(T), propertyInfo.PropertyType },
+            query.Expression,
+            Expression.Quote(keySelector));
+
+        return query.Provider.CreateQuery<T>(resultExpression);
     }
 }

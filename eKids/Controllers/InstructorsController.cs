@@ -19,11 +19,13 @@ namespace eKids.Controllers
         private readonly ILogger<InstructorsController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IFileUploadService _fileUploadService;
-        public InstructorsController(IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
+        private readonly ISorterService<InstructorCourses> _sortIntructorCourses;
+        public InstructorsController(ISorterService<InstructorCourses> sortInstructorCourses, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
             _fileUploadService = fileUploadService;
+            _sortIntructorCourses = sortInstructorCourses;
         }
 
         [HttpPost("BecomeInstructor")]
@@ -413,7 +415,7 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet("GetInstructorsCourses")]
-        public async Task<IActionResult> GetInstructorCourses()
+        public async Task<IActionResult> GetInstructorCourses([FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto)
         {
             try
             {
@@ -429,9 +431,15 @@ namespace eKids.Controllers
                     return NotFound();
                 }
 
-                var courses = await _context.InstructorCourses
-                    .AsNoTracking()
+                var countCourses = await _context.InstructorCourses.AsNoTracking().CountAsync();
+                var unSorted = _context.InstructorCourses.AsNoTracking().OrderByDescending(c => c.CreatedAt);
+
+                var sortedQuery = _sortIntructorCourses.SortData(unSorted, sortQueryDto) ?? unSorted;
+
+                var courses = await sortedQuery
                     //.Include(c => c.Instructor).ThenInclude(c => c.User)
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
                     .Select(c => new
                     {
                         c.ID,
@@ -454,8 +462,9 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "No courses found" });
                 }
+                bool hasMore = (paginationDto.Skip + courses.Count) < countCourses;
 
-                return Ok(courses);
+                return Ok(new { courses, hasMore });
             }
             catch (Exception ex)
             {
@@ -671,7 +680,7 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet("GetAllInstructors")]
-        public async Task<IActionResult> GetAllInstructors()
+        public async Task<IActionResult> GetAllInstructors([FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto)
         {
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
@@ -681,7 +690,44 @@ namespace eKids.Controllers
 
             try
             {
-                var instructors = await _context.Instructors
+                var totalCount = await _context.Instructors.AsNoTracking().CountAsync();
+                var unSorted = _context.Instructors.AsNoTracking();
+                if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
+                {
+                    if (string.Equals(sortQueryDto.SortNameOrder, "desc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        unSorted = unSorted.OrderByDescending(c => c.User.Firstname);
+                    }
+                    else if(string.Equals(sortQueryDto.SortNameOrder, "asc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        unSorted = unSorted.OrderBy(c => c.User.Firstname);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(sortQueryDto.SortByDate))
+                {
+                    if(string.Equals(sortQueryDto.SortDateOrder, "desc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        unSorted = unSorted.OrderByDescending(c => c.CreatedAt);
+                    }else if(string.Equals(sortQueryDto.SortDateOrder, "asc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        unSorted = unSorted.OrderBy(c => c.CreatedAt);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(sortQueryDto.SortByViews))
+                {
+                    if(string.Equals(sortQueryDto.SortViewOrder, "desc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        unSorted = unSorted.OrderByDescending(c => c.InstructorCourses.Count());
+                    }
+                    else if(string.Equals(sortQueryDto.SortViewOrder, "asc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        unSorted = unSorted.OrderBy(c => c.InstructorCourses.Count());
+                    }
+                }
+
+                var instructors = await unSorted
                     .Select(c => new
                     {
                         InstructorId = c.ID,
@@ -702,8 +748,8 @@ namespace eKids.Controllers
                 {
                     return NotFound(new {Message = "No instructors found"});
                 }
-
-                return Ok(instructors);
+                bool hasMore = (paginationDto.Skip + instructors.Count) < totalCount;
+                return Ok(new { instructors, hasMore });
             }
             catch (Exception ex)
             {

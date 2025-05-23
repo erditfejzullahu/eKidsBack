@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Database.Repository;
 using Database.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,11 +18,13 @@ namespace eKids.Controllers
     {
         private readonly ILogger<OnlineMeetingsController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly ISorterService<OnlineMeetings> _sorterService;
 
-        public OnlineMeetingsController(ILogger<OnlineMeetingsController> logger, ApplicationDbContext context)
+        public OnlineMeetingsController(ILogger<OnlineMeetingsController> logger, ApplicationDbContext context, ISorterService<OnlineMeetings> sorterSevice)
         {
             _logger = logger;
             _context = context;
+            _sorterService = sorterSevice;
         }
 
         //kur te kryhet meetingu butoni finish a najsen duhet mu thirr qeky api
