@@ -270,11 +270,11 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Blogs/GetAllBlogsByTag/{userId}/{tagId}")]
-        public async Task<IActionResult> GetAllBlogsByTag(int tagId, int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllBlogsByTag(int tagId, int userId, [FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendsBlogsOrAll, CancellationToken token)
         {
             try
             {
-                var blogs = await _createBlogService.AllBlogByTagRetrieve(userId, tagId, paginationDto, token);
+                var blogs = await _createBlogService.AllBlogByTagRetrieve(userId, tagId, paginationDto, token, friendsBlogsOrAll);
 
                 if(blogs.blogs.Count == 0)
                 {
@@ -296,7 +296,7 @@ namespace eKids.Controllers
             try
             {
                 paginationDto.Validate();
-                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token, BlogDiscussionRetrivalType.ProfileSection);
+                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token, BlogDiscussionRetrivalType.ProfileSection, GetFriendBlogsOrAll.All);
                 if(blogs.blogs.Count == 0)
                 {
                     return NotFound(new { Message = "No blogs found" });
@@ -311,12 +311,12 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Blogs/GetAllBlogs/{userId}")]
-        public async Task<IActionResult> GetAllBlogs(int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllBlogs(int userId, [FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendOrAll, CancellationToken token)
         {
             try
             {
                 paginationDto.Validate();
-                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token);
+                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token, BlogDiscussionRetrivalType.AllSection, friendOrAll);
 
                 if(blogs.blogs.Count == 0)
                 {

@@ -299,18 +299,32 @@ namespace Database.Repository
                 throw new ApplicationException("Error in getting blog post");
             }
         }
-        public async Task<(List<BlogRetrieveDto> blogs, bool hasMore)> AllBlogByTagRetrieve(int userId, int tagId, PaginationDto paginationDto, CancellationToken token)
+        public async Task<(List<BlogRetrieveDto> blogs, bool hasMore)> AllBlogByTagRetrieve(int userId, int tagId, PaginationDto paginationDto, CancellationToken token, GetFriendBlogsOrAll getFriendBlogsOrAll)
         {
             try
             {
                 var blogsCount = await _context.Blogs.CountAsync(token);
-                var blogs = await _context.Blogs
-                    .AsNoTracking()
+                var query = _context.Blogs
                     .Include(c => c.Tag)
                     .ThenInclude(c => c.Children)
                     .Include(c => c.User)
                     .Include(c => c.BlogLikes)
-                    .Where(c => c.UserId == userId && (c.TagId == tagId || c.Tag.Children.Any(c => c.ID == tagId)) && c.Status == BlogStatus.Public)
+                    .Where(c => c.TagId == tagId || c.Tag.Children.Any(c => c.ID == tagId))
+                    .AsNoTracking();
+
+                if(getFriendBlogsOrAll == GetFriendBlogsOrAll.All)
+                {
+                    query = query.Where(c => c.Status == BlogStatus.Public);
+                }
+                else
+                {
+                    query = query.Where(c =>
+                        c.Status == BlogStatus.Public && c.User.Friends.Any(uf => uf.FriendId == userId)
+                        ||
+                        c.Status == BlogStatus.FriendOnly && c.User.Friends.Any(uf => uf.FriendId == userId));
+                }
+
+                var blogs = await query
                     .OrderByDescending(c => c.CreatedAt)
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
@@ -354,11 +368,11 @@ namespace Database.Repository
                 throw new ApplicationException("Error in retriving blogs by tags");
             }
         }
-        public async Task<(List<BlogRetrieveDto> blogs, bool hasMore)> AllBlogRetrieve(int userId, PaginationDto paginationDto, CancellationToken token, BlogDiscussionRetrivalType retrivalType)
+        public async Task<(List<BlogRetrieveDto> blogs, bool hasMore)> AllBlogRetrieve(int userId, PaginationDto paginationDto, CancellationToken token, BlogDiscussionRetrivalType retrivalType, GetFriendBlogsOrAll getFriendBlogsOrAll)
         {
             try
             {
-                var query = _context.Blogs.AsNoTracking();
+                var query = _context.Blogs.Include(c => c.User).ThenInclude(c => c.Friends).AsNoTracking();
 
                 if (retrivalType == BlogDiscussionRetrivalType.ProfileSection)
                 {
@@ -366,7 +380,17 @@ namespace Database.Repository
                 }
                 else
                 {
-                    query = query.Where(c => c.Status == BlogStatus.Public);
+                    if(getFriendBlogsOrAll == GetFriendBlogsOrAll.All)
+                    {
+                        query = query.Where(c => c.Status == BlogStatus.Public);
+                    }
+                    else
+                    {
+                        query = query.Where(c =>
+                            c.Status == BlogStatus.FriendOnly && c.User.Friends.Any(uf => uf.FriendId == userId)
+                            ||
+                            c.Status == BlogStatus.Public && c.User.Friends.Any(uf => uf.FriendId == userId));
+                    }
                 }
 
                 var blogsCount = await query.CountAsync(token);

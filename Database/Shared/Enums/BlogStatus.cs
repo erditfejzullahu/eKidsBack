@@ -14,4 +14,5 @@ namespace Database.Shared.Enums
         FriendOnly = 3,
         Deleted = 4
     }
+
 }

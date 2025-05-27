@@ -11,4 +11,10 @@ namespace Database.Shared.Enums
         AllSection = 1, //when user navigates for example to all blogs or all discussions
         ProfileSection = 2 //when user navigates to profiles and see what they have created
     }
+
+    public enum GetFriendBlogsOrAll
+    {
+        All = 1,
+        OnlyFriends = 2
+    }
 }
