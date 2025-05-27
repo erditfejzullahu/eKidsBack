@@ -48,11 +48,11 @@ namespace Database.Models
         public int? ViewCount { get; set; }
 
         [ForeignKey("CourseID")]
-        public virtual Courses ?Course { get; set; }
+        public Courses? Course { get; set; }
 
-        public virtual ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
-        public virtual ICollection<UserProgress> LessonProgress { get; set; } = new List<UserProgress>();
-        public virtual ICollection<Conversations> LessonConversations { get; set; } = new List<Conversations>();
+        public ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
+        public ICollection<UserProgress> LessonProgress { get; set; } = new List<UserProgress>();
+        public ICollection<Conversations> LessonConversations { get; set; } = new List<Conversations>();
 
 
         //[Required]

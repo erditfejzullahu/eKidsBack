@@ -31,9 +31,9 @@ namespace Database.Models
         [ForeignKey("UserId")]
         public Users User { get; set; }
 
-        public virtual ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
-        public virtual ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();
+        public ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
+        public ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();
 
-        public virtual ICollection<Conversations> BlogConversations { get; set; } = new List<Conversations>();
+        public ICollection<Conversations> BlogConversations { get; set; } = new List<Conversations>();
     }
 }

@@ -17,6 +17,6 @@ namespace Database.Models
 
         [ForeignKey("QuizId")]
         public Quizzes Quiz { get; set; }
-        public virtual ICollection<QuizAnswers> Answers { get; set; } = new List<QuizAnswers>();
+        public ICollection<QuizAnswers> Answers { get; set; } = new List<QuizAnswers>();
     }
 }

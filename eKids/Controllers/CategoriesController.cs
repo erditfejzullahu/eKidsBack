@@ -139,7 +139,7 @@ namespace eKids.Controllers
             }
 
             var sortedQuery = _sortService.SortData(query, sortQuery);
-            sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);    
+            sortedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);    
 
             var categories = await sortedQuery.Include(c => c.Courses).ToListAsync(token);
             if(!categories.Any())

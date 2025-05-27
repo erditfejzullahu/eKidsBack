@@ -19,7 +19,7 @@ namespace Database.Models
         [ForeignKey("Section_Id")]
         public InstructorCourseSections InstructorCourseSections { get; set; }
 
-        public virtual ICollection<OnlineMeetings> OnlineMeetings { get; set; } = new List<OnlineMeetings>();
-        public virtual ICollection<StudentCourseLessonProgress> CourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
+        public ICollection<OnlineMeetings> OnlineMeetings { get; set; } = new List<OnlineMeetings>();
+        public ICollection<StudentCourseLessonProgress> CourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
     }
 }

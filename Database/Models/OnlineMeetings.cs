@@ -18,7 +18,7 @@ namespace Database.Models
         public string Description { get; set; }
         public string MeetingUrl { get; set; }
         [Column(TypeName ="datetime")]
-        public virtual DateTime ScheduleDateTime { get; set; }
+        public DateTime ScheduleDateTime { get; set; }
         public int? DurationTime { get; set; }
         public int InstructorId { get; set; }
         public MeetingStatus Status { get; set; }
@@ -32,6 +32,6 @@ namespace Database.Models
         [ForeignKey("InstructorId")]
         public Instructors Instructor { get; set; }
 
-        public virtual ICollection<OnlineMeetingsParticipants> OnlineMeetingsParticipants { get; set; } = new List<OnlineMeetingsParticipants>();
+        public ICollection<OnlineMeetingsParticipants> OnlineMeetingsParticipants { get; set; } = new List<OnlineMeetingsParticipants>();
     }
 }

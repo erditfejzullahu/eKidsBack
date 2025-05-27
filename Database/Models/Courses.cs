@@ -37,12 +37,12 @@ namespace Database.Models
         public Users User { get; set; }
 
         [ForeignKey("CourseCategory")]
-        public virtual Categories Category { get; set; }
+        public Categories Category { get; set; }
 
-        public virtual ICollection<Lessons> Lessons { get; set; } = new List<Lessons>();
-        public virtual ICollection<CourseCompleted> CourseCompleted { get; set; } = new List<CourseCompleted>();
-        public virtual ICollection<UserProgress> CoursesProgress { get; set; } = new List<UserProgress>();
-        public virtual ICollection<Conversations> CourseConversations { get; set; } = new List<Conversations>();
+        public ICollection<Lessons> Lessons { get; set; } = new List<Lessons>();
+        public ICollection<CourseCompleted> CourseCompleted { get; set; } = new List<CourseCompleted>();
+        public ICollection<UserProgress> CoursesProgress { get; set; } = new List<UserProgress>();
+        public ICollection<Conversations> CourseConversations { get; set; } = new List<Conversations>();
 
         //public virtual ICollection<Bookmarks> Bookmarks { get; set; } = new List<Bookmarks>();
 

@@ -20,8 +20,8 @@ namespace Database.Models
         [ForeignKey("UserId")]
         public Users User { get; set; }
 
-        public virtual ICollection<UserJobs> UserJobs { get; set; } = new List<UserJobs>();
-        public virtual ICollection<UserEducations> UserEducations { get; set; } = new List<UserEducations>();
+        public ICollection<UserJobs> UserJobs { get; set; } = new List<UserJobs>();
+        public ICollection<UserEducations> UserEducations { get; set; } = new List<UserEducations>();
 
     }
 }

@@ -27,9 +27,9 @@ namespace Database.Models
         [ForeignKey("UserId")]
         public Users User { get; set; }
 
-        public virtual ICollection<QuizQuestions> Questions { get; set; } = new List<QuizQuestions>();
-        public virtual ICollection<QuizzesCompleted> QuizzesCompleted { get; set; } = new List<QuizzesCompleted>();
-        public virtual ICollection<Conversations> QuizConversations { get; set; } = new List<Conversations>();
+        public ICollection<QuizQuestions> Questions { get; set; } = new List<QuizQuestions>();
+        public ICollection<QuizzesCompleted> QuizzesCompleted { get; set; } = new List<QuizzesCompleted>();
+        public ICollection<Conversations> QuizConversations { get; set; } = new List<Conversations>();
 
     }
 }

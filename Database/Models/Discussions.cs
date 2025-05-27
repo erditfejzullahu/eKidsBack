@@ -30,9 +30,9 @@ namespace Database.Models
         [ForeignKey("UserId")]
         public Users User { get; set; }
 
-        public virtual List<DiscussionsWithTags> DiscussionWithTags { get; set; } = new List<DiscussionsWithTags>();
-        public virtual List<DiscussionAnswers> DiscussionAnswers { get; set; } = new List<DiscussionAnswers>();
-        public virtual List<DiscussionVotes> DiscussionVotes { get; set; } = new List<DiscussionVotes>();
-        public virtual List<Conversations> DiscussionConversations { get; set; } = new List<Conversations>();
+        public List<DiscussionsWithTags> DiscussionWithTags { get; set; } = new List<DiscussionsWithTags>();
+        public List<DiscussionAnswers> DiscussionAnswers { get; set; } = new List<DiscussionAnswers>();
+        public List<DiscussionVotes> DiscussionVotes { get; set; } = new List<DiscussionVotes>();
+        public List<Conversations> DiscussionConversations { get; set; } = new List<Conversations>();
     }
 }

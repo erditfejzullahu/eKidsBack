@@ -21,9 +21,9 @@ namespace Database.Models
         public int CommentID  { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual Users Users { get; set; }
+        public Users Users { get; set; }
 
         [ForeignKey("CommentID")]
-        public virtual Comments Comments { get; set; }
+        public Comments Comments { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace Database.Models
 
         [ForeignKey("UserID")]
         [JsonIgnore]
-        public virtual Users User { get; set; }
+        public Users User { get; set; }
 
         [NotMapped]
         [JsonIgnore]

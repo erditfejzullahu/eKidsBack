@@ -27,6 +27,6 @@ namespace Database.Models
 
         public ICollection<DiscussionAnswers> Replies { get; set; }
 
-        public virtual ICollection<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; }
+        public ICollection<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; }
     }
 }

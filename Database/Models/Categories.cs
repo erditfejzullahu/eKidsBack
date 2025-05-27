@@ -19,9 +19,9 @@ namespace Database.Models
         public string CategorySlug { get; set; }
         public string CategoryPictureUrl { get; set; }
         public int? ViewCount { get; set; }
-        public virtual ICollection<Courses> Courses { get; set; } = new List<Courses>();
-        public virtual ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
-        public virtual ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
-        public virtual ICollection<InstructorCourses> InstructorCourses { get; set; } = new List<InstructorCourses>();
+        public ICollection<Courses> Courses { get; set; } = new List<Courses>();
+        public ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
+        public ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
+        public ICollection<InstructorCourses> InstructorCourses { get; set; } = new List<InstructorCourses>();
     }
 }

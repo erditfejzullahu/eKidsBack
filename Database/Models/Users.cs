@@ -38,70 +38,70 @@ namespace Database.Models
         public string Role { get; set; }
 
         [JsonProperty("UserMeta")]
-        public virtual ICollection<Usermeta> UserMeta { get; set; }
+        public ICollection<Usermeta> UserMeta { get; set; }
 
 
-        public virtual ICollection<Comments> Comments { get; set; }
+        public ICollection<Comments> Comments { get; set; }
 
         [JsonProperty("PaymentInfo")]
-        public virtual ICollection<Payments> Payments { get; set; } = new List<Payments>();
+        public ICollection<Payments> Payments { get; set; } = new List<Payments>();
 
         [Required]
         public int Age { get; set; }
 
         public string ProfilePictureUrl { get; set; }
 
-        public virtual ICollection<CommentLikes> CommentLikes { get; set; } = new List<CommentLikes>();
-        public virtual ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
-        public virtual ICollection<CourseCompleted> CourseCompleted { get; set; } = new List<CourseCompleted>();
-        public virtual ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
-        public virtual ICollection<QuizzesCompleted> QuizzesCompleted { get; set; } = new List<QuizzesCompleted>();
+        public ICollection<CommentLikes> CommentLikes { get; set; } = new List<CommentLikes>();
+        public ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
+        public ICollection<CourseCompleted> CourseCompleted { get; set; } = new List<CourseCompleted>();
+        public ICollection<Quizzes> Quizzes { get; set; } = new List<Quizzes>();
+        public ICollection<QuizzesCompleted> QuizzesCompleted { get; set; } = new List<QuizzesCompleted>();
 
 
-        public virtual ICollection<Conversations> SentMessages { get; set; } = new List<Conversations>();
-        public virtual ICollection<Conversations> ReceivedMessages { get; set; } = new List<Conversations>();
+        public ICollection<Conversations> SentMessages { get; set; } = new List<Conversations>();
+        public ICollection<Conversations> ReceivedMessages { get; set; } = new List<Conversations>();
 
-        public virtual ICollection<Notifications> Notifications { get; set; } = new List<Notifications>();
-        public virtual ICollection<Notifications> NotificationsReceived { get; set; } = new List<Notifications>();
+        public ICollection<Notifications> Notifications { get; set; } = new List<Notifications>();
+        public ICollection<Notifications> NotificationsReceived { get; set; } = new List<Notifications>();
 
-        public virtual ICollection<Friendships> FriendshipSenders {  get; set; } = new List<Friendships>();
-        public virtual ICollection<Friendships> FriendshipReceivers { get; set; } = new List<Friendships>();
+        public ICollection<Friendships> FriendshipSenders {  get; set; } = new List<Friendships>();
+        public ICollection<Friendships> FriendshipReceivers { get; set; } = new List<Friendships>();
 
-        public virtual ICollection<CloseFriends> UsersWithCloseFriends { get; set; } = new List<CloseFriends>();
-        public virtual ICollection<CloseFriends> CloseFriends { get; set; } = new List<CloseFriends>();
+        public ICollection<CloseFriends> UsersWithCloseFriends { get; set; } = new List<CloseFriends>();
+        public ICollection<CloseFriends> CloseFriends { get; set; } = new List<CloseFriends>();
 
-        public virtual ICollection<Friends> UsersWithFriends { get; set; } = new List<Friends>();
-        public virtual ICollection<Friends> Friends { get; set; } = new List<Friends>();
+        public ICollection<Friends> UsersWithFriends { get; set; } = new List<Friends>();
+        public ICollection<Friends> Friends { get; set; } = new List<Friends>();
 
-        public virtual ICollection<Courses> CoursesCreated { get; set; } = new List<Courses>();
+        public ICollection<Courses> CoursesCreated { get; set; } = new List<Courses>();
 
-        public virtual UserInformations UserInformations { get; set; } // if one on one
+        public UserInformations UserInformations { get; set; } // if one on one
         //public virtual ICollection<UserInformations> UserInformations { get; set; }
-        public virtual ICollection<UserEducations> UserEducations { get; set; } = new List <UserEducations>();
-        public virtual ICollection<UserJobs> UserJobs { get; set; } = new List<UserJobs>();
-        public virtual ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
-        public virtual ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
-        public virtual ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();
-        public virtual ICollection<BlogCommentLikes> BlogCommentLikes { get; set; } = new List<BlogCommentLikes>();
-        public virtual ICollection<Commits> Commits { get; set; } = new List<Commits>();
+        public ICollection<UserEducations> UserEducations { get; set; } = new List <UserEducations>();
+        public ICollection<UserJobs> UserJobs { get; set; } = new List<UserJobs>();
+        public ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
+        public ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
+        public ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();
+        public ICollection<BlogCommentLikes> BlogCommentLikes { get; set; } = new List<BlogCommentLikes>();
+        public ICollection<Commits> Commits { get; set; } = new List<Commits>();
 
-        public virtual ICollection<UserProgress> UserProgress { get; set; } = new List<UserProgress>();
+        public ICollection<UserProgress> UserProgress { get; set; } = new List<UserProgress>();
 
 
-        public virtual ICollection<Discussions> UserDiscussions { get; set; } = new List<Discussions>();
-        public virtual ICollection<DiscussionAnswers> DiscussionAnswers { get; set; } = new List<DiscussionAnswers>();
+        public ICollection<Discussions> UserDiscussions { get; set; } = new List<Discussions>();
+        public ICollection<DiscussionAnswers> DiscussionAnswers { get; set; } = new List<DiscussionAnswers>();
 
-        public virtual ICollection<DiscussionVotes> DiscussionVotes { get; set; } = new List<DiscussionVotes>();
-        public virtual ICollection<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; } = new List<DiscussionAnswerVotes>();
+        public ICollection<DiscussionVotes> DiscussionVotes { get; set; } = new List<DiscussionVotes>();
+        public ICollection<DiscussionAnswerVotes> DiscussionAnswerVotes { get; set; } = new List<DiscussionAnswerVotes>();
 
-        public virtual Instructors Instructor { get; set; }
+        public Instructors Instructor { get; set; }
 
-        public virtual ICollection<StudentCourseLessonProgress> StudentCourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
+        public ICollection<StudentCourseLessonProgress> StudentCourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
         
-        public virtual ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
+        public ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
 
-        public virtual ICollection<OnlineMeetingsParticipants> OnlineMeetingParticipated { get; set; } = new List<OnlineMeetingsParticipants>();
+        public ICollection<OnlineMeetingsParticipants> OnlineMeetingParticipated { get; set; } = new List<OnlineMeetingsParticipants>();
 
-        public virtual ICollection<PasswordResetTokens> PasswordResetTokens { get; set; }
+        public ICollection<PasswordResetTokens> PasswordResetTokens { get; set; }
     }
 }

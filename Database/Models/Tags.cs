@@ -18,6 +18,6 @@ namespace Database.Models
         public Tags Parent { get; set; }
         public ICollection<Tags> Children = new List<Tags>();
 
-        public virtual ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();    
+        public ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();    
     }
 }

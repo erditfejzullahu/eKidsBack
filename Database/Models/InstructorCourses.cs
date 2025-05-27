@@ -25,11 +25,11 @@ namespace Database.Models
         [ForeignKey("CategoryId")]
         public Categories Category { get; set; }
 
-        public virtual ICollection<InstructorCourseSections> InstructorCourseSections { get; set; } = new List<InstructorCourseSections>();
-        public virtual ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
+        public ICollection<InstructorCourseSections> InstructorCourseSections { get; set; } = new List<InstructorCourseSections>();
+        public ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
 
-        public virtual ICollection<OnlineMeetings> OnlineMeetings { get; set; } = new List<OnlineMeetings>();
+        public ICollection<OnlineMeetings> OnlineMeetings { get; set; } = new List<OnlineMeetings>();
 
-        public virtual ICollection<StudentCourseLessonProgress> CourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
+        public ICollection<StudentCourseLessonProgress> CourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
     }
 }

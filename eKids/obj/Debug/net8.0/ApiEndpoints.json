@@ -83,6 +83,11 @@
         "Name": "Take",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "friendOrAll",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -133,6 +138,11 @@
       {
         "Name": "Take",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "friendsBlogsOrAll",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -1307,7 +1317,68 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "SortByName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortNameOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDateOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByViews",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortViewOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DefaultPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Take",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1380,6 +1451,66 @@
         "Name": "manageType",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "SortByName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortNameOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDateOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByViews",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortViewOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DefaultPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Take",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1391,7 +1522,68 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "SortByName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortNameOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDateOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByViews",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortViewOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DefaultPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Take",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1659,7 +1851,68 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "SortByName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortNameOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDateOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortByViews",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortViewOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DefaultPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Take",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -3066,6 +3319,36 @@
       {
         "Name": "SortViewOrder",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DefaultPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Take",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
