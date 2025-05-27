@@ -125,6 +125,7 @@ namespace eKids.Controllers
         public async Task<IActionResult> getAllCategories([FromQuery] string? searchParam, [FromQuery] SortQueryDto sortQuery, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
 
+            var totalCount = await _categoryRepository.CountAsync();
             var query = _categoryRepository.GetAll().AsNoTracking();
 
             if(query == null)
@@ -146,7 +147,10 @@ namespace eKids.Controllers
                 return NotFound(new { Message = "No categories found!" });
             }
 
-            return Ok(categories);
+            bool hasMore = (paginationDto.Skip + categories.Count) < totalCount;
+
+
+            return Ok(new {categories, hasMore});
             
         }
 

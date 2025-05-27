@@ -4,6 +4,7 @@ using Database.Models;
 using Database.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Configuration;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 
@@ -160,7 +161,7 @@ namespace eKids.Controllers
                 //var totalCourses = categoryId.HasValue
                 //    ? await _courseRepository.CountAsync(c => c.CourseCategory == categoryId, token)
                 //    : await _courseRepository.CountAsync(token: token);
-
+                var totalCount = await _courseRepository.CountAsync();
                 IQueryable<Courses> coursesQuery = _courseRepository.GetAll().AsNoTracking();
 
                 if (categoryId.HasValue)
@@ -182,9 +183,11 @@ namespace eKids.Controllers
 
                 var courses = await paginatedQuery
                     .Include(c => c.Lessons)
-                    .ToListAsync(token);
+                .ToListAsync(token);
 
-                return Ok(courses);
+                bool hasMore = (paginationDto.Skip + courses.Count) < totalCount;
+
+                return Ok(new {courses, hasMore});
             }
             catch (Exception ex)
             {

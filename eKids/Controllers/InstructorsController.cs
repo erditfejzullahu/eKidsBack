@@ -728,6 +728,8 @@ namespace eKids.Controllers
                 }
 
                 var instructors = await unSorted
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
                     .Select(c => new
                     {
                         InstructorId = c.ID,
@@ -760,7 +762,7 @@ namespace eKids.Controllers
 
         [Authorize(Roles = "Instructor")]
         [HttpGet("GetInstructorManageContentData")]
-        public async Task<IActionResult> ManageInstructorData([FromQuery] InstructorsManageContentType manageType)
+        public async Task<IActionResult> ManageInstructorData([FromQuery] InstructorsManageContentType manageType, [FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto)
         {
             try
             {
@@ -786,10 +788,13 @@ namespace eKids.Controllers
                 }
 
                 IQueryable<object> query = null;
+                int counter = 0;
 
                 switch (manageType)
                 {
                     case InstructorsManageContentType.Courses:
+                        counter = await _context.InstructorCourses.Where(c => c.InstructorId == user.InstructorId).AsNoTracking().CountAsync();
+                        
                         query = _context.InstructorCourses.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => new
                         {
                             c.ID,
@@ -812,6 +817,7 @@ namespace eKids.Controllers
                         });
                         break;
                     case InstructorsManageContentType.Students:
+                        counter = await _context.InstructorStudents.AsNoTracking().Where(c => c.InstructorId == user.InstructorId).CountAsync();
                         query = _context.InstructorStudents.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => c.User).Distinct()
                             .Select(u => new
                             {
@@ -828,6 +834,7 @@ namespace eKids.Controllers
                             });
                         break;
                     case InstructorsManageContentType.Meetings:
+                        counter = await _context.OnlineMeetings.AsNoTracking().CountAsync();
                         query = _context.OnlineMeetings.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => new
                         {
                             c.ID,
@@ -861,6 +868,8 @@ namespace eKids.Controllers
                 {
                     return NotFound(new {Message = "No data found"});
                 }
+                //bool hasMore = (paginationDto.Skip + categories.Count) < totalCount;
+
 
                 var returnValue = await query.ToListAsync();
 
@@ -872,6 +881,7 @@ namespace eKids.Controllers
                 return BadRequest();
             }
         }
+
 
         [HttpDelete("CourseDelete/{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
