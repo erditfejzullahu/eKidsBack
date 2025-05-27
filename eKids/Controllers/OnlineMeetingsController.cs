@@ -144,7 +144,7 @@ namespace eKids.Controllers
                     return Ok(new {Message = "Nuk ka nevoje per evidentim."});
                 }
 
-                var progress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == meeting.CourseId);
+                var progress = await _context.StudentCourseLessonProgress.AsNoTracking().FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == meeting.CourseId);
                 if(progress == null)
                 {
                     return NotFound(new { Message = "No progress found" });
@@ -313,12 +313,13 @@ namespace eKids.Controllers
                 return Unauthorized(new { Message = "Not authorized" });
             }
 
-            var onlineMeet = await _context.OnlineMeetings.Where(c => EF.Functions.Contains(c.MeetingUrl, $"\"{onlineMeetUrl}*\"")).FirstOrDefaultAsync();
+            var onlineMeet = await _context.OnlineMeetings.AsNoTracking().Where(c => EF.Functions.Contains(c.MeetingUrl, $"\"{onlineMeetUrl}*\"")).FirstOrDefaultAsync();
             if(onlineMeet == null)
             {
                 return BadRequest(new { Message = "No meeting found" });
             }
             var getAllowedUser = await _context.InstructorStudents
+                .AsNoTracking()
                 .Where(c => c.InstructorId == onlineMeet.InstructorId && c.UserId == userId)
                 .FirstOrDefaultAsync();
             var ifInstructor = await _context.Instructors.Where(c => c.UserId == userId).FirstOrDefaultAsync();
@@ -418,7 +419,7 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var meeting = await _context.OnlineMeetings.FindAsync(meetingStatusDto.MeetingId, token);
+                var meeting = await _context.OnlineMeetings.AsNoTracking().FindAsync(meetingStatusDto.MeetingId, token);
                 if(meeting == null)
                 {
                     return NotFound(new { Message = "No meeting found" });
@@ -512,17 +513,13 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                var user = await _context.Users.Where(c => c.ID == userAuthed).Select(c => new { c.ID }).FirstOrDefaultAsync();
-                if(user == null)
-                {
-                    return NotFound(new {Message = "User not found"});
-                }
-                var totalCount = await _context.OnlineMeetings.AsNoTracking().CountAsync();
-                var unSorted = _context.OnlineMeetings.AsNoTracking();
+                
+                var query = _context.OnlineMeetings.AsNoTracking();
 
-                var sortQuery = _sorterService.SortData(unSorted, sortQueryDto);
+                query = _sorterService.SortData(query, sortQueryDto);
+                var totalCount = await query.CountAsync();
 
-                var meetings = await sortQuery
+                var meetings = await query
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
                     .Select(c => new

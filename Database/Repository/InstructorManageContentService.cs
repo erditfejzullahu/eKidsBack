@@ -25,11 +25,7 @@ namespace Database.Repository
             _logger = logger;
         }
 
-        public class InstructorManageUserDto
-        {
-            public int ID { get; set; }
-            public int InstructorId { get; set; }
-        }
+        
         private class CourseResult
         {
             public int ID { get; set; }

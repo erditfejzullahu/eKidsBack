@@ -227,7 +227,6 @@ namespace eKids.Controllers
                 var skip = (page - 1) * pageSize;
 
                 var messages = await _context.Conversations
-                    .AsNoTracking()
                     .AsSplitQuery()
                     .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
                     .Include(c => c.Quiz)      // Include Quiz if it's related to Conversations

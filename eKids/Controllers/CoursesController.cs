@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
@@ -19,14 +20,16 @@ namespace eKids.Controllers
         private readonly IFileUploadService _fileUploadService;
         private readonly IMapper _mapper;
         private readonly ISorterService<Courses> _sorterService;
+        private readonly ApplicationDbContext _context;
 
-        public CoursesController(IRepository<Courses> courseRepository, ILogger<CoursesController> logger, IFileUploadService fileUploadService, IMapper mapper, ISorterService<Courses> sorterService)
+        public CoursesController(IRepository<Courses> courseRepository, ApplicationDbContext context, ILogger<CoursesController> logger, IFileUploadService fileUploadService, IMapper mapper, ISorterService<Courses> sorterService)
         {
             _courseRepository = courseRepository;
             _logger = logger;
             _fileUploadService = fileUploadService;
             _mapper = mapper;
             _sorterService = sorterService;
+            _context = context;
         }
 
         [HttpPost]
@@ -161,8 +164,9 @@ namespace eKids.Controllers
                 //var totalCourses = categoryId.HasValue
                 //    ? await _courseRepository.CountAsync(c => c.CourseCategory == categoryId, token)
                 //    : await _courseRepository.CountAsync(token: token);
-                var totalCount = await _courseRepository.CountAsync();
-                IQueryable<Courses> coursesQuery = _courseRepository.GetAll().AsNoTracking();
+                var coursesQuery = _context.Courses.AsNoTracking();
+                
+                var totalCount = await coursesQuery.CountAsync(token);
 
                 if (categoryId.HasValue)
                 {
@@ -177,11 +181,8 @@ namespace eKids.Controllers
                 var sortedQuery = _sorterService.SortData(coursesQuery, sortQuery);
 
                 paginationDto.Validate();
-                var paginatedQuery = sortQuery != null 
-                    ? sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take)
-                    : coursesQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);
-
-                var courses = await paginatedQuery
+                
+                var courses = await sortedQuery
                     .Include(c => c.Lessons)
                 .ToListAsync(token);
 

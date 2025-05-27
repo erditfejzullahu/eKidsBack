@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
@@ -20,14 +21,16 @@ namespace eKids.Controllers
         private readonly ILogger<CategoriesController> _logger;
         private readonly IMapper _mapper;
         private readonly ISorterService<Categories> _sortService;
+        private readonly ApplicationDbContext _context;
 
-        public CategoriesController(IRepository<Categories> categoryRepository, ISorterService<Categories> sortService, IFileUploadService fileUploadService, ILogger<CategoriesController> logger, IMapper mapper)
+        public CategoriesController(IRepository<Categories> categoryRepository, ApplicationDbContext context, ISorterService<Categories> sortService, IFileUploadService fileUploadService, ILogger<CategoriesController> logger, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _fileUploadService = fileUploadService;
             _logger = logger;
             _mapper = mapper;
             _sortService = sortService;
+            _context = context;
         }
 
         [HttpPost]
@@ -112,6 +115,7 @@ namespace eKids.Controllers
             //var category = await _categoryRepository.Get(id, default);
             var category = await _categoryRepository
                 .GetAll()
+                .AsNoTracking()
                 .Include(c => c.Courses)
                 .FirstOrDefaultAsync(c => c.ID == id);
             if (category == null)
@@ -125,13 +129,8 @@ namespace eKids.Controllers
         public async Task<IActionResult> getAllCategories([FromQuery] string? searchParam, [FromQuery] SortQueryDto sortQuery, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
 
-            var totalCount = await _categoryRepository.CountAsync();
-            var query = _categoryRepository.GetAll().AsNoTracking();
-
-            if(query == null)
-            {
-                return NotFound(new {Message = "No categories found!"});
-            }
+            var query = _context.Categories.AsNoTracking();
+            var totalCount = await query.CountAsync(token);
 
             if (!string.IsNullOrEmpty(searchParam))
             {
@@ -142,7 +141,7 @@ namespace eKids.Controllers
             sortedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);    
 
             var categories = await sortedQuery.Include(c => c.Courses).ToListAsync(token);
-            if(!categories.Any())
+            if(categories.Count == 0)
             {
                 return NotFound(new { Message = "No categories found!" });
             }

@@ -127,7 +127,6 @@ namespace eKids.Controllers
             try
             {
                 var discussion = await _context.Discussions
-                    .AsNoTracking()
                     .Where(c => c.ID == id)
                     .Select(c => new
                     {
@@ -175,7 +174,6 @@ namespace eKids.Controllers
                 paginationDto.Validate();
                 var discussionsCount = await _context.Discussions.Where(c => c.UserId == userId).CountAsync(token);
                 var discussions = await _context.Discussions
-                    .AsNoTracking()
                     .AsSplitQuery()
                     .Where(c => c.UserId == userId)
                     .OrderBy(c => c.CreatedAt)
@@ -249,7 +247,7 @@ namespace eKids.Controllers
                         break;
                 }
                 //using var transation = await _context.Database.BeginTransactionAsync(token);
-                var allDiscussions = await _context.Discussions.AsNoTracking().CountAsync(token);
+                var allDiscussions = await query.CountAsync(token);
                     var discussions = await query
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)

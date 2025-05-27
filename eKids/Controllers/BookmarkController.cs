@@ -46,7 +46,7 @@ namespace eKids.Controllers
         [HttpGet("/api/Bookmarks/GetAll/{userId}")]
         public async Task<IActionResult> GetAllBookmarks(int userId, CancellationToken token)
         {
-            var bookmarks = await _bookmarksRepository.GetAll().Where(c => c.UserId == userId).Include(c => c.Course).ThenInclude(c => c.Category).Include(c => c.Lesson).ThenInclude(c => c.Course).ThenInclude(c => c.Category).ToListAsync(token);
+            var bookmarks = await _bookmarksRepository.GetAll().AsNoTracking().Where(c => c.UserId == userId).Include(c => c.Course).ThenInclude(c => c.Category).Include(c => c.Lesson).ThenInclude(c => c.Course).ThenInclude(c => c.Category).ToListAsync(token);
             if (bookmarks == null || !bookmarks.Any()) // Check for null or empty result
             {
                 return BadRequest(new { Message = "No bookmarks founded" });
@@ -62,7 +62,7 @@ namespace eKids.Controllers
                 return BadRequest(new { Message = "Error in data " });
             }
 
-            IQueryable<Bookmarks> bookmarks = _bookmarksRepository.GetAll().Where(c => c.UserId  == userId);
+            IQueryable<Bookmarks> bookmarks = _bookmarksRepository.GetAll().AsNoTracking().Where(c => c.UserId  == userId);
 
 
             if(courseId.HasValue && lessonId == null)

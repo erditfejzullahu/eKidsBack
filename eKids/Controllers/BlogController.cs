@@ -58,7 +58,6 @@ namespace eKids.Controllers
             {
                 var blogs = await _blogRepository
                     .GetAll()
-                    .AsNoTracking()
                     .Where(c => EF.Functions.Contains(c.Title, $"\"{title}*\""))
                     .Include(c => c.Tag)
                     .ThenInclude(c => c.Children)
@@ -201,7 +200,6 @@ namespace eKids.Controllers
                     .GetAll()
                     .Where(c => c.Parent_Id == null && c.Category_Id == categoryId)
                     .Include(c => c.Children)
-                    .AsNoTracking()
                     .Select(c => new
                     {
                         c.ID,
@@ -239,7 +237,6 @@ namespace eKids.Controllers
             {
                 var tags = await _tagsRepository
                     .GetAll()
-                    .AsNoTracking()
                     .Where(c => c.Category_Id == categoryId && c.Parent_Id == null)
                     .Select(c => new
                     {

@@ -110,7 +110,7 @@ namespace eKids.Controllers
         {
             try
             {
-                var quiz = await _quizCompletationRep.GetAll().Include(c => c.Quiz).AsNoTracking().Where(c => c.UserId == userId && c.Completed == true).ToListAsync(token);
+                var quiz = await _quizCompletationRep.GetAll().AsNoTracking().Include(c => c.Quiz).AsNoTracking().Where(c => c.UserId == userId && c.Completed == true).ToListAsync(token);
                 if(quiz.Count == 0)
                 {
                     return NotFound(new { Message = "No quiz found" });
@@ -178,7 +178,7 @@ namespace eKids.Controllers
                     return BadRequest(new { Message = "Invalid userId or quizId" });
                 }
 
-                var quizStatus = await _quizCompletationRep.GetAll().FirstOrDefaultAsync(c => c.QuizId == quizId && c.UserId == userId, token);
+                var quizStatus = await _quizCompletationRep.GetAll().AsNoTracking().FirstOrDefaultAsync(c => c.QuizId == quizId && c.UserId == userId, token);
                 if(quizStatus == null)
                 {
                     return NotFound(new { Message = "No quiz found" });

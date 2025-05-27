@@ -20,12 +20,14 @@ namespace eKids.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IFileUploadService _fileUploadService;
         private readonly ISorterService<InstructorCourses> _sortIntructorCourses;
-        public InstructorsController(ISorterService<InstructorCourses> sortInstructorCourses, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
+        private readonly IManageInstructorContentService _instructorContentService;
+        public InstructorsController(ISorterService<InstructorCourses> sortInstructorCourses, IManageInstructorContentService instructorContentService, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
             _fileUploadService = fileUploadService;
             _sortIntructorCourses = sortInstructorCourses;
+            _instructorContentService = instructorContentService;
         }
 
         [HttpPost("BecomeInstructor")]
@@ -263,16 +265,16 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                var user = await _context.Users.Select(c => new
-                {
-                    c.ID,
-                    InstructorId = c.Instructor.ID,
-                }).FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+                //var user = await _context.Users.Select(c => new
+                //{
+                //    c.ID,
+                //    InstructorId = c.Instructor.ID,
+                //}).FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
 
-                if(user == null)
-                {
-                    return NotFound(new { Message = "no user found" });
-                }
+                //if(user == null)
+                //{
+                //    return NotFound(new { Message = "no user found" });
+                //}
                 var lessons = await _context.InstructorCourses
                     .Where(c => c.ID == courseId)
                     .SelectMany(c => c.InstructorCourseSections)
@@ -318,7 +320,7 @@ namespace eKids.Controllers
                     return NotFound(new {Message = "No user found"});
                 }
 
-                var courses = await _context.InstructorCourses.Where(c => c.InstructorId == user.InstructorId).ToListAsync();
+                var courses = await _context.InstructorCourses.AsNoTracking().Where(c => c.InstructorId == user.InstructorId).ToListAsync();
                 if(courses.Count == 0)
                 {
                     return NotFound(new {Message = "No courses found"});
@@ -369,7 +371,6 @@ namespace eKids.Controllers
                 }
 
                 var instructor = await _context.Users
-                    .AsNoTracking()
                     .Where(c => c.ID == userId)
                     .Select(c => new
                     {
@@ -431,8 +432,8 @@ namespace eKids.Controllers
                     return NotFound();
                 }
 
-                var countCourses = await _context.InstructorCourses.AsNoTracking().CountAsync();
                 var unSorted = _context.InstructorCourses.AsNoTracking().OrderByDescending(c => c.CreatedAt);
+                var countCourses = await unSorted.CountAsync();
 
                 var sortedQuery = _sortIntructorCourses.SortData(unSorted, sortQueryDto) ?? unSorted;
 
@@ -690,8 +691,8 @@ namespace eKids.Controllers
 
             try
             {
-                var totalCount = await _context.Instructors.AsNoTracking().CountAsync();
                 var unSorted = _context.Instructors.AsNoTracking();
+                var totalCount = await unSorted.CountAsync();
                 if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
                 {
                     if (string.Equals(sortQueryDto.SortNameOrder, "desc", StringComparison.OrdinalIgnoreCase))
@@ -775,9 +776,9 @@ namespace eKids.Controllers
 
                 var user = await _context.Users
                     .Where(u => u.ID == authId)
-                    .Select(u => new
+                    .Select(u => new InstructorManageUserDto
                     {
-                        u.ID,
+                        ID = u.ID,
                         InstructorId = u.Instructor.ID
                     })
                     .FirstOrDefaultAsync();
@@ -787,93 +788,16 @@ namespace eKids.Controllers
                     return NotFound();
                 }
 
-                IQueryable<object> query = null;
-                int counter = 0;
+                var query = await _instructorContentService.RetrieveInstructorActivities(user, manageType, sortQueryDto, paginationDto);
 
-                switch (manageType)
-                {
-                    case InstructorsManageContentType.Courses:
-                        counter = await _context.InstructorCourses.Where(c => c.InstructorId == user.InstructorId).AsNoTracking().CountAsync();
-                        
-                        query = _context.InstructorCourses.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => new
-                        {
-                            c.ID,
-                            c.InstructorId,
-                            InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
-                            c.Instructor.User.ProfilePictureUrl,
-                            c.Image,
-                            c.Name,
-                            c.Description,
-                            c.Level,
-                            c.TopicsCovered,
-                            SectionTitles = c.InstructorCourseSections.Select(ic => ic.Title).ToList(),
-                            SectionLessons = c.InstructorCourseSections
-                                .Select(ic => ic.InstructorLessons.Select(il => il.Title).ToList())
-                                .ToList(),
-                            c.CategoryId,
-                            c.Instructor,
-                            EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
-                            c.CreatedAt,
-                        });
-                        break;
-                    case InstructorsManageContentType.Students:
-                        counter = await _context.InstructorStudents.AsNoTracking().Where(c => c.InstructorId == user.InstructorId).CountAsync();
-                        query = _context.InstructorStudents.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => c.User).Distinct()
-                            .Select(u => new
-                            {
-                                u.ID,
-                                Name = u.Firstname + " " + u.Lastname,
-                                u.ProfilePictureUrl,
-                                u.Email,
-                                u.Username,
-                                OtherInformation = new
-                                {
-                                    Birthday = u.UserInformations != null ? u.UserInformations.Birthday : null,
-                                    Profession = u.UserInformations != null ? u.UserInformations.Profession : null,
-                                },
-                            });
-                        break;
-                    case InstructorsManageContentType.Meetings:
-                        counter = await _context.OnlineMeetings.AsNoTracking().CountAsync();
-                        query = _context.OnlineMeetings.AsQueryable().AsNoTracking().Where(c => c.InstructorId == user.InstructorId).Select(c => new
-                        {
-                            c.ID,
-                            Course = c.Course ?? null,
-                            Lesson = c.Lesson ?? null,
-                            c.Title,
-                            c.Description,
-                            c.MeetingUrl,
-                            c.ScheduleDateTime,
-                            DurationTime = c.DurationTime ?? null,
-                            Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
-                            : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
-                            : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
-                            : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
-                            Participants = c.OnlineMeetingsParticipants.Count(),
-                            Instructor = new
-                            {
-                                Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
-                                c.Instructor.User.ProfilePictureUrl,
-                                c.Instructor.User.Username,
-                                c.Instructor.User.Email
-                            },
-                            c.CreatedAt
-                        });
-                        break;
-                    default:
-                        return NotFound("Invalid content type specified");
-                }
-
-                if(query == null || query.Count() == 0)
+                if(query.Item1.Count == 0)
                 {
                     return NotFound(new {Message = "No data found"});
                 }
                 //bool hasMore = (paginationDto.Skip + categories.Count) < totalCount;
 
 
-                var returnValue = await query.ToListAsync();
-
-                return Ok(returnValue);
+                return Ok(new {data = query.Item1, query.hasMore});
             }
             catch (Exception ex)
             {
