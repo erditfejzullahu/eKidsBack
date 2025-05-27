@@ -1,9 +1,11 @@
-﻿using Database.DTOs;
+﻿using Database.Context;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Configuration;
 
 namespace eKids.Controllers
 {
@@ -18,15 +20,18 @@ namespace eKids.Controllers
         private readonly IRepository<Users> _userRepository;
         private readonly IRepository<QuizzesCompleted> _quizzesCompletedRepository;
         private readonly ISorterService<Quizzes> _sorterService;
+        private readonly ApplicationDbContext _context;
 
         public QuizzesController(IRepository<Quizzes> quizzesRepository,
             ILogger<QuizzesController> logger,
+            ApplicationDbContext context,
             IRepository<QuizQuestions> quizQuestionsRep,
             IRepository<QuizAnswers> quizAnswersRep,
             IRepository<Users> userRepository,
             IRepository<QuizzesCompleted> quizzesCompletedRepository,
             ISorterService<Quizzes> sorterService)
         {
+            _context = context;
             _logger = logger;
             _quizzesRepository = quizzesRepository;
             _quizQuestionsRep = quizQuestionsRep;
@@ -160,7 +165,8 @@ namespace eKids.Controllers
         {
             try
             {
-                var query = _quizzesRepository.GetAll().AsNoTracking();
+                var query = _context.Quizzes.AsNoTracking();
+                var totalCount = await query.CountAsync();
                 var allProgressQuizzes = await _quizzesCompletedRepository.GetAll().AsNoTracking().ToListAsync(token);
 
                 if (categoryId.HasValue)
@@ -196,8 +202,10 @@ namespace eKids.Controllers
                         quiz.LastModified
                     };
                 });
+                bool hasMore = (paginationDto.Skip + quizzes.Count) < totalCount;
 
-                return Ok(result);
+
+                return Ok(new {result, hasMore});
             }
             catch (Exception ex)
             {
@@ -211,7 +219,8 @@ namespace eKids.Controllers
         {
             try
             {
-                var query = _quizzesRepository.GetAll().AsNoTracking();
+                var query = _context.Quizzes.AsNoTracking();
+                var totalCount = await query.CountAsync();
 
                 var allProgressQuizzesByUserId = 
                     userId.HasValue ? await _quizzesCompletedRepository
@@ -283,8 +292,9 @@ namespace eKids.Controllers
                         //}).ToList()
                     };
                 });
+                bool hasMore = (paginationDto.Skip + quizzes.Count) < totalCount;
 
-                return Ok(result);
+                return Ok(new {result, hasMore});
             }
             catch (Exception ex)
             {

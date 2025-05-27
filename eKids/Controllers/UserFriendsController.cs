@@ -213,7 +213,6 @@ namespace eKids.Controllers
                         result = _usersRepository
                             .GetAll()
                             .AsSplitQuery()
-                            .AsNoTracking()
                             .OrderBy(c => c.ID)
                             .Select(c => new
                             {
@@ -253,7 +252,6 @@ namespace eKids.Controllers
                         result = _friendsRepository
                             .GetAll()
                             .AsSplitQuery()
-                            .AsNoTracking()
                             .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
                             .Include(c => c.Friend)
@@ -296,7 +294,6 @@ namespace eKids.Controllers
                         result = _closeRepository
                             .GetAll()
                             .AsSplitQuery()
-                            .AsNoTracking()
                             .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
                             .Include(c => c.CloseFriend)
@@ -337,6 +334,8 @@ namespace eKids.Controllers
                     default:
                         break;
                 }
+
+
                 var paginatedQuery = result.Skip(paginationDto.Skip).Take(paginationDto.Take);
                 if(await paginatedQuery.AnyAsync(token))
                 {
@@ -363,7 +362,6 @@ namespace eKids.Controllers
             {
                 var users = await _usersRepository
                     .GetAll()
-                    .AsNoTracking()
                     .Where(c => EF.Functions.Contains(c.Firstname, $"\"{searchParam}*\"") || EF.Functions.Contains(c.Lastname, $"\"{searchParam}*\""))
                     .Select(c => new
                     {
@@ -406,7 +404,6 @@ namespace eKids.Controllers
                 // Query the database
                 var friendship = await _friendShipsRepository
                     .GetAll()
-                    .AsNoTracking()
                     .Select(c => new
                     {
                         c.Status,

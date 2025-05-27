@@ -1,11 +1,13 @@
 ﻿using Database.DTOs;
 using Database.Repository;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Linq.Expressions;
 
 public class SorterService<T> : ISorterService<T> where T : class
 {
     private readonly ILogger<SorterService<T>> _logger;
+    private static readonly ConcurrentDictionary<string, LambdaExpression> _propertyAccessorCache = new();
 
     public SorterService(ILogger<SorterService<T>> logger)
     {
@@ -19,62 +21,65 @@ public class SorterService<T> : ISorterService<T> where T : class
 
         try
         {
-            // Handle each sort field in priority order
+            var sortExpressions = new List<(string property, bool descending)>();
+
             if (!string.IsNullOrEmpty(queryDto.SortByName))
-            {
-                query = ApplySort(query, queryDto.SortByName, queryDto.SortNameOrder);
-            }
+                sortExpressions.Add((queryDto.SortByName, IsDescending(queryDto.SortNameOrder)));
 
             if (!string.IsNullOrEmpty(queryDto.SortByDate))
-            {
-                query = ApplySort(query, queryDto.SortByDate, queryDto.SortDateOrder);
-            }
+                sortExpressions.Add((queryDto.SortByDate, IsDescending(queryDto.SortDateOrder)));
 
             if (!string.IsNullOrEmpty(queryDto.SortByViews))
-            {
-                query = ApplySort(query, queryDto.SortByViews, queryDto.SortViewOrder);
-            }
+                sortExpressions.Add((queryDto.SortByViews, IsDescending(queryDto.SortViewOrder)));
 
-            return query;
+            return sortExpressions.Count == 0
+                ? query
+                : ApplyMultiSort(query, sortExpressions);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error sorting data");
-            return query; // Return original query if sorting fails
+            return query;
         }
     }
 
-    private IQueryable<T> ApplySort(IQueryable<T> query, string propertyName, string sortOrder)
+    private static bool IsDescending(string sortOrder) =>
+        "desc".Equals(sortOrder, StringComparison.OrdinalIgnoreCase);
+
+    private IQueryable<T> ApplyMultiSort(IQueryable<T> query, List<(string property, bool descending)> sorts)
     {
-        if (string.IsNullOrEmpty(propertyName))
-            return query;
+        if (sorts.Count == 0) return query;
 
-        var propertyInfo = typeof(T).GetProperty(propertyName,
-            System.Reflection.BindingFlags.IgnoreCase |
-            System.Reflection.BindingFlags.Public |
-            System.Reflection.BindingFlags.Instance);
+        var firstSort = sorts[0];
+        var orderedQuery = firstSort.descending
+            ? query.OrderByDescending(CreatePropertyExpression<T>(firstSort.property))
+            : query.OrderBy(CreatePropertyExpression<T>(firstSort.property));
 
-        if (propertyInfo == null)
+        for (int i = 1; i < sorts.Count; i++)
         {
-            _logger.LogWarning("Property {PropertyName} not found for sorting", propertyName);
-            return query;
+            var sort = sorts[i];
+            orderedQuery = sort.descending
+                ? orderedQuery.ThenByDescending(CreatePropertyExpression<T>(sort.property))
+                : orderedQuery.ThenBy(CreatePropertyExpression<T>(sort.property));
+        }
+
+        return orderedQuery;
+    }
+
+    private static Expression<Func<T, TKey>> CreatePropertyExpression<TKey>(string propertyName)
+    {
+        var cacheKey = $"{typeof(T).Name}_{propertyName}_{typeof(TKey).Name}";
+
+        if (_propertyAccessorCache.TryGetValue(cacheKey, out var cachedExpression))
+        {
+            return (Expression<Func<T, TKey>>)cachedExpression;
         }
 
         var parameter = Expression.Parameter(typeof(T), "x");
-        var property = Expression.Property(parameter, propertyInfo);
-        var keySelector = Expression.Lambda(property, parameter);
+        var property = Expression.Property(parameter, propertyName);
+        var lambda = Expression.Lambda<Func<T, TKey>>(property, parameter);
 
-        var methodName = string.Equals(sortOrder, "desc", StringComparison.OrdinalIgnoreCase)
-            ? "OrderByDescending"
-            : "OrderBy";
-
-        var resultExpression = Expression.Call(
-            typeof(Queryable),
-            methodName,
-            new Type[] { typeof(T), propertyInfo.PropertyType },
-            query.Expression,
-            Expression.Quote(keySelector));
-
-        return query.Provider.CreateQuery<T>(resultExpression);
+        _propertyAccessorCache.TryAdd(cacheKey, lambda);
+        return lambda;
     }
 }
