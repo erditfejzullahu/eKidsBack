@@ -502,7 +502,7 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet("AllMeetings")]
-        public async Task<IActionResult> GetAllMeetings()
+        public async Task<IActionResult> GetAllMeetings([FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto)
         {
             try
             {
@@ -517,9 +517,14 @@ namespace eKids.Controllers
                 {
                     return NotFound(new {Message = "User not found"});
                 }
+                var totalCount = await _context.OnlineMeetings.AsNoTracking().CountAsync();
+                var unSorted = _context.OnlineMeetings.AsNoTracking();
 
-                var meetings = await _context.OnlineMeetings
-                    .AsNoTracking()
+                var sortQuery = _sorterService.SortData(unSorted, sortQueryDto);
+
+                var meetings = await sortQuery
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
                     .Select(c => new
                     {
                         c.ID,
@@ -550,7 +555,8 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "No meetings found" });
                 }
-                return Ok(meetings);
+                bool hasMore = (paginationDto.Skip + meetings.Count) < totalCount;
+                return Ok(new {meetings, hasMore});
             }
             catch (Exception ex)
             {
