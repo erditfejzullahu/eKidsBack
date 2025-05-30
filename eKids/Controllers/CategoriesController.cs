@@ -129,18 +129,19 @@ namespace eKids.Controllers
         public async Task<IActionResult> getAllCategories([FromQuery] string? searchParam, [FromQuery] SortQueryDto sortQuery, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
 
-            var query = _context.Categories.AsNoTracking();
-            var totalCount = await query.CountAsync(token);
+            var query = _context.Categories.Include(c => c.Courses).AsNoTracking();
 
             if (!string.IsNullOrEmpty(searchParam))
             {
                 query = query.Where(c => EF.Functions.Contains(c.CategoryName, $"\"{searchParam}*\""));
             }
+            var totalCount = await query.CountAsync(token);
+            query = sortQuery.IsEmpty() ? query.OrderBy(c => c.CategoryName) : _sortService.SortData(query, sortQuery);
 
-            var sortedQuery = _sortService.SortData(query, sortQuery);
-            sortedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);    
+            paginationDto.Validate();
+            query = query.Skip(paginationDto.Skip).Take(paginationDto.Take);
 
-            var categories = await sortedQuery.Include(c => c.Courses).ToListAsync(token);
+            var categories = await query.AsSplitQuery().ToListAsync(token);
             if(categories.Count == 0)
             {
                 return NotFound(new { Message = "No categories found!" });

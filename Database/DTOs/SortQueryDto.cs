@@ -14,6 +14,11 @@ namespace Database.DTOs
         public string? SortDateOrder { get; set; }
         public string? SortByViews { get; set; }
         public string? SortViewOrder { get; set; }
+
+        public bool IsEmpty()
+        {
+            return (SortByName == null || SortNameOrder == null) && (SortByDate == null || SortDateOrder == null) && (SortByViews == null || SortViewOrder == null);
+        }
     }
 
 }

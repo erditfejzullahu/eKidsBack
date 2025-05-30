@@ -1,13 +1,17 @@
-﻿using Database.DTOs;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using Database.DTOs;
 using Database.Repository;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
-using System.Linq.Expressions;
 
 public class SorterService<T> : ISorterService<T> where T : class
 {
     private readonly ILogger<SorterService<T>> _logger;
-    private static readonly ConcurrentDictionary<string, LambdaExpression> _propertyAccessorCache = new();
+    private static readonly ConcurrentDictionary<string, Delegate> _propertyAccessorCache = new();
 
     public SorterService(ILogger<SorterService<T>> logger)
     {
@@ -50,36 +54,55 @@ public class SorterService<T> : ISorterService<T> where T : class
     {
         if (sorts.Count == 0) return query;
 
-        var firstSort = sorts[0];
-        var orderedQuery = firstSort.descending
-            ? query.OrderByDescending(CreatePropertyExpression<T>(firstSort.property))
-            : query.OrderBy(CreatePropertyExpression<T>(firstSort.property));
+        var orderedQuery = query;
+        var isFirstSort = true;
 
-        for (int i = 1; i < sorts.Count; i++)
+        foreach (var sort in sorts)
         {
-            var sort = sorts[i];
-            orderedQuery = sort.descending
-                ? orderedQuery.ThenByDescending(CreatePropertyExpression<T>(sort.property))
-                : orderedQuery.ThenBy(CreatePropertyExpression<T>(sort.property));
+            orderedQuery = ApplySort(orderedQuery, sort.property, sort.descending, !isFirstSort);
+            isFirstSort = false;
         }
 
         return orderedQuery;
     }
 
-    private static Expression<Func<T, TKey>> CreatePropertyExpression<TKey>(string propertyName)
+    private IQueryable<T> ApplySort(IQueryable<T> query, string propertyName, bool descending, bool isThenBy = false)
     {
-        var cacheKey = $"{typeof(T).Name}_{propertyName}_{typeof(TKey).Name}";
+        var entityType = typeof(T);
+        var propertyInfo = entityType.GetProperty(propertyName,
+            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
-        if (_propertyAccessorCache.TryGetValue(cacheKey, out var cachedExpression))
+        if (propertyInfo == null)
         {
-            return (Expression<Func<T, TKey>>)cachedExpression;
+            _logger.LogWarning("Property {PropertyName} not found on type {TypeName}", propertyName, entityType.Name);
+            return query;
         }
 
-        var parameter = Expression.Parameter(typeof(T), "x");
-        var property = Expression.Property(parameter, propertyName);
-        var lambda = Expression.Lambda<Func<T, TKey>>(property, parameter);
+        // Create the property access lambda
+        var parameter = Expression.Parameter(entityType, "x");
+        var propertyAccess = Expression.Property(parameter, propertyInfo);
+        var propertyType = propertyInfo.PropertyType;
+        var delegateType = typeof(Func<,>).MakeGenericType(entityType, propertyType);
+        var lambda = Expression.Lambda(delegateType, propertyAccess, parameter);
 
-        _propertyAccessorCache.TryAdd(cacheKey, lambda);
-        return lambda;
+        // Determine the method name
+        string methodName;
+        if (isThenBy)
+        {
+            methodName = descending ? "ThenByDescending" : "ThenBy";
+        }
+        else
+        {
+            methodName = descending ? "OrderByDescending" : "OrderBy";
+        }
+
+        // Get the MethodInfo for the appropriate OrderBy/ThenBy method
+        var method = typeof(Queryable).GetMethods()
+            .Where(m => m.Name == methodName && m.GetParameters().Length == 2)
+            .First()
+            .MakeGenericMethod(entityType, propertyType);
+
+        // Invoke the method
+        return (IQueryable<T>)method.Invoke(null, new object[] { query, lambda });
     }
 }

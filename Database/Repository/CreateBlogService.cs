@@ -303,7 +303,6 @@ namespace Database.Repository
         {
             try
             {
-                var blogsCount = await _context.Blogs.CountAsync(token);
                 var query = _context.Blogs
                     .Include(c => c.Tag)
                     .ThenInclude(c => c.Children)
@@ -323,6 +322,8 @@ namespace Database.Repository
                         ||
                         c.Status == BlogStatus.FriendOnly && c.User.Friends.Any(uf => uf.FriendId == userId));
                 }
+
+                var blogsCount = await query.CountAsync();
 
                 var blogs = await query
                     .OrderByDescending(c => c.CreatedAt)
@@ -372,7 +373,7 @@ namespace Database.Repository
         {
             try
             {
-                var query = _context.Blogs.Include(c => c.User).ThenInclude(c => c.Friends).AsNoTracking();
+                var query = _context.Blogs.Include(c => c.User).ThenInclude(c => c.Friends).OrderByDescending(c => c.CreatedAt).AsNoTracking();
 
                 if (retrivalType == BlogDiscussionRetrivalType.ProfileSection)
                 {
@@ -426,7 +427,6 @@ namespace Database.Repository
                         ImageUrls = c.ImageUrls,
                         CreatedAt = c.CreatedAt,
                     })
-                    .OrderByDescending(c => c.CreatedAt)
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
                     .ToListAsync(token);

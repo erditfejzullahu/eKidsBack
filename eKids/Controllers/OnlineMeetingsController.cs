@@ -419,7 +419,7 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var meeting = await _context.OnlineMeetings.AsNoTracking().FindAsync(meetingStatusDto.MeetingId, token);
+                var meeting = await _context.OnlineMeetings.FindAsync(meetingStatusDto.MeetingId, token);
                 if(meeting == null)
                 {
                     return NotFound(new { Message = "No meeting found" });
