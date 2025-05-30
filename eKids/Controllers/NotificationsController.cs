@@ -248,15 +248,15 @@ namespace eKids.Controllers
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 //var user = int.Parse(userId);
                 int.TryParse(userId, out var user);
-                var unReads = await _notificationsRepository.GetAll().Where(c => c.ReceiverId == user && c.IsRead == false).ToListAsync(token);
+                var unReads = await _context.Notifications.Where(c => c.ReceiverId == user && c.IsRead == false).ToListAsync(token);
                 if(unReads.Count != 0)
                 {
                     foreach (var item in unReads)
                     {
                         item.IsRead = true;
                     }
-                    _notificationsRepository.UpdateRange(unReads);
-                    await _notificationsRepository.SaveAsync(token);
+                    _context.UpdateRange(unReads);
+                    await _context.SaveChangesAsync(token);
 
                     //if (!string.IsNullOrEmpty(username))
                     //{
@@ -287,9 +287,9 @@ namespace eKids.Controllers
                 var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 int.TryParse(currentUser, out var user);
 
-                var notifications = await _notificationsRepository
-                    .GetAll()
+                var notifications = await _context.Notifications
                     .AsNoTracking()
+                    .AsSplitQuery()
                     .OrderByDescending(c => c.ID)
                     .Where(c => c.ReceiverId == userId)
                     //.Include(c => c.User)

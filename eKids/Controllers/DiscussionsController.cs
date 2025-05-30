@@ -172,10 +172,10 @@ namespace eKids.Controllers
             try
             {
                 paginationDto.Validate();
-                var discussionsCount = await _context.Discussions.Where(c => c.UserId == userId).CountAsync(token);
-                var discussions = await _context.Discussions
-                    .AsSplitQuery()
-                    .Where(c => c.UserId == userId)
+                var query = _context.Discussions.Where(c => c.UserId == userId).AsNoTracking();
+                var discussionsCount = await query.CountAsync(token);
+                var discussions = await query
+                    //.AsSplitQuery()
                     .OrderBy(c => c.CreatedAt)
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
@@ -208,7 +208,7 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "no discussions found" });
                 }
-                var hasMore = discussions.Count == paginationDto.Take && discussions.Count < discussionsCount;
+                var hasMore = paginationDto.Skip + discussions.Count < discussionsCount;
                 return Ok(new { discussionsCount, discussions, hasMore });
             }
             catch (Exception ex)

@@ -48,6 +48,7 @@ namespace eKids.Controllers
                 var userInformation = await _userInformationRepository
                     .GetAll()
                     .AsNoTracking()
+                    .AsSplitQuery()
                     .Where(c => c.UserId == userId)
                     .Include(c => c.UserJobs)
                     .Include(c => c.UserEducations)

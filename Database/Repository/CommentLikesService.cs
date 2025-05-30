@@ -20,7 +20,7 @@ namespace Database.Repository
 
         public async Task<CommentLikes?> GetUserCommentLikeAsync(int commentId, int userId, CancellationToken token)
         {
-            return await _context.CommentLikes.FirstOrDefaultAsync(c => c.CommentID == commentId && c.UserId == userId);
+            return await _context.CommentLikes.Where(c => c.UserId == userId && c.CommentID == commentId).FirstOrDefaultAsync();
         }
 
         public async Task AddUserLikeAsync(int commentId, int userId, CancellationToken token)

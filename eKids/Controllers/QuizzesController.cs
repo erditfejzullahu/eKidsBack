@@ -166,15 +166,15 @@ namespace eKids.Controllers
             try
             {
                 var query = _context.Quizzes.AsNoTracking();
-                var totalCount = await query.CountAsync();
                 var allProgressQuizzes = await _quizzesCompletedRepository.GetAll().AsNoTracking().ToListAsync(token);
 
                 if (categoryId.HasValue)
                 {
                     query = query.Where(c => c.QuizCategory == categoryId.Value);
                 }
+                var totalCount = await query.CountAsync();
 
-                var sortedQuery = _sorterService.SortData(query, queryDto);
+                var sortedQuery = queryDto.IsEmpty() ? query.OrderByDescending(c => c.CreatedAt) : _sorterService.SortData(query, queryDto);
 
                 paginationDto.Validate();
                 var paginatedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);
@@ -220,7 +220,6 @@ namespace eKids.Controllers
             try
             {
                 var query = _context.Quizzes.AsNoTracking();
-                var totalCount = await query.CountAsync();
 
                 var allProgressQuizzesByUserId = 
                     userId.HasValue ? await _quizzesCompletedRepository
@@ -241,8 +240,9 @@ namespace eKids.Controllers
                 {
                     query = query.Where(c => c.QuizCategory == categoryId.Value);
                 }
+                var totalCount = await query.CountAsync();
 
-                var sortedQuery = _sorterService.SortData(query, queryDto);
+                var sortedQuery = queryDto.IsEmpty() ? query.OrderByDescending(c => c.CreatedAt) : _sorterService.SortData(query, queryDto);
 
                 paginationDto.Validate();
                 var paginatedQuery = sortedQuery.Skip(paginationDto.Skip).Take(paginationDto.Take);

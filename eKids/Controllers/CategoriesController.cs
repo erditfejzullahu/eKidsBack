@@ -129,7 +129,7 @@ namespace eKids.Controllers
         public async Task<IActionResult> getAllCategories([FromQuery] string? searchParam, [FromQuery] SortQueryDto sortQuery, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
 
-            var query = _context.Categories.Include(c => c.Courses).AsNoTracking();
+            var query = _context.Categories.AsNoTracking();
 
             if (!string.IsNullOrEmpty(searchParam))
             {
@@ -141,7 +141,7 @@ namespace eKids.Controllers
             paginationDto.Validate();
             query = query.Skip(paginationDto.Skip).Take(paginationDto.Take);
 
-            var categories = await query.AsSplitQuery().ToListAsync(token);
+            var categories = await query.Include(c => c.Courses).AsSplitQuery().ToListAsync(token);
             if(categories.Count == 0)
             {
                 return NotFound(new { Message = "No categories found!" });

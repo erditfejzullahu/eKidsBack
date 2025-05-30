@@ -516,8 +516,10 @@ namespace eKids.Controllers
                 
                 var query = _context.OnlineMeetings.AsNoTracking();
 
-                query = _sorterService.SortData(query, sortQueryDto);
+                query = sortQueryDto.IsEmpty() ? query.OrderByDescending(c => c.CreatedAt) : _sorterService.SortData(query, sortQueryDto);
                 var totalCount = await query.CountAsync();
+
+                paginationDto.Validate();
 
                 var meetings = await query
                     .Skip(paginationDto.Skip)

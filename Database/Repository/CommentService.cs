@@ -27,6 +27,7 @@ namespace Database.Repository
             try
             {
                 var query = _context.Comments
+                    .AsNoTracking()
                     .Include(c => c.Replies)
                     .Include(c => c.User)
                     .Include(c => c.CommentLikes)

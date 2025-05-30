@@ -52,7 +52,7 @@ namespace eKids.Controllers
         {
             try
             {
-                var getReceiver = await _context.Users.FirstOrDefaultAsync(c => c.Username == shareDto.ReceiverUsername);
+                var getReceiver = await _context.Users.Where(c => c.Username == shareDto.ReceiverUsername).FirstOrDefaultAsync();
                 if(getReceiver == null)
                 {
                     return BadRequest(new { Message = "Invalid username" });

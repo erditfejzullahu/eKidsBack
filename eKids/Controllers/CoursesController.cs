@@ -166,7 +166,6 @@ namespace eKids.Controllers
                 //    : await _courseRepository.CountAsync(token: token);
                 var coursesQuery = _context.Courses.AsNoTracking();
                 
-                var totalCount = await coursesQuery.CountAsync(token);
 
                 if (categoryId.HasValue)
                 {
@@ -178,13 +177,17 @@ namespace eKids.Controllers
                     coursesQuery = coursesQuery.Where(c => EF.Functions.Contains(c.CourseName, $"\"{searchParam}*\""));
                 }
 
-                var sortedQuery = _sorterService.SortData(coursesQuery, sortQuery);
+                var totalCount = await coursesQuery.CountAsync(token);
+                var sortedQuery = sortQuery.IsEmpty() ? coursesQuery.OrderByDescending(c => c.CreatedAt) : _sorterService.SortData(coursesQuery, sortQuery);
 
                 paginationDto.Validate();
                 
                 var courses = await sortedQuery
                     .Include(c => c.Lessons)
-                .ToListAsync(token);
+                    .AsSplitQuery()
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
+                    .ToListAsync(token);
 
                 bool hasMore = (paginationDto.Skip + courses.Count) < totalCount;
 
