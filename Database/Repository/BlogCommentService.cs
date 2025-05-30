@@ -37,13 +37,14 @@ namespace Database.Repository
             try
             {
 
-                var getBlogComment = await _context.BlogComments.FirstOrDefaultAsync(c => c.BlogId == blogId && c.UserId == userId && c.ID == blogCommentId);
+                //var getBlogComment = await _context.BlogComments.FirstOrDefaultAsync(c => c.BlogId == blogId && c.UserId == userId && c.ID == blogCommentId); ??????
+                var getBlogComment = await _context.BlogComments.FindAsync(blogCommentId);
                 if(getBlogComment == null)
                 {
                     throw new ApplicationException("No blog comment found");
                 }
                 using var transaction = await _context.Database.BeginTransactionAsync(token);
-                var blogCommentLike = await _context.BlogCommentLikes.FirstOrDefaultAsync(c => c.UserId == userId && c.CommentId == blogCommentId);
+                var blogCommentLike = await _context.BlogCommentLikes.Where(c => c.UserId == userId && c.CommentId == blogCommentId).FirstOrDefaultAsync();
                 if(blogCommentLike == null)
                 {
                     var commentLike = new BlogCommentLikes
@@ -81,16 +82,15 @@ namespace Database.Repository
         {
             try
             {
+                var query = _context.BlogComments.Where(c => c.BlogId == blogId).AsNoTracking();
                 int? commentCount = null;
 
                 if (!fullBlogComments)
                 {
-                    commentCount = await _context.BlogComments.Where(c => c.BlogId == blogId).CountAsync(token);
+                    commentCount = await query.CountAsync(token);
                 }
 
-                var commentsQuery = await _context.BlogComments
-                    .AsNoTracking()
-                    .Where(c => c.BlogId == blogId)
+                var commentsQuery = await query
                     .Include(c => c.User)
                     //.Include(c => c.Replies)
                     //.Include(c => c.BlogCommentLikes)
