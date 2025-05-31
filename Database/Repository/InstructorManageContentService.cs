@@ -33,6 +33,7 @@ namespace Database.Repository
             public string InstructorName { get; set; }
             public string ProfilePictureUrl { get; set; }
             public string? Image { get; set; }
+            public int ViewCount { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public InstructorCoursesLevels Level { get; set; }
@@ -65,6 +66,7 @@ namespace Database.Repository
             public DateTime ScheduleDateTime { get; set; }
             public int? DurationTime { get; set; }
             public string Status { get; set; }
+            public int ViewCount { get; set; }
             public int Participants { get; set; }
             public MeetingInstructor Instructor { get; set; }
             public DateTime CreatedAt { get; set; }
@@ -108,42 +110,52 @@ namespace Database.Repository
         {
             try
             {
-                var totalCount = await _context.OnlineMeetings.AsNoTracking().Where(c => c.InstructorId == userDto.InstructorId).CountAsync();
                 var query = _context.OnlineMeetings.AsNoTracking().Where(c => c.InstructorId == userDto.InstructorId);
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
+                var totalCount = await query.CountAsync();
+
+                if (!sortQueryDto.IsEmpty())
                 {
-                    if(sortQueryDto.SortNameOrder == "desc")
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
                     {
-                        query = query.OrderByDescending(c => c.Title);
+                        if(sortQueryDto.SortNameOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.Title);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.Title);
+                        }
                     }
-                    else
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByViews))
                     {
-                        query = query.OrderBy(c => c.Title);
+                        if(sortQueryDto.SortViewOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.ViewCount);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.ViewCount);
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByDate))
+                    {
+                        if(sortQueryDto.SortDateOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.CreatedAt);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.CreatedAt);
+                        }
                     }
                 }
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByViews))
+                else
                 {
-                    if(sortQueryDto.SortViewOrder == "desc")
-                    {
-                        query = query.OrderByDescending(c => c.OnlineMeetingsParticipants.Count);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => c.OnlineMeetingsParticipants.Count);
-                    }
+                    query = query.OrderByDescending(c => c.CreatedAt);
                 }
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByDate))
-                {
-                    if(sortQueryDto.SortDateOrder == "desc")
-                    {
-                        query = query.OrderByDescending(c => c.CreatedAt);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => c.CreatedAt);
-                    }
-                }
-                var result = await query.Skip(paginationDto.Skip).Take(paginationDto.Take)
+                paginationDto.Validate();
+                query = query.Skip(paginationDto.Skip).Take(paginationDto.Take);
+                var result = await query
                     .Select(c => new MeetingResult
                     {
                         ID = c.ID,
@@ -152,6 +164,7 @@ namespace Database.Repository
                         Title = c.Title,
                         Description = c.Description,
                         MeetingUrl = c.MeetingUrl,
+                        ViewCount = c.ViewCount,
                         ScheduleDateTime = c.ScheduleDateTime,
                         DurationTime = c.DurationTime ?? null,
                         Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
@@ -182,31 +195,44 @@ namespace Database.Repository
         {
             try
             {
-                var totalCount = await _context.InstructorStudents.AsNoTracking().Where(c => c.InstructorId == userDto.InstructorId).CountAsync();
                 var query = _context.InstructorStudents.AsNoTracking().Where(c => c.InstructorId == userDto.InstructorId);
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
+                var totalCount = await query.CountAsync();
+
+                paginationDto.Validate();
+                if (sortQueryDto.IsEmpty())
                 {
-                    if(sortQueryDto.SortNameOrder == "desc")
-                    {
-                        query = query.OrderByDescending(c => c.User.Firstname);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => c.User.Firstname);
-                    }
+                    query = query.OrderByDescending(c => c.CreatedAt);
                 }
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByDate))
+                else
                 {
-                    if(sortQueryDto.SortDateOrder == "desc")
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
                     {
-                        query = query.OrderByDescending(c => c.CreatedAt);
+                        if(sortQueryDto.SortNameOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.User.Firstname);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.User.Firstname);
+                        }
                     }
-                    else
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByDate))
                     {
-                        query = query.OrderBy(c => c.CreatedAt);
+                        if(sortQueryDto.SortDateOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.CreatedAt);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.CreatedAt);
+                        }
                     }
+
+                    //one logic for how much courses student has attended
                 }
-                var result = await query.Skip(paginationDto.Skip).Take(paginationDto.Take)
+
+                query = query.Skip(paginationDto.Skip).Take(paginationDto.Take);
+                var result = await query
                     .Select(c => new StudentResult
                     {
                         Id = c.User.ID,
@@ -229,42 +255,52 @@ namespace Database.Repository
         {
             try
             {
-                var totalCount = await _context.InstructorCourses.AsNoTracking().Where(c => c.InstructorId == userDto.InstructorId).CountAsync();
                 var query = _context.InstructorCourses.AsNoTracking().Where(c => c.InstructorId == userDto.InstructorId);
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
+                var totalCount = await query.CountAsync();
+
+                if (sortQueryDto.IsEmpty())
                 {
-                    if(sortQueryDto.SortNameOrder == "desc")
+                    query = query.OrderByDescending(c => c.CreatedAt);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByName))
                     {
-                        query = query.OrderByDescending(c => c.Name);
+                        if(sortQueryDto.SortNameOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.Name);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.Name); 
+                        }
                     }
-                    else
+
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByDate))
                     {
-                        query = query.OrderBy(c => c.Name); 
+                        if(sortQueryDto.SortDateOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.CreatedAt);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.CreatedAt);
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(sortQueryDto.SortByViews))
+                    {
+                        if(sortQueryDto.SortViewOrder == "desc")
+                        {
+                            query = query.OrderByDescending(c => c.ViewCount);
+                        }
+                        else
+                        {
+                            query = query.OrderBy(c => c.ViewCount);
+                        }
                     }
                 }
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByDate))
-                {
-                    if(sortQueryDto.SortDateOrder == "desc")
-                    {
-                        query = query.OrderByDescending(c => c.CreatedAt);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => c.CreatedAt);
-                    }
-                }
-                if (!string.IsNullOrEmpty(sortQueryDto.SortByViews))
-                {
-                    if(sortQueryDto.SortViewOrder == "desc")
-                    {
-                        query = query.OrderByDescending(c => c.InstructorStudents.Count);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => c.InstructorStudents.Count);
-                    }
-                }
-                var result = await query.Skip(paginationDto.Skip).Take(paginationDto.Take).Select(c => new CourseResult
+                var result = await query.Select(c => new CourseResult
                 {
                     ID = c.ID,
                     InstructorId = c.InstructorId,
@@ -274,6 +310,7 @@ namespace Database.Repository
                     Name = c.Name,
                     Description = c.Description,
                     Level = c.Level,
+                    ViewCount = c.ViewCount,
                     TopicsCovered = c.TopicsCovered,
                     SectionTitles = c.InstructorCourseSections.Select(ic => ic.Title).ToList(),
                     SectionLessons = c.InstructorCourseSections

@@ -128,6 +128,7 @@ namespace eKids.Controllers
                     CategoryId = courseDto.CategoryId,
                     TopicsCovered = topics,
                     Level = courseDto.Level,
+                    ViewCount = 0,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     InstructorCourseSections = new List<InstructorCourseSections>()
@@ -432,10 +433,10 @@ namespace eKids.Controllers
                     return NotFound();
                 }
 
-                var unSorted = _context.InstructorCourses.AsNoTracking().OrderByDescending(c => c.CreatedAt);
+                var unSorted = _context.InstructorCourses.AsNoTracking();
                 var countCourses = await unSorted.CountAsync();
 
-                var sortedQuery = _sortIntructorCourses.SortData(unSorted, sortQueryDto) ?? unSorted;
+                var sortedQuery = sortQueryDto.IsEmpty() ? unSorted.OrderByDescending(c => c.CreatedAt) : _sortIntructorCourses.SortData(unSorted, sortQueryDto);
 
                 var courses = await sortedQuery
                     //.Include(c => c.Instructor).ThenInclude(c => c.User)

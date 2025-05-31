@@ -19,6 +19,7 @@ namespace Database.Models
         public string Description { get; set; }
         public InstructorCoursesLevels Level { get; set; }
         public string TopicsCovered { get; set; }
+        public int ViewCount { get; set; }
 
         [ForeignKey("InstructorId")]
         public Instructors Instructor { get; set; }

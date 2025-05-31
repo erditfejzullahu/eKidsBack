@@ -85,7 +85,7 @@
         "IsRequired": false
       },
       {
-        "Name": "friendOrAll",
+        "Name": "friendsBlogsOrAll",
         "Type": "System.String",
         "IsRequired": false
       }

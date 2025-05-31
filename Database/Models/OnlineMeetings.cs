@@ -20,6 +20,7 @@ namespace Database.Models
         [Column(TypeName ="datetime")]
         public DateTime ScheduleDateTime { get; set; }
         public int? DurationTime { get; set; }
+        public int ViewCount { get; set; }
         public int InstructorId { get; set; }
         public MeetingStatus Status { get; set; }
 

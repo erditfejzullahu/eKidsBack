@@ -391,6 +391,7 @@ namespace eKids.Controllers
                     MeetingUrl = Guid.NewGuid().ToString(),
                     InstructorId = user.InstructorId,
                     Status = MeetingStatus.Scheduled,
+                    ViewCount = 0,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };

@@ -308,12 +308,12 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Blogs/GetAllBlogs/{userId}")]
-        public async Task<IActionResult> GetAllBlogs(int userId, [FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendOrAll, CancellationToken token)
+        public async Task<IActionResult> GetAllBlogs(int userId, [FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendsBlogsOrAll, CancellationToken token)
         {
             try
             {
                 paginationDto.Validate();
-                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token, BlogDiscussionRetrivalType.AllSection, friendOrAll);
+                var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token, BlogDiscussionRetrivalType.AllSection, friendsBlogsOrAll);
 
                 if(blogs.blogs.Count == 0)
                 {
