@@ -567,6 +567,7 @@ namespace eKids.Controllers
                                 il.Video_Url,
                                 il.CreatedAt,
                                 il.LastModified,
+                                Availability = il.OnlineMeetings.Any(),
                             }).ToList()
                         }).ToList(),
                         Routes = c.InstructorStudents.Any(x => x.UserId == userAuthed && x.CourseId == c.ID) 
