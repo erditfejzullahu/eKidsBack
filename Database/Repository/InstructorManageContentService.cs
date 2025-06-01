@@ -172,7 +172,7 @@ namespace Database.Repository
                         : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
                         : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
                         Participants = c.OnlineMeetingsParticipants.Count(),
-                        Instructor =
+                        Instructor = new MeetingInstructor
                         {
                             Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
                             ProfilePictureUrl = c.Instructor.User.ProfilePictureUrl,
