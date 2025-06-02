@@ -19,14 +19,14 @@ namespace eKids.Controllers
         private readonly ILogger<InstructorsController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IFileUploadService _fileUploadService;
-        private readonly ISorterService<InstructorCourses> _sortIntructorCourses;
+        private readonly ISorterService<InstructorCourses> _sortService;
         private readonly IManageInstructorContentService _instructorContentService;
-        public InstructorsController(ISorterService<InstructorCourses> sortInstructorCourses, IManageInstructorContentService instructorContentService, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
+        public InstructorsController(ISorterService<InstructorCourses> sorterService, IManageInstructorContentService instructorContentService, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
             _fileUploadService = fileUploadService;
-            _sortIntructorCourses = sortInstructorCourses;
+            _sortService = sorterService;
             _instructorContentService = instructorContentService;
         }
 
@@ -436,7 +436,7 @@ namespace eKids.Controllers
                 var unSorted = _context.InstructorCourses.AsNoTracking();
                 var countCourses = await unSorted.CountAsync();
 
-                var sortedQuery = sortQueryDto.IsEmpty() ? unSorted.OrderByDescending(c => c.CreatedAt) : _sortIntructorCourses.SortData(unSorted, sortQueryDto);
+                var sortedQuery = sortQueryDto.IsEmpty() ? unSorted.OrderByDescending(c => c.CreatedAt) : _sortService.SortData(unSorted, sortQueryDto);
 
                 var courses = await sortedQuery
                     //.Include(c => c.Instructor).ThenInclude(c => c.User)
@@ -530,6 +530,61 @@ namespace eKids.Controllers
         }
 
         [Authorize]
+        [HttpGet("TutorCourses/{id}")]
+        public async Task<IActionResult> GetTutorCourses(int id, SortQueryDto sortQueryDto, PaginationDto paginationDto)
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                paginationDto.Validate();
+                var instructor = _context.Users
+                    .AsNoTracking()
+                    .Where(c => c.ID == userId)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        InstructorId = c.Instructor.ID,
+                        c.ProfilePictureUrl,
+                        InstructorName = c.Firstname + " " + c.Lastname,
+                        CourseCreated = c.Instructor.InstructorCourses.Select(cc => new
+                        {
+                            cc.Image,
+                            cc.Name,
+                            cc.Level,
+                            cc.Description,
+                            cc.CategoryId,
+                            cc.Instructor,
+                            EnrolledStudents = cc.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
+                            Enrolled = c.InstructorStudents.Any(s => s.UserId == c.ID),
+                            c.CreatedAt,
+                            UserId = c.ID,
+                            InstructorId = c.Instructor.ID,
+                            c.ProfilePictureUrl,
+                            InstructorName = c.Firstname + " " + c.Lastname
+                        }).ToList()
+                    })
+                    .FirstOrDefault();
+                    
+                if (instructor == null)
+                {
+                    return NotFound();
+                }
+
+                var query = sortQueryDto.IsEmpty() ? instructor.CourseCreated.OrderByDescending(c => c.CreatedAt) : _sortService.SortData(instructor.CourseCreated, sortQueryDto)
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting tutor courses");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
         [HttpGet("Course/{id}")]
         public async Task<IActionResult> GetCourse(int id)
         {
@@ -555,6 +610,8 @@ namespace eKids.Controllers
                         c.Image,
                         IntructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
                         InstructorProfilePicture = c.Instructor.User.ProfilePictureUrl,
+                        InstructorBio = c.Instructor.Bio,
+                        InstructorExpertise = c.Instructor.Expertise,
                         Sections = c.InstructorCourseSections.Select(ic => new
                         {
                             ic.ID,
@@ -567,7 +624,14 @@ namespace eKids.Controllers
                                 il.Video_Url,
                                 il.CreatedAt,
                                 il.LastModified,
-                                Availability = il.OnlineMeetings.Any(),
+                                Meeting = il.OnlineMeetings.Select(om => new
+                                {
+                                    om.ID,
+                                    Status = om.Status == MeetingStatus.Scheduled && om.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
+                                    : om.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
+                                    : om.Status == MeetingStatus.Scheduled && om.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                                    : om.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
+                                }).FirstOrDefault()
                             }).ToList()
                         }).ToList(),
                         Routes = c.InstructorStudents.Any(x => x.UserId == userAuthed && x.CourseId == c.ID) 
