@@ -531,7 +531,7 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet("TutorCourses/{id}")]
-        public async Task<IActionResult> GetTutorCourses(int id, SortQueryDto sortQueryDto, PaginationDto paginationDto)
+        public async Task<IActionResult> GetTutorCourses(int id, [FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto)
         {
             try
             {
@@ -541,9 +541,9 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
                 paginationDto.Validate();
-                var baseQuery = _context.Users
+                var baseQuery = _context.Instructors
                     .Where(u => u.ID == id)
-                    .SelectMany(u => u.Instructor.InstructorCourses);
+                    .SelectMany(u => u.InstructorCourses);
 
                 var sortedQuery = sortQueryDto.IsEmpty()
                     ? baseQuery.OrderByDescending(c => c.CreatedAt)
@@ -556,29 +556,27 @@ namespace eKids.Controllers
                     .Take(paginationDto.Take)
                     .Select(c => new
                     {
+                        c.ID,
                         c.Image,
                         c.Name,
                         c.Level,
                         c.Description,
                         c.CategoryId,
-                        Instructor = new
-                        {
-                            c.Instructor.ID,
-                            Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
-                            c.Instructor.User.ProfilePictureUrl
-                        },
+                        InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                        c.Instructor.User.ProfilePictureUrl,
+                        InstructorId = c.Instructor.ID,
                         EnrolledStudents = c.InstructorStudents.Count,
                         Enrolled = c.InstructorStudents.Any(s => s.UserId == userId),
                         c.CreatedAt
                     })
                     .ToListAsync();
 
-                var instructor = await _context.Users.Where(c => c.ID == id).Select(c => new
+                var instructor = await _context.Instructors.Where(c => c.ID == id).Select(c => new
                 {
-                    c.ID,
-                    c.ProfilePictureUrl,
-                    Name = c.Firstname + " " + c.Lastname,
-                    InstructorId = c.Instructor.ID
+                    c.User.ID,
+                    c.User.ProfilePictureUrl,
+                    Name = c.User.Firstname + " " + c.User.Lastname,
+                    InstructorId = c.ID
                 }).FirstOrDefaultAsync();
 
                 if(instructor == null)
@@ -697,6 +695,8 @@ namespace eKids.Controllers
 
                 var instructor = await _context.Instructors
                     .Where(c => c.ID == instructorId)
+                    .AsNoTracking()
+                    .AsSplitQuery()
                     .Select(c => new
                     {
                         InstructorId = c.ID,
@@ -725,7 +725,7 @@ namespace eKids.Controllers
                             crs.Description,
                             crs.CategoryId,
                             EnrolledStudents = c.InstructorStudents.Where(s => s.CourseId == crs.ID).Count(),
-                            Enrolled = c.InstructorStudents.Any(s => s.UserId == userId),
+                            //Enrolled = c.InstructorStudents.Any(s => s.UserId == userId),
                             c.CreatedAt,
                         }).ToList(),
                         OnlineMeetings = c.OnlineMeetings.Select(om => new

@@ -332,6 +332,10 @@ namespace eKids.Controllers
                 var userResponse = new
                 {
                     Name = userInfo.Firstname + ' ' + userInfo.Lastname,
+                    userInfo.Firstname,
+                    userInfo.Lastname,
+                    userInfo.ProfilePictureUrl,
+                    userInfo.ID
                 };
                 var quizzesCount = await _quizzesRepository.CountAsync(c => c.UserId == userId, token);
                 return Ok(new {Info = userResponse, Count = quizzesCount});
