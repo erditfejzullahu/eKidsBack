@@ -541,41 +541,60 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
                 paginationDto.Validate();
-                var instructor = _context.Users
-                    .AsNoTracking()
-                    .Where(c => c.ID == userId)
+                var baseQuery = _context.Users
+                    .Where(u => u.ID == id)
+                    .SelectMany(u => u.Instructor.InstructorCourses);
+
+                var sortedQuery = sortQueryDto.IsEmpty()
+                    ? baseQuery.OrderByDescending(c => c.CreatedAt)
+                    : _sortService.SortData(baseQuery, sortQueryDto);
+
+                int totalCount = await sortedQuery.CountAsync();
+
+                var courses = await sortedQuery
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
                     .Select(c => new
                     {
-                        c.ID,
-                        InstructorId = c.Instructor.ID,
-                        c.ProfilePictureUrl,
-                        InstructorName = c.Firstname + " " + c.Lastname,
-                        CourseCreated = c.Instructor.InstructorCourses.Select(cc => new
+                        c.Image,
+                        c.Name,
+                        c.Level,
+                        c.Description,
+                        c.CategoryId,
+                        Instructor = new
                         {
-                            cc.Image,
-                            cc.Name,
-                            cc.Level,
-                            cc.Description,
-                            cc.CategoryId,
-                            cc.Instructor,
-                            EnrolledStudents = cc.InstructorStudents.Where(s => s.CourseId == c.ID).Count(),
-                            Enrolled = c.InstructorStudents.Any(s => s.UserId == c.ID),
-                            c.CreatedAt,
-                            UserId = c.ID,
-                            InstructorId = c.Instructor.ID,
-                            c.ProfilePictureUrl,
-                            InstructorName = c.Firstname + " " + c.Lastname
-                        }).ToList()
+                            c.Instructor.ID,
+                            Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                            c.Instructor.User.ProfilePictureUrl
+                        },
+                        EnrolledStudents = c.InstructorStudents.Count,
+                        Enrolled = c.InstructorStudents.Any(s => s.UserId == userId),
+                        c.CreatedAt
                     })
-                    .FirstOrDefault();
-                    
-                if (instructor == null)
+                    .ToListAsync();
+
+                var instructor = await _context.Users.Where(c => c.ID == id).Select(c => new
+                {
+                    c.ID,
+                    c.ProfilePictureUrl,
+                    Name = c.Firstname + " " + c.Lastname,
+                    InstructorId = c.Instructor.ID
+                }).FirstOrDefaultAsync();
+
+                if(instructor == null)
                 {
                     return NotFound();
                 }
 
-                var query = sortQueryDto.IsEmpty() ? instructor.CourseCreated.OrderByDescending(c => c.CreatedAt) : _sortService.SortData(instructor.CourseCreated, sortQueryDto)
-                
+                bool hasMore = (paginationDto.Skip + courses.Count) < totalCount;
+
+
+                return Ok(new
+                {
+                    Instructor = instructor,
+                    Courses = courses,
+                    HasMore = hasMore,
+                });
             }
             catch (Exception ex)
             {
