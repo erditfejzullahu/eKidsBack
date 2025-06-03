@@ -11,6 +11,7 @@ namespace Database.Shared.Enums
         Scheduled = 0,
         Completed = 1,
         Cancelled = 2,
-        Started = 3
+        Started = 3,
+        NotTookPlace = 4,
     }
 }

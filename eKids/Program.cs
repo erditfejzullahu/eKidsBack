@@ -114,6 +114,7 @@ namespace eKids
             builder.Services.AddScoped<IManageInstructorContentService, ManageInstructorContentService>();
             builder.Services.AddSingleton<AiMessageConsumer>();
             builder.Services.AddSingleton<RabbitMqService>();
+            builder.Services.AddHostedService<MeetingStatusBackgroundService>();
             builder.Services.AddScoped(typeof(ISorterService<>), typeof(SorterService<>));
 
             builder.Services.AddSignalR(options =>

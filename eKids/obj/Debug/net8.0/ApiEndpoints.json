@@ -1987,6 +1987,11 @@
         "Name": "Take",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "userActiveMeetingsSection",
+        "Type": "System.Boolean",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
