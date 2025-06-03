@@ -518,7 +518,7 @@ namespace eKids.Controllers
                 var query = userActiveMeetingsSection
                     ? _context.OnlineMeetings
                         .AsNoTracking()
-                        .Where(c => c.Instructor.InstructorStudents.Any(ic => ic.UserId == userAuthed) && c.Status != MeetingStatus.Completed && c.Status != MeetingStatus.Cancelled) 
+                        .Where(c => c.Instructor.InstructorStudents.Any(ic => ic.UserId == userAuthed) && (c.Status == MeetingStatus.Scheduled || c.Status == MeetingStatus.Started)) 
                     : _context.OnlineMeetings.AsNoTracking();
 
                 query = sortQueryDto.IsEmpty() ? query.OrderByDescending(c => c.CreatedAt) : _sorterService.SortData(query, sortQueryDto);

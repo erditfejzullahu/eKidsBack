@@ -84,14 +84,14 @@ namespace eKids.Controllers
 
 
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> PasswordForgot([FromBody] string email)
+        public async Task<IActionResult> PasswordForgot([FromBody] ForgotPasswordDto forgotPasswordDto)
         {
             try
             {
                 var response = new { message = "Nese emaili juaj egziston ne sistemin tone, do te merrni nje link te ndryshimit te fjalekalimit tuaj!" };
-                var token = await _passwordResetService.GeneratePasswordResetTokenAsync(email);
+                var token = await _passwordResetService.GeneratePasswordResetTokenAsync(forgotPasswordDto.Email);
                 if (token == null) return Ok(response);
-                var resetLink = $"frontendUrl/reset-password?email={email}&token={token}";
+                var resetLink = $"frontendUrl/reset-password?email={forgotPasswordDto.Email}&token={token}";
 
                 //send via email...
                 return Ok(response);
