@@ -504,7 +504,7 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet("AllMeetings")]
-        public async Task<IActionResult> GetAllMeetings([FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto)
+        public async Task<IActionResult> GetAllMeetings([FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto, [FromQuery] bool userActiveMeetingsSection = false)
         {
             try
             {
@@ -515,7 +515,11 @@ namespace eKids.Controllers
                 }
 
                 
-                var query = _context.OnlineMeetings.AsNoTracking();
+                var query = userActiveMeetingsSection
+                    ? _context.OnlineMeetings
+                        .AsNoTracking()
+                        .Where(c => c.Instructor.InstructorStudents.Any(ic => ic.UserId == userAuthed) && c.Status != MeetingStatus.Completed && c.Status != MeetingStatus.Cancelled) 
+                    : _context.OnlineMeetings.AsNoTracking();
 
                 query = sortQueryDto.IsEmpty() ? query.OrderByDescending(c => c.CreatedAt) : _sorterService.SortData(query, sortQueryDto);
                 var totalCount = await query.CountAsync();
@@ -533,6 +537,7 @@ namespace eKids.Controllers
                         c.Title,
                         c.Description,
                         c.MeetingUrl,
+                        c.ViewCount,
                         c.ScheduleDateTime,
                         DurationTime = c.DurationTime ?? null,
                         Status = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
