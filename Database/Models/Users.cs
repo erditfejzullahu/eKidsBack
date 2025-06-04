@@ -102,6 +102,9 @@ namespace Database.Models
 
         public ICollection<OnlineMeetingsParticipants> OnlineMeetingParticipated { get; set; } = new List<OnlineMeetingsParticipants>();
 
-        public ICollection<PasswordResetTokens> PasswordResetTokens { get; set; }
+        public ICollection<PasswordResetTokens> PasswordResetTokens { get; set; } = new List<PasswordResetTokens>();
+
+        public ICollection<ReportTickets> SubmittedTickets { get; set; } = new List<ReportTickets>(); 
+        public ICollection<ReportTickets> ReportsAgainstUser { get; set; } = new List<ReportTickets>();
     }
 }

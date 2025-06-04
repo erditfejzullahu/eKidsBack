@@ -53,6 +53,8 @@ namespace Database.Context
         public DbSet<Packages> Packages { get; set; }
         public DbSet<Payments> Payments { get; set; }
         public DbSet<PasswordResetTokens> PasswordResetTokens { get; set; }
+        public DbSet<AvailableTickets> AvailableTickets { get; set; }
+        public DbSet<ReportTickets> ReportTickets { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -156,6 +158,23 @@ namespace Database.Context
                 .HasKey(c => new {c.OnlineMeetId, c.UserId});
             //indexes
 
+            modelBuilder.Entity<ReportTickets>()
+                .HasOne(c => c.UserSubmitted)
+                .WithMany(c => c.SubmittedTickets)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ReportTickets>()
+                .HasOne(c => c.ReportedUser)
+                .WithMany(c => c.ReportsAgainstUser)
+                .HasForeignKey(c => c.ReportedUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReportTickets>()
+                .HasOne(c => c.AvailableTicket)
+                .WithMany(c => c.Tickets)
+                .HasForeignKey(c => c.AvailableTicketId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<PasswordResetTokens>()
                 .HasOne(c => c.User)
