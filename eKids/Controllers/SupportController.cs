@@ -82,6 +82,74 @@ namespace eKids.Controllers
             }
         }
 
+        [HttpGet("GetAvailableTickets")]
+        public async Task<IActionResult> GetAvailableTickets()
+        {
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var tickets = await _context.AvailableTickets.ToListAsync();
+                if(tickets.Count == 0)
+                {
+                    return NotFound(new {Message = "No Available Tickets found"});
+                }
+                return Ok(tickets);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all available tickets");
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles ="Admin")]
+        [HttpGet("GetReportSupportTickets")]
+        public async Task<IActionResult> GetReportSupportTickets()
+        {
+            try
+            {
+                var tickets = await _context.ReportTickets
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.UserId,
+                        c.AvailableTicket,
+                        ReportedUser = new
+                        {
+                            Name = c.ReportedUser.Firstname + " " + c.ReportedUser.Lastname,
+                            c.ReportedUser.ID,
+                            c.ReportedUser.ProfilePictureUrl
+                        },
+                        SubmittedUser = new
+                        {
+                            Name = c.UserSubmitted.Firstname + " " + c.UserSubmitted.Lastname,
+                            c.UserSubmitted.ID,
+                            c.UserSubmitted.ProfilePictureUrl
+                        },
+                        c.OtherMessage,
+                        c.CreatedAt,
+                        c.LastModified
+                    }).ToListAsync();
+
+                if(tickets.Count == 0)
+                {
+                    return NotFound(new { Message = "No tickets made found" });
+                }
+                return Ok(tickets);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting report support tickets");
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteAvailableTicket/{id}")]
         public async Task<IActionResult> DeleteAvailableTicket(int id)
         {
