@@ -15,7 +15,7 @@ namespace Database.Models
         public int AvailableTicketId { get; set; }
         public int? ReportedUserId { get; set; }
         public string? OtherMessage { get; set; }
-
+        public string? Image { get; set; }
         [ForeignKey("UserId")]
         public Users UserSubmitted { get; set; }
 

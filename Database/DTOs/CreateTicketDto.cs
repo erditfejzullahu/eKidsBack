@@ -15,6 +15,7 @@ namespace Database.DTOs
         [Required]
         public int TicketCreatorUserId { get; set; }
         public int? ReportedUserId { get; set; }
+        public string? Base64Data { get; set; }
         public string? OtherMessage { get; set; }
     }
 

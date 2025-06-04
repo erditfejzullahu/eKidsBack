@@ -360,9 +360,9 @@ namespace eKids.Controllers
         {
             try
             {
-                var users = await _usersRepository
-                    .GetAll()
-                    .Where(c => EF.Functions.Contains(c.Firstname, $"\"{searchParam}*\"") || EF.Functions.Contains(c.Lastname, $"\"{searchParam}*\""))
+                var users = await _context.Users.AsNoTracking()
+                    .Where(c => EF.Functions.Contains(c.Firstname, $"\"{searchParam}*\""))
+                    //.Where(c => c.Firstname.Contains(searchParam))
                     .Select(c => new
                     {
                         c.ID,

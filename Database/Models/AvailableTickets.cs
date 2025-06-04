@@ -13,7 +13,7 @@ namespace Database.Models
         [Column("Id")]
         public override int ID { get; set; }
         public string TicketTitle { get; set; }
-        public AvailableTicketsTypes TicketTypes { get; set; }
+        public AvailableTicketsTypes TicketType { get; set; }
         public ICollection<ReportTickets> Tickets { get; set; }  = new List<ReportTickets>();
     }
 }

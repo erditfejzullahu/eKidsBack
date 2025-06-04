@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.DTOs;
 using Database.Models;
+using Database.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace eKids.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<SupportController> _logger;
+        private readonly IFileUploadService _uploadService;
 
-        public SupportController(ApplicationDbContext context, ILogger<SupportController> logger)
+        public SupportController(ApplicationDbContext context, ILogger<SupportController> logger, IFileUploadService uploadService)
         {
             _context = context;
             _logger = logger;
+            _uploadService = uploadService;
         }
 
         [Authorize]
@@ -34,12 +37,20 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
+                string? url = string.Empty;
+                if (!string.IsNullOrEmpty(ticketDto.Base64Data))
+                {
+                    var relativeUrl = _uploadService.UploadFile(ticketDto.Base64Data, FileCategory.Other);
+                    url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
+                }
+
                 var ticket = new ReportTickets
                 {
                     UserId = userId,
                     AvailableTicketId = ticketDto.AvailableTicketId,
                     ReportedUserId = ticketDto.ReportedUserId,
                     OtherMessage = ticketDto.OtherMessage,
+                    Image = url,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
@@ -65,7 +76,7 @@ namespace eKids.Controllers
                 var ticket = new AvailableTickets
                 {
                     TicketTitle = ticketDto.TicketTitle,
-                    TicketTypes = ticketDto.TicketType,
+                    TicketType = ticketDto.TicketType,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
@@ -93,7 +104,7 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                var tickets = await _context.AvailableTickets.ToListAsync();
+                var tickets = await _context.AvailableTickets.OrderBy(c => c.CreatedAt).ToListAsync();
                 if(tickets.Count == 0)
                 {
                     return NotFound(new {Message = "No Available Tickets found"});

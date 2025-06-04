@@ -2717,6 +2717,74 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "eKids.Controllers.SupportController",
+    "Method": "CreateAvailableTickets",
+    "RelativePath": "api/Support/CreateAvailableTicket",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticketDto",
+        "Type": "Database.DTOs.CreateAvailableTicketDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.SupportController",
+    "Method": "CreateReportSupport",
+    "RelativePath": "api/Support/CreateReportSupportTicket",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticketDto",
+        "Type": "Database.DTOs.CreateReportSupportTicketDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.SupportController",
+    "Method": "DeleteAvailableTicket",
+    "RelativePath": "api/Support/DeleteAvailableTicket/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.SupportController",
+    "Method": "GetAvailableTickets",
+    "RelativePath": "api/Support/GetAvailableTickets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.SupportController",
+    "Method": "GetReportSupportTickets",
+    "RelativePath": "api/Support/GetReportSupportTickets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "eKids.Controllers.UserFriendsController",
     "Method": "AcceptFriend",
     "RelativePath": "api/UserFriends/AcceptFriendRequest",
@@ -3219,8 +3287,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "email",
-        "Type": "System.String",
+        "Name": "forgotPasswordDto",
+        "Type": "Database.DTOs.ForgotPasswordDto",
         "IsRequired": true
       }
     ],
