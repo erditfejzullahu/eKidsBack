@@ -4,6 +4,7 @@ using Database.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace eKids.Controllers
@@ -77,6 +78,27 @@ namespace eKids.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating available ticket");
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("DeleteAvailableTicket/{id}")]
+        public async Task<IActionResult> DeleteAvailableTicket(int id)
+        {
+            try
+            {
+                var ticket = await _context.AvailableTickets.FirstOrDefaultAsync(c => c.ID == id);
+                if(ticket == null)
+                {
+                    return NotFound(new { Message = "No ticket found" });
+                }
+                _context.AvailableTickets.Remove(ticket);
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "ticket deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleeting available ticket");
                 return BadRequest();
             }
         }
