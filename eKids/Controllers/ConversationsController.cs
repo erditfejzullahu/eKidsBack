@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Configuration;
 
 namespace eKids.Controllers
 {
@@ -284,25 +285,20 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/Conversations/{sender}/{receiver}")]
-        public async Task<IActionResult> GetMessagesMade(string sender, string receiver, [FromQuery] int page = 1, [FromQuery] int pageSize = 15, CancellationToken token = default)
+        public async Task<IActionResult> GetMessagesMade(string sender, string receiver, [FromQuery] PaginationDto paginationDto , CancellationToken token = default)
         {
             try
             {
-                if (page <= 0)
-                {
-                    return BadRequest("Page must be greater than 0.");
-                }
+                paginationDto.Validate();
 
-                if (pageSize <= 0 || pageSize > 100)
-                {
-                    return BadRequest("Page size must be between 1 and 100.");
-                }
+                var query = _context.Conversations.AsNoTracking().Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender));
+                var totalCount = await query.CountAsync();
 
-                var skip = (page - 1) * pageSize;
-
-                var messages = await _context.Conversations
+                var messages = await query
                     .AsSplitQuery()
-                    .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
+                    .OrderByDescending(c => c.CreatedAt)
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
                     .Select(c => new
                     {
                         c.ID,
@@ -403,13 +399,11 @@ namespace eKids.Controllers
                             DurationTime = c.OnlineMeeting.DurationTime ?? null,
                         } : null
                     })
-                    .OrderByDescending(c => c.CreatedAt)
-                    .Skip(skip)
-                    .Take(pageSize)
-                    .ToListAsync(token);
+                .ToListAsync(token);
 
+                bool hasMore = (paginationDto.Skip + messages.Count) < totalCount;
 
-                return Ok(messages);
+                return Ok(new {messages, hasMore});
             }
             catch (Exception ex)
             {
