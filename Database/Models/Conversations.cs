@@ -31,6 +31,22 @@ namespace Database.Models
         public int? CourseId { get; set; }
         public int? BlogId { get; set; }
         public int? DiscussionId { get; set; }
+        public int? OnlineMeetingId { get; set; }
+        public int? InstructorCourseId { get; set; }
+        public int? InstructorLessonId { get; set; }
+        public int? InstructorId { get; set; }
+
+        [ForeignKey("OnlineMeetingId")]
+        public OnlineMeetings OnlineMeeting { get; set; }
+
+        [ForeignKey("InstructorCourseId")]
+        public InstructorCourses InstructorCourse { get; set; }
+
+        [ForeignKey("InstructorLessonId")]
+        public InstructorLessons InstructorLesson { get; set; }
+
+        [ForeignKey("InstructorId")]
+        public Instructors Instructor { get; set; }
 
         [ForeignKey("BlogId")]
         public Blogs Blog { get; set; }

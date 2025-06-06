@@ -18,7 +18,7 @@ namespace Database.Models
 
         [ForeignKey("UserId")]
         public virtual Users User { get; set; }
-
+        public ICollection<Conversations> InstructorConversations { get; set; } = new List<Conversations>();
         public ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
         public ICollection<InstructorCourses> InstructorCourses { get; set; } = new List<InstructorCourses>();
 

@@ -33,6 +33,7 @@ namespace Database.Models
         [ForeignKey("InstructorId")]
         public Instructors Instructor { get; set; }
 
+        public ICollection<Conversations> OnlineMeetingConversations { get; set; } = new List<Conversations>();
         public ICollection<OnlineMeetingsParticipants> OnlineMeetingsParticipants { get; set; } = new List<OnlineMeetingsParticipants>();
     }
 }

@@ -26,6 +26,7 @@ namespace Database.Models
         [ForeignKey("CategoryId")]
         public Categories Category { get; set; }
 
+        public ICollection<Conversations> InstructorCourseConversations { get; set; } = new List<Conversations>();
         public ICollection<InstructorCourseSections> InstructorCourseSections { get; set; } = new List<InstructorCourseSections>();
         public ICollection<InstructorStudents> InstructorStudents { get; set; } = new List<InstructorStudents>();
 

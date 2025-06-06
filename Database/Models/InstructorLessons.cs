@@ -18,7 +18,7 @@ namespace Database.Models
 
         [ForeignKey("Section_Id")]
         public InstructorCourseSections InstructorCourseSections { get; set; }
-
+        public ICollection<Conversations> InstructorLessonConversations = new List<Conversations>();
         public ICollection<OnlineMeetings> OnlineMeetings { get; set; } = new List<OnlineMeetings>();
         public ICollection<StudentCourseLessonProgress> CourseLessonProgresses { get; set; } = new List<StudentCourseLessonProgress>();
     }
