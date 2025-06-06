@@ -129,7 +129,20 @@ namespace eKids.Controllers
                 return BadRequest(new { Message = "Error in sharing user" });
             }
         }
-
+        private async Task HandleInstructorOnlineMeeting(ShareItemDto shareItem)
+        {
+            var onlineMeeting = await _context.OnlineMeetings.FindAsync(shareItem.OnlineMeetingId) ?? throw new ApplicationException("invalid online meeting id provided");
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                OnlineMeetingId = shareItem.OnlineMeetingId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
+        }
         private async Task HandleInstructorLessonShare(ShareItemDto shareItem)
         {
             var instructorLesson = await _context.InstructorLessons.FindAsync(shareItem.InstructorLessonId) ?? throw new ApplicationException("Invalid instructor lesson id provided");
@@ -144,7 +157,6 @@ namespace eKids.Controllers
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
         }
-
         private async Task HandleInstructorCourseShare(ShareItemDto shareItem)
         {
             var instructorCourse = await _context.InstructorCourses.FindAsync(shareItem.InstructorCourseId) ?? throw new ApplicationException("Invalid instructor course id provided");
@@ -159,7 +171,6 @@ namespace eKids.Controllers
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
         }
-
         private async Task HandleInstructorShare(ShareItemDto shareItem)
         {
             var instructor = await _context.Instructors.FindAsync(shareItem.InstructorId);
@@ -178,7 +189,6 @@ namespace eKids.Controllers
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
         }
-
         private async Task HandleDiscussionShare(ShareItemDto shareItem)
         {
             var discussionCheck = await _context.Discussions.FindAsync(shareItem.DiscussionId);
@@ -218,7 +228,6 @@ namespace eKids.Controllers
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
         }
-
         private async Task HandleLessonShare(ShareItemDto shareItem)
         {
             var lessonCheck = await _context.Lessons.FindAsync(shareItem.LessonId);
@@ -255,7 +264,6 @@ namespace eKids.Controllers
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
         }
-
         private async Task HandleQuizShare(ShareItemDto shareItem)
         {
             var quizCheck = await _context.Quizzes.FindAsync(shareItem.QuizId);
@@ -295,10 +303,6 @@ namespace eKids.Controllers
                 var messages = await _context.Conversations
                     .AsSplitQuery()
                     .Where(c => (c.SenderUsername == sender && c.ReceiverUsername == receiver) || (c.SenderUsername == receiver && c.ReceiverUsername == sender))
-                    .Include(c => c.Quiz)      // Include Quiz if it's related to Conversations
-                    .Include(c => c.Lesson).ThenInclude(c => c.Course)    // Include Lesson if it's related to Conversations
-                    .Include(c => c.Course)
-                    .Include(c => c.Blog)
                     .Select(c => new
                     {
                         c.ID,
@@ -356,7 +360,47 @@ namespace eKids.Controllers
                             c.Course.CourseFeaturedImage,
                             c.Course.CourseName,
                             c.Course.CourseDescription,
+                            c.Course.CourseCategory,
                             c.Course.CreatedAt
+                        } : null,
+                        InstructorCourse = c.InstructorCourse != null ? new
+                        {
+                            c.InstructorCourse.ID,
+                            c.InstructorCourse.Name,
+                            c.InstructorCourse.Description,
+                            c.InstructorCourse.CategoryId,
+                            c.InstructorCourse.Image,
+                            c.InstructorCourse.CreatedAt
+                        } : null,
+                        InstructorLesson = c.InstructorLesson != null ? new
+                        {
+                            c.InstructorLesson.ID,
+                            c.InstructorLesson.Title,
+                            c.InstructorLesson.Content,
+                            c.InstructorLesson.InstructorCourseSections.InstructorCourses.CategoryId,
+                            c.InstructorLesson.InstructorCourseSections.InstructorCourses.Image,
+                            c.InstructorLesson.CreatedAt,
+                        } : null,
+                        Instructor = c.Instructor != null ? new
+                        {
+                            c.Instructor.ID,
+                            c.Instructor.UserId,
+                            Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                            c.Instructor.User.ProfilePictureUrl,
+                            InstructorCourses = c.Instructor.InstructorCourses.Count,
+                            InstructorStudents = c.Instructor.InstructorStudents.Count,
+                            c.CreatedAt
+                        } : null,
+                        OnlineMeeting = c.OnlineMeeting != null ? new
+                        {
+                            c.OnlineMeeting.ID,
+                            c.OnlineMeeting.Title,
+                            Course = c.OnlineMeeting.Course ?? null,
+                            Lesson = c.OnlineMeeting.Lesson ?? null,
+                            c.OnlineMeeting.Description,
+                            c.OnlineMeeting.ViewCount,
+                            c.OnlineMeeting.ScheduleDateTime,
+                            DurationTime = c.OnlineMeeting.DurationTime ?? null,
                         } : null
                     })
                     .OrderByDescending(c => c.CreatedAt)
