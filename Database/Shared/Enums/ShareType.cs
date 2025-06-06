@@ -12,6 +12,10 @@ namespace Database.Shared.Enums
         Lesson = 2,
         Course = 3,
         Blogs = 4,
-        Discussion = 5
+        Discussion = 5,
+        Instructor = 6,
+        InstructorCourse = 7,
+        InstructorLesson = 8,
+        InstructorOnlineMeeting = 9
     }
 }

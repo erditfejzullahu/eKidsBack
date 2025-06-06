@@ -80,6 +80,18 @@ namespace eKids.Controllers
                     case ShareType.Discussion:
                         await HandleDiscussionShare(shareDto);
                         break;
+                    case ShareType.Instructor:
+                        await HandleInstructorShare(shareDto);
+                        break;
+                    case ShareType.InstructorCourse:
+                        await HandleInstructorCourseShare(shareDto);
+                        break;
+                    case ShareType.InstructorLesson:
+                        await HandleInstructorLessonShare(shareDto);
+                        break;
+                    case ShareType.InstructorOnlineMeeting:
+                        await HandleInstructorOnlineMeeting(shareDto);
+                        break;
                     default: return BadRequest(new { Message = "invalid share type" });
                 }
 
@@ -91,10 +103,15 @@ namespace eKids.Controllers
                         : shareType == ShareType.Lesson ? $"{shareDto.SenderUsername} të dërgoi nje leksion"
                         : shareType == ShareType.Course ? $"{shareDto.SenderUsername} të dërgoi nje kurs"
                         : shareType == ShareType.Quiz ? $"{shareDto.SenderUsername} të dërgoi nje kuiz"
-                        : $"{shareDto.SenderUsername} të dërgoi nje diskutim";
+                        : shareType == ShareType.Discussion ? $"{shareDto.SenderUsername} të dërgoi nje diskutim"
+                        : shareType == ShareType.InstructorLesson ? $"{shareDto.SenderUsername} të dërgoi nje leksion online"
+                        : shareType == ShareType.InstructorCourse ? $"{shareDto.SenderUsername} të dërgoi nje kurs online"
+                        : shareType == ShareType.Instructor ? $"{shareDto.SenderUsername} të dërgoi nje instruktor"
+                        : $"{shareDto.SenderUsername} të dërgoi nje takim online"
+                        ;
 
                     var responseId =
-                        shareType == ShareType.Blogs ? shareDto.BlogId : shareType == ShareType.Course ? shareDto.CourseId : shareType == ShareType.Lesson ? shareDto.LessonId : shareType == ShareType.Quiz ? shareDto.QuizId : shareDto.DiscussionId;
+                        shareType == ShareType.Blogs ? shareDto.BlogId : shareType == ShareType.Course ? shareDto.CourseId : shareType == ShareType.Lesson ? shareDto.LessonId : shareType == ShareType.Quiz ? shareDto.QuizId : shareType == ShareType.Discussion ? shareDto.DiscussionId : shareType == ShareType.Instructor ? shareDto.InstructorId : shareType == ShareType.InstructorCourse ? shareDto.InstructorCourseId : shareType == ShareType.InstructorLesson ? shareDto.InstructorLessonId : shareDto.OnlineMeetingId;
                     var response = new
                     {
                         toastTitle = responseTitle,
@@ -111,6 +128,55 @@ namespace eKids.Controllers
                 _logger.LogError(ex, $"Error in sharing to user${shareDto.ReceiverUsername}");
                 return BadRequest(new { Message = "Error in sharing user" });
             }
+        }
+
+        private async Task HandleInstructorLessonShare(ShareItemDto shareItem)
+        {
+            var instructorLesson = await _context.InstructorLessons.FindAsync(shareItem.InstructorLessonId) ?? throw new ApplicationException("Invalid instructor lesson id provided");
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                InstructorLessonId = shareItem.InstructorLessonId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task HandleInstructorCourseShare(ShareItemDto shareItem)
+        {
+            var instructorCourse = await _context.InstructorCourses.FindAsync(shareItem.InstructorCourseId) ?? throw new ApplicationException("Invalid instructor course id provided");
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                InstructorCourseId = shareItem.InstructorCourseId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task HandleInstructorShare(ShareItemDto shareItem)
+        {
+            var instructor = await _context.Instructors.FindAsync(shareItem.InstructorId);
+            if (instructor == null)
+            {
+                throw new ApplicationException("Invalid instructor id provided");
+            }
+            var newConversation = new Conversations
+            {
+                SenderUsername = shareItem.SenderUsername,
+                ReceiverUsername = shareItem.ReceiverUsername,
+                InstructorId = shareItem.InstructorId,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow
+            };
+            await _context.Conversations.AddAsync(newConversation);
+            await _context.SaveChangesAsync();
         }
 
         private async Task HandleDiscussionShare(ShareItemDto shareItem)
