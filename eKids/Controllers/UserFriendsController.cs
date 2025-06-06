@@ -195,7 +195,7 @@ namespace eKids.Controllers
         }
 
         [HttpGet("/api/UserFriends/GetAllByUser/{userId}")]
-        public async Task<IActionResult> GetAllCloseFriends(int userId, [FromQuery] UsersRelationshipTypes types, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllCloseFriends(int userId, [FromQuery] UsersRelationshipTypes types, [FromQuery] PaginationDto paginationDto, [FromQuery] string? searchParam, CancellationToken token)
         {
             try
             {
@@ -207,11 +207,17 @@ namespace eKids.Controllers
 
                 IQueryable<object>? result = null;
 
+                paginationDto.Validate();
+
                 switch (types)
                 {
                     case UsersRelationshipTypes.All:
-                        result = _usersRepository
-                            .GetAll()
+                        var usersQuery = _context.Users.AsNoTracking();
+                        if (!string.IsNullOrEmpty(searchParam))
+                        {
+                            usersQuery = usersQuery.Where(c => EF.Functions.Contains(c.Firstname, $"\"{searchParam}*\"") || EF.Functions.Contains(c.Lastname, $"\"{searchParam}*\""));
+                        }
+                        result = usersQuery
                             .AsSplitQuery()
                             .OrderBy(c => c.ID)
                             .Select(c => new
@@ -224,38 +230,39 @@ namespace eKids.Controllers
                                 c.ProfilePictureUrl,
                                 c.CreatedAt,
                                 c.Username,
-                                LastMessage = new
-                                {
-                                    Message = c.ReceivedMessages
-                                    .Where(ru => ru.ReceiverUsername == currentUser.Username && ru.SenderUsername == c.Username ||
-                                    ru.ReceiverUsername == c.Username && ru.SenderUsername == currentUser.Username)
-                                    .Union(c.SentMessages.Where(su => su.SenderUsername == c.Username && su.ReceiverUsername == currentUser.Username ||
-                                    su.SenderUsername == currentUser.Username && su.ReceiverUsername == c.Username))
-                                    .Select(s => new
+                                LastMessage = _context.Conversations
+                                    .Where(m => (m.ReceiverUsername == currentUser.Username && m.SenderUsername == c.Username) ||
+                                               (m.ReceiverUsername == c.Username && m.SenderUsername == currentUser.Username))
+                                    .OrderByDescending(m => m.CreatedAt)
+                                    .Select(m => new
                                     {
-                                        s.SenderUsername,
-                                        s.ReceiverUsername,
-                                        s.Content,
-                                        s.IsRead,
-                                        s.BlogId,
-                                        s.LessonId,
-                                        s.CourseId,
-                                        s.QuizId,
-                                        s.CreatedAt
+                                        m.SenderUsername,
+                                        m.ReceiverUsername,
+                                        m.Content,
+                                        m.IsRead,
+                                        m.BlogId,
+                                        m.LessonId,
+                                        m.CourseId,
+                                        m.InstructorId,
+                                        m.InstructorCourseId,
+                                        m.InstructorLessonId,
+                                        m.OnlineMeetingId,
+                                        m.QuizId,
+                                        m.CreatedAt
                                     })
-                                    .OrderByDescending(c => c.CreatedAt)
                                     .FirstOrDefault()
-                                }
                             });
                         break;
                     case UsersRelationshipTypes.Friends:
-                        result = _friendsRepository
-                            .GetAll()
+                        var friendsQuery = _context.Friends.AsNoTracking();
+                        if (!string.IsNullOrEmpty(searchParam))
+                        {
+                            friendsQuery = friendsQuery.Where(c => EF.Functions.Contains(c.User.Firstname, $"\"{searchParam}*\"") || EF.Functions.Contains(c.User.Lastname, $"\"{searchParam}*\""));
+                        }
+                        result = friendsQuery
                             .AsSplitQuery()
                             .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
-                            .Include(c => c.Friend)
-                            .Include(c => c.User)
                             .Select(c => new
                             {
                                 c.Friend.ID,
@@ -266,33 +273,36 @@ namespace eKids.Controllers
                                 c.Friend.ProfilePictureUrl,
                                 c.Friend.CreatedAt,
                                 c.Friend.Username,
-                                LastMessage = new
-                                {
-                                    Message = c.Friend.ReceivedMessages
-                                    .Where(ru => ru.ReceiverUsername == currentUser.Username && ru.SenderUsername == c.Friend.Username ||
-                                    ru.ReceiverUsername == c.Friend.Username && ru.SenderUsername == currentUser.Username)
-                                    .Union(c.Friend.SentMessages.Where(su => su.SenderUsername == c.Friend.Username && su.ReceiverUsername == currentUser.Username ||
-                                    su.SenderUsername == currentUser.Username && su.ReceiverUsername == c.Friend.Username))
-                                    .Select(s => new
+                                LastMessage = _context.Conversations
+                                    .Where(m => (m.ReceiverUsername == currentUser.Username && m.SenderUsername == c.Friend.Username) ||
+                                               (m.ReceiverUsername == c.Friend.Username && m.SenderUsername == currentUser.Username))
+                                    .OrderByDescending(m => m.CreatedAt)
+                                    .Select(m => new
                                     {
-                                        s.SenderUsername,
-                                        s.ReceiverUsername,
-                                        s.Content,
-                                        s.IsRead,
-                                        s.BlogId,
-                                        s.LessonId,
-                                        s.CourseId,
-                                        s.QuizId,
-                                        s.CreatedAt
+                                        m.SenderUsername,
+                                        m.ReceiverUsername,
+                                        m.Content,
+                                        m.IsRead,
+                                        m.BlogId,
+                                        m.LessonId,
+                                        m.CourseId,
+                                        m.InstructorId,
+                                        m.InstructorCourseId,
+                                        m.InstructorLessonId,
+                                        m.OnlineMeetingId,
+                                        m.QuizId,
+                                        m.CreatedAt
                                     })
-                                    .OrderByDescending(c => c.CreatedAt)
                                     .FirstOrDefault()
-                                }
                             });                            
                         break;
                     case UsersRelationshipTypes.CloseFriends:
-                        result = _closeRepository
-                            .GetAll()
+                        var closeFriendQuery = _context.CloseFriends.AsNoTracking();
+                        if (!string.IsNullOrEmpty(searchParam))
+                        {
+                            closeFriendQuery = closeFriendQuery.Where(c => EF.Functions.Contains(c.User.Firstname, $"\"{searchParam}*\"") || EF.Functions.Contains(c.User.Lastname, $"\"{searchParam}*\""));
+                        }
+                        result = closeFriendQuery
                             .AsSplitQuery()
                             .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
@@ -307,34 +317,32 @@ namespace eKids.Controllers
                                 c.CloseFriend.ProfilePictureUrl,
                                 c.CloseFriend.CreatedAt,
                                 c.CloseFriend.Username,
-                                LastMessage = new
-                                {
-                                    Message = c.CloseFriend.ReceivedMessages
-                                    .Where(ru => ru.ReceiverUsername == currentUser.Username && ru.SenderUsername == c.CloseFriend.Username ||
-                                    ru.ReceiverUsername == c.CloseFriend.Username && ru.SenderUsername == currentUser.Username)
-                                    .Union(c.CloseFriend.SentMessages.Where(su => su.SenderUsername == c.CloseFriend.Username && su.ReceiverUsername == currentUser.Username ||
-                                    su.SenderUsername == currentUser.Username && su.ReceiverUsername == c.CloseFriend.Username))
-                                    .Select(s => new
+                                LastMessage = _context.Conversations
+                                    .Where(m => (m.ReceiverUsername == currentUser.Username && m.SenderUsername == c.CloseFriend.Username) ||
+                                               (m.ReceiverUsername == c.CloseFriend.Username && m.SenderUsername == currentUser.Username))
+                                    .OrderByDescending(m => m.CreatedAt)
+                                    .Select(m => new
                                     {
-                                        s.SenderUsername,
-                                        s.ReceiverUsername,
-                                        s.Content,
-                                        s.IsRead,
-                                        s.BlogId,
-                                        s.LessonId,
-                                        s.CourseId,
-                                        s.QuizId,
-                                        s.CreatedAt
+                                        m.SenderUsername,
+                                        m.ReceiverUsername,
+                                        m.Content,
+                                        m.IsRead,
+                                        m.BlogId,
+                                        m.LessonId,
+                                        m.CourseId,
+                                        m.InstructorId,
+                                        m.InstructorCourseId,
+                                        m.InstructorLessonId,
+                                        m.OnlineMeetingId,
+                                        m.QuizId,
+                                        m.CreatedAt
                                     })
-                                    .OrderByDescending(c => c.CreatedAt)
                                     .FirstOrDefault()
-                                }
                             });
                         break;
                     default:
                         break;
                 }
-
 
                 var paginatedQuery = result.Skip(paginationDto.Skip).Take(paginationDto.Take);
                 if(await paginatedQuery.AnyAsync(token))
@@ -361,7 +369,7 @@ namespace eKids.Controllers
             try
             {
                 var users = await _context.Users.AsNoTracking()
-                    .Where(c => EF.Functions.Contains(c.Firstname, $"\"{searchParam}*\""))
+                    .Where(c => EF.Functions.Contains(c.Firstname, $"\"{searchParam}*\"") || EF.Functions.Contains(c.Lastname, $"\"{searchParam}*\""))
                     //.Where(c => c.Firstname.Contains(searchParam))
                     .Select(c => new
                     {
