@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Globalization;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 
@@ -159,6 +160,19 @@ namespace eKids.Controllers
                     return Unauthorized(new { Message = "Login incorrect!" });
                 }
 
+                CultureInfo albanianCulture = new CultureInfo("sq-AL");
+
+                var loginNotification = new Notifications
+                {
+                    ReceiverId = checkUser.ID,
+                    Information = $"Njofim mbi kycjen ne llogarine tuaj me {DateTime.Now.ToString("f", albanianCulture)}",
+                    Type = Shared.Enums.NotificationsType.LoginActivity,
+                    IsRead = false,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(loginNotification, cancToken);
+
                 var existingCommit = await _context.Commits.Where(c => c.UserId == checkUser.ID && c.Date == DateOnly.FromDateTime(DateTime.UtcNow.Date)).FirstOrDefaultAsync(cancToken);
                 if (existingCommit == null)
                 {
@@ -171,15 +185,14 @@ namespace eKids.Controllers
                         LastModified = DateTime.UtcNow,
                     };
                     await _context.Commits.AddAsync(newCommit, cancToken);
-                    await _context.SaveChangesAsync(cancToken);
                 }
                 else
                 {
                     existingCommit.Count += 1;
                     existingCommit.LastModified = DateTime.UtcNow;
                     _context.Commits.Update(existingCommit);
-                    await _context.SaveChangesAsync(cancToken);
                 }
+                    await _context.SaveChangesAsync(cancToken);
 
                 var response = new
                 {
