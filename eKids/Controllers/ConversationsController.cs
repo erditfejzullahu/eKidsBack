@@ -20,13 +20,15 @@ namespace eKids.Controllers
         private readonly ILogger<ConversationsController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IHubContext<NotificationsHub> _notificationsHub;
+        private readonly IHubContext<ChatHub> _chatHub;
 
-        public ConversationsController(IRepository<Conversations> conversationsRepository, IHubContext<NotificationsHub> notificationsHub, ApplicationDbContext context, ILogger<ConversationsController> logger)
+        public ConversationsController(IRepository<Conversations> conversationsRepository, IHubContext<ChatHub> chatHub, IHubContext<NotificationsHub> notificationsHub, ApplicationDbContext context, ILogger<ConversationsController> logger)
         {
             _conversationsRepository = conversationsRepository;
             _logger = logger;
             _context = context;
             _notificationsHub = notificationsHub;
+            _chatHub = chatHub;
         }
 
         [HttpPost]
@@ -54,7 +56,8 @@ namespace eKids.Controllers
             try
             {
                 var getReceiver = await _context.Users.Where(c => c.Username == shareDto.ReceiverUsername).FirstOrDefaultAsync();
-                if(getReceiver == null)
+                var getSender = await _context.Users.Where(c => c.Username == shareDto.SenderUsername).FirstOrDefaultAsync();
+                if(getReceiver == null || getSender == null)
                 {
                     return BadRequest(new { Message = "Invalid username" });
                 }
@@ -96,30 +99,33 @@ namespace eKids.Controllers
                     default: return BadRequest(new { Message = "invalid share type" });
                 }
 
+
                 var connectedUser = ConnectionMapping.GetConnectionId(getReceiver.Username);
                 if(connectedUser != null)
                 {
                     var responseTitle =
-                        shareType == ShareType.Blogs ? $"{shareDto.SenderUsername} të dërgoi një blog"
-                        : shareType == ShareType.Lesson ? $"{shareDto.SenderUsername} të dërgoi nje leksion"
-                        : shareType == ShareType.Course ? $"{shareDto.SenderUsername} të dërgoi nje kurs"
-                        : shareType == ShareType.Quiz ? $"{shareDto.SenderUsername} të dërgoi nje kuiz"
-                        : shareType == ShareType.Discussion ? $"{shareDto.SenderUsername} të dërgoi nje diskutim"
-                        : shareType == ShareType.InstructorLesson ? $"{shareDto.SenderUsername} të dërgoi nje leksion online"
-                        : shareType == ShareType.InstructorCourse ? $"{shareDto.SenderUsername} të dërgoi nje kurs online"
-                        : shareType == ShareType.Instructor ? $"{shareDto.SenderUsername} të dërgoi nje instruktor"
-                        : $"{shareDto.SenderUsername} të dërgoi nje takim online"
+                        shareType == ShareType.Blogs ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi një blog"
+                        : shareType == ShareType.Lesson ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje leksion"
+                        : shareType == ShareType.Course ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje kurs"
+                        : shareType == ShareType.Quiz ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje kuiz"
+                        : shareType == ShareType.Discussion ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje diskutim"
+                        : shareType == ShareType.InstructorLesson ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje leksion online"
+                        : shareType == ShareType.InstructorCourse ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje kurs online"
+                        : shareType == ShareType.Instructor ? $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje instruktor"
+                        : $"{getSender.Firstname + " " + getSender.Lastname} të dërgoi nje takim online"
                         ;
 
                     var responseId =
                         shareType == ShareType.Blogs ? shareDto.BlogId : shareType == ShareType.Course ? shareDto.CourseId : shareType == ShareType.Lesson ? shareDto.LessonId : shareType == ShareType.Quiz ? shareDto.QuizId : shareType == ShareType.Discussion ? shareDto.DiscussionId : shareType == ShareType.Instructor ? shareDto.InstructorId : shareType == ShareType.InstructorCourse ? shareDto.InstructorCourseId : shareType == ShareType.InstructorLesson ? shareDto.InstructorLessonId : shareDto.OnlineMeetingId;
-                    var response = new
+                    var response = new ToastResponseDto
                     {
-                        toastTitle = responseTitle,
-                        toastShareType = shareType,
-                        toastShareId = responseId
+                        ToastTitle = responseTitle,
+                        ToastType = ToastType.ShareItemNotification,
+                        Image = getSender.ProfilePictureUrl
+                        //dmth ne klikim te ksaj mu ridrejtu useri tek seksionet perkatese
                     };
                     await _notificationsHub.Clients.Client(connectedUser).SendAsync("ShareToaster", response);
+
                 }
 
                 return Ok(new { Message = "Item shared successfully" });
@@ -130,6 +136,121 @@ namespace eKids.Controllers
                 return BadRequest(new { Message = "Error in sharing user" });
             }
         }
+
+        private async Task CheckIfUserConnectedForInvoking(Conversations conversation, ShareItemDto shareItem)
+        {
+            var connectedUser = ConnectionMapping.GetConnectionId(shareItem.ReceiverUsername);
+            
+            if(connectedUser != null)
+            {
+                var messageToBeSend = await _context.Conversations
+                    .Where(c => c.ID == conversation.ID)
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Content,
+                        c.FileUrl,
+                        c.IsRead,
+                        c.SenderUsername,
+                        c.ReceiverUsername,
+                        c.CreatedAt,
+                        Sender = new
+                        {
+                            c.Sender.Firstname,
+                            c.Sender.Lastname,
+                            c.Sender.Username,
+                            c.Sender.ProfilePictureUrl,
+                        },
+                        Receiver = new
+                        {
+                            c.Receiver.Firstname,
+                            c.Receiver.Lastname,
+                            c.Receiver.Username,
+                            c.Receiver.ProfilePictureUrl
+                        },
+                        Quiz = c.Quiz != null ? new
+                        {
+                            c.Quiz.ID,
+                            c.Quiz.QuizName,
+                            c.Quiz.QuizDescription,
+                            c.Quiz.QuizCategory,
+                            c.Quiz.CreatedAt
+                        } : null,
+                        Lesson = c.Lesson != null ? new
+                        {
+                            c.Lesson.ID,
+                            c.Lesson.LessonName,
+                            c.Lesson.LessonExcerpt,
+                            c.Lesson.LessonFeaturedImage,
+                            CourseCategory = c.Lesson.Course != null ? c.Lesson.Course.CourseCategory : 1,
+                            c.Lesson.CreatedAt
+                        } : null,
+                        Blog = c.Blog != null ? new
+                        {
+                            c.Blog.ID,
+                            c.Blog.Title,
+                            c.Blog.Content,
+                            c.Blog.CategoryId,
+                            Username = c.Blog.User != null ? c.Blog.User.Username : null,
+                            ProfilePictureUrl = c.Blog.User != null ? c.Blog.User.ProfilePictureUrl : null,
+                            UserId = c.Blog.User != null ? c.Blog.User.ID : 0,
+                            c.Blog.CreatedAt
+                        } : null,
+                        Course = c.Course != null ? new
+                        {
+                            c.Course.ID,
+                            c.Course.CourseFeaturedImage,
+                            c.Course.CourseName,
+                            c.Course.CourseDescription,
+                            c.Course.CourseCategory,
+                            c.Course.CreatedAt
+                        } : null,
+                        InstructorCourse = c.InstructorCourse != null ? new
+                        {
+                            c.InstructorCourse.ID,
+                            c.InstructorCourse.Name,
+                            c.InstructorCourse.Description,
+                            c.InstructorCourse.CategoryId,
+                            c.InstructorCourse.Image,
+                            c.InstructorCourse.CreatedAt
+                        } : null,
+                        InstructorLesson = c.InstructorLesson != null ? new
+                        {
+                            c.InstructorLesson.ID,
+                            c.InstructorLesson.Title,
+                            c.InstructorLesson.Content,
+                            c.InstructorLesson.InstructorCourseSections.InstructorCourses.CategoryId,
+                            c.InstructorLesson.InstructorCourseSections.InstructorCourses.Image,
+                            c.InstructorLesson.CreatedAt,
+                        } : null,
+                        Instructor = c.Instructor != null ? new
+                        {
+                            c.Instructor.ID,
+                            c.Instructor.UserId,
+                            Name = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                            c.Instructor.User.ProfilePictureUrl,
+                            InstructorCourses = c.Instructor.InstructorCourses.Count,
+                            InstructorStudents = c.Instructor.InstructorStudents.Count,
+                            c.CreatedAt
+                        } : null,
+                        OnlineMeeting = c.OnlineMeeting != null ? new
+                        {
+                            c.OnlineMeeting.ID,
+                            c.OnlineMeeting.Title,
+                            Course = c.OnlineMeeting.Course ?? null,
+                            Lesson = c.OnlineMeeting.Lesson ?? null,
+                            c.OnlineMeeting.Description,
+                            c.OnlineMeeting.ViewCount,
+                            c.OnlineMeeting.ScheduleDateTime,
+                            DurationTime = c.OnlineMeeting.DurationTime ?? null,
+                        } : null
+                    })
+                    .FirstOrDefaultAsync();
+
+                await _chatHub.Clients.Client(connectedUser).SendAsync("ReceiveMessage", messageToBeSend);
+            }
+        }
+
         private async Task HandleInstructorOnlineMeeting(ShareItemDto shareItem)
         {
             var onlineMeeting = await _context.OnlineMeetings.FindAsync(shareItem.OnlineMeetingId) ?? throw new ApplicationException("invalid online meeting id provided");
@@ -143,6 +264,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleInstructorLessonShare(ShareItemDto shareItem)
         {
@@ -157,6 +279,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleInstructorCourseShare(ShareItemDto shareItem)
         {
@@ -171,6 +294,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleInstructorShare(ShareItemDto shareItem)
         {
@@ -189,6 +313,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleDiscussionShare(ShareItemDto shareItem)
         {
@@ -208,6 +333,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleBlogShare(ShareItemDto shareItem)
         {
@@ -228,6 +354,7 @@ namespace eKids.Controllers
 
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleLessonShare(ShareItemDto shareItem)
         {
@@ -246,6 +373,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleCourseShare(ShareItemDto shareItem)
         {
@@ -264,6 +392,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
         private async Task HandleQuizShare(ShareItemDto shareItem)
         {
@@ -282,6 +411,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
         }
 
         [HttpGet("/api/Conversations/{sender}/{receiver}")]

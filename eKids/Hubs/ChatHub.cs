@@ -26,7 +26,8 @@ namespace eKids.Hubs
         }
         public override Task OnConnectedAsync()
         {
-            string username = Context?.User?.Identity?.Name;
+            //string username = Context?.User?.Identity?.Name;
+            string username = Context.User.FindFirstValue("Username");
             //string userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (!string.IsNullOrEmpty(username))
@@ -44,7 +45,7 @@ namespace eKids.Hubs
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            string username = Context?.User?.Identity.Name;
+            string username = Context.User.FindFirstValue("Username");
             if (!string.IsNullOrEmpty(username))
             {
                 ConnectionMapping.Remove(username);
@@ -74,7 +75,7 @@ namespace eKids.Hubs
                     }
                 }
 
-                string username = Context?.User?.Identity.Name;
+                string username = Context.User.FindFirstValue("Username");
 
                 if (username == null)
                 {
@@ -98,8 +99,6 @@ namespace eKids.Hubs
                 var messageData = await _context.Conversations
                     .AsNoTracking()
                     .Where(c => c.ID == newMessage.ID)
-                    .Include(c => c.Sender)
-                    .Include(c => c.Receiver)
                     .Select(c => new
                     {
                         c.ID,

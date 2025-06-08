@@ -243,6 +243,7 @@ namespace eKids.Controllers
                                         m.BlogId,
                                         m.LessonId,
                                         m.CourseId,
+                                        m.DiscussionId,
                                         m.InstructorId,
                                         m.InstructorCourseId,
                                         m.InstructorLessonId,
@@ -286,6 +287,7 @@ namespace eKids.Controllers
                                         m.BlogId,
                                         m.LessonId,
                                         m.CourseId,
+                                        m.DiscussionId,
                                         m.InstructorId,
                                         m.InstructorCourseId,
                                         m.InstructorLessonId,
@@ -306,7 +308,6 @@ namespace eKids.Controllers
                             .AsSplitQuery()
                             .OrderBy(c => c.ID)
                             .Where(c => c.UserId == userId)
-                            .Include(c => c.CloseFriend)
                             .Select(c => new
                             {
                                 c.CloseFriend.ID,
@@ -331,6 +332,7 @@ namespace eKids.Controllers
                                         m.LessonId,
                                         m.CourseId,
                                         m.InstructorId,
+                                        m.DiscussionId,
                                         m.InstructorCourseId,
                                         m.InstructorLessonId,
                                         m.OnlineMeetingId,
@@ -341,7 +343,7 @@ namespace eKids.Controllers
                             });
                         break;
                     default:
-                        break;
+                        return BadRequest(new { Message = "Bad type provided" });
                 }
 
                 var paginatedQuery = result.Skip(paginationDto.Skip).Take(paginationDto.Take);
