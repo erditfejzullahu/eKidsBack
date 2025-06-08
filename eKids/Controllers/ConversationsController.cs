@@ -70,31 +70,31 @@ namespace eKids.Controllers
                 switch (shareType)
                 {
                     case ShareType.Quiz:
-                        await HandleQuizShare(shareDto);
+                        await HandleQuizShare(shareDto, getSender);
                         break;
                     case ShareType.Lesson:
-                        await HandleLessonShare(shareDto);
+                        await HandleLessonShare(shareDto, getSender);
                         break;
                     case ShareType.Course:
-                        await HandleCourseShare(shareDto);
+                        await HandleCourseShare(shareDto, getSender);
                         break;
                     case ShareType.Blogs:
-                        await HandleBlogShare(shareDto);
+                        await HandleBlogShare(shareDto, getSender);
                         break;
                     case ShareType.Discussion:
-                        await HandleDiscussionShare(shareDto);
+                        await HandleDiscussionShare(shareDto, getSender);
                         break;
                     case ShareType.Instructor:
-                        await HandleInstructorShare(shareDto);
+                        await HandleInstructorShare(shareDto, getSender);
                         break;
                     case ShareType.InstructorCourse:
-                        await HandleInstructorCourseShare(shareDto);
+                        await HandleInstructorCourseShare(shareDto, getSender);
                         break;
                     case ShareType.InstructorLesson:
-                        await HandleInstructorLessonShare(shareDto);
+                        await HandleInstructorLessonShare(shareDto, getSender);
                         break;
                     case ShareType.InstructorOnlineMeeting:
-                        await HandleInstructorOnlineMeeting(shareDto);
+                        await HandleInstructorOnlineMeeting(shareDto, getSender);
                         break;
                     default: return BadRequest(new { Message = "invalid share type" });
                 }
@@ -137,11 +137,11 @@ namespace eKids.Controllers
             }
         }
 
-        private async Task CheckIfUserConnectedForInvoking(Conversations conversation, ShareItemDto shareItem)
+        private async Task CheckIfUserConnectedForInvoking(Conversations conversation, ShareItemDto shareItem, Users sender)
         {
             var connectedUser = ConnectionMapping.GetConnectionId(shareItem.ReceiverUsername);
-            
-            if(connectedUser != null)
+
+            if (connectedUser != null)
             {
                 var messageToBeSend = await _context.Conversations
                     .Where(c => c.ID == conversation.ID)
@@ -247,11 +247,21 @@ namespace eKids.Controllers
                     })
                     .FirstOrDefaultAsync();
 
-                await _chatHub.Clients.Client(connectedUser).SendAsync("ReceiveMessage", messageToBeSend);
+                if(messageToBeSend != null)
+                {
+                    await _chatHub.Clients.Client(connectedUser).SendAsync("ReceiveMessage", messageToBeSend);
+                    var response = new ToastResponseDto
+                    {
+                        ToastTitle = sender.Firstname + " " + sender.Lastname,
+                        ToastType = ToastType.MessageNotification,
+                        Image = sender.ProfilePictureUrl,
+                        ToastContent = messageToBeSend.Content,
+                    };
+                }
             }
         }
 
-        private async Task HandleInstructorOnlineMeeting(ShareItemDto shareItem)
+        private async Task HandleInstructorOnlineMeeting(ShareItemDto shareItem, Users sender)
         {
             var onlineMeeting = await _context.OnlineMeetings.FindAsync(shareItem.OnlineMeetingId) ?? throw new ApplicationException("invalid online meeting id provided");
             var newConversation = new Conversations
@@ -264,9 +274,9 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleInstructorLessonShare(ShareItemDto shareItem)
+        private async Task HandleInstructorLessonShare(ShareItemDto shareItem, Users sender)
         {
             var instructorLesson = await _context.InstructorLessons.FindAsync(shareItem.InstructorLessonId) ?? throw new ApplicationException("Invalid instructor lesson id provided");
             var newConversation = new Conversations
@@ -279,9 +289,9 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleInstructorCourseShare(ShareItemDto shareItem)
+        private async Task HandleInstructorCourseShare(ShareItemDto shareItem, Users sender)
         {
             var instructorCourse = await _context.InstructorCourses.FindAsync(shareItem.InstructorCourseId) ?? throw new ApplicationException("Invalid instructor course id provided");
             var newConversation = new Conversations
@@ -294,9 +304,9 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleInstructorShare(ShareItemDto shareItem)
+        private async Task HandleInstructorShare(ShareItemDto shareItem , Users sender)
         {
             var instructor = await _context.Instructors.FindAsync(shareItem.InstructorId);
             if (instructor == null)
@@ -313,9 +323,9 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleDiscussionShare(ShareItemDto shareItem)
+        private async Task HandleDiscussionShare(ShareItemDto shareItem, Users sender)
         {
             var discussionCheck = await _context.Discussions.FindAsync(shareItem.DiscussionId);
             if(discussionCheck == null)
@@ -333,9 +343,9 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleBlogShare(ShareItemDto shareItem)
+        private async Task HandleBlogShare(ShareItemDto shareItem, Users sender)
         {
             var blogCheck = await _context.Blogs.FindAsync(shareItem.BlogId);
             if(blogCheck == null)
@@ -354,9 +364,9 @@ namespace eKids.Controllers
 
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleLessonShare(ShareItemDto shareItem)
+        private async Task HandleLessonShare(ShareItemDto shareItem, Users sender)
         {
             var lessonCheck = await _context.Lessons.FindAsync(shareItem.LessonId);
             if(lessonCheck == null)
@@ -373,9 +383,9 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleCourseShare(ShareItemDto shareItem)
+        private async Task HandleCourseShare(ShareItemDto shareItem, Users sender)
         {
             var courseCheck = await _context.Courses.FindAsync(shareItem.CourseId);
             if(courseCheck == null)
@@ -392,9 +402,9 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
-        private async Task HandleQuizShare(ShareItemDto shareItem)
+        private async Task HandleQuizShare(ShareItemDto shareItem, Users sender)
         {
             var quizCheck = await _context.Quizzes.FindAsync(shareItem.QuizId);
             if(quizCheck == null)
@@ -411,7 +421,7 @@ namespace eKids.Controllers
             };
             await _context.Conversations.AddAsync(newConversation);
             await _context.SaveChangesAsync();
-            await CheckIfUserConnectedForInvoking(newConversation, shareItem);
+            await CheckIfUserConnectedForInvoking(newConversation, shareItem, sender);
         }
 
         [HttpGet("/api/Conversations/{sender}/{receiver}")]
