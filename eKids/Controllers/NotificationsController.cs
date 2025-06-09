@@ -43,102 +43,6 @@ namespace eKids.Controllers
         }
 
 
-        //tobe deleted
-        [HttpPost("/api/Notifications/Info")]
-        public async Task<IActionResult> CreateNotificationInternal(CreateNotificationDto notificationDto, CancellationToken token)
-        {
-            try
-            {
-                //var username = User?.Identity?.Name;
-                var username = await _context.Users.Where(c => c.ID == notificationDto.ReceiverId).FirstOrDefaultAsync(token);
-                var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.Parse(userId);
-
-                var notification = new Notifications
-                {
-                    //UserId = notificationDto.UserId, KJO MUNET MU KON NULL PER SHKAK QE MUJN MU BO NOTIFICATIONSA PSH PREJ SISTEMIT
-                    ReceiverId = notificationDto.ReceiverId, //KJO SMUN ME KON NULL SE E MERR NOTIFICATIONIN
-                    Information = notificationDto.Information,
-                    Type = NotificationsType.Info,
-                    IsRead = false,
-                    CreatedAt = DateTime.UtcNow,
-                    LastModified = DateTime.UtcNow
-                };
-                await _context.Notifications.AddAsync(notification);
-                await _context.SaveChangesAsync(token);
-
-                if (!string.IsNullOrEmpty(username?.Username))
-                {
-                    var userConnected = ConnectionMapping.GetConnectionId(username.Username);
-                    if(userConnected != null)
-                    {
-                        //notification.IsRead = true;
-                        //_notificationsRepository.Update(notification);
-                        //await _notificationsRepository.SaveAsync(token);
-                        await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
-                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
-                    }
-                }
-
-                return Ok(new { Message = "Succesfully made action" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error in creating notification");
-                return BadRequest(new { Message = "Error creating notification" });
-            }
-        }
-
-        //tobe deleted
-        [HttpPost("/api/Notifications/Warning")]
-        public async Task<IActionResult> CreateNotificationInternalWarning(CreateNotificationDto notificationDto, CancellationToken token)
-        {
-            try
-            {
-                //var username = User?.Identity?.Name;
-                var username = await _context.Users.Where(c => c.ID == notificationDto.ReceiverId).FirstOrDefaultAsync(token);
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.Parse(userId);
-
-                var notification = new Notifications
-                {
-                    //UserId = notificationDto.UserId,
-                    ReceiverId = notificationDto.ReceiverId,
-                    Information = notificationDto.Information,
-                    Type = NotificationsType.Warning,
-                    IsRead = false,
-                    CreatedAt = DateTime.UtcNow,
-                    LastModified = DateTime.UtcNow
-                };
-                await _context.Notifications.AddAsync(notification);
-                await _context.SaveChangesAsync(token);
-
-                if (!string.IsNullOrEmpty(username?.Username))
-                {
-                    var userConnected = ConnectionMapping.GetConnectionId(username.Username);
-                    if (userConnected != null)
-                    {
-                        //notification.IsRead = true;
-                        //_notificationsRepository.Update(notification);
-                        //await _notificationsRepository.SaveAsync(token);
-                        await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
-                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
-                    }
-                }
-
-                return Ok(new { Message = "Sended action" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, " error in sending action");
-                return BadRequest(new { Message = "Error in sending action" });
-            }
-        }
-
-
-
         [Authorize]
         [HttpPost("/api/Notifications/UserFriendReq")]
         public async Task<IActionResult> CreateNotificationUserRequest(CreateNotificationDto notificationDto, CancellationToken token)
@@ -244,6 +148,7 @@ namespace eKids.Controllers
 
 
         //??? testing duhet me hek ose me bo admin only
+        [Authorize(Roles = "Admin")]
         [HttpPost("/api/Notifications/UserActionReq")]
         public async Task<IActionResult> CreateNotificationUserActionReq(CreateNotificationDto notificationDto, CancellationToken token)
         {
@@ -330,22 +235,24 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("/api/Notifications/{userId}")]
-        public async Task<IActionResult> GetNotificationByUser(int userId, CancellationToken token)
+        [Authorize]
+        [HttpGet("/api/Notifications/")]
+        public async Task<IActionResult> GetNotificationByUser(, CancellationToken token)
         {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             try
             {
-                var username = User?.Identity?.Name;
-                var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                int.TryParse(currentUser, out var user);
+                var username = User.FindFirstValue("Username");
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
 
                 var notifications = await _context.Notifications
                     .AsNoTracking()
-                    .AsSplitQuery()
-                    .OrderByDescending(c => c.ID)
+                    //.AsSplitQuery()
                     .Where(c => c.ReceiverId == userId)
-                    //.Include(c => c.User)
-                    //.Include(c => c.NotificationReceiver)
+                    .OrderByDescending(c => c.CreatedAt)
                     .Select(c => new
                     {
                         c.ID,
@@ -376,14 +283,9 @@ namespace eKids.Controllers
                 if (!string.IsNullOrEmpty(username))
                 {
                     var connectedUser = ConnectionMapping.GetConnectionId(username);
-                    _logger.LogError("error not {username}", username);
-                    if (connectedUser == null)
+                    if (connectedUser != null)
                     {
-                        _logger.LogWarning("User {username} is not connected", username);
-                    }
-                    else
-                    {
-                        await _notificationsHub.Clients.Client(connectedUser).SendAsync("UnreadNotifications", 0);
+                        await _notificationsHub.Clients.Client(connectedUser).SendAsync("UnreadNotifications", 0);   
                     }
                 }
 
@@ -391,11 +293,12 @@ namespace eKids.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error in retriving notifications for user {userId}");
+                _logger.LogError(ex, $"Error in retriving notifications for user {user}");
                 return BadRequest(new { Message = "Error in retriving notifications" });
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("/api/Notificaions/GetById/{id}")]
         public async Task<IActionResult> GetNotificationsById(int id, CancellationToken token)
         {
@@ -415,18 +318,25 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNotification(int id, [FromQuery] int userId, CancellationToken token)
+        public async Task<IActionResult> DeleteNotification(int id, CancellationToken token)
         {
             try
             {
-                var notification = await _notificationsRepository.GetAll().FirstOrDefaultAsync(c => c.ID == id && c.ReceiverId == userId, token);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var notification = await _context.Notifications.Where(c => c.ID == id && c.ReceiverId == userId).FirstOrDefaultAsync();
                 if(notification == null)
                 {
                     return NotFound(new { Message = "No notification found" });
                 }
-                await _notificationsRepository.Delete(id, token);
-                await _notificationsRepository.SaveAsync(token);
+                _context.Notifications.Remove(notification);
+                await _context.SaveChangesAsync(token);
                 return Ok(new { Message = "Notification deltetd" });
             }
             catch (Exception ex)

@@ -5,6 +5,7 @@ using Database.Repository;
 using Database.Shared.Enums;
 using eKids.Hubs;
 using eKids.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -49,11 +50,18 @@ namespace eKids.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpPost("/api/UserFriends/MakeCloseFriend")]
         public async Task<IActionResult> MakeBestFriend([FromBody] CloseFriendDto friendDto, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 if(friendDto == null)
                 {
                     return BadRequest(new { Message = "Data missing" });
@@ -61,7 +69,7 @@ namespace eKids.Controllers
 
                 var closeFriend = new CloseFriends
                 {
-                    UserId = friendDto.UserId,
+                    UserId = userId,
                     CloseFriendId = friendDto.CloseFriendId,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
@@ -78,9 +86,12 @@ namespace eKids.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("/api/UserFriends/MakeFriend")]
         public async Task<IActionResult> MakeFriend(FriendDto friendDto, CancellationToken token)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 if(friendDto == null)
@@ -94,7 +105,7 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                _friendsRepository.Add(friend1);
+                await _context.Friends.AddAsync(friend1);
                 var friend2 = new Friends
                 {
                     UserId = friendDto.FriendId,
@@ -102,29 +113,41 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                _friendsRepository.Add(friend2);
-                await _friendsRepository.SaveAsync(token);
+                await _context.Friends.AddAsync(friend2);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
                 return Ok(new {Message = "Friend added"});
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error in making friend");
                 return BadRequest(new { Message = "Error in making friend" });
             }
 
         }
 
+        [Authorize]
         [HttpPut("/api/UserFriends/AcceptFriendRequest")]
         public async Task<IActionResult> AcceptFriend([FromQuery] int senderId, [FromQuery] int receiverId, CancellationToken token)
         {
+
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var userIdAuth = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.TryParse(userIdAuth, out var currentUserID);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int receiverUserId))
+                {
+                    return Unauthorized();
+                }
+                
+                var friendshipRequestSender = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == senderId, token);
+                if(friendshipRequestSender == null)
+                {
+                    return NotFound(new {Message = "User not found"});
+                }
 
-                var transaction = await _context.Database.BeginTransactionAsync(token);
-                var username = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == senderId, token);
-                var friendship = await _context.Friendships.Where(c => c.SenderId == senderId && c.ReceiverId == receiverId).FirstOrDefaultAsync(token);
+                var friendship = await _context.Friendships.Where(c => c.SenderId == senderId && c.ReceiverId == receiverUserId).FirstOrDefaultAsync(token);
                 var notificationFriendRequest = await _context.Notifications
                     .Where(c => c.UserId == senderId && c.ReceiverId == receiverId && c.Type == NotificationsType.UserFriendReq ||
                     c.UserId == receiverId && c.ReceiverId == senderId && c.Type == NotificationsType.UserFriendReq)
@@ -134,61 +157,79 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "Friendship not found" });
                 }
+
                 friendship.Status = FriendshipStatus.Accepted;
                 friendship.LastModified = DateTime.UtcNow;
                 _context.Friendships.Update(friendship);
-                await _context.SaveChangesAsync(token);
+                //await _context.SaveChangesAsync(token);
 
                 var newFriend1 = new Friends
                 {
                     UserId = senderId,
-                    FriendId = receiverId,
+                    FriendId = receiverUserId,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
                 await _context.Friends.AddAsync(newFriend1, token);
+
                 var newFriend2 = new Friends
                 {
-                    UserId = receiverId,
+                    UserId = receiverUserId,
                     FriendId = senderId,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
+
                 await _context.Friends.AddAsync(newFriend2, token);
-                await _context.SaveChangesAsync(token);
+                //await _context.SaveChangesAsync(token);
 
                 if(notificationFriendRequest != null)
                 {
                     _context.Notifications.Remove(notificationFriendRequest);
                 }
 
-                var notification = new Notifications
+                //njoftim qe ti ke pranu miqesine me senderIdn
+                var youAcceptedNotification = new Notifications
                 {
-                    UserId = receiverId,
-                    ReceiverId = senderId,
-                    Information = "Friend accepted",
-                    Type = NotificationsType.UserFriendAccepted,
+                    UserId = senderId,
+                    ReceiverId = receiverUserId,
+                    Information = "Njoftim mbi pranimin e miqesise",
+                    Type = NotificationsType.FriendRequestReceiverAccepted,
                     IsRead = false,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                await _context.Notifications.AddAsync(notification, token);
+
+                //njotim qe receiverid ka pranu miqesine me senderid
+                var heGotInformationAboutYourAccept = new Notifications
+                {
+                    UserId = receiverUserId,
+                    ReceiverId = senderId,
+                    Information = "Njoftim mbi pranimin e miqesise",
+                    Type = NotificationsType.FriendRequestSenderAccepted,
+                    IsRead = false,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+
+                await _context.Notifications.AddAsync(youAcceptedNotification, token);
+                await _context.Notifications.AddAsync(heGotInformationAboutYourAccept, token);
                 await _context.SaveChangesAsync(token);
-                var connectedUserId = ConnectionMapping.GetConnectionId(username?.Username);
+
+                var connectedUserId = ConnectionMapping.GetConnectionId(friendshipRequestSender.Username);
                 if(connectedUserId != null)
                 {
                     var countNotifications = await _context.Notifications.Where(c => c.ReceiverId == senderId && c.IsRead == false).CountAsync(token);
                     await _notificationsHub.Clients.Client(connectedUserId).SendAsync("UnreadNotifications", countNotifications);
                 }
+
                 await transaction.CommitAsync(token);
                 return Ok(new { Message = "Friend accepted successfully" });
             }
             catch (Exception ex)
             {
-                if (_context.Database.CurrentTransaction != null)
-                {
-                    await _context.Database.RollbackTransactionAsync(token);
-                }
+
+                await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error in accepting friend");
                 return BadRequest(new { Message = "Error in accepting frined" });
             }
