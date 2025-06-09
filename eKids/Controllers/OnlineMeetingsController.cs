@@ -3,11 +3,16 @@ using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Database.Shared.Enums;
+using eKids.Hubs;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
+using NuGet.Protocol.Plugins;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace eKids.Controllers
@@ -19,12 +24,14 @@ namespace eKids.Controllers
         private readonly ILogger<OnlineMeetingsController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly ISorterService<OnlineMeetings> _sorterService;
+        private readonly IHubContext<NotificationsHub> _notificationsHub;
 
-        public OnlineMeetingsController(ILogger<OnlineMeetingsController> logger, ApplicationDbContext context, ISorterService<OnlineMeetings> sorterSevice)
+        public OnlineMeetingsController(IHubContext<NotificationsHub> notificationsHub, ILogger<OnlineMeetingsController> logger, ApplicationDbContext context, ISorterService<OnlineMeetings> sorterSevice)
         {
             _logger = logger;
             _context = context;
             _sorterService = sorterSevice;
+            _notificationsHub = notificationsHub;
         }
 
         //kur te kryhet meetingu butoni finish a najsen duhet mu thirr qeky api
@@ -51,9 +58,13 @@ namespace eKids.Controllers
                 var totalStudents = await _context.StudentCourseLessonProgress
                     .Where(c => c.LessonId == meeting.LessonId && c.CourseId == meeting.CourseId)
                     .ToListAsync();
-                
-                if(totalStudents.Count() > 0)
+
+                CultureInfo albanianCulture = new CultureInfo("sq-AL");
+                var usersToNotify = new Dictionary<int, string>();
+
+                if(totalStudents.Count > 0)
                 {
+                    var notificationsToSend = new List<Notifications>();
                     foreach (var student in totalStudents)
                     {
 
@@ -81,8 +92,27 @@ namespace eKids.Controllers
 
                         }
                         _context.StudentCourseLessonProgress.Update(student);
-                    }
 
+                        notificationsToSend.Add(new Notifications
+                        {
+                            ReceiverId = student.UserId,
+                            Information = $"Njoftim mbi perfundimin e takimit online {meeting.Title} me {DateTime.Now.ToString("f", albanianCulture)}",
+                            Type = Shared.Enums.NotificationsType.CompletedProgressNotification,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow
+                        });
+
+                        var username = student.User.Username;
+                        if(username != null)
+                        {
+                            var connectionId = ConnectionMapping.GetConnectionId(username);
+                            if(connectionId != null)
+                            {
+                                usersToNotify[student.User.ID] = connectionId;
+                            }
+                        }
+                    }
+                    await _context.Notifications.AddRangeAsync(notificationsToSend, token);
                 }
 
                 DateTime expectedEndTime;
@@ -107,8 +137,26 @@ namespace eKids.Controllers
                 //qitu ni logjik per me track a u bo completed apo jo.
                 _context.OnlineMeetings.Update(meeting);
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
+
+                if(usersToNotify.Count > 0)
+                {
+                    var userIds = usersToNotify.Keys.ToList();
+                    var unreadCounts = await _context.Notifications
+                        .AsNoTracking()
+                        .Where(c => userIds.Contains(c.ReceiverId) && !c.IsRead)
+                        .GroupBy(c => c.ReceiverId)
+                        .Select(g => new { UserId = g.Key, Count = g.Count() })
+                        .ToDictionaryAsync(x => x.UserId, x => x.Count, token);
+
+                    foreach (var userItem in usersToNotify)
+                    {
+                        var unreadCount = unreadCounts.TryGetValue(userItem.Key, out var count) ? count : 0;
+                        await _notificationsHub.Clients.Client(userItem.Value).SendAsync("UnreadNotifications", unreadCount);
+                    }
+                }
+
                 return Ok(new { Message = "Meeting completed" });
                 
             }
@@ -120,20 +168,29 @@ namespace eKids.Controllers
             }
         }
 
-        //kur te hin ne miting duhet mu thirr qiky
+        //kur te hin ne miting duhet mu thirr qiky // nese osht progress not found duhet me u bo student i instruktorit per qat kurs
         [Authorize]
         [HttpPatch("StartMeeting")]
-        public async Task<IActionResult> StartMeetingAsync([FromQuery] int meetingId)
+        public async Task<IActionResult> StartMeetingAsync([FromQuery] int meetingId, CancellationToken token)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(user == null)
+                var username = User.FindFirstValue("Username");
+                var role = User.FindFirstValue("Role");
+                
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
                     return Unauthorized();
                 }
-                var userId = Int32.Parse(user);
-                var meeting = await _context.OnlineMeetings.FindAsync(meetingId);
+
+                if(string.Equals(role, "Instructor"))
+                {
+                    return Ok("Instruktor");
+                }
+
+                var meeting = await _context.OnlineMeetings.FindAsync(meetingId, token);
                 if(meeting == null)
                 {
                     return NotFound(new { Message = "No meeting found" });
@@ -144,18 +201,32 @@ namespace eKids.Controllers
                     return Ok(new {Message = "Nuk ka nevoje per evidentim."});
                 }
 
-                var progress = await _context.StudentCourseLessonProgress.AsNoTracking().FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == meeting.CourseId);
+                var progress = await _context.StudentCourseLessonProgress.Where(c => c.UserId == userId && c.CourseId == meeting.CourseId).FirstOrDefaultAsync();
                 if(progress == null)
                 {
                     return NotFound(new { Message = "No progress found" });
                 }
+
+                CultureInfo albanianCulture = new CultureInfo("sq-AL");
+
                 if (!progress.HasJoined)
                 {
                     progress.JoinedTime = DateTime.UtcNow;
                     progress.HasJoined = true;
                     progress.LastModified = DateTime.UtcNow;
-                _context.StudentCourseLessonProgress.Update(progress);
-                await _context.SaveChangesAsync();
+                    _context.StudentCourseLessonProgress.Update(progress);
+
+                    var notification = new Notifications
+                    {
+                        ReceiverId = userId,
+                        Information = $"Njoftim mbi fillimin e takimit online {meeting.Title} me {DateTime.Now.ToString("f", albanianCulture)}",
+                        Type = Shared.Enums.NotificationsType.ProgressTrackingNotification,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow,
+                    };
+                    await _context.Notifications.AddAsync(notification, token);
+                    await _context.SaveChangesAsync(token);
+                    await transaction.CommitAsync(token);
                 }
                 return Ok(new {Message = "Successfully joined"});
             }
@@ -174,11 +245,10 @@ namespace eKids.Controllers
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (user == null)
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
-                    return Unauthorized(new { Message = "User not authorized" });
+                    return Unauthorized();
                 }
-                var userId = Int32.Parse(user);
 
                 var userData = await _context.Users
                     .Select(c => new
@@ -341,6 +411,7 @@ namespace eKids.Controllers
 
 
         //remove student from meeting ???? logic
+        [Authorize(Roles = "Instructor")]
         [HttpPost("RemoveStudent")]
         public async Task<IActionResult> RemoveStudentFromMeeting([FromBody] RemoveStudentDto removeDto, CancellationToken token)
         {
@@ -364,28 +435,63 @@ namespace eKids.Controllers
             try
             {
 
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(userId == null)
+                var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+
+                if (string.IsNullOrEmpty(userIdClaim) || !Int32.TryParse(userIdClaim, out int userId))
                 {
-                    return Unauthorized();
+                    return Unauthorized(new { Message = "Not authorized" });
                 }
                 var user = await _context.Users.Select(c => new
                 {
                     c.ID,
                     InstructorId = c.Instructor.ID
-                }).FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+                }).FirstOrDefaultAsync(c => c.ID == userId);
 
                 if(user == null)
                 {
                     return NotFound(new { Message = "No user found" });
                 }
                 var date = DateTime.UtcNow;
+
+                if (meetingDto.CourseId.HasValue)
+                {
+                    var instructorHasCourse = await _context.InstructorCourses
+                        .AsNoTracking()
+                        .AnyAsync(ic => ic.InstructorId == user.InstructorId && ic.ID == meetingDto.CourseId.Value, token);
+
+                    if (!instructorHasCourse)
+                    {
+                        return BadRequest("Invalid course ID provided");
+                    }
+                    
+                    if (meetingDto.LessonId.HasValue)
+                    {
+                        var lessonBelongsToCourse = await _context.InstructorLessons
+                            .AsNoTracking()
+                            .AnyAsync(il => il.ID == meetingDto.LessonId.Value && il.InstructorCourseSections.InstructorCourses.ID == meetingDto.CourseId.Value, token);
+
+                        if (!lessonBelongsToCourse)
+                        {
+                            return BadRequest("Invalid lesson ID provided for this course");
+                        }
+                    }
+                }
+
+                var sanitizer = new HtmlSanitizer();
+                var cleanMeeting = new OnlineMeetingsDto
+                {
+                    Title = sanitizer.Sanitize(meetingDto.Title.Trim()),
+                    Description = sanitizer.Sanitize(meetingDto.Description.Trim()),
+
+                };
+
                 var newMeeting = new OnlineMeetings
                 {
                     CourseId = meetingDto.CourseId,
                     LessonId = meetingDto.LessonId,
-                    Title = meetingDto.Title,
-                    Description = meetingDto.Description,
+                    Title = cleanMeeting.Title,
+                    Description = cleanMeeting.Description,
                     ScheduleDateTime = meetingDto.ScheduleDateTime,
                     DurationTime = meetingDto.DurationTime,
                     MeetingUrl = Guid.NewGuid().ToString(),
@@ -398,10 +504,30 @@ namespace eKids.Controllers
 
                 //logic to create meeting url
                 await _context.AddAsync(newMeeting, token);
+
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                var notification = new Notifications
+                {
+                    ReceiverId = user.ID,
+                    Information = $"Njoftim mbi krijimin e takimit online {newMeeting.Title} me {DateTime.Now.ToString("f", cultureInfo)}",
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                };
+                await _context.AddAsync(notification, token);
                 await _context.SaveChangesAsync(token);
 
                 await transaction.CommitAsync(token);
-
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if(connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && !c.IsRead).CountAsync(token);
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
                 return Ok();
             }
             catch (Exception ex)
@@ -442,6 +568,7 @@ namespace eKids.Controllers
         }
 
         //do fixa qitu
+        [Authorize(Roles = "Admin")]
         [HttpGet("AllMeetingsAttendedByStudentId")] //merri krejt kurset ku un jom student tek qai instruktor logic
         public async Task<IActionResult> GetAllMeetingsAttendedByStudentId([FromQuery] int userId)
         {
