@@ -4,6 +4,7 @@ using Database.Models;
 using Database.Repository;
 using eKids.Hubs;
 using eKids.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -42,7 +43,7 @@ namespace eKids.Controllers
         }
 
 
-
+        //tobe deleted
         [HttpPost("/api/Notifications/Info")]
         public async Task<IActionResult> CreateNotificationInternal(CreateNotificationDto notificationDto, CancellationToken token)
         {
@@ -89,6 +90,7 @@ namespace eKids.Controllers
             }
         }
 
+        //tobe deleted
         [HttpPost("/api/Notifications/Warning")]
         public async Task<IActionResult> CreateNotificationInternalWarning(CreateNotificationDto notificationDto, CancellationToken token)
         {
@@ -135,23 +137,39 @@ namespace eKids.Controllers
             }
         }
 
+
+
+        [Authorize]
         [HttpPost("/api/Notifications/UserFriendReq")]
         public async Task<IActionResult> CreateNotificationUserRequest(CreateNotificationDto notificationDto, CancellationToken token)
         {
             try
             {
                 using var transaction = await _context.Database.BeginTransactionAsync(token);
-                var username = await _context.Users.AsNoTracking().Where(c => c.ID == notificationDto.ReceiverId).FirstOrDefaultAsync(token);
-                var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = int.TryParse(userId, out var currentUserId);
+                var user = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int currentUserId))
+                {
+                    return Unauthorized();
+                }
+
+                var friendRequestReceiver = await _context.Users.AsNoTracking().Where(c => c.ID == notificationDto.ReceiverId).FirstOrDefaultAsync(token);
+                if(friendRequestReceiver == null)
+                {
+                    return NotFound(new {Message = "Receiver user not found"});
+                }
+
+                var sender = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == currentUserId);
+                if (sender == null) {
+                    return NotFound(new { Message = "Sender user not found" });
+                }
 
                 var notification = new Notifications
                 {
-                    UserId = notificationDto.UserId,
+                    UserId = currentUserId,
                     ReceiverId = notificationDto.ReceiverId,
                     Information = "Kerkese miqesie",
                     IsRead = false,
-                    Type = NotificationsType.UserFriendReq,
+                    Type = NotificationsType.FriendRequestReceived,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                 };
@@ -161,7 +179,7 @@ namespace eKids.Controllers
 
                 var friendship = new Friendships
                 {
-                    SenderId = notificationDto.UserId.Value,
+                    SenderId = currentUserId,
                     ReceiverId = notificationDto.ReceiverId,
                     Status = Database.Shared.Enums.FriendshipStatus.Pending,
                     CreatedAt = DateTime.UtcNow,
@@ -170,16 +188,43 @@ namespace eKids.Controllers
                 await _context.Friendships.AddAsync(friendship, token);
                 await _context.SaveChangesAsync(token);
 
-                if (!string.IsNullOrEmpty(username?.Username))
+                if (!string.IsNullOrEmpty(friendRequestReceiver.Username))
                 {
-                    var userConnected = ConnectionMapping.GetConnectionId(username.Username);
+                    var userConnected = ConnectionMapping.GetConnectionId(friendRequestReceiver.Username);
                     if (userConnected != null)
                     {
                         //notification.IsRead = true;
                         //_notificationsRepository.Update(notification);
                         //await _notificationsRepository.SaveAsync(token);
-                        await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", notification);
-                        var unreads = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
+                        var query = _context.Notifications.AsNoTracking();
+                        var sendNotification = await query
+                            .Where(c => c.ID == notification.ID)
+                            .Select(c => new
+                            {
+                                c.ID,
+                                c.Information,
+                                c.UserId,
+                                c.ReceiverId,
+                                c.Type,
+                                c.IsRead,
+                                NotificationSender = new
+                                {
+                                    Name = c.User.Firstname + " " + c.User.Lastname,
+                                    ProfilePicture = c.User.ProfilePictureUrl
+                                },
+                                NotificationReceiver = new
+                                {
+                                    Name = c.NotificationReceiver.Firstname + " " + c.NotificationReceiver.Lastname,
+                                    ProfilePicture = c.NotificationReceiver.ProfilePictureUrl
+                                },
+                                c.CreatedAt
+                            })
+                            .FirstOrDefaultAsync();
+                        if(sendNotification != null)
+                        {
+                            await _notificationsHub.Clients.Client(userConnected).SendAsync("ReceiveNotification", sendNotification);
+                        }
+                        var unreads = await query.Where(c => c.ReceiverId == notificationDto.ReceiverId && c.IsRead == false).CountAsync(token);
                         await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", unreads);
                     }
                 }
@@ -197,6 +242,8 @@ namespace eKids.Controllers
             }
         }
 
+
+        //??? testing duhet me hek ose me bo admin only
         [HttpPost("/api/Notifications/UserActionReq")]
         public async Task<IActionResult> CreateNotificationUserActionReq(CreateNotificationDto notificationDto, CancellationToken token)
         {
@@ -241,36 +288,39 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("/api/Notifications/MakeReadNotifications")]
         public async Task<IActionResult> MakeReads(CancellationToken token)
         {
             try
             {
-                var username = User?.Identity?.Name;
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //var user = int.Parse(userId);
-                int.TryParse(userId, out var user);
-                var unReads = await _context.Notifications.Where(c => c.ReceiverId == user && c.IsRead == false).ToListAsync(token);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                var userLogged = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == userId);
+                if(userLogged == null)
+                {
+                    return NotFound(new {Message ="no user found"});
+                }
+                var unReads = await _context.Notifications.Where(c => c.ReceiverId == userId && c.IsRead == false).ToListAsync(token);
                 if(unReads.Count != 0)
                 {
                     foreach (var item in unReads)
                     {
                         item.IsRead = true;
                     }
-                    _context.UpdateRange(unReads);
+                    _context.Notifications.UpdateRange(unReads);
                     await _context.SaveChangesAsync(token);
 
-                    //if (!string.IsNullOrEmpty(username))
-                    //{
-                    //    var userConnected = ConnectionMapping.GetConnectionId(username);
-                    //    if(userConnected != null)
-                    //    {
-                    //        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", 0);
-                    //    }
-                    //}
+                    var userConnected = ConnectionMapping.GetConnectionId(userLogged.Username);
+                    if (userConnected != null)
+                    {
+                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", 0);
+                    }
                 }
-
-
                 return Ok(new {Message = "Notifications readed"});
             }
             catch (Exception ex)
