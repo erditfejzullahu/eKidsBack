@@ -168,7 +168,8 @@ namespace eKids.Controllers
             }
         }
 
-        //kur te hin ne miting duhet mu thirr qiky // nese osht progress not found duhet me u bo student i instruktorit per qat kurs
+        //kur te hin ne miting duhet mu thirr qiky //
+        //Duhet me u rregullu pjesa qe nese ska courseid me u kyq prap se osht veq free meeting
         [Authorize]
         [HttpPatch("StartMeeting")]
         public async Task<IActionResult> StartMeetingAsync([FromQuery] int meetingId, CancellationToken token)
@@ -628,6 +629,8 @@ namespace eKids.Controllers
                 return BadRequest();
             }
         }
+
+        
 
         [Authorize]
         [HttpGet("AllMeetings")]

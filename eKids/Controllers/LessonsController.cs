@@ -6,10 +6,12 @@ using eKids.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace eKids.Controllers
@@ -39,11 +41,18 @@ namespace eKids.Controllers
             _bookmarkRepository = bookmarkRepository;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetLessons(int id, [FromQuery] int userId, CancellationToken token)
+        public async Task<IActionResult> GetLessons(int id, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var lesson = await _lessonRepository.Get(id, token, u => u.Course);
                 var isLikes = await _lessonLikeService.GetLessonLikeByUser(id, userId, token);
                 var countLessonComments = await _commentService.GetAllLessonCommentsCount(id, token);
@@ -67,11 +76,17 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch("/api/Lessons/UpdateLike/{id}")]
-        public async Task<IActionResult> UpdateLessonLike(int id, [FromQuery] int userId, CancellationToken token)
+        public async Task<IActionResult> UpdateLessonLike(int id, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
                 var lesson = await _lessonRepository.Get(id, token);
                 if(lesson == null)
                 {
@@ -101,8 +116,8 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpPost]
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public async Task<IActionResult> CreateLessons([FromBody] CreateLessons lessonDto)
         {
             if (lessonDto == null)
@@ -184,8 +199,8 @@ namespace eKids.Controllers
             
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateLessons(int id, [FromBody] UpdateLessons lessonDto)
         {
 
@@ -262,7 +277,7 @@ namespace eKids.Controllers
             await _lessonRepository.SaveAsync(default);
             return Ok(lesson);
         }
-
+        //[EnableRateLimiting(5)]
         [HttpGet("allLessons")]
         public async Task<IActionResult> GetAllLessons(CancellationToken token)
         {

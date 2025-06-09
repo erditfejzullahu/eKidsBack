@@ -3,10 +3,14 @@ using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Database.Shared.Enums;
+using eKids.Hubs;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -21,8 +25,11 @@ namespace eKids.Controllers
         private readonly IFileUploadService _fileUploadService;
         private readonly ISorterService<InstructorCourses> _sortService;
         private readonly IManageInstructorContentService _instructorContentService;
-        public InstructorsController(ISorterService<InstructorCourses> sorterService, IManageInstructorContentService instructorContentService, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
+        private readonly IHubContext<NotificationsHub> _notificationsHub;
+
+        public InstructorsController(ISorterService<InstructorCourses> sorterService, IHubContext<NotificationsHub> notificationsHub, IManageInstructorContentService instructorContentService, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
         {
+            _notificationsHub = NotificationsHub;
             _logger = logger;
             _context = context;
             _fileUploadService = fileUploadService;
@@ -30,17 +37,24 @@ namespace eKids.Controllers
             _instructorContentService = instructorContentService;
         }
 
+        [Authorize]
         [HttpPost("BecomeInstructor")]
         public async Task<IActionResult> BecomeInstructor([FromBody] CreateInstructor instructorDto, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var user = await _context.Users.FindAsync(instructorDto.UserId, token);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int userIdAuthed))
+                {
+                    return Unauthorized();
+                }
+                var user = await _context.Users.FindAsync(userIdAuthed, token);
                 if(user == null)
                 {
                     return NotFound();
                 }
+
                 foreach (var social in instructorDto.Socials)
                 {
                     if(string.IsNullOrWhiteSpace(social.Label) || string.IsNullOrWhiteSpace(social.Link))
@@ -48,25 +62,60 @@ namespace eKids.Controllers
                         return BadRequest(new { Message = "no null data" });
                     }
                 }
+
+                var sanitizer = new HtmlSanitizer();
+                if (instructorDto.Socials != null)
+                {
+                    foreach (var social in instructorDto.Socials)
+                    {
+                        // Example: Sanitize URLs or text fields in the Socials object
+                        social.Label = sanitizer.Sanitize(social.Label?.Trim() ?? "");
+                        social.Link = sanitizer.Sanitize(social.Link?.Trim() ?? ""); // Or use Uri.IsWellFormedUriString
+                    }
+                }
+
                 var serializeSocials = JsonSerializer.Serialize(instructorDto.Socials);
+
+                var cleanBio = sanitizer.Sanitize(instructorDto.Bio?.Trim() ?? "");
+                var cleanExpertise = sanitizer.Sanitize(instructorDto.Expertise?.Trim() ?? "");
 
                 var newInstructor = new Instructors
                 {
-                    UserId = instructorDto.UserId,
-                    Expertise = instructorDto.Expertise,
-                    Bio = instructorDto.Bio,
+                    UserId = userIdAuthed,
+                    Expertise = cleanExpertise,
+                    Bio = cleanBio,
                     Socials = serializeSocials,
                     LastModified = DateTime.UtcNow,
                     CreatedAt = DateTime.UtcNow
                 };
+
                 await _context.Instructors.AddAsync(newInstructor, token);
                 user.Role = "Instructor";
                 user.LastModified = DateTime.UtcNow;
                 _context.Users.Update(user);
 
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                var notification = new Notifications
+                {
+                    ReceiverId = userIdAuthed,
+                    Information = $"Informacion mbi krijimin e llogarise suaj ne rolin e Instruktorit me {DateTime.Now.ToString("f", cultureInfo)}",
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                };
+                await _context.Notifications.AddAsync(notification);
+
                 await _context.SaveChangesAsync(token);
 
                 await transaction.CommitAsync(token);
+
+                var connectionId = ConnectionMapping.GetConnectionId(user.Username);
+                if(connectionId != null)
+                {
+                    var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == user.ID && !c.IsRead).CountAsync(token);
+                    await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                }
 
                 return Ok(new { Message = "User became instructor" });
             }
@@ -86,7 +135,7 @@ namespace eKids.Controllers
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(userId == null)
+                if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int userIdAuthed))
                 {
                     return Unauthorized();
                 }
@@ -98,9 +147,10 @@ namespace eKids.Controllers
                     .Select(c => new
                     {
                         c.ID,
-                        InstructorId = c.Instructor.ID
+                        InstructorId = c.Instructor.ID,
+                        c.Username
                     })
-                    .FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+                    .FirstOrDefaultAsync(c => c.ID == userIdAuthed);
                 if(user == null)
                 {
                     return NotFound(new {Message = "No user"});
@@ -111,6 +161,13 @@ namespace eKids.Controllers
                     return BadRequest(new { Message = "Not same lengths" });
                 }
 
+                var categories = await _context.Categories.AsNoTracking().Select(c => c.ID).ToListAsync();
+
+                if (!categories.Contains(courseDto.CategoryId))
+                {
+                    return BadRequest(new { Message = "No valid id provided" });
+                }
+
                 string? imageUrl = string.Empty;
                 if (!string.IsNullOrEmpty(courseDto.Image))
                 {
@@ -118,13 +175,19 @@ namespace eKids.Controllers
                     imageUrl = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
                 }
 
+                var sanitizer = new HtmlSanitizer();
+
+                courseDto.TopicsCovered = courseDto.TopicsCovered
+                    .Select(topic => sanitizer.Sanitize(topic?.Trim() ?? ""))
+                    .ToList();
+
                 string topics = JsonSerializer.Serialize(courseDto.TopicsCovered);
 
                 var newCourse = new InstructorCourses
                 {
                     InstructorId = user.InstructorId,
-                    Name = courseDto.Name,
-                    Description = courseDto.Description,
+                    Name = sanitizer.Sanitize(courseDto.Name.Trim()),
+                    Description = sanitizer.Sanitize(courseDto.Description.Trim()),
                     CategoryId = courseDto.CategoryId,
                     TopicsCovered = topics,
                     Level = courseDto.Level,
@@ -139,7 +202,7 @@ namespace eKids.Controllers
                     var newSection = new InstructorCourseSections
                     {
                         Course_Id = newCourse.ID,
-                        Title = courseDto.SectionTitles[i],
+                        Title = sanitizer.Sanitize(courseDto.SectionTitles[i].Trim()),
                         CreatedAt = DateTime.UtcNow,
                         LastModified = DateTime.UtcNow,
                         InstructorLessons = new List<InstructorLessons>()
@@ -149,7 +212,7 @@ namespace eKids.Controllers
                     {
                         var newLesson = new InstructorLessons
                         {
-                            Title = lessonTitle,
+                            Title = sanitizer.Sanitize(lessonTitle.Trim()),
                             CreatedAt = DateTime.UtcNow,
                             LastModified = DateTime.UtcNow
                         };
@@ -159,8 +222,29 @@ namespace eKids.Controllers
                 }
 
                 await _context.InstructorCourses.AddAsync(newCourse, token);
+
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                var notification = new Notifications
+                {
+                    ReceiverId = user.ID,
+                    Information = $"Njoftim mbi krijimin e kursit {newCourse.Name} me {DateTime.Now.ToString("f", cultureInfo)}",
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                };
+                await _context.Notifications.AddAsync(notification, token);
+
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
+
+                var connectionId = ConnectionMapping.GetConnectionId(user.Username);
+                if (connectionId != null)
+                {
+                    var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == user.ID && !c.IsRead).CountAsync(token);
+                    await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                }
+
                 return Ok(new { Message = "Course added successfully" });
             }
             catch (Exception ex)
@@ -171,7 +255,7 @@ namespace eKids.Controllers
             }
         }
 
-        //kjo osht kur te fillon ni kurs qe e ofron instruktori ose kur kyqet me ane te url
+        //kjo osht kur te fillon ni kurs qe e ofron instruktori
         [Authorize]
         [HttpPost("StartCourse")]
         public async Task<IActionResult> EnrollCourse([FromBody] EnrollCourseDto enrollCourse, CancellationToken token)
@@ -180,12 +264,11 @@ namespace eKids.Controllers
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(user == null)
+                var username = User.FindFirstValue("Username");
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
                     return Unauthorized();
                 }
-
-                var userId = Int32.Parse(user);
 
                 var ifInstructor = await _context.Instructors.Where(c => c.UserId == userId).FirstOrDefaultAsync();
                 if(ifInstructor != null)
@@ -193,10 +276,23 @@ namespace eKids.Controllers
                     return Ok(new { Message = "It is instructor, no need for progress" });
                 }
 
-                var getStudentAvailable = await _context.InstructorStudents.FirstOrDefaultAsync(c => c.UserId == userId && c.InstructorId == enrollCourse.InstructorId);
-                var getLessonProgress = await _context.StudentCourseLessonProgress.FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == enrollCourse.CourseId);
+                var getCourse = await _context.InstructorCourses.AsNoTracking().FirstOrDefaultAsync(c => c.ID == enrollCourse.CourseId);
+                if(getCourse == null)
+                {
+                    return NotFound(new { Message = "No course found" });
+                }
 
-                if (getStudentAvailable == null)
+                var getStudentAvailable = await _context.InstructorStudents.AnyAsync(c => c.UserId == userId && c.InstructorId == enrollCourse.InstructorId);
+                var getLessonProgress = await _context.StudentCourseLessonProgress.AnyAsync(c => c.UserId == userId && c.CourseId == enrollCourse.CourseId);
+
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                if(getStudentAvailable != false && getLessonProgress != false)
+                {
+                    return Ok("course is already started");
+                }
+
+                if (getStudentAvailable == false)
                 {
                     var newEnrollment = new InstructorStudents
                     {
@@ -206,26 +302,29 @@ namespace eKids.Controllers
                         CreatedAt = DateTime.UtcNow,
                         LastModified = DateTime.UtcNow
                     };
-                await _context.InstructorStudents.AddAsync(newEnrollment, token);
+                    await _context.InstructorStudents.AddAsync(newEnrollment, token);
+
+                    var notification = new Notifications
+                    {
+                        ReceiverId = userId,
+                        Information = $"Njoftim mbi fillimin e kursit {getCourse.Name} me {DateTime.Now.ToString("f", cultureInfo)}",
+                        Type = Shared.Enums.NotificationsType.ProgressTrackingNotification,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow,
+                    };
+                    await _context.Notifications.AddAsync(notification, token);
                 }
 
-                var getCourseLessons = await _context.InstructorCourseSections
-                    .Where(c => c.Course_Id == enrollCourse.CourseId)
-                    .Include(c => c.InstructorLessons)
-                    .ToListAsync();
-
-                if(getCourseLessons.Count == 0)
+                
+                if(getLessonProgress == false)
                 {
-                    return BadRequest(new { Message = "Invalid data provided, no lessons found" });
-                }
+                    var lessonProgressList = new List<StudentCourseLessonProgress>();
 
-                if(getLessonProgress == null)
-                {
-                    foreach (var sections in getCourseLessons)
+                    foreach (var sections in getCourse.InstructorCourseSections)
                     {
                         foreach (var lesson in sections.InstructorLessons)
                         {
-                            var newLessonProgress = new StudentCourseLessonProgress
+                            lessonProgressList.Add(new StudentCourseLessonProgress
                             {
                                 UserId = userId,
                                 CourseId = enrollCourse.CourseId,
@@ -235,14 +334,24 @@ namespace eKids.Controllers
                                 JoinedTime = null,
                                 CreatedAt = DateTime.UtcNow,
                                 LastModified = DateTime.UtcNow
-                            };
-                            await _context.StudentCourseLessonProgress.AddAsync(newLessonProgress, token);
+                            });
                         }
                     }
+                    await _context.StudentCourseLessonProgress.AddRangeAsync(lessonProgressList, token);
                 }
-
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if(connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && !c.IsRead).CountAsync(token);
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    };
+                }
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
+
+
                 return Ok(new { Message = "Enrolled successfully" });
             }
             catch (Exception ex)
@@ -385,6 +494,10 @@ namespace eKids.Controllers
                         c.Email,
                         c.Age,
                         c.ProfilePictureUrl,
+                        Courses = c.Instructor.InstructorCourses.Count,
+                        Friends = c.Friends.ToList(),
+                        Meetings = c.Instructor.OnlineMeetings.Count,
+                        Students = c.Instructor.InstructorStudents.Count
                     })
                     .FirstOrDefaultAsync();
 
@@ -393,20 +506,7 @@ namespace eKids.Controllers
                 {
                     return NotFound();
                 }
-
-                var courses = await _context.InstructorCourses.Where(c => c.InstructorId == instructor.InstructorId).CountAsync();
-                var friends = await _context.Friends.Where(c => c.UserId == instructor.ID).ToListAsync();
-                var meetings = await _context.OnlineMeetings.Where(c => c.InstructorId == instructor.InstructorId).CountAsync();
-                var students = await _context.InstructorStudents.Where(c => c.InstructorId == instructor.InstructorId).CountAsync();
-
-                return Ok(new
-                {
-                    instructor,
-                    courses,
-                    friends,
-                    meetings,
-                    students
-                });
+                return Ok(instructor);
             }
             catch (Exception ex)
             {
@@ -476,7 +576,7 @@ namespace eKids.Controllers
         }
 
 
-        //PROGRESS OF PARTICIPATION IN MEETINGS IN COURSE ENROLLMENTS
+        //PROGRESS OF PARTICIPATION IN MEETINGS IN COURSE ENROLLMENTS // progresi i studentav ntakiem online
         [Authorize]
         [HttpGet("GetInstructorsCoursesUserProgress")]
         public async Task<IActionResult> GetInstructorsCoursesUserProgress()
@@ -891,18 +991,50 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("CourseDeleteAdmin/{id}")]
+        public async Task<IActionResult> DeleteCourseAdmin(int id)
+        {
+            try
+            {
+                var course = await _context.InstructorCourses.FindAsync(id);
+                if(course == null)
+                {
+                    return NotFound();
+                }
+                _context.InstructorCourses.Remove(course);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting course");
+                return BadRequest();
+            }
+        }
 
+        [Authorize(Roles = "Instructor")]
         [HttpDelete("CourseDelete/{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var course = await _context.InstructorCourses.FindAsync(id);
                 if (course == null)
                 {
                     return NotFound();
                 }
-                _context.Remove(course);
+                if(course.Instructor.User.ID != userId)
+                {
+                    return Forbid();
+                }
+                _context.InstructorCourses.Remove(course);
                 await _context.SaveChangesAsync();
                 return Ok(new { Message = "Course deleted" });
             }

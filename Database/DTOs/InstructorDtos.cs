@@ -48,9 +48,13 @@ namespace Database.DTOs
 
     public class CreateInstructor
     {
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public string Expertise { get; set; }
+        [Required]
         public string Bio { get; set; }
+        [Required]
         public List<AcceptedInstructorSocials> Socials { get; set; }
 
     }
