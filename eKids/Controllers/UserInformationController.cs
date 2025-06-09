@@ -185,7 +185,7 @@ namespace eKids.Controllers
                     var connectionId = ConnectionMapping.GetConnectionId(username);
                     if(connectionId != null)
                     {
-                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.UserId == userId && c.IsRead == false).CountAsync(token);
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && c.IsRead == false).CountAsync(token);
                         await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
                     }
                 }
@@ -309,7 +309,7 @@ namespace eKids.Controllers
                     var connectionId = ConnectionMapping.GetConnectionId(username);
                     if (connectionId != null)
                     {
-                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.UserId == userId && c.IsRead == false).CountAsync(token);
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && c.IsRead == false).CountAsync(token);
                         await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
                     }
                 }
@@ -388,7 +388,7 @@ namespace eKids.Controllers
                     var connectionId = ConnectionMapping.GetConnectionId(username);
                     if (connectionId != null)
                     {
-                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.UserId == userId && c.IsRead == false).CountAsync(token);
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && c.IsRead == false).CountAsync(token);
                         await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
                     }
                 }

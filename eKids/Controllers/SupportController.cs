@@ -2,10 +2,13 @@
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using eKids.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace eKids.Controllers
@@ -17,21 +20,25 @@ namespace eKids.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ILogger<SupportController> _logger;
         private readonly IFileUploadService _uploadService;
+        private readonly IHubContext<NotificationsHub> _notificationsHub;
 
-        public SupportController(ApplicationDbContext context, ILogger<SupportController> logger, IFileUploadService uploadService)
+        public SupportController(IHubContext<NotificationsHub> notificationsHub, ApplicationDbContext context, ILogger<SupportController> logger, IFileUploadService uploadService)
         {
             _context = context;
             _logger = logger;
             _uploadService = uploadService;
+            _notificationsHub = notificationsHub;
         }
 
         [Authorize]
         [HttpPost("CreateReportSupportTicket")]
-        public async Task<IActionResult> CreateReportSupport(CreateReportSupportTicketDto ticketDto)
+        public async Task<IActionResult> CreateReportSupport(CreateReportSupportTicketDto ticketDto, CancellationToken token)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
                     return Unauthorized();
@@ -55,19 +62,46 @@ namespace eKids.Controllers
                     LastModified = DateTime.UtcNow
                 };
 
-                await _context.ReportTickets.AddAsync(ticket);
-                await _context.SaveChangesAsync();
+                await _context.ReportTickets.AddAsync(ticket, token);
 
+                CultureInfo albanianCulture = new CultureInfo("sq-AL");
+
+                var informationResponse = ticket.AvailableTicket.TicketType == Database.Shared.Enums.AvailableTicketsTypes.Report
+                    ? $"Njoftim mbi raportimin {ticket.AvailableTicket.TicketTitle} me {DateTime.Now.ToString("f", albanianCulture)}"
+                    : $"Njoftim mbi kerkesen per suport {ticket.AvailableTicket.TicketTitle} me {DateTime.Now.ToString("f", albanianCulture)}";
+
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = informationResponse,
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                };
+                await _context.Notifications.AddAsync(notification, token);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if (connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && c.IsRead == false).CountAsync();
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
                 return Ok(new {Message = "Ticket created successfully"});
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error creating ticket");
                 return BadRequest();
             }
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateAvailableTicket")]
         public async Task<IActionResult> CreateAvailableTickets(CreateAvailableTicketDto ticketDto)
         {
@@ -98,13 +132,13 @@ namespace eKids.Controllers
         {
             try
             {
-                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
-                {
-                    return Unauthorized();
-                }
+                //var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                //{
+                //    return Unauthorized();
+                //}
 
-                var tickets = await _context.AvailableTickets.OrderBy(c => c.CreatedAt).ToListAsync();
+                var tickets = await _context.AvailableTickets.AsNoTracking().OrderBy(c => c.CreatedAt).ToListAsync();
                 if(tickets.Count == 0)
                 {
                     return NotFound(new {Message = "No Available Tickets found"});
