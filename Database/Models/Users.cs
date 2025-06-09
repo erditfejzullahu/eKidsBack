@@ -49,7 +49,7 @@ namespace Database.Models
         [Required]
         public int Age { get; set; }
 
-        public string ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
         public ICollection<CommentLikes> CommentLikes { get; set; } = new List<CommentLikes>();
         public ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();

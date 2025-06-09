@@ -288,13 +288,26 @@ namespace eKids.Controllers
                 Email = userDto.Email,
                 Age = userDto.Age,
                 ProfilePictureUrl = userDto.ProfilePictureUrl,
-                Role = "Student",
+                Role = userDto.Role,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
             };
 
-             _userRepository.Add(user);
-            await _userRepository.SaveAsync(default);
+            await _context.Users.AddAsync(user);
+
+            CultureInfo albanianCulture = new CultureInfo("sq-AL");
+
+            var newNotification = new Notifications
+            {
+                ReceiverId = user.ID,
+                Information = $"Njoftim mbi regjistrimin e suksesshem te llogarise tuaj me {DateTime.Now.ToString("f", albanianCulture)}",
+                Type = Shared.Enums.NotificationsType.RegisteredAccount,
+                IsRead = false,
+                CreatedAt = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
+            };
+            await _context.Notifications.AddAsync(newNotification);
+            await _context.SaveChangesAsync();
 
             var userMetaList = new List<Usermeta>
             {

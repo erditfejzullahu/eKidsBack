@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,18 +28,17 @@ namespace Database.DTOs
         public string Email { get; set; }
 
         [Required(ErrorMessage = "age is required")]
+        [Range(13, int.MaxValue, ErrorMessage = "Age must be at least 13")]
         public int Age { get; set; }
 
-        [Required(ErrorMessage = "PackageID requrired")]
-        public int PackageID { get; set; }
-
         [Required(ErrorMessage = "Role required")]
+        [RegularExpression("^(Student|Instructor)$", ErrorMessage = "Role must be either 'Student' or 'Instructor'")]
         public string Role { get; set; }
 
-
-        public string ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
     }
+
 
     /*public class CreateUserMeta
     {
