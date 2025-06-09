@@ -129,6 +129,23 @@ namespace eKids.Controllers
                 {
                     return BadRequest(new { Message = "Invalid or expired token" });
                 }
+                var user = await _context.Users.Where(c => c.Email == resetDto.Email).FirstOrDefaultAsync();
+                if(user != null)
+                {
+                    CultureInfo albanianCulture = new CultureInfo("sq-AL");
+
+                    var loginNotification = new Notifications
+                    {
+                        ReceiverId = user.ID,
+                        Information = $"Njofim mbi rifreskimin e fjalekalimit tuaj me {DateTime.Now.ToString("f", albanianCulture)}",
+                        Type = Shared.Enums.NotificationsType.PasswordReset,
+                        IsRead = false,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    };
+                    await _context.Notifications.AddAsync(loginNotification);
+                    await _context.SaveChangesAsync();
+                }
                 return Ok(new { Message = "Password reset successfully" });
             }
             catch (Exception ex)
