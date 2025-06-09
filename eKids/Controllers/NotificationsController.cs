@@ -200,16 +200,12 @@ namespace eKids.Controllers
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                
+                var username = User.FindFirstValue("Username");
                 if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
                     return Unauthorized();
                 }
-                var userLogged = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == userId);
-                if(userLogged == null)
-                {
-                    return NotFound(new {Message ="no user found"});
-                }
+                
                 var unReads = await _context.Notifications.Where(c => c.ReceiverId == userId && c.IsRead == false).ToListAsync(token);
                 if(unReads.Count != 0)
                 {
@@ -220,10 +216,13 @@ namespace eKids.Controllers
                     _context.Notifications.UpdateRange(unReads);
                     await _context.SaveChangesAsync(token);
 
-                    var userConnected = ConnectionMapping.GetConnectionId(userLogged.Username);
-                    if (userConnected != null)
+                    if (!string.IsNullOrEmpty(username))
                     {
-                        await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", 0);
+                        var userConnected = ConnectionMapping.GetConnectionId(username);
+                        if (userConnected != null)
+                        {
+                            await _notificationsHub.Clients.Client(userConnected).SendAsync("UnreadNotifications", 0);
+                        }
                     }
                 }
                 return Ok(new {Message = "Notifications readed"});
@@ -237,7 +236,7 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet("/api/Notifications/")]
-        public async Task<IActionResult> GetNotificationByUser(, CancellationToken token)
+        public async Task<IActionResult> GetNotificationByUser([FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             try
@@ -248,11 +247,17 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                var notifications = await _context.Notifications
-                    .AsNoTracking()
+                paginationDto.Validate();
+
+                var query = _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId);
+                var totalCount = await query.CountAsync(token);
+
+                var notifications = await query
                     //.AsSplitQuery()
                     .Where(c => c.ReceiverId == userId)
                     .OrderByDescending(c => c.CreatedAt)
+                    .Skip(paginationDto.Skip)
+                    .Take(paginationDto.Take)
                     .Select(c => new
                     {
                         c.ID,
@@ -280,16 +285,19 @@ namespace eKids.Controllers
                     return NotFound(new { Message = "No notifications found" });
                 }
 
-                if (!string.IsNullOrEmpty(username))
-                {
-                    var connectedUser = ConnectionMapping.GetConnectionId(username);
-                    if (connectedUser != null)
-                    {
-                        await _notificationsHub.Clients.Client(connectedUser).SendAsync("UnreadNotifications", 0);   
-                    }
-                }
+                //osht endpoini tjeter qe i bon read
+                //if (!string.IsNullOrEmpty(username))
+                //{
+                //    var connectedUser = ConnectionMapping.GetConnectionId(username);
+                //    if (connectedUser != null)
+                //    {
+                //        await _notificationsHub.Clients.Client(connectedUser).SendAsync("UnreadNotifications", 0);   
+                //    }
+                //}
 
-                return Ok(notifications);
+                bool hasMore = (paginationDto.Skip + notifications.Count) < totalCount;
+
+                return Ok(new {notifications, hasMore});
             }
             catch (Exception ex)
             {
@@ -330,11 +338,16 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                var notification = await _context.Notifications.Where(c => c.ID == id && c.ReceiverId == userId).FirstOrDefaultAsync();
+                var notification = await _context.Notifications.Where(c => c.ID == id).FirstOrDefaultAsync();
                 if(notification == null)
                 {
                     return NotFound(new { Message = "No notification found" });
                 }
+                if(notification.ReceiverId != userId)
+                {
+                    return Forbid();
+                }
+
                 _context.Notifications.Remove(notification);
                 await _context.SaveChangesAsync(token);
                 return Ok(new { Message = "Notification deltetd" });
