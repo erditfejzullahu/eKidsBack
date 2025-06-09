@@ -20,6 +20,8 @@ namespace Database.Context
         public DbSet<UserProgress> UserProgress { get; set; }
         public DbSet<CourseCompleted> CourseCompleted { get; set; }
         public DbSet<Quizzes> Quizzes { get; set; }
+        public DbSet<QuizQuestions> QuizQuestions { get; set; }
+        public DbSet<QuizAnswers> QuizAnswers { get; set; }
         public DbSet<QuizzesCompleted> QuizzesCompleted { get; set; }
         public DbSet<Conversations> Conversations { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
