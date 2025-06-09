@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eKids")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02c10bacbd0475a30681d5d59764791e1040652e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c35276e5c9221930b63ca030c48803bf4aa5cb1f")]
 [assembly: System.Reflection.AssemblyProductAttribute("eKids")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eKids")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

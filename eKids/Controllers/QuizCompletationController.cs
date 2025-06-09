@@ -1,10 +1,16 @@
-﻿using Database.DTOs;
+﻿using Database.Context;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using eKids.Hubs;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Security.Claims;
 
 namespace eKids.Controllers
 {
@@ -14,24 +20,37 @@ namespace eKids.Controllers
     {
         private readonly IRepository<QuizzesCompleted> _quizCompletationRep;
         private readonly ILogger<QuizCompletationController> _logger;
+        private readonly IHubContext<NotificationsHub> _notificationsHub;
+        private readonly ApplicationDbContext _context;
 
-        public QuizCompletationController(IRepository<QuizzesCompleted> quizCompletationRep, ILogger<QuizCompletationController> logger)
+        public QuizCompletationController(ApplicationDbContext context, IRepository<QuizzesCompleted> quizCompletationRep, IHubContext<NotificationsHub> notificationsHub, ILogger<QuizCompletationController> logger)
         {
             _quizCompletationRep = quizCompletationRep;
             _logger = logger;
+            _notificationsHub = notificationsHub;
+            _context = context;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateQuizCompleteStarted(QuizCompStartDto quizCompDto, CancellationToken token)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 if(quizCompDto == null)
                 {
                     return BadRequest("Data missing");
                 }
 
-                var exists = await _quizCompletationRep.IsExist(c => c.QuizId == quizCompDto.QuizId && c.UserId == quizCompDto.UserId, token);
+                var exists = await _quizCompletationRep.IsExist(c => c.QuizId == quizCompDto.QuizId && c.UserId == userId, token);
 
                 if (exists)
                 {
@@ -40,43 +59,101 @@ namespace eKids.Controllers
 
                 var quizCompleted = new QuizzesCompleted
                 {
-                    UserId = quizCompDto.UserId,
+                    UserId = userId,
                     QuizId = quizCompDto.QuizId,
                     Completed = false,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                 };
 
-                _quizCompletationRep.Add(quizCompleted);
-                await _quizCompletationRep.SaveAsync(token);
+                await _context.QuizzesCompleted.AddAsync(quizCompleted, token);
+
+                CultureInfo albanianCulture = new CultureInfo("sq-AL");
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = $"Njoftim mbi fillimin e kuizit {quizCompleted.Quiz.QuizName} me {DateTime.Now.ToString("f", albanianCulture)}",
+                    Type = Shared.Enums.NotificationsType.ProgressTrackingNotification,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if (connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && c.IsRead == false).CountAsync();
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
 
                 return Ok(new { Message = "Quiz started" });
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error in starting Quiz");
                 return BadRequest(new { Message = "Error in starting quiz" });
             }
         }
 
+        [Authorize]
         [HttpPatch]
         public async Task<IActionResult> UpdateQuizCompletationStatus(QuizCompletationDto quizComp, CancellationToken token)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var quiz = await _quizCompletationRep.GetAll().FirstOrDefaultAsync(c => c.QuizId == quizComp.QuizId && c.UserId == quizComp.UserId, token);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                var quiz = await _context.QuizzesCompleted.Where(c => c.QuizId == quizComp.QuizId && c.UserId == userId).FirstOrDefaultAsync(token);
+
                 if(quiz == null)
                 {
                     return NotFound(new { Message = "Quiz not found" });
                 }
+                if(quiz.UserId != userId)
+                {
+                    return Forbid();
+                }
+
                 quiz.Completed = quizComp.Completed;
                 //quiz.Mistakes = quizComp.Mistakes;
                 //quiz.Duration = quizComp.Duration;
                 quiz.LastModified = DateTime.UtcNow;
+                _context.QuizzesCompleted.Update(quiz);
 
-                _quizCompletationRep.Update(quiz);
-                await _quizCompletationRep.SaveAsync(token);
+                CultureInfo albanianCulture = new CultureInfo("sq-AL");
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = $"Njoftim mbi perfundimin e kuizit {quiz.Quiz.QuizName} me {DateTime.Now.ToString("f", albanianCulture)}",
+                    Type = Shared.Enums.NotificationsType.CompletedProgressNotification,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
 
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if (connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && c.IsRead == false).CountAsync();
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
                 return Ok(new { Message = "Successfully status updated" });
             }
             catch (Exception ex)
@@ -86,6 +163,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuizCompletedById(int id, CancellationToken token)
         {
@@ -124,37 +202,84 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteQuizCompletation(int id, CancellationToken token)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var quiz = await _quizCompletationRep.Get(id, token);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var quiz = await _context.QuizzesCompleted.Where(c => c.ID == id).FirstOrDefaultAsync(token);
                 if(quiz == null)
                 {
                     return NotFound(new { Message = "Not found" });
                 }
+                if(quiz.UserId != userId)
+                {
+                    return Forbid();
+                }
 
-                await _quizCompletationRep.Delete(quiz.ID, token);
-                await _quizCompletationRep.SaveAsync(token);
+                _context.QuizzesCompleted.Remove(quiz);
+
+                CultureInfo albanianCulture = new CultureInfo("sq-AL");
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = $"Njoftim mbi perfundimin e kuizit {quiz.Quiz.QuizName} me {DateTime.Now.ToString("f", albanianCulture)}",
+                    Type = Shared.Enums.NotificationsType.CompletedProgressNotification,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
+
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if (connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && c.IsRead == false).CountAsync();
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
                 return Ok(new { Message = "Quiz deleted" });
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error in deleting quiz compeltation status");
                 return BadRequest(new { Message = "Error deleting quiz completation status" });
             }
         }
 
+        [Authorize]
         [HttpPatch("/api/QuizzesCompleted/UpdateQuizMistakes/")]
         public async Task<IActionResult> UpdateMistakes(QuizCompStartDto updateMistakesDto, CancellationToken token)
         {
             try
             {
-                var quiz = await _quizCompletationRep.GetAll().AsNoTracking().FirstOrDefaultAsync(c => c.QuizId == updateMistakesDto.QuizId && c.UserId == updateMistakesDto.UserId, token);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var quiz = await _quizCompletationRep.GetAll().AsNoTracking().FirstOrDefaultAsync(c => c.QuizId == updateMistakesDto.QuizId && c.UserId == userId, token);
                 if(quiz == null)
                 {
                     return NotFound(new { Message = "Not found quiz" });
+                }
+                if(quiz.UserId != userId)
+                {
+                    return Forbid();
                 }
                 quiz.Mistakes += 1;
                 _quizCompletationRep.Update(quiz);
@@ -168,11 +293,18 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("/api/QuizzesCompletation/GetStatusQuizz/{userId}/{quizId}")]
-        public async Task<IActionResult> GetStatusOfQuiz(int userId, int quizId, CancellationToken token)
+        [Authorize]
+        [HttpGet("/api/QuizzesCompletation/GetStatusQuizz/{quizId}")]
+        public async Task<IActionResult> GetStatusOfQuiz(int quizId, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 if (userId <= 0 || quizId <= 0)
                 {
                     return BadRequest(new { Message = "Invalid userId or quizId" });
