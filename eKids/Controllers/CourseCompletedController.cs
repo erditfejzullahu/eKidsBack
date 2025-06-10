@@ -1,7 +1,9 @@
 ﻿using Database.Models;
 using Database.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace eKids.Controllers
 {
@@ -18,17 +20,19 @@ namespace eKids.Controllers
             _logger = logger;
         }
 
+        //courses completed based of userid
         [HttpGet("/api/CourseCompleted")]
         public async Task<IActionResult> GetAllCoursesCompleted([FromQuery] int userId, CancellationToken token)
         {
             try
             {
-                var comments = await _courseCompletedRepository.GetAll().Include(c => c.Course).AsNoTracking().Where(c => c.UserId == userId).ToListAsync(token);
-                if(comments == null || comments.Count == 0)
+
+                var completations = await _courseCompletedRepository.GetAll().Include(c => c.Course).AsNoTracking().Where(c => c.UserId == userId).ToListAsync(token);
+                if(completations.Count == 0)
                 {
                     return NotFound(new {Message="No completation found!"});
                 }
-                return Ok(comments);
+                return Ok(completations);
             }
             catch (Exception ex)
             {
@@ -37,6 +41,7 @@ namespace eKids.Controllers
             }
         }
 
+        //courses completation certificate based of course
         [HttpGet("{courseId}/{userId}")]
         public async Task<IActionResult> GetCompletedCourse(int courseId, int userId, CancellationToken token)
         {
@@ -56,16 +61,28 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpPatch("{id}/{userId}")]
-        public async Task<IActionResult> UpdateTestimonial(int id, int userId, [FromBody] string? testimonialData, CancellationToken token)
+        [Authorize]
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateTestimonial(int id, [FromBody] string? testimonialData, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var testimonial = await _courseCompletedRepository.GetAll().FirstOrDefaultAsync(c => c.ID == id && c.UserId == userId, token);
                 if(testimonial == null)
                 {
                     return NotFound(new { Message = "Testimonial not found!" });
                 }
+                if(testimonial.UserId != userId)
+                {
+                    return Forbid();
+                }
+
                 testimonial.Testimonial = testimonialData;
                 _courseCompletedRepository.Update(testimonial);
                 await _courseCompletedRepository.SaveAsync(token);
