@@ -3,6 +3,7 @@ using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Configuration;
@@ -32,6 +33,7 @@ namespace eKids.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCourses courseDto, CancellationToken token)
         {
@@ -73,7 +75,6 @@ namespace eKids.Controllers
         public async Task<IActionResult> GetCourse(int id, CancellationToken token)
         {
             var course = await _courseRepository.Get(id, token, c => c.Lessons, c => c.Category);
-            
                 
             if(course == null)
             {
@@ -86,6 +87,7 @@ namespace eKids.Controllers
             return Ok(course);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id, CancellationToken token)
         {
@@ -103,6 +105,7 @@ namespace eKids.Controllers
             return Ok(course);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourses courseDto)
         {
@@ -156,6 +159,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("/getCoursesP")]
         public async Task<IActionResult> GetAllCoursesP([FromQuery] PaginationDto paginationDto, [FromQuery] SortQueryDto sortQuery, string? searchParam, int? categoryId, CancellationToken token)
         {
@@ -204,6 +208,7 @@ namespace eKids.Controllers
             }           
         }
 
+        [Authorize]
         [HttpGet("/getCourses")]
         public async Task<IActionResult> GetAllCourses(CancellationToken token)
         {
