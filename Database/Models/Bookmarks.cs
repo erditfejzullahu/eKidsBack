@@ -18,17 +18,19 @@ namespace Database.Models
 
         [Required]
         public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public Users User { get; set; }
 
         public int? CourseId { get; set; }
 
         [ForeignKey("CourseId")]
-        public virtual Courses? Course { get; set; }
+        public Courses? Course { get; set; }
 
 
         public int? LessonId { get; set; }
 
         [ForeignKey("LessonId")]
-        public virtual Lessons? Lesson { get; set; }
+        public Lessons? Lesson { get; set; }
         
 
     }

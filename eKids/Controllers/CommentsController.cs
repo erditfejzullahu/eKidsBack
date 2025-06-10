@@ -1,4 +1,5 @@
-﻿using Database.DTOs;
+﻿using Database.Context;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Ganss.Xss;
@@ -21,13 +22,15 @@ namespace eKids.Controllers
         private readonly ILogger<CommentsController> _logger;
         private readonly ICommentService _commentService;
         private readonly ICommentLikesService _commentLikesService;
+        private readonly ApplicationDbContext _context;
 
-        public CommentsController(IRepository<Comments> commentsRepository, ILogger<CommentsController> logger, ICommentService commentService, ICommentLikesService commentLikesService)
+        public CommentsController(IRepository<Comments> commentsRepository, ApplicationDbContext context, ILogger<CommentsController> logger, ICommentService commentService, ICommentLikesService commentLikesService)
         {
             _commentsRepository = commentsRepository;
             _logger = logger;
             _commentService = commentService;
-            _commentLikesService = commentLikesService; 
+            _commentLikesService = commentLikesService;
+            _context = context;
         }
 
         [Authorize]
@@ -51,6 +54,7 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+                
                 var sanitizer = new HtmlSanitizer();
                 var newComment = new Comments
                 {

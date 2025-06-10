@@ -106,5 +106,7 @@ namespace Database.Models
 
         public ICollection<ReportTickets> SubmittedTickets { get; set; } = new List<ReportTickets>(); 
         public ICollection<ReportTickets> ReportsAgainstUser { get; set; } = new List<ReportTickets>();
+
+        public ICollection<Bookmarks> UserBookmarks { get; set; } = new List<Bookmarks>();
     }
 }

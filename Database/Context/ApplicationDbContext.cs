@@ -15,6 +15,7 @@ namespace Database.Context
         public DbSet<Lessons> Lessons { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Comments> Comments { get; set; }
+        public DbSet<Bookmarks> Bookmarks { get; set; }
         public DbSet<CommentLikes> CommentLikes { get; set; }
         public DbSet<LessonLikes> LessonLikes { get; set; }
         public DbSet<UserProgress> UserProgress { get; set; }
@@ -736,7 +737,23 @@ namespace Database.Context
                 .HasForeignKey(c => c.LessonId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Bookmarks>();
+            modelBuilder.Entity<Bookmarks>()
+                .HasOne(c => c.Course)
+                .WithMany(c => c.CourseBookmarks)
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Bookmarks>()
+                .HasOne(c => c.Lesson)
+                .WithMany(c => c.LessonBookmarks)
+                .HasForeignKey(c => c.LessonId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Bookmarks>()
+                .HasOne(c => c.User)
+                .WithMany(c => c.UserBookmarks)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

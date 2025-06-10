@@ -3,6 +3,7 @@ using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
@@ -33,6 +34,7 @@ namespace eKids.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategory categoryDto)
         {
@@ -71,6 +73,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategories categoryDto)
         {
@@ -125,6 +128,7 @@ namespace eKids.Controllers
             return Ok(category);
         }
 
+        [Authorize]
         [HttpGet("/getCategories")]
         public async Task<IActionResult> getAllCategories([FromQuery] string? searchParam, [FromQuery] SortQueryDto sortQuery, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
@@ -154,6 +158,7 @@ namespace eKids.Controllers
             
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id, CancellationToken token)
         {

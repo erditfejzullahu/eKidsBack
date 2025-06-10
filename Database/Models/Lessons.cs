@@ -53,7 +53,7 @@ namespace Database.Models
         public ICollection<LessonLikes> LessonLikes { get; set; } = new List<LessonLikes>();
         public ICollection<UserProgress> LessonProgress { get; set; } = new List<UserProgress>();
         public ICollection<Conversations> LessonConversations { get; set; } = new List<Conversations>();
-
+        public ICollection<Bookmarks> LessonBookmarks { get; set; } = new List<Bookmarks>();
 
         //[Required]
         //public DateTime CreatedAt { get; set; }

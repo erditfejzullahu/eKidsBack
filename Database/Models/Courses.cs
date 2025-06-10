@@ -44,9 +44,9 @@ namespace Database.Models
         public ICollection<UserProgress> CoursesProgress { get; set; } = new List<UserProgress>();
         public ICollection<Conversations> CourseConversations { get; set; } = new List<Conversations>();
 
-        //public virtual ICollection<Bookmarks> Bookmarks { get; set; } = new List<Bookmarks>();
+        public ICollection<Bookmarks> CourseBookmarks { get; set; } = new List<Bookmarks>();
 
-        
+
 
     }
 }
