@@ -4,10 +4,17 @@ using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Database.Shared.Enums;
+using eKids.Hubs;
+using Ganss.Xss;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Security.Claims;
 
 namespace eKids.Controllers
 {
@@ -20,23 +27,31 @@ namespace eKids.Controllers
         private readonly IMapper _mapper;
         private readonly IDiscussionAnswerService _discussionAnswerService;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IHubContext<NotificationsHub> _notificationsHub;
 
-        public DiscussionsController(IFileUploadService fileUploadService, IMapper mapper, ILogger<DiscussionsController> logger, ApplicationDbContext context, IDiscussionAnswerService discussionAnswerService)
+        public DiscussionsController(IFileUploadService fileUploadService, IHubContext<NotificationsHub> notificationsHub, IMapper mapper, ILogger<DiscussionsController> logger, ApplicationDbContext context, IDiscussionAnswerService discussionAnswerService)
         {
             _fileUploadService = fileUploadService;
             _logger = logger;
             _context = context;
             _mapper = mapper;
             _discussionAnswerService = discussionAnswerService;
+            _notificationsHub = notificationsHub;
         }
 
+        [Authorize]
         [HttpPost("CreateDiscussionAnswer")]
         public async Task<IActionResult> CreateDiscussionAnswer([FromBody] CreateDiscussionAnswerDto createDiscussionAnswer, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                var getDiscussion = await _context.Discussions.FindAsync(createDiscussionAnswer.DiscussionId);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                var getDiscussion = await _context.Discussions.AsNoTracking().Where(c => c.ID == createDiscussionAnswer.DiscussionId).FirstOrDefaultAsync(token);
                 if(getDiscussion == null)
                 {
                     return NotFound("Not found discussion");
@@ -47,12 +62,12 @@ namespace eKids.Controllers
                     var uploadPath = await _fileUploadService.UploadFile(createDiscussionAnswer.DiscussionFile, FileCategory.Other);
                     item_url = $"{Request.Scheme}://{Request.Host}/{uploadPath}";
                 }
-
+                var sanitizer = new HtmlSanitizer();
                 var createAnswer = new DiscussionAnswers
                 {
-                    Content = createDiscussionAnswer.DiscussionAnswerContent,
-                    UserId = createDiscussionAnswer.UserId,
-                    DiscussionId = createDiscussionAnswer.DiscussionId,
+                    Content = sanitizer.Sanitize(createDiscussionAnswer.DiscussionAnswerContent.Trim()),
+                    UserId = userId,
+                    DiscussionId = getDiscussion.ID,
                     Votes = 0,
                     Item_Url = item_url,
                     ParentId = createDiscussionAnswer.ParentId,
@@ -72,12 +87,19 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch("HandleDiscussionVotes")]
         public async Task<IActionResult> HandleDiscussionVotes([FromBody] DiscussionHandleVoteDto discussionHandleVoteDto, CancellationToken token)
         {
             try
             {
-                var handleVote = await _discussionAnswerService.HandleDiscussionVoteStatusAsync(discussionHandleVoteDto.UserId, discussionHandleVoteDto.DiscussionId, discussionHandleVoteDto.DiscussionVoteType, token);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var handleVote = await _discussionAnswerService.HandleDiscussionVoteStatusAsync(userId, discussionHandleVoteDto.DiscussionId, discussionHandleVoteDto.DiscussionVoteType, token);
                 return Ok(new { VoteResponse = handleVote });
             }
             catch (Exception ex)
@@ -87,12 +109,18 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch("HandleAnswerVotes")]
         public async Task<IActionResult> HandleAnswerVotes([FromBody] DiscussionAnswerHandleVoteDto handleVoteDto, CancellationToken token)
         {
             try
             {
-                var handleVote = await _discussionAnswerService.HandleAnswerVoteStatusAsync(handleVoteDto.UserId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionId, handleVoteDto.DiscussionVoteType, token);
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                var handleVote = await _discussionAnswerService.HandleAnswerVoteStatusAsync(userId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionId, handleVoteDto.DiscussionVoteType, token);
                 return Ok(new { VoteResponse = handleVote }); //0 for voteup, 1 for votedown
             }
             catch (Exception ex)
@@ -102,11 +130,17 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetDiscussionComments/{id}")]
-        public async Task<IActionResult> GetDiscussionComments(int id, [FromQuery] int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetDiscussionComments(int id, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
                 var discussionAnswers = await _discussionAnswerService.GetDiscussionAnswersDtoAsync(id, userId, paginationDto, token);
                 if(discussionAnswers.Item1.Count == 0)
                 {
@@ -121,11 +155,17 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDiscussionById(int id, [FromQuery] int userId)
+        public async Task<IActionResult> GetDiscussionById(int id)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
                 var discussion = await _context.Discussions
                     .Where(c => c.ID == id)
                     .Select(c => new
@@ -218,6 +258,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllDiscussions([FromQuery] DiscussionSorterDto sortDto, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
@@ -291,6 +332,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("TypingTags")]
         public async Task<IActionResult> GetTypingTags([FromQuery] string? title)
         {
@@ -330,18 +372,32 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateDiscussion([FromBody] DiscussionDto discussionDto, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new {Message = "Model not valid"});
+                }
+
+                var sanitizer = new HtmlSanitizer();
 
                 var discussion = new Discussions
                 {
-                    Title = discussionDto.Title,
-                    Content = discussionDto.Content,
-                    UserId = discussionDto.UserId,
+                    Title = sanitizer.Sanitize(discussionDto.Title.Trim()),
+                    Content = sanitizer.Sanitize(discussionDto.Content),
+                    UserId = userId,
                     PreferAnonimity = discussionDto.PreferAnonimity,
                     IsUrgent = discussionDto.IsUrgent,
                     Edited = false,
@@ -358,8 +414,8 @@ namespace eKids.Controllers
                     {
                         tag = new DiscussionTags
                         {
-                            Title = item.Title,
-                            Description = item.Description,
+                            Title = sanitizer.Sanitize(item.Title),
+                            Description = sanitizer.Sanitize(item.Description),
                             CreatedAt = DateTime.UtcNow,
                             LastModified = DateTime.UtcNow
                         };
@@ -379,8 +435,31 @@ namespace eKids.Controllers
                 }
 
                 await _context.Discussions.AddAsync(discussion, token);
+
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = $"Njoftim mbi krijimin e diskutimit {discussion.Title} me {DateTime.Now.ToString("f", cultureInfo)}",
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
+
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if(connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && !c.IsRead).CountAsync(token);
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
                 return Ok(new { Message = "Discussion Created" });
             }
             catch (Exception ex)
@@ -391,12 +470,24 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch("{id}")]
         public async Task<IActionResult> EditDiscussion(int id, DiscussionDto discussionDto, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new {Message = "Model not valid"});
+                }
                 var discussion = await _context.Discussions
                     .Include(d => d.DiscussionWithTags)
                     .FirstOrDefaultAsync(d => d.ID == id, token);
@@ -404,7 +495,24 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "Discussion not found" });
                 }
-                _mapper.Map(discussionDto, discussion);
+                if(discussion.UserId != userId)
+                {
+                    return Forbid();
+                }
+
+                var sanitizer = new HtmlSanitizer();
+
+                var cleanDiscussionDto = new DiscussionDto
+                {
+                    Title = sanitizer.Sanitize(discussionDto.Title),
+                    Content = sanitizer.Sanitize(discussionDto.Content),
+                    UserId = userId,
+                    IsUrgent = discussionDto.IsUrgent,
+                    PreferAnonimity = discussionDto.PreferAnonimity,
+                    Tags = discussionDto.Tags
+                };
+
+                _mapper.Map(cleanDiscussionDto, discussion);
                 discussion.LastModified = DateTime.UtcNow;
 
                 if(discussionDto.Tags.Count > 0)
@@ -421,8 +529,8 @@ namespace eKids.Controllers
                         {
                             tag = new DiscussionTags
                             {
-                                Title = item.Title,
-                                Description = item.Description,
+                                Title = sanitizer.Sanitize(item.Title),
+                                Description = sanitizer.Sanitize(item.Description),
                                 CreatedAt = DateTime.UtcNow,
                                 LastModified = DateTime.UtcNow
                             };
@@ -442,8 +550,31 @@ namespace eKids.Controllers
                 }
 
                 _context.Discussions.Update(discussion);
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = $"Njoftim mbi rifreskimin e diskutimit {discussion.Title} me {DateTime.Now.ToString("f", cultureInfo)}",
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
+
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if (connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && !c.IsRead).CountAsync(token);
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
+
                 return Ok(new { Message = "Discussion updated successfully" });
 
             }
@@ -455,24 +586,60 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch("changeAnonimity/{id}")]
         public async Task<IActionResult> ChangeAnonimity(int id, [FromQuery] DiscussionAnonimityStatus anonimityStatus, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var discussion = await _context.Discussions.FindAsync(id, token);
                 if(discussion == null)
                 {
                     return NotFound(new {Message = "Discussion not found!"});
                 }
 
+                if(discussion.UserId != userId)
+                {
+                    return Forbid();
+                }
+
                 discussion.PreferAnonimity = anonimityStatus;
                 discussion.LastModified = DateTime.UtcNow;
 
-                _context.Update(discussion);
+                _context.Discussions.Update(discussion);
+
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = $"Njoftim mbi ndryshimin e anonimitetit te diskutimit {discussion.Title} me {DateTime.Now.ToString("f", cultureInfo)}",
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
+
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if (connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && !c.IsRead).CountAsync(token);
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
 
                 return Ok(new { Message = "Anonimity Changed" });
             }
@@ -484,14 +651,15 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiscussion(int id, CancellationToken token)
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("AdminDelete/{id}")]
+        public async Task<IActionResult> DeleteDiscussionAdmin(int id, CancellationToken token)
         {
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 var discussion = await _context.Discussions.FindAsync(id, token);
-                if(discussion == null)
+                if (discussion == null)
                 {
                     return NotFound(new { Message = "No discussion found" });
                 }
@@ -499,6 +667,69 @@ namespace eKids.Controllers
                 _context.Discussions.Remove(discussion);
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
+                return Ok(new { Message = "Discussion deleted" });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, " Error in deleting discussion");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDiscussion(int id, CancellationToken token)
+        {
+            
+            using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var username = User.FindFirstValue("Username");
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
+                var discussion = await _context.Discussions.FindAsync(id, token);
+                if(discussion == null)
+                {
+                    return NotFound(new { Message = "No discussion found" });
+                }
+
+                if (discussion.UserId != userId)
+                {
+                    return Forbid();
+                }
+
+                _context.Discussions.Remove(discussion);
+
+                CultureInfo cultureInfo = new CultureInfo("sq-AL");
+
+                var notification = new Notifications
+                {
+                    ReceiverId = userId,
+                    Information = $"Njoftim mbi heqjen e diskutimit {discussion.Title} me {DateTime.Now.ToString("f", cultureInfo)}",
+                    Type = Shared.Enums.NotificationsType.CustomInformaionOrPromotionsSendToAll,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow
+                };
+                await _context.Notifications.AddAsync(notification, token);
+
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var connectionId = ConnectionMapping.GetConnectionId(username);
+                    if (connectionId != null)
+                    {
+                        var unreadNotifications = await _context.Notifications.AsNoTracking().Where(c => c.ReceiverId == userId && !c.IsRead).CountAsync(token);
+                        await _notificationsHub.Clients.Client(connectionId).SendAsync("UnreadNotifications", unreadNotifications);
+                    }
+                }
+
                 return Ok(new { Message = "Discussion deleted" });
             }
             catch (Exception ex)

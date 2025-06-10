@@ -42,7 +42,7 @@ namespace Database.Repository
                     var newVote = new DiscussionVotes
                     {
                         UserId = userId,
-                        DiscussionId = discussionId,
+                        DiscussionId = discussion.ID,
                         IsVotedDown = voteType == DiscussionVoteType.VoteDown,
                         IsVotedUp = voteType == DiscussionVoteType.VoteUp,
                         CreatedAt = DateTime.UtcNow,
@@ -132,7 +132,7 @@ namespace Database.Repository
                 {
                     var newVote = new DiscussionAnswerVotes
                     {
-                        DiscussionCommentId = discussionAnswerId,
+                        DiscussionCommentId = discussionAnswer.ID,
                         UserId = userId,
                         IsVotedDown = voteType == DiscussionVoteType.VoteDown,
                         IsVotedUp = voteType == DiscussionVoteType.VoteUp,
