@@ -1,5 +1,6 @@
 ﻿using Database.Models;
 using Database.Repository;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +64,7 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateTestimonial(int id, [FromBody] string? testimonialData, CancellationToken token)
+        public async Task<IActionResult> UpdateTestimonial(int id, [FromBody] string testimonialData, CancellationToken token)
         {
             try
             {
@@ -82,8 +83,12 @@ namespace eKids.Controllers
                 {
                     return Forbid();
                 }
-
-                testimonial.Testimonial = testimonialData;
+                if (string.IsNullOrEmpty(testimonialData))
+                {
+                    return BadRequest(new { Message = "Testimonial data is required" });
+                }
+                var sanitizer = new HtmlSanitizer();
+                testimonial.Testimonial = sanitizer.Sanitize(testimonialData.Trim());
                 _courseCompletedRepository.Update(testimonial);
                 await _courseCompletedRepository.SaveAsync(token);
                 return Ok(new { Message = "Testimonial updated successfully", Testimonial = testimonial });

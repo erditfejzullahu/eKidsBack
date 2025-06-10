@@ -1,9 +1,13 @@
 ﻿using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Ganss.Xss;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Xml.Linq;
 
 namespace eKids.Controllers
@@ -26,6 +30,7 @@ namespace eKids.Controllers
             _commentLikesService = commentLikesService; 
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateComment([FromBody] CreateComments commentsDto, CancellationToken token)
         {
@@ -41,12 +46,18 @@ namespace eKids.Controllers
 
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                var sanitizer = new HtmlSanitizer();
                 var newComment = new Comments
                 {
                     LessonId = commentsDto.LessonId,
                     ParentId = commentsDto.ParentId,
-                    UserId = commentsDto.UserId,
-                    Comment_Content = commentsDto.Comment_Content,
+                    UserId = userId,
+                    Comment_Content = sanitizer.Sanitize(commentsDto.Comment_Content.Trim()),
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
@@ -62,12 +73,18 @@ namespace eKids.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpGet("/api/Comments/GetAll/{id}")]
-        public async Task<IActionResult> GetAllComments(int id, [FromQuery] string type, [FromQuery] int userId, CancellationToken token)
+        public async Task<IActionResult> GetAllComments(int id, [FromQuery] string type, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 if (string.IsNullOrEmpty(type) || (type != "lesson" && type != "user"))
                 {
                     return BadRequest(new {Message="Type error"});
@@ -90,11 +107,17 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch("/api/Comments/Like/{id}")]
-        public async Task<IActionResult> UpdateLike(int id, [FromQuery] int userId, CancellationToken token)
+        public async Task<IActionResult> UpdateLike(int id, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
                 var comment = await _commentsRepository.Get(id, token);
 
                 if(comment == null)
@@ -129,15 +152,51 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("AdminDelete/{id}")]
+        public async Task<IActionResult> DeleteCommentAdmin(int id, CancellationToken token)
+        {
+            try
+            {
+                var comment = await _commentsRepository.Get(id, token);
+                if (comment == null)
+                {
+                    return BadRequest(new { Message = "No comment found!" });
+                }
+
+                await _commentsRepository.Delete(comment.ID, token);
+                await _commentsRepository.SaveAsync(token);
+
+                return Ok(new { Message = "Comment deleted!" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in deleting comment wit ID: {id}");
+                return BadRequest(new { Message = "Error deleting comment!" });
+            }
+        }
+
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComment(int id, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var comment = await _commentsRepository.Get(id, token);
                 if(comment == null)
                 {
                     return BadRequest(new { Message = "No comment found!" });
+                }
+
+                if(comment.UserId != userId)
+                {
+                    return Forbid();
                 }
 
                 await _commentsRepository.Delete(comment.ID, token);
