@@ -29,7 +29,7 @@ namespace eKids.Controllers
 
         public InstructorsController(ISorterService<InstructorCourses> sorterService, IHubContext<NotificationsHub> notificationsHub, IManageInstructorContentService instructorContentService, IFileUploadService fileUploadService, ILogger<InstructorsController> logger, ApplicationDbContext context)
         {
-            _notificationsHub = NotificationsHub;
+            _notificationsHub = notificationsHub;
             _logger = logger;
             _context = context;
             _fileUploadService = fileUploadService;
@@ -48,6 +48,10 @@ namespace eKids.Controllers
                 if(string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int userIdAuthed))
                 {
                     return Unauthorized();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
                 }
                 var user = await _context.Users.FindAsync(userIdAuthed, token);
                 if(user == null)
@@ -269,6 +273,10 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
 
                 var ifInstructor = await _context.Instructors.Where(c => c.UserId == userId).FirstOrDefaultAsync();
                 if(ifInstructor != null)
@@ -369,22 +377,12 @@ namespace eKids.Controllers
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(userId == null)
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
                     return Unauthorized();
                 }
 
-                //var user = await _context.Users.Select(c => new
-                //{
-                //    c.ID,
-                //    InstructorId = c.Instructor.ID,
-                //}).FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
-
-                //if(user == null)
-                //{
-                //    return NotFound(new { Message = "no user found" });
-                //}
                 var lessons = await _context.InstructorCourses
                     .Where(c => c.ID == courseId)
                     .SelectMany(c => c.InstructorCourseSections)
@@ -413,7 +411,7 @@ namespace eKids.Controllers
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(userId == null)
+                if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int userIdAuth))
                 {
                     return Unauthorized();
                 }
@@ -423,7 +421,7 @@ namespace eKids.Controllers
                         c.ID,
                         InstructorId = c.Instructor.ID
                     })
-                    .FirstOrDefaultAsync(c => c.ID == Int32.Parse(userId));
+                    .FirstOrDefaultAsync(c => c.ID == userIdAuth);
 
                 if(user == null)
                 {

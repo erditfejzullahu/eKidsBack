@@ -51,6 +51,10 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
                 var getDiscussion = await _context.Discussions.AsNoTracking().Where(c => c.ID == createDiscussionAnswer.DiscussionId).FirstOrDefaultAsync(token);
                 if(getDiscussion == null)
                 {
@@ -63,6 +67,40 @@ namespace eKids.Controllers
                     item_url = $"{Request.Scheme}://{Request.Host}/{uploadPath}";
                 }
                 var sanitizer = new HtmlSanitizer();
+                
+                sanitizer.AllowedTags.Add("b");        // bold
+                sanitizer.AllowedTags.Add("i");        // italic
+                sanitizer.AllowedTags.Add("u");        // underline
+                sanitizer.AllowedTags.Add("p");        // paragraphs
+                sanitizer.AllowedTags.Add("br");       // line breaks
+                sanitizer.AllowedTags.Add("ul");       // unordered lists
+                sanitizer.AllowedTags.Add("ol");       // ordered lists
+                sanitizer.AllowedTags.Add("li");       // list items
+                sanitizer.AllowedTags.Add("strong");   // strong emphasis
+                sanitizer.AllowedTags.Add("em");       // emphasis
+                sanitizer.AllowedTags.Add("blockquote"); // quotes
+
+                
+                sanitizer.AllowedAttributes.Add("style"); // For basic styling
+                sanitizer.AllowedAttributes.Add("class");
+
+                
+                sanitizer.AllowedTags.Add("a");
+                sanitizer.AllowedAttributes.Add("href");
+                sanitizer.AllowDataAttributes = false; // Disallow data-* attributes
+
+                
+                sanitizer.AllowedSchemes.Add("http");
+                sanitizer.AllowedSchemes.Add("https");
+                sanitizer.AllowedSchemes.Add("mailto");
+                sanitizer.AllowedSchemes.Add("h1");
+                sanitizer.AllowedSchemes.Add("h2");
+                sanitizer.AllowedSchemes.Add("h3");
+                sanitizer.AllowedSchemes.Add("h4");
+                sanitizer.AllowedSchemes.Add("h5");
+                sanitizer.AllowedTags.Add("code");
+                sanitizer.AllowedTags.Add("pre");
+
                 var createAnswer = new DiscussionAnswers
                 {
                     Content = sanitizer.Sanitize(createDiscussionAnswer.DiscussionAnswerContent.Trim()),
@@ -74,6 +112,7 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
+
                 await _context.DiscussionAnswers.AddAsync(createAnswer);
                 await _context.SaveChangesAsync(token);
                 await transaction.CommitAsync(token);
@@ -99,6 +138,11 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new {Message = "Model invalid"});
+                }
+
                 var handleVote = await _discussionAnswerService.HandleDiscussionVoteStatusAsync(userId, discussionHandleVoteDto.DiscussionId, discussionHandleVoteDto.DiscussionVoteType, token);
                 return Ok(new { VoteResponse = handleVote });
             }
@@ -119,6 +163,10 @@ namespace eKids.Controllers
                 if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
                     return Unauthorized();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
                 }
                 var handleVote = await _discussionAnswerService.HandleAnswerVoteStatusAsync(userId, handleVoteDto.DiscussionAnswerId, handleVoteDto.DiscussionId, handleVoteDto.DiscussionVoteType, token);
                 return Ok(new { VoteResponse = handleVote }); //0 for voteup, 1 for votedown
@@ -599,6 +647,7 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+
 
                 var discussion = await _context.Discussions.FindAsync(id, token);
                 if(discussion == null)

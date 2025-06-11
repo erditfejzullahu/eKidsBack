@@ -61,6 +61,10 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
 
                 if(friendDto == null)
                 {
@@ -94,9 +98,15 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+
                 if(friendDto == null)
                 {
                     return BadRequest(new { Message = "No data" });
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
                 }
                 var friend1 = new Friends
                 {
@@ -445,11 +455,6 @@ namespace eKids.Controllers
                 if (friendDto == null)
                 {
                     return BadRequest(new { Message = "FriendDto is null or missing" });
-                }
-
-                if (friendDto.SenderId == null || friendDto.ReceiverId == null)
-                {
-                    return BadRequest(new { Message = "SenderId or ReceiverId is missing or invalid" });
                 }
 
                 // Query the database

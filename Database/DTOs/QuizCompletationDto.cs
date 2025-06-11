@@ -13,7 +13,7 @@ namespace Database.DTOs
         public int UserId { get; set; }
         [Required]
         public int QuizId { get; set; }
-        [Required]
+        //[Required]
         public bool Completed { get; set; }
         public int? Mistakes { get; set; }
         public int? Duration { get; set; }

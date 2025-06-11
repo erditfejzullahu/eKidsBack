@@ -3,10 +3,12 @@ using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using eKids.Hubs;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
@@ -43,6 +45,23 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+                if (!ModelState.IsValid) return BadRequest(new { Message = "Model invalid" });
+                var availableTicket = await _context.AvailableTickets.AsNoTracking().Where(c => c.ID == ticketDto.AvailableTicketId).FirstOrDefaultAsync();
+                if(availableTicket == null)
+                {
+                    return BadRequest(new {Message = "Available ticket required"});
+                }
+
+                int? reportedUser = null;
+                if(ticketDto.ReportedUserId != null)
+                {
+                    var getReportedUser = await _context.Users.AsNoTracking().FirstOrDefaultAsync(c => c.ID == ticketDto.ReportedUserId, token);
+                    reportedUser = getReportedUser?.ID;
+                    if(reportedUser == null)
+                    {
+                        return BadRequest(new { Message = "Reported user does not exists" });
+                    }
+                }
 
                 string? url = string.Empty;
                 if (!string.IsNullOrEmpty(ticketDto.Base64Data))
@@ -51,12 +70,16 @@ namespace eKids.Controllers
                     url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
                 }
 
+                var sanitize = new HtmlSanitizer();
+
+                string? sanitizedOtherMessage = string.IsNullOrWhiteSpace(ticketDto.OtherMessage) ? null : sanitize.Sanitize(ticketDto.OtherMessage);
+
                 var ticket = new ReportTickets
                 {
                     UserId = userId,
-                    AvailableTicketId = ticketDto.AvailableTicketId,
-                    ReportedUserId = ticketDto.ReportedUserId,
-                    OtherMessage = ticketDto.OtherMessage,
+                    AvailableTicketId = availableTicket.ID,
+                    ReportedUserId = reportedUser,
+                    OtherMessage = sanitizedOtherMessage,
                     Image = url,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow

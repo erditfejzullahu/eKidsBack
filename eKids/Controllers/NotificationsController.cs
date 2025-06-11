@@ -84,7 +84,7 @@ namespace eKids.Controllers
                 var friendship = new Friendships
                 {
                     SenderId = currentUserId,
-                    ReceiverId = notificationDto.ReceiverId,
+                    ReceiverId = friendRequestReceiver.id,
                     Status = Database.Shared.Enums.FriendshipStatus.Pending,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow

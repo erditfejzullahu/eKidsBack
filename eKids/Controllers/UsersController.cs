@@ -6,6 +6,7 @@ using Database.Models;
 using Database.Repository;
 using eKids.Validators;
 using FluentValidation;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +90,10 @@ namespace eKids.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
                 var response = new { message = "Nese emaili juaj egziston ne sistemin tone, do te merrni nje link te ndryshimit te fjalekalimit tuaj!" };
                 var token = await _passwordResetService.GeneratePasswordResetTokenAsync(forgotPasswordDto.Email);
                 if (token == null) return Ok(response);
@@ -109,6 +114,11 @@ namespace eKids.Controllers
         {
             try
             {
+                if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+                {
+                    return BadRequest(new { Message = "Missing fields" });
+                }
+
                 var isValid = await _passwordResetService.ValidatePasswordResetTokenAsync(email, token);
                 return Ok(new { valid = isValid });
             }
@@ -124,6 +134,10 @@ namespace eKids.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Invalid data" });
+                }
                 var success = await _passwordResetService.ResetPasswordAsync(resetDto.Email, resetDto.Token, resetDto.NewPassword);
                 if (!success)
                 {
@@ -280,8 +294,20 @@ namespace eKids.Controllers
             // Validate the refresh token
         }
 
+        private static string SanitizeEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address;
+            }
+            catch
+            {
+                throw new ArgumentException("Invalid email format");
+            }
+        }
 
-        [HttpPost]
+        [HttpPost("/register")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUser userDto)
         {
             if (userDto == null)
@@ -293,18 +319,20 @@ namespace eKids.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            var sanitize = new HtmlSanitizer();
+            sanitize.AllowedTags.Clear();
+            sanitize.AllowedAttributes.Clear();
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
             var user = new Users
             {
-                Firstname = userDto.Firstname,
-                Lastname = userDto.Lastname,
-                Username = userDto.Username,
+                Firstname = sanitize.Sanitize(userDto.Firstname.Trim()),
+                Lastname = sanitize.Sanitize(userDto.Lastname.Trim()),
+                Username = sanitize.Sanitize(userDto.Username.Trim()),
                 Password = hashedPassword,
-                Email = userDto.Email,
+                Email = SanitizeEmail(userDto.Email.Trim().ToLower()),
                 Age = userDto.Age,
-                ProfilePictureUrl = userDto.ProfilePictureUrl,
+                ProfilePictureUrl = null,
                 Role = userDto.Role,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
@@ -347,6 +375,7 @@ namespace eKids.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -358,7 +387,7 @@ namespace eKids.Controllers
             return Ok(user);
         }
 
-
+        [Authorize]
         [HttpGet("info/{id}")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllInfo(int id, CancellationToken token)
@@ -406,6 +435,7 @@ namespace eKids.Controllers
             
         }
 
+        [Authorize]
         [HttpGet("allUsers")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers(CancellationToken token)
@@ -431,7 +461,8 @@ namespace eKids.Controllers
             }
             return Ok(users);
         }
- 
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateUser(int id, [FromQuery] string? type, [FromBody] UpdateUser userDto)
@@ -487,6 +518,7 @@ namespace eKids.Controllers
             
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id, CancellationToken token)
         {
@@ -503,6 +535,7 @@ namespace eKids.Controllers
             return Ok(user);
         }
 
+        [Authorize]
         [HttpPut("{id}/profile-picture")]
         //[Authorize]
         public async Task<IActionResult> UpdatePicture(int id, [FromBody] UpdateProfilePic picDto)
@@ -523,14 +556,20 @@ namespace eKids.Controllers
             {
                 string relativeUrl = await _fileUploadService.UploadFile(picDto.Base64Profile, FileCategory.Profile);
                 var url = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
+                if(Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                {
+                    user.ProfilePictureUrl = url;
+                    user.LastModified = DateTime.UtcNow;
 
-                user.ProfilePictureUrl = url;
-                user.LastModified = DateTime.UtcNow;
+                    _userRepository.Update(user);
+                    await _userRepository.SaveAsync(default);
+                    return Ok(new { FileUrl = url });
+                }
+                else
+                {
+                    return BadRequest(new { Message = "Bad uri" });
+                }
 
-                _userRepository.Update(user);
-                await _userRepository.SaveAsync(default);
-
-                return Ok(new { FileUrl = url });
             }
             catch (Exception ex)
             {
@@ -541,6 +580,7 @@ namespace eKids.Controllers
         }
 
         //to fix or to be deleted
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}/package")]
         public async Task<IActionResult> UpdateUserPackage(int id, [FromForm] UpdateUserPackageID packageDto)
         {
@@ -567,6 +607,7 @@ namespace eKids.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("/api/Users/GetUserById/{userId}")]
         public async Task<IActionResult> GetUserById(int userId, CancellationToken token)
         {
@@ -694,11 +735,18 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpPut("/api/Users/IncreaseCommitment/{userId}")]
-        public async Task<IActionResult> IncreaseCommitment(int userId, CancellationToken token)
+        [Authorize]
+        [HttpPut("/api/Users/IncreaseCommitment")]
+        public async Task<IActionResult> IncreaseCommitment(CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var commitment = await _context.Commits
                     .Where(c => c.UserId == userId && c.Date == DateOnly.FromDateTime(DateTime.UtcNow.Date))
                     .FirstOrDefaultAsync(token);
@@ -727,11 +775,12 @@ namespace eKids.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error in increasing commitment for userId: {userId}");
+                _logger.LogError(ex, $"Error in increasing commitment");
                 return BadRequest(new { Message = "Error in incresing commitment" });
             }
         }
 
+        [Authorize]
         [HttpGet("/api/Users/GetCommitments/{userId}")]
         public async Task<IActionResult> GetCommitments(int userId, CancellationToken token)
         {
@@ -754,6 +803,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("/api/Users/GetAllUsersStatistics")]
         public async Task<IActionResult> GetAllUsersStatistics([FromQuery] string ?searchParam, CancellationToken token)
         {

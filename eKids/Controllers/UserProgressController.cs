@@ -1,8 +1,10 @@
 ﻿using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 namespace eKids.Controllers
 {
     [Route("api/[controller]")]
@@ -119,12 +121,24 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateProgress(CreateUserProgress progressDto, CancellationToken token)
         {
             if(progressDto == null)
             {
                 return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Message = "Model invalid" });
+            }
+
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+            {
+                return Unauthorized();
             }
 
             try
@@ -139,12 +153,12 @@ namespace eKids.Controllers
                 var course = await _coursesRepository.Get(progressDto.CourseId, token);
                 if (lesson == null || course == null)
                 {
-                    return BadRequest(new { Message = "Course not enrolled bc lesson id missing!" });
+                    return BadRequest(new { Message = "Course not enrolled missing!" });
                 }
                 
                 var userProgressList = allLessonsByCourseId.Select((lesson, index ) => new UserProgress
                 {
-                    UserId = progressDto.UserId,
+                    UserId = userId,
                     LessonId = lesson.ID,
                     CourseId = progressDto.CourseId,
                     IsCompleted = false,
@@ -172,14 +186,21 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserProgress(UpdateUserProgress updateUserProgressDto, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var lesson = await _userProgressRepository
                     .GetAll()
-                    .Where(c => c.CourseId == updateUserProgressDto.CourseId && c.LessonId == updateUserProgressDto.LessonId && c.UserId == updateUserProgressDto.UserId)
+                    .Where(c => c.CourseId == updateUserProgressDto.CourseId && c.LessonId == updateUserProgressDto.LessonId && c.UserId == userId)
                     .FirstOrDefaultAsync(token);
                 if(lesson == null)
                 {
@@ -202,12 +223,12 @@ namespace eKids.Controllers
 
                 var allLessonsCompelted = await _userProgressRepository
                     .GetAll()
-                    .Where(c => c.UserId == updateUserProgressDto.UserId && c.CourseId == updateUserProgressDto.CourseId)
+                    .Where(c => c.UserId == userId && c.CourseId == updateUserProgressDto.CourseId)
                     .AllAsync(c => c.IsCompleted, token);
 
                 if (allLessonsCompelted)
                 {
-                    var completionResponse = await _courseCompletationService.CompleteCourse(updateUserProgressDto.CourseId, updateUserProgressDto.UserId, token);
+                    var completionResponse = await _courseCompletationService.CompleteCourse(updateUserProgressDto.CourseId, userId, token);
                     return Ok(completionResponse);
                 }
 
@@ -220,6 +241,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProgress(int id, CancellationToken token)
         {

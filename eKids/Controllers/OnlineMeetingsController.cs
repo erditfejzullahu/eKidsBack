@@ -43,16 +43,24 @@ namespace eKids.Controllers
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(user == null)
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
                 {
                     return Unauthorized();
                 }
-                var userId = Int32.Parse(user);
+                var instructor = await _context.Instructors.AsNoTracking().Where(c => c.UserId == userId).Select(c => { c.ID}).FirstOrDefaultAsync(token);
+                if(instructor == null)
+                {
+                    return NotFound(new {Message = "No instructor found"});
+                }
                 var meeting = await _context.OnlineMeetings.FindAsync(meetingId);
 
                 if(meeting == null)
                 {
                     return NotFound(new { Message = "Meeting not found" });
+                }
+                if (meeting.InstructorId != instructor.ID)
+                {
+                    return Forbid();
                 }
 
                 var totalStudents = await _context.StudentCourseLessonProgress
@@ -443,6 +451,10 @@ namespace eKids.Controllers
                 {
                     return Unauthorized(new { Message = "Not authorized" });
                 }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
                 var user = await _context.Users.Select(c => new
                 {
                     c.ID,
@@ -541,6 +553,7 @@ namespace eKids.Controllers
 
 
         //me ndrru meeting statusin ?? duhet mu hek nashta ky api
+        [Authorize(Roles = "Admin")]
         [HttpPatch("MeetingStatus")]
         public async Task<IActionResult> ChangeMeetingStatus([FromBody] ChangeMeetingStatusDto meetingStatusDto, CancellationToken token)
         {

@@ -136,7 +136,7 @@ namespace Database.Repository
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(token)
+                await transaction.RollbackAsync(token);
                 throw new ApplicationException(ex.Message);
             }
         }

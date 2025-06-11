@@ -21,7 +21,11 @@ namespace Database.DTOs
         [Required(ErrorMessage = "username is required")]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "password is required")]
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",
+        ErrorMessage = "Password must contain at least one uppercase, one lowercase, one number and one special character")]
         public string Password { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email format")]

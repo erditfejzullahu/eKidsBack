@@ -64,6 +64,10 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new {Message = "Model invalid"});
+                }
 
                 if (quizDto == null)
                 {

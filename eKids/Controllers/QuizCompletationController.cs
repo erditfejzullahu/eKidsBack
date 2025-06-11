@@ -38,6 +38,10 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var username = User.FindFirstValue("Username");
                 if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
@@ -119,6 +123,10 @@ namespace eKids.Controllers
                 if(quiz == null)
                 {
                     return NotFound(new { Message = "Quiz not found" });
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest( new {Message  = "Model invalid"});
                 }
                 if(quiz.UserId != userId)
                 {

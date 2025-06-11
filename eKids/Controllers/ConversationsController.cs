@@ -4,6 +4,8 @@ using Database.Models;
 using Database.Repository;
 using Database.Shared.Enums;
 using eKids.Hubs;
+using Ganss.Xss;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -31,6 +33,7 @@ namespace eKids.Controllers
             _chatHub = chatHub;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateMessage([FromBody] CreateMessageDto messageDto)
         {
@@ -55,6 +58,10 @@ namespace eKids.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model not valid" });
+                }
                 var getReceiver = await _context.Users.Where(c => c.Username == shareDto.ReceiverUsername).FirstOrDefaultAsync();
                 var getSender = await _context.Users.Where(c => c.Username == shareDto.SenderUsername).FirstOrDefaultAsync();
                 if(getReceiver == null || getSender == null)
@@ -247,14 +254,16 @@ namespace eKids.Controllers
                     })
                     .FirstOrDefaultAsync();
 
+                var sanitize = new HtmlSanitizer();
+
                 if(messageToBeSend != null)
                 {
                     await _chatHub.Clients.Client(connectedUser).SendAsync("ReceiveMessage", messageToBeSend);
                     var response = new ToastResponseDto
                     {
-                        ToastTitle = sender.Firstname + " " + sender.Lastname,
+                        ToastTitle = sanitize.Sanitize(sender.Firstname.Trim()) + " " + sanitize.Sanitize(sender.Lastname.Trim()),
                         ToastType = ToastType.MessageNotification,
-                        Image = sender.ProfilePictureUrl,
+                        Image = sanitize.Sanitize(sender.ProfilePictureUrl.Trim()),
                         ToastContent = messageToBeSend.Content,
                     };
                 }
@@ -263,11 +272,12 @@ namespace eKids.Controllers
 
         private async Task HandleInstructorOnlineMeeting(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
             var onlineMeeting = await _context.OnlineMeetings.FindAsync(shareItem.OnlineMeetingId) ?? throw new ApplicationException("invalid online meeting id provided");
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 OnlineMeetingId = shareItem.OnlineMeetingId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
@@ -278,11 +288,12 @@ namespace eKids.Controllers
         }
         private async Task HandleInstructorLessonShare(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
             var instructorLesson = await _context.InstructorLessons.FindAsync(shareItem.InstructorLessonId) ?? throw new ApplicationException("Invalid instructor lesson id provided");
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 InstructorLessonId = shareItem.InstructorLessonId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
@@ -293,11 +304,12 @@ namespace eKids.Controllers
         }
         private async Task HandleInstructorCourseShare(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
             var instructorCourse = await _context.InstructorCourses.FindAsync(shareItem.InstructorCourseId) ?? throw new ApplicationException("Invalid instructor course id provided");
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 InstructorCourseId = shareItem.InstructorCourseId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
@@ -308,6 +320,8 @@ namespace eKids.Controllers
         }
         private async Task HandleInstructorShare(ShareItemDto shareItem , Users sender)
         {
+            var sanitize = new HtmlSanitizer();
+
             var instructor = await _context.Instructors.FindAsync(shareItem.InstructorId);
             if (instructor == null)
             {
@@ -315,8 +329,8 @@ namespace eKids.Controllers
             }
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 InstructorId = shareItem.InstructorId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
@@ -327,6 +341,8 @@ namespace eKids.Controllers
         }
         private async Task HandleDiscussionShare(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
+
             var discussionCheck = await _context.Discussions.FindAsync(shareItem.DiscussionId);
             if(discussionCheck == null)
             {
@@ -335,8 +351,8 @@ namespace eKids.Controllers
 
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 DiscussionId = shareItem.DiscussionId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
@@ -347,6 +363,8 @@ namespace eKids.Controllers
         }
         private async Task HandleBlogShare(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
+
             var blogCheck = await _context.Blogs.FindAsync(shareItem.BlogId);
             if(blogCheck == null)
             {
@@ -355,8 +373,8 @@ namespace eKids.Controllers
 
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 BlogId = shareItem.BlogId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
@@ -368,6 +386,8 @@ namespace eKids.Controllers
         }
         private async Task HandleLessonShare(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
+
             var lessonCheck = await _context.Lessons.FindAsync(shareItem.LessonId);
             if(lessonCheck == null)
             {
@@ -375,8 +395,8 @@ namespace eKids.Controllers
             }
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 LessonId = shareItem.LessonId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
@@ -387,6 +407,8 @@ namespace eKids.Controllers
         }
         private async Task HandleCourseShare(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
+
             var courseCheck = await _context.Courses.FindAsync(shareItem.CourseId);
             if(courseCheck == null)
             {
@@ -394,8 +416,8 @@ namespace eKids.Controllers
             }
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 CourseId = shareItem.CourseId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow
@@ -406,6 +428,8 @@ namespace eKids.Controllers
         }
         private async Task HandleQuizShare(ShareItemDto shareItem, Users sender)
         {
+            var sanitize = new HtmlSanitizer();
+
             var quizCheck = await _context.Quizzes.FindAsync(shareItem.QuizId);
             if(quizCheck == null)
             {
@@ -413,8 +437,8 @@ namespace eKids.Controllers
             }
             var newConversation = new Conversations
             {
-                SenderUsername = shareItem.SenderUsername,
-                ReceiverUsername = shareItem.ReceiverUsername,
+                SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),
+                ReceiverUsername = sanitize.Sanitize(shareItem.ReceiverUsername.Trim()),
                 QuizId = shareItem.QuizId,
                 CreatedAt = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,

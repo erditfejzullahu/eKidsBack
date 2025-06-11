@@ -10,8 +10,11 @@ namespace Database.DTOs
 {
     public class EnrollCourseDto
     {
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public int CourseId { get; set; }
+        [Required]
         public int InstructorId { get; set; }
     }
 
@@ -41,7 +44,9 @@ namespace Database.DTOs
 
     public class CompleteLessonDto
     {
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public int LessonId { get; set; }
         //completed then to be hardcoded to true if smth or false if smth else?
     }
@@ -61,7 +66,9 @@ namespace Database.DTOs
 
     public class AcceptedInstructorSocials
     {
+        [Required]
         public string Label { get; set; }
+        [Required]
         public string Link { get; set; }
     }
 }
