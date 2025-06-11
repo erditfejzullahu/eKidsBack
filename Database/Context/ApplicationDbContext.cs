@@ -24,6 +24,7 @@ namespace Database.Context
         public DbSet<QuizQuestions> QuizQuestions { get; set; }
         public DbSet<QuizAnswers> QuizAnswers { get; set; }
         public DbSet<QuizzesCompleted> QuizzesCompleted { get; set; }
+        public DbSet<BlogsWithTags> BlogsWithTags { get; set; }
         public DbSet<Conversations> Conversations { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<Users> Users { get; set; }
@@ -147,6 +148,9 @@ namespace Database.Context
 
             modelBuilder.Entity<DiscussionAnswerVotes>()
                 .HasKey(c => new { c.DiscussionCommentId, c.UserId });
+
+            modelBuilder.Entity<BlogsWithTags>()
+                .HasKey(c => new { c.BlogId, c.TagId });
 
             //modelBuilder.Entity<Instructors>()
             //    .HasKey(c => c.UserId);
@@ -449,23 +453,17 @@ namespace Database.Context
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Blogs>()
-                .HasOne(c => c.Tag)
-                .WithMany(c => c.Blogs)
-                .HasForeignKey(c => c.TagId)
+            modelBuilder.Entity<BlogsWithTags>()
+                .HasOne(c => c.Blog)
+                .WithMany(c => c.BlogTags)
+                .HasForeignKey(c => c.BlogId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Tags>()
-                .HasMany(c => c.Blogs)
-                .WithOne(c => c.Tag)
+            modelBuilder.Entity<BlogsWithTags>()
+                .HasOne(c => c.Tag)
+                .WithMany(c => c.BlogTags)
                 .HasForeignKey(c => c.TagId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<Tags>()
-                .HasOne(c => c.Parent)
-                .WithMany(c => c.Children)
-                .HasForeignKey(c => c.Parent_Id)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserJobs>()
                 .HasOne(c => c.UserInformation)

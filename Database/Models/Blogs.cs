@@ -14,7 +14,6 @@ namespace Database.Models
         public override int ID { get; set; }
         public string Title { get; set; }
         public int CategoryId { get; set; }
-        public int TagId { get; set; }
         public int UserId { get; set; }
         public int Likes { get; set; }
         public string Content { get; set; }
@@ -25,12 +24,9 @@ namespace Database.Models
         [ForeignKey("CategoryId")]
         public Categories Category { get; set; }
 
-        [ForeignKey("TagId")]
-        public Tags Tag { get; set; }
-
         [ForeignKey("UserId")]
         public Users User { get; set; }
-
+        public ICollection<BlogsWithTags> BlogTags { get; set; } = new List<BlogsWithTags>();
         public ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
         public ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();
 

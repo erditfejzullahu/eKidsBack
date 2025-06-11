@@ -1,36 +1,34 @@
 ﻿using Database.Shared.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Database.DTOs
 {
+    
     public class CreateBlogDto
     {
-        public CreateBlog blogDto;
-        public CreateTag? tagDto;
-    }
-
-    public class CreateBlog
-    {
+        [Required]
         public string Title { get; set; }
+        [Required]
         public int CategoryId { get; set; }
+        [Required]
         public int UserId { get; set; }
-        public int? TagId { get; set; }
+        [Required]
         public BlogStatus Status { get; set; }
+        [Required]
         public string Content { get; set; }
         public List<string>? Images { get; set; }
-
+        public List<TagsDto> Tags { get; set; }
     }
 
-    public class CreateTag
+    public class TagsDto
     {
+        [Required]
         public string Name { get; set; }
-        public int? ParentId { get; set; }
-        public int? Category_Id { get; set; }
-        public List<CreateTag> Children { get; set; } = new List<CreateTag>();
     }
 
     public class BlogRetrieveDto
@@ -42,8 +40,7 @@ namespace Database.DTOs
         public bool IsLiked { get; set; }
         public int Likes { get; set; }
         public BlogRetrieveUserDto User { get; set; }
-        public BlogRetrieveTagDto Tags { get; set; }
-        public int TagId { get; set; }
+        public List<BlogRetrieveTagDto> Tags { get; set; } = new List<BlogRetrieveTagDto>();
         public int CommentsCount { get; set; }
         public string Content { get; set; }
         public BlogStatus Status { get; set; }
@@ -55,7 +52,6 @@ namespace Database.DTOs
     {
         public string Name { get; set; }
         public int TagId { get; set; }
-        public List<BlogRetrieveTagDto> Children = new List<BlogRetrieveTagDto>();
     }
     public class BlogRetrieveUserDto
     {

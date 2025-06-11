@@ -12,12 +12,7 @@ namespace Database.Models
         [Column("Id")]
         public override int ID { get; set; }
         public string Name { get; set; }
-        public int? Category_Id { get; set; }
-        public int? Parent_Id { get; set; }
 
-        public Tags Parent { get; set; }
-        public ICollection<Tags> Children = new List<Tags>();
-
-        public ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();    
+        public ICollection<BlogsWithTags> BlogTags { get; set; } = new List<BlogsWithTags>();
     }
 }

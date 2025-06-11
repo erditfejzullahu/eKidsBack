@@ -1,10 +1,14 @@
-﻿using Database.DTOs;
+﻿using Database.Context;
+using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using Database.Shared.Enums;
+using Ganss.Xss;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace eKids.Controllers
 {
@@ -17,14 +21,17 @@ namespace eKids.Controllers
         private readonly IRepository<Blogs> _blogRepository;
         private readonly IRepository<Tags> _tagsRepository;
         private readonly IBlogCommentService _blogCommentService;
+        private readonly ApplicationDbContext _context;
 
         public BlogController(
+            ApplicationDbContext context,
             ILogger<BlogController> logger,
             IRepository<Tags> tagsRepository,
             ICreateBlogService createBlogService,
             IRepository<Blogs> blogRepository,
             IBlogCommentService blogCommentService)
         {
+            _context = context;
             _logger = logger;
             _blogRepository = blogRepository;
             _createBlogService = createBlogService;
@@ -32,6 +39,7 @@ namespace eKids.Controllers
             _blogCommentService = blogCommentService;
         }
 
+        [Authorize]
         [HttpGet("/api/Blogs/GetBlogById/{blogId}/{userId}")]
         public async Task<IActionResult> GetBlogById(int blogId, int userId, CancellationToken token)
         {
@@ -51,27 +59,21 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("/api/Blogs/GetByName")]
         public async Task<IActionResult> GetBlogByName([FromQuery] string title, CancellationToken token)
         {
             try
             {
-                var blogs = await _blogRepository
-                    .GetAll()
+                var blogs = await _context.Blogs
                     .Where(c => EF.Functions.Contains(c.Title, $"\"{title}*\""))
-                    .Include(c => c.Tag)
-                    .ThenInclude(c => c.Children)
                     .Select(c => new
                     {
                         c.ID,
                         c.Title,
                         c.CategoryId,
-                        c.Tag.Name,
+                        BlogTags = c.BlogTags.Select(bt => bt.Tag.Name).ToList(),
                         c.CreatedAt,
-                        Children = c.Tag.Children != null ? c.Tag.Children.Select(ch => new
-                        {
-                            ch.Name
-                        }) : null,
                         User = c.User != null ? new
                         {
                             c.User.Username,
@@ -94,11 +96,16 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("/api/Blogs/CreateComment")]
         public async Task<IActionResult> CreateBlogComment([FromBody] CreateBlogComment blogComment, CancellationToken token)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Model invalid");
+                }
                 var comment = await _blogCommentService.CreateBlogComment(blogComment, token);
                 return Ok(comment);
             }
@@ -109,11 +116,18 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("/api/Blogs/LikeComment")]
-        public async Task<IActionResult> LikeBlogComment([FromQuery] int blogCommentId, [FromQuery] int userId, [FromQuery] int blogId, CancellationToken token)
+        public async Task<IActionResult> LikeBlogComment([FromQuery] int blogCommentId, [FromQuery] int blogId, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 int likeStatus = await _blogCommentService.HandleStatusBlogComment(blogCommentId, userId, blogId, token);
                 if(likeStatus == 0)
                 {
@@ -128,18 +142,25 @@ namespace eKids.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error in changing status of like in comment with blogId: {blogCommentId} and user: {userId}");
+                _logger.LogError(ex, $"Error in changing status of like in comment with blogId: {blogCommentId}");
                 return BadRequest(new { Message = "Error in changing status of blog comment like" });
             }
         }
 
+        [Authorize]
         [HttpPost("/api/Blogs/LikeBlog")]
-        public async Task<IActionResult> LikeBlog([FromQuery] int blogId, [FromQuery] int userId, CancellationToken token)
+        public async Task<IActionResult> LikeBlog([FromQuery] int blogId, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 int likeStatus = await _createBlogService.HandleStatusBlogLike(blogId, userId, token);
-                _logger.LogError(likeStatus, " statusi");
+                
                 if (likeStatus == 0)
                 {
                     return Ok(new { Message = "LikeRemove" });
@@ -152,16 +173,22 @@ namespace eKids.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error in updating like status for blogID: {blogId} and userID: {userId}");
+                _logger.LogError(ex, $"Error in updating like status for blogID: {blogId}");
                 return BadRequest(new { Message = "Error in updating like status" });
             }
         }
 
-        [HttpGet("/api/Blogs/GetCommentsByBlog/{blogId}/{userId}")]
-        public async Task<IActionResult> GetBlogComments(int blogId, int userId, [FromQuery] bool fullBlogComments, [FromQuery] PaginationDto paginationDto,  CancellationToken token)
+        [HttpGet("/api/Blogs/GetCommentsByBlog/{blogId}")]
+        public async Task<IActionResult> GetBlogComments(int blogId, [FromQuery] bool fullBlogComments, [FromQuery] PaginationDto paginationDto,  CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var comments = await _blogCommentService.RetrieveBlogComments(blogId, userId, fullBlogComments, paginationDto, token);
                 if(comments.blogComments.Count == 0)
                 {
@@ -176,11 +203,17 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateBlog([FromBody] CreateBlogDto request, CancellationToken token)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
+
                 var blog = await _createBlogService.CreateBlog(request, token);
                 return Ok(blog);
             }
@@ -191,26 +224,18 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("/api/Blogs/GetAllTagsWithChild/")]
         public async Task<IActionResult> GetAllTags([FromQuery] int categoryId, CancellationToken token)
         {
             try
             {
-                var tags = await _tagsRepository
-                    .GetAll()
-                    .Where(c => c.Parent_Id == null && c.Category_Id == categoryId)
-                    .Include(c => c.Children)
+                var tags = await _context.BlogsWithTags
+                    .Where(c => c.Blog.CategoryId == categoryId)
                     .Select(c => new
                     {
-                        c.ID,
-                        c.Name,
-                        c.Parent_Id,
-                        Children = c.Children.Select(t => new
-                        {
-                            t.ID,
-                            t.Name,
-                            t.Parent_Id
-                        }).ToList()
+                        c.Tag.ID,
+                        c.Tag.Name,
                     })
                     //.Skip(paginationDto.Skip)
                     //.Take(paginationDto.Take)
@@ -230,23 +255,18 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("/api/Blogs/GetAllTags/{categoryId}")]
         public async Task<IActionResult> GetAllParentTags(int categoryId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
             try
             {
-                var tags = await _tagsRepository
-                    .GetAll()
-                    .Where(c => c.Category_Id == categoryId && c.Parent_Id == null)
+                var tags = await _context.BlogsWithTags
+                    .Where(c => c.Blog.CategoryId == categoryId)
                     .Select(c => new
                     {
-                        c.ID,
-                        c.Name,
-                        Children = c.Children.Select(t => new
-                        {
-                            t.ID,
-                            t.Name
-                        })
+                        c.Tag.ID,
+                        c.Tag.Name
                     })
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
@@ -266,11 +286,17 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("/api/Blogs/GetAllBlogsByTag/{userId}/{tagId}")]
-        public async Task<IActionResult> GetAllBlogsByTag(int tagId, int userId, [FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendsBlogsOrAll, CancellationToken token)
+        [HttpGet("/api/Blogs/GetAllBlogsByTag/{tagId}")]
+        public async Task<IActionResult> GetAllBlogsByTag(int tagId, [FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendsBlogsOrAll, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 var blogs = await _createBlogService.AllBlogByTagRetrieve(userId, tagId, paginationDto, token, friendsBlogsOrAll);
 
                 if(blogs.blogs.Count == 0)
@@ -307,11 +333,17 @@ namespace eKids.Controllers
             }
         }
 
-        [HttpGet("/api/Blogs/GetAllBlogs/{userId}")]
-        public async Task<IActionResult> GetAllBlogs(int userId, [FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendsBlogsOrAll, CancellationToken token)
+        [HttpGet("/api/Blogs/GetAllBlogs/")]
+        public async Task<IActionResult> GetAllBlogs([FromQuery] PaginationDto paginationDto, [FromQuery] GetFriendBlogsOrAll friendsBlogsOrAll, CancellationToken token)
         {
             try
             {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+
                 paginationDto.Validate();
                 var blogs = await _createBlogService.AllBlogRetrieve(userId, paginationDto, token, BlogDiscussionRetrivalType.AllSection, friendsBlogsOrAll);
 

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ganss.Xss;
+
 
 namespace Database.Repository
 {
@@ -31,225 +33,115 @@ namespace Database.Repository
             _rabbitMqService = rabbitMqService;
         }
 
-        public async Task<Blogs> CreateBlog(CreateBlogDto request, CancellationToken token)
+        public async Task<Blogs> CreateBlog(CreateBlogDto blogDto, CancellationToken token)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync(token);
-            var blogDto = request.blogDto;
-            var tagDto = request.tagDto;
-            string? blogImageUrl = null;
-
-            if(request.blogDto.Images != null && request.blogDto.Images.Count != 0)
-            {
-                try
-                {
-                    var imageUrls = new List<string>();
-                    var requestUrl = _httpContextAccessor.HttpContext?.Request;
-                    foreach (var image in request.blogDto.Images)
-                    {
-                        var imageUrl = await _fileUpload.UploadFile(image, FileCategory.Other);
-                        var fullUrl = $"{requestUrl.Scheme}://{requestUrl.Host}{imageUrl}";
-                        imageUrls.Add(fullUrl);
-                    }
-
-                    blogImageUrl = JsonConvert.SerializeObject(imageUrls);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, " Error in uploading blog image");
-                    throw new ApplicationException("Error in uploading blog image", ex);
-                }
-            }
-
-            if(blogDto == null)
-            {
-                throw new ApplicationException("Dtos null");
-            }
+            await using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                int? tagId = blogDto?.TagId;
-                if(tagDto != null)
+                if(blogDto == null)
                 {
-                    if (!tagId.HasValue)
+                    throw new ApplicationException("Blog dto is null");
+                }
+
+                if (string.IsNullOrWhiteSpace(blogDto.Title))
+                    throw new ArgumentException("Blog title is required", nameof(blogDto.Title));
+
+                if (string.IsNullOrWhiteSpace(blogDto.Content))
+                    throw new ArgumentException("Blog content is required", nameof(blogDto.Content));
+
+                string? blogImageUrl = string.Empty;
+                if(blogDto.Images != null && blogDto.Images.Count != 0)
+                {
+                    try
                     {
-                        var tagsAsQueryable = _context.Tags.AsQueryable();
-                        //var existingTags = await _context.Tags.Where(c => (c.Name.ToLower() == tagDto.Name.ToLower() || tagDto.Children.Any(child => child.Name.ToLower() == c.Name.ToLower())) && c.Category_Id.Value == tagDto.Category_Id.Value).ToListAsync(token);
-                        var childNames = tagDto.Children.Select(child => child.Name.ToLower());
-                        if (tagDto.Children.Count > 0)
+                        var imageUrls = new List<string>();
+                        var requestUrl = _httpContextAccessor.HttpContext?.Request;
+                        foreach (var image in blogDto.Images)
                         {
-                            tagsAsQueryable = tagsAsQueryable.Where(c => (c.Name.ToLower() == tagDto.Name.ToLower() || childNames.Contains(c.Name.ToLower())) && c.Category_Id == tagDto.Category_Id);
+                            var imageUrl = await _fileUpload.UploadFile(image, FileCategory.Other);
+                            var fullUrl = $"{requestUrl.Scheme}://{requestUrl.Host}{imageUrl}";
+                            imageUrls.Add(fullUrl);
                         }
-                        else
-                        {
-                            tagsAsQueryable = tagsAsQueryable.Where(c => c.Name.ToLower() == tagDto.Name.ToLower() && c.Category_Id.Value == tagDto.Category_Id.Value);
-                        }
-                        var existingTags = await tagsAsQueryable.ToListAsync(token);
-                        var existingParent = existingTags.FirstOrDefault(c => c.Parent_Id == null);
-                        var existingChilds = existingTags.Where(c => c.Parent_Id != null);
-                        //_logger.LogError($"ExistingChilds: {existingParent.Name}");
-                        if (tagDto.Children.Count > 0)
-                        {
-                            if (existingTags.Count == 0)
-                            {
-                                var createTag = new Tags
-                                {
-                                    Name = tagDto.Name,
-                                    Category_Id = tagDto.Category_Id,
-                                    Parent_Id = null,
-                                    CreatedAt = DateTime.UtcNow,
-                                    LastModified = DateTime.UtcNow
-                                };
-                                await _context.AddAsync(createTag, token);
-                                await _context.SaveChangesAsync(token);
-
-                                tagId = createTag.ID;
-
-                                foreach (var child in tagDto.Children)
-                                {
-                                    if (!existingChilds.Any(c => c.Name.ToLower() == child.Name.ToLower()))
-                                    {
-                                        var childs = new Tags
-                                        {
-                                            Name = child.Name,
-                                            Category_Id = child.Category_Id,
-                                            Parent_Id = tagId,
-                                            CreatedAt = DateTime.UtcNow,
-                                            LastModified = DateTime.UtcNow
-                                        };
-                                        await _context.Tags.AddAsync(childs, token);
-                                    }
-                                }
-                                await _context.SaveChangesAsync(token);
-                            }
-                            else
-                            {
-                                if (existingParent == null)
-                                {
-                                    if (existingChilds.Select(c => c.Name.ToLower()).Contains(tagDto.Name))
-                                    {
-                                        tagId = existingChilds?.FirstOrDefault(c => c.Name.ToLower() == tagDto.Name.ToLower())?.Parent_Id;
-                                    }
-                                    else
-                                    {
-                                        var parent = new Tags
-                                        {
-                                            Name = tagDto.Name,
-                                            Category_Id = tagDto.Category_Id.Value,
-                                            CreatedAt = DateTime.UtcNow,
-                                            LastModified = DateTime.UtcNow
-                                        };
-                                        await _context.Tags.AddAsync(parent, token);
-                                        await _context.SaveChangesAsync(token);
-                                        tagId = parent.ID;
-                                    }
-                                }
-                                else
-                                {
-                                    tagId = existingParent.ID;
-                                }
-
-                                foreach (var child in tagDto.Children)
-                                {
-                                    if (!existingChilds.Any(c => c.Name.ToLower() == child.Name.ToLower()))
-                                    {
-                                        var childs = new Tags
-                                        {
-                                            Name = child.Name,
-                                            Category_Id = child.Category_Id,
-                                            Parent_Id = tagId,
-                                            CreatedAt = DateTime.UtcNow,
-                                            LastModified = DateTime.UtcNow
-                                        };
-                                        await _context.Tags.AddAsync(childs, token);
-                                        await _context.SaveChangesAsync(token);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (existingTags.Count == 0)
-                            {
-                                var createTag = new Tags
-                                {
-                                    Name = tagDto.Name,
-                                    Category_Id = tagDto.Category_Id,
-                                    Parent_Id = null,
-                                    CreatedAt = DateTime.UtcNow,
-                                    LastModified = DateTime.UtcNow
-                                };
-                                await _context.Tags.AddAsync(createTag, token);
-                                await _context.SaveChangesAsync(token);
-
-                                tagId = createTag.ID;
-                            }
-                            else
-                            {
-                                if (existingParent == null)
-                                {
-                                    if (existingChilds.Select(c => c.Name.ToLower()).Contains(tagDto.Name.ToLower()))
-                                    {
-                                        tagId = existingChilds?.FirstOrDefault(c => c.Name.ToLower() == tagDto.Name.ToLower())?.Parent_Id;
-                                    }
-                                    else
-                                    {
-                                        var parent = new Tags
-                                        {
-                                            Name = tagDto.Name,
-                                            Category_Id = tagDto.Category_Id,
-                                            Parent_Id = null,
-                                            CreatedAt = DateTime.UtcNow,
-                                            LastModified = DateTime.UtcNow
-                                        };
-                                        await _context.Tags.AddAsync(parent, token);
-                                        await _context.SaveChangesAsync(token);
-                                    }
-                                }
-                                else
-                                {
-                                    tagId = existingParent.ID;
-                                }
-                            }
-                        }
-
+                        blogImageUrl = JsonConvert.SerializeObject(imageUrls);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error in uploading image");
+                        throw new ApplicationException("Error uploading blog images");
                     }
                 }
 
-                string generateAiMessage = $"Me pergatit nje pershkrim nga kjo permbajtje e ketij blogu dhe ne pershkrimin e tij fillo me 'Mesa duket ky blog ka te beje me'. Permbajtja eshte kjo: {blogDto.Content}";
+                var sanitizer = new HtmlSanitizer();
+
                 var blog = new Blogs
                 {
-                    Title = blogDto.Title,
-                    Content = blogDto.Content,
+                    Title = sanitizer.Sanitize(blogDto.Title.Trim()),
+                    Content = sanitizer.Sanitize(blogDto.Content.Trim()),
                     CategoryId = blogDto.CategoryId,
                     Status = blogDto.Status,
                     UserId = blogDto.UserId,
-                    TagId = tagId.Value,
                     ImageUrls = blogImageUrl,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
 
-                await _context.Blogs.AddAsync(blog, token);
-                await _context.SaveChangesAsync(token);
+                var blogTagsDto = blogDto.Tags.Where(tag => tag != null && !string.IsNullOrWhiteSpace(tag.Name))
+                    .Select(tag => new TagsDto
+                    {
+                        Name = sanitizer.Sanitize(tag.Name.Trim())
+                    })
+                    .DistinctBy(tag => tag.Name.ToLower());
 
-                await transaction.CommitAsync(token);
-                var aiMessageToGenerate = new AIMessageGenerationDto
+                var newTagList = new List<Tags>();
+                foreach (var tag in blogTagsDto)
                 {
-                    Id = blog.ID,
-                    Message = generateAiMessage
-                };
+                    var existingTag = await _context.Tags.Where(c => c.Name.ToLower() == tag.Name.ToLower()).FirstOrDefaultAsync(token);
+                    if(existingTag == null)
+                    {
+                        newTagList.Add(new Tags
+                        {
+                            Name = tag.Name,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow,
+                        });
+                    }
+                    else
+                    {
+                        newTagList.Add(existingTag);
+                    }
+                }
+                if(newTagList.Count > 0)
+                {
+                    await _context.Tags.AddRangeAsync(newTagList, token);
+                }
 
-                _rabbitMqService.SendMessage(aiMessageToGenerate);
+                var blogsWithTagsList = new List<BlogsWithTags>();
+                foreach (var tagItem in newTagList)
+                {
+                    blogsWithTagsList.Add(new BlogsWithTags
+                    {
+                        BlogId = blog.ID,
+                        TagId = tagItem.ID,
+                        CreatedAt = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    });
+                }
+                if(blogsWithTagsList.Count > 0)
+                {
+                    await _context.BlogsWithTags.AddRangeAsync(blogsWithTagsList, token);
+                }
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
                 return blog;
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(token); //nuk bon add ja hiq
-
-                _logger.LogError(ex, "Error in creating blog");
-                throw new ApplicationException("Failed to create blog.", ex);
+                await transaction.RollbackAsync(token)
+                throw new ApplicationException(ex.Message);
             }
         }
 
+       
         public async Task<BlogRetrieveDto> GetBlogById(int blogId, int userId, CancellationToken token)
         {
             try
@@ -257,9 +149,6 @@ namespace Database.Repository
                 var blog = await _context.Blogs
                     .AsNoTracking()
                     .Where(c => c.ID == blogId)
-                    .Include(c => c.Tag)
-                    .ThenInclude(c => c.Children)
-                    .Include(c => c.BlogLikes)
                     .Select(c => new BlogRetrieveDto
                     {
                         ID = c.ID,
@@ -267,22 +156,16 @@ namespace Database.Repository
                         CategoryId = c.CategoryId,
                         UserId = c.UserId,
                         CommentsCount = c.BlogComments.Count,
-                        Tags = new BlogRetrieveTagDto
+                        Tags = c.BlogTags.Select(c => new BlogRetrieveTagDto
                         {
                             Name = c.Tag.Name,
                             TagId = c.Tag.ID,
-                            Children = c.Tag.Children.Select(t => new BlogRetrieveTagDto
-                            {
-                                Name = t.Name,
-                                TagId = t.ID
-                            }).ToList() ?? new List<BlogRetrieveTagDto>(),
-                        },
+                        }).ToList(),
                         User = new BlogRetrieveUserDto
                         {
                             Name = c.User.Firstname + " " + c.User.Lastname,
                             ProfilePicture = c.User.ProfilePictureUrl
                         },
-                        TagId = c.TagId,
                         Content = c.Content,
                         Likes = c.Likes,
                         Status = c.Status,
@@ -303,12 +186,9 @@ namespace Database.Repository
         {
             try
             {
-                var query = _context.Blogs
-                    .Include(c => c.Tag)
-                    .ThenInclude(c => c.Children)
-                    .Include(c => c.User)
-                    .Include(c => c.BlogLikes)
-                    .Where(c => c.TagId == tagId || c.Tag.Children.Any(c => c.ID == tagId))
+                var query = _context.BlogsWithTags
+                    .Where(c => c.Tag.ID == tagId)
+                    .Select(c => c.Blog)
                     .AsNoTracking();
 
                 if(getFriendBlogsOrAll == GetFriendBlogsOrAll.All)
@@ -341,17 +221,11 @@ namespace Database.Repository
                             Name = c.User.Firstname + " " + c.User.Lastname,
                             ProfilePicture = c.User.ProfilePictureUrl
                         },
-                        Tags = new BlogRetrieveTagDto
+                        Tags = c.BlogTags.Select(b => new BlogRetrieveTagDto
                         {
-                            Name = c.Tag.Name,
-                            TagId = c.Tag.ID,
-                            Children = c.Tag.Children.Select(t => new BlogRetrieveTagDto
-                            {
-                                Name = t.Name,
-                                TagId = t.ID
-                            }).ToList() ?? new List<BlogRetrieveTagDto>()
-                        },
-                        TagId = c.TagId,
+                            Name = b.Tag.Name,
+                            TagId = b.Tag.ID,
+                        }).ToList(),
                         Content = c.Content,
                         Likes = c.Likes,
                         Status = c.Status,
@@ -373,7 +247,7 @@ namespace Database.Repository
         {
             try
             {
-                var query = _context.Blogs.Include(c => c.User).ThenInclude(c => c.Friends).OrderByDescending(c => c.CreatedAt).AsNoTracking();
+                var query = _context.BlogsWithTags.Select(c => c.Blog).OrderByDescending(c => c.CreatedAt).AsNoTracking();
 
                 if (retrivalType == BlogDiscussionRetrivalType.ProfileSection)
                 {
@@ -409,17 +283,11 @@ namespace Database.Repository
                             Name = c.User.Firstname + " " + c.User.Lastname,
                             ProfilePicture = c.User.ProfilePictureUrl
                         },
-                        Tags = new BlogRetrieveTagDto
+                        Tags = c.BlogTags.Select(b => new BlogRetrieveTagDto
                         {
-                            Name = c.Tag.Name,
-                            TagId = c.Tag.ID,
-                            Children = c.Tag.Children.Where(t => t.Parent_Id == c.Tag.ID).Select(t => new BlogRetrieveTagDto
-                            {
-                                Name = t.Name,
-                                TagId = t.ID
-                            }).ToList() ?? new List<BlogRetrieveTagDto>()
-                        },
-                        TagId = c.TagId,
+                            Name = b.Tag.Name,
+                            TagId = b.Tag.ID,
+                        }).ToList(),
                         Content = c.Content,
                         Likes = c.Likes,
                         Status = c.Status,
