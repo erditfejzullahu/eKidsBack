@@ -47,7 +47,7 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
-                var instructor = await _context.Instructors.AsNoTracking().Where(c => c.UserId == userId).Select(c => { c.ID}).FirstOrDefaultAsync(token);
+                var instructor = await _context.Instructors.AsNoTracking().Where(c => c.UserId == userId).Select(c => new { c.ID}).FirstOrDefaultAsync(token);
                 if(instructor == null)
                 {
                     return NotFound(new {Message = "No instructor found"});

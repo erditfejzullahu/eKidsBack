@@ -77,11 +77,11 @@ namespace Database.Repository
             }
         }
 
-        public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword)
+        public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword, CancellationToken CancToken)
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(c => c.Email == email);
+                var user = await _context.Users.FirstOrDefaultAsync(c => c.Email == email, CancToken);
                 if (user == null) return false;
 
                 var resetToken = await _context.PasswordResetTokens
@@ -89,7 +89,7 @@ namespace Database.Repository
                         t.UserId == user.ID &&
                         t.Token == token &&
                         t.ExpiresAt > DateTime.UtcNow &&
-                        !t.IsUsed);
+                        !t.IsUsed, CancToken);
 
                 if (resetToken == null) return false;
 
@@ -101,10 +101,10 @@ namespace Database.Repository
 
                 var userTokens = await _context.PasswordResetTokens
                     .Where(t => t.UserId == user.ID)
-                    .ToListAsync();
+                    .ToListAsync(CancToken);
 
                 _context.PasswordResetTokens.RemoveRange(userTokens);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(CancToken);
                 return true;
             }
             catch (Exception ex)

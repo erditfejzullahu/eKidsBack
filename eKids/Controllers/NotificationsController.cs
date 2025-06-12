@@ -67,7 +67,7 @@ namespace eKids.Controllers
                     return NotFound(new { Message = "Sender user not found" });
                 }
 
-                var notification = new Notifications
+                var receiverNotification = new Notifications
                 {
                     UserId = currentUserId,
                     ReceiverId = notificationDto.ReceiverId,
@@ -77,14 +77,25 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                 };
+                var senderNotification = new Notifications
+                {
+                    UserId = currentUserId,
+                    ReceiverId = notificationDto.ReceiverId,
+                    Information = "Kerkese miqesie",
+                    IsRead = false,
+                    Type = NotificationsType.FriendRequestSended,
+                    CreatedAt = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                };
 
-                await _context.Notifications.AddAsync(notification, token);
+                await _context.Notifications.AddAsync(receiverNotification, token);
+                await _context.Notifications.AddAsync(senderNotification, token);
                 //await _context.SaveChangesAsync(token);
 
                 var friendship = new Friendships
                 {
                     SenderId = currentUserId,
-                    ReceiverId = friendRequestReceiver.id,
+                    ReceiverId = friendRequestReceiver.ID,
                     Status = Database.Shared.Enums.FriendshipStatus.Pending,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
@@ -102,7 +113,7 @@ namespace eKids.Controllers
                         //await _notificationsRepository.SaveAsync(token);
                         var query = _context.Notifications.AsNoTracking();
                         var sendNotification = await query
-                            .Where(c => c.ID == notification.ID)
+                            .Where(c => c.ID == receiverNotification.ID)
                             .Select(c => new
                             {
                                 c.ID,
@@ -147,7 +158,7 @@ namespace eKids.Controllers
         }
 
 
-        //??? testing duhet me hek ose me bo admin only
+        //??? TODO to all users or logic to specific users
         [Authorize(Roles = "Admin")]
         [HttpPost("/api/Notifications/UserActionReq")]
         public async Task<IActionResult> CreateNotificationUserActionReq(CreateNotificationDto notificationDto, CancellationToken token)
@@ -162,7 +173,7 @@ namespace eKids.Controllers
                     UserId = notificationDto.UserId,
                     ReceiverId = notificationDto.ReceiverId,
                     Information = notificationDto.Information,
-                    Type = NotificationsType.UserActionReq,
+                    Type = NotificationsType.CustomInformaionOrPromotionsSendToAll,
                     IsRead = false,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,

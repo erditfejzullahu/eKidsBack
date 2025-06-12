@@ -159,8 +159,8 @@ namespace eKids.Controllers
 
                 var friendship = await _context.Friendships.Where(c => c.SenderId == senderId && c.ReceiverId == receiverUserId).FirstOrDefaultAsync(token);
                 var notificationFriendRequest = await _context.Notifications
-                    .Where(c => c.UserId == senderId && c.ReceiverId == receiverId && c.Type == NotificationsType.UserFriendReq ||
-                    c.UserId == receiverId && c.ReceiverId == senderId && c.Type == NotificationsType.UserFriendReq)
+                    .Where(c => c.UserId == senderId && c.ReceiverId == receiverId && c.Type == NotificationsType.FriendRequestReceived ||
+                    c.UserId == receiverId && c.ReceiverId == senderId && c.Type == NotificationsType.FriendRequestReceived)
                     .FirstOrDefaultAsync(token);
 
                 if (friendship == null)

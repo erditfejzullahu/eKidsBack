@@ -1,15 +1,12 @@
-2025-06-09 01:02:54.1271 | Info | Waiting for messages in AI Queue | 
-2025-06-09 01:02:55.6030 | Info | Meeting Status Background Service is starting; | 
-2025-06-09 01:02:59.3472 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
-2025-06-09 01:03:27.1520 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
-2025-06-09 01:03:28.8244 | Error | USER  | 
-2025-06-09 01:03:28.8244 | Info | Not connected | 
-2025-06-09 01:03:29.2200 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+2025-06-13 00:01:17.4821 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-06-13 00:01:18.8973 | Error | USER  | 
+2025-06-13 00:01:18.8973 | Info | Not connected | 
+2025-06-13 00:01:19.2132 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
    at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
-2025-06-09 01:03:29.2732 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+2025-06-13 00:01:19.2911 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
  ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
@@ -19,14 +16,14 @@
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
-2025-06-09 01:14:45.5593 | Error | USER  | 
-2025-06-09 01:14:45.5593 | Info | Not connected | 
-2025-06-09 01:14:45.9920 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+2025-06-13 00:16:37.9005 | Error | USER  | 
+2025-06-13 00:16:37.9051 | Info | Not connected | 
+2025-06-13 00:16:38.1682 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
    at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
-2025-06-09 01:14:46.0347 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+2025-06-13 00:16:38.2233 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
  ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
@@ -36,14 +33,14 @@
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
-2025-06-09 01:22:45.9948 | Error | USER  | 
-2025-06-09 01:22:45.9948 | Info | Not connected | 
-2025-06-09 01:22:46.5441 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+2025-06-13 00:38:37.9785 | Error | USER  | 
+2025-06-13 00:38:37.9819 | Info | Not connected | 
+2025-06-13 00:38:38.2237 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
    at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
-2025-06-09 01:22:46.6065 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+2025-06-13 00:38:38.2747 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
  ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
@@ -53,14 +50,14 @@
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
-2025-06-09 01:25:14.5526 | Error | USER  | 
-2025-06-09 01:25:14.5526 | Info | Not connected | 
-2025-06-09 01:25:14.8677 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+2025-06-13 00:48:47.2816 | Error | USER  | 
+2025-06-13 00:48:47.2816 | Info | Not connected | 
+2025-06-13 00:48:47.5857 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
    at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
-2025-06-09 01:25:14.9316 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+2025-06-13 00:48:47.6337 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
  ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
@@ -70,14 +67,14 @@
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
-2025-06-09 01:25:36.6412 | Error | USER  | 
-2025-06-09 01:25:36.6412 | Info | Not connected | 
-2025-06-09 01:25:37.2196 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+2025-06-13 01:04:35.0699 | Error | USER  | 
+2025-06-13 01:04:35.0699 | Info | Not connected | 
+2025-06-13 01:04:35.3277 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
    at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
-2025-06-09 01:25:37.2773 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+2025-06-13 01:04:35.3690 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
  ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
@@ -87,14 +84,48 @@
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
    at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
-2025-06-09 01:32:06.9580 | Error | USER  | 
-2025-06-09 01:32:06.9580 | Info | Not connected | 
-2025-06-09 01:32:07.2462 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+2025-06-13 01:05:41.0351 | Error | USER  | 
+2025-06-13 01:05:41.0662 | Info | Not connected | 
+2025-06-13 01:05:41.5020 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
    at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
    at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
-2025-06-09 01:32:07.3036 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+2025-06-13 01:05:41.5540 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-13 01:07:01.7580 | Error | USER  | 
+2025-06-13 01:07:01.7632 | Info | Not connected | 
+2025-06-13 01:07:02.2523 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-13 01:07:02.3001 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-13 01:12:33.1387 | Error | USER  | 
+2025-06-13 01:12:33.1387 | Info | Not connected | 
+2025-06-13 01:12:33.3727 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-13 01:12:33.4096 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
  ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
    at System.ThrowHelper.ThrowArgumentNullException(String name)
    at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)

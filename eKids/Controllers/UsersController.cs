@@ -130,15 +130,16 @@ namespace eKids.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] PasswordResetDto resetDto)
+        public async Task<IActionResult> ResetPassword([FromBody] PasswordResetDto resetDto, CancellationToken token)
         {
+            await using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(new { Message = "Invalid data" });
                 }
-                var success = await _passwordResetService.ResetPasswordAsync(resetDto.Email, resetDto.Token, resetDto.NewPassword);
+                var success = await _passwordResetService.ResetPasswordAsync(resetDto.Email, resetDto.Token, resetDto.NewPassword, token);
                 if (!success)
                 {
                     return BadRequest(new { Message = "Invalid or expired token" });
@@ -148,7 +149,7 @@ namespace eKids.Controllers
                 {
                     CultureInfo albanianCulture = new CultureInfo("sq-AL");
 
-                    var loginNotification = new Notifications
+                    var resetNotification = new Notifications
                     {
                         ReceiverId = user.ID,
                         Information = $"Njofim mbi rifreskimin e fjalekalimit tuaj me {DateTime.Now.ToString("f", albanianCulture)}",
@@ -157,13 +158,15 @@ namespace eKids.Controllers
                         CreatedAt = DateTime.UtcNow,
                         LastModified = DateTime.UtcNow
                     };
-                    await _context.Notifications.AddAsync(loginNotification);
-                    await _context.SaveChangesAsync();
+                    await _context.Notifications.AddAsync(resetNotification, token);
+                    await _context.SaveChangesAsync(token);
+                    await transaction.CommitAsync(token);
                 }
                 return Ok(new { Message = "Password reset successfully" });
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(token);
                 _logger.LogError(ex, "Error resetting assword");
                 return BadRequest();
             }
@@ -172,7 +175,6 @@ namespace eKids.Controllers
         [HttpPost("/login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto, CancellationToken cancToken)
         {
-
             try
             {
                 if (string.IsNullOrWhiteSpace(loginDto.Username) || string.IsNullOrWhiteSpace(loginDto.Password))

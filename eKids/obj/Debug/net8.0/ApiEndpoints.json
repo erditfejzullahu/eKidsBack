@@ -44,16 +44,11 @@
   {
     "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetAllBlogs",
-    "RelativePath": "api/Blogs/GetAllBlogs/{userId}",
+    "RelativePath": "api/Blogs/GetAllBlogs",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "PageNumber",
         "Type": "System.Int32",
@@ -95,18 +90,13 @@
   {
     "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetAllBlogsByTag",
-    "RelativePath": "api/Blogs/GetAllBlogsByTag/{userId}/{tagId}",
+    "RelativePath": "api/Blogs/GetAllBlogsByTag/{tagId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "tagId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
       },
@@ -296,18 +286,13 @@
   {
     "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetBlogComments",
-    "RelativePath": "api/Blogs/GetCommentsByBlog/{blogId}/{userId}",
+    "RelativePath": "api/Blogs/GetCommentsByBlog/{blogId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "blogId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
       },
@@ -361,11 +346,6 @@
         "Name": "blogId",
         "Type": "System.Int32",
         "IsRequired": false
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -380,11 +360,6 @@
     "Parameters": [
       {
         "Name": "blogCommentId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -483,17 +458,11 @@
   {
     "ContainingType": "eKids.Controllers.BookmarkController",
     "Method": "GetAllBookmarks",
-    "RelativePath": "api/Bookmarks/GetAll/{userId}",
+    "RelativePath": "api/Bookmarks/GetAll",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -599,6 +568,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.CommentsController",
+    "Method": "DeleteCommentAdmin",
+    "RelativePath": "api/Comments/AdminDelete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.CommentsController",
     "Method": "GetAllComments",
     "RelativePath": "api/Comments/GetAll/{id}",
     "HttpMethod": "GET",
@@ -613,11 +598,6 @@
       {
         "Name": "type",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -635,11 +615,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -814,7 +789,7 @@
   {
     "ContainingType": "eKids.Controllers.CourseCompletedController",
     "Method": "UpdateTestimonial",
-    "RelativePath": "api/CourseCompleted/{id}/{userId}",
+    "RelativePath": "api/CourseCompleted/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
@@ -825,14 +800,9 @@
         "IsRequired": true
       },
       {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
         "Name": "testimonialData",
         "Type": "System.String",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -996,11 +966,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1030,6 +995,22 @@
     "ContainingType": "eKids.Controllers.DiscussionsController",
     "Method": "DeleteDiscussion",
     "RelativePath": "api/Discussions/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.DiscussionsController",
+    "Method": "DeleteDiscussionAdmin",
+    "RelativePath": "api/Discussions/AdminDelete/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1137,11 +1118,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
       },
       {
         "Name": "PageNumber",
@@ -1302,6 +1278,22 @@
     "ContainingType": "eKids.Controllers.InstructorsController",
     "Method": "DeleteCourse",
     "RelativePath": "api/Instructors/CourseDelete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "DeleteCourseAdmin",
+    "RelativePath": "api/Instructors/CourseDeleteAdmin/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1736,11 +1728,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1804,11 +1791,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1831,6 +1813,47 @@
   },
   {
     "ContainingType": "eKids.Controllers.NotificationsController",
+    "Method": "GetNotificationByUser",
+    "RelativePath": "api/Notifications",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DefaultPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Take",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.NotificationsController",
     "Method": "DeleteNotification",
     "RelativePath": "api/Notifications/{id}",
     "HttpMethod": "DELETE",
@@ -1840,43 +1863,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "eKids.Controllers.NotificationsController",
-    "Method": "GetNotificationByUser",
-    "RelativePath": "api/Notifications/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "eKids.Controllers.NotificationsController",
-    "Method": "CreateNotificationInternal",
-    "RelativePath": "api/Notifications/Info",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "notificationDto",
-        "Type": "Database.DTOs.CreateNotificationDto",
         "IsRequired": true
       }
     ],
@@ -1912,22 +1898,6 @@
     "ContainingType": "eKids.Controllers.NotificationsController",
     "Method": "CreateNotificationUserRequest",
     "RelativePath": "api/Notifications/UserFriendReq",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "notificationDto",
-        "Type": "Database.DTOs.CreateNotificationDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "eKids.Controllers.NotificationsController",
-    "Method": "CreateNotificationInternalWarning",
-    "RelativePath": "api/Notifications/Warning",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2368,6 +2338,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.QuizzesController",
+    "Method": "DeleteQuizAdmin",
+    "RelativePath": "api/Quizzes/AdminDelete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.QuizzesController",
     "Method": "GetAllQuizzes",
     "RelativePath": "api/Quizzes/GetAll",
     "HttpMethod": "GET",
@@ -2547,16 +2533,11 @@
   {
     "ContainingType": "eKids.Controllers.QuizCompletationController",
     "Method": "GetStatusOfQuiz",
-    "RelativePath": "api/QuizzesCompletation/GetStatusQuizz/{userId}/{quizId}",
+    "RelativePath": "api/QuizzesCompletation/GetStatusQuizz/{quizId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "quizId",
         "Type": "System.Int32",
@@ -2828,15 +2809,15 @@
   {
     "ContainingType": "eKids.Controllers.UserFriendsController",
     "Method": "DeleteCloseFriend",
-    "RelativePath": "api/UserFriends/DeleteCloseFriend/{id}",
+    "RelativePath": "api/UserFriends/DeleteCloseFriend",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "closeFriendId",
         "Type": "System.Int32",
-        "IsRequired": true
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -2849,11 +2830,6 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
       {
         "Name": "friendId",
         "Type": "System.Int32",
@@ -2870,11 +2846,6 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
       {
         "Name": "receiverId",
         "Type": "System.Int32",
@@ -3020,13 +2991,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -3070,6 +3035,38 @@
     "ContainingType": "eKids.Controllers.UserInformationController",
     "Method": "DeleteUserInformation",
     "RelativePath": "api/UserInformation/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UserInformationController",
+    "Method": "GetUserInformationsAdmin",
+    "RelativePath": "api/UserInformation/AdminGet",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UserInformationController",
+    "Method": "DeleteUserInformationAdmin",
+    "RelativePath": "api/UserInformation/DeleteAdmin/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -3162,22 +3159,6 @@
       {
         "Name": "userId",
         "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "eKids.Controllers.UsersController",
-    "Method": "CreateUser",
-    "RelativePath": "api/Users",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userDto",
-        "Type": "Database.DTOs.CreateUser",
         "IsRequired": true
       }
     ],
@@ -3370,17 +3351,11 @@
   {
     "ContainingType": "eKids.Controllers.UsersController",
     "Method": "IncreaseCommitment",
-    "RelativePath": "api/Users/IncreaseCommitment/{userId}",
+    "RelativePath": "api/Users/IncreaseCommitment",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -3630,6 +3605,22 @@
       {
         "Name": "loginDto",
         "Type": "Database.DTOs.LoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "CreateUser",
+    "RelativePath": "register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDto",
+        "Type": "Database.DTOs.CreateUser",
         "IsRequired": true
       }
     ],

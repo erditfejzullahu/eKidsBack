@@ -10,6 +10,6 @@ namespace Database.Repository
     {
         Task<string> GeneratePasswordResetTokenAsync(string email);
         Task<bool> ValidatePasswordResetTokenAsync(string email, string token);
-        Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
+        Task<bool> ResetPasswordAsync(string email, string token, string newPassword, CancellationToken CancToken);
     }
 }
