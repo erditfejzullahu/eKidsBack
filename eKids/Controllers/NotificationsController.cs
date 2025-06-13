@@ -77,10 +77,11 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                 };
+
                 var senderNotification = new Notifications
                 {
-                    UserId = currentUserId,
-                    ReceiverId = notificationDto.ReceiverId,
+                    UserId = notificationDto.ReceiverId,
+                    ReceiverId = currentUserId,
                     Information = "Kerkese miqesie",
                     IsRead = false,
                     Type = NotificationsType.FriendRequestSended,

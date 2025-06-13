@@ -580,15 +580,16 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
                 var friendReq = await _context.Friendships.Where(c => c.SenderId == userId && c.ReceiverId == receiverId).FirstOrDefaultAsync(token);
-                var notification = await _context.Notifications.Where(c => c.UserId == userId && c.ReceiverId == receiverId && c.Type == NotificationsType.FriendRequestSended).FirstOrDefaultAsync(token);
+                var notification = await _context.Notifications
+                    .Where(c => c.UserId == receiverId && c.ReceiverId == userId && c.Type == NotificationsType.FriendRequestSended || c.UserId == userId && c.ReceiverId == receiverId && c.Type == NotificationsType.FriendRequestReceived).ToListAsync(token);
                 if(friendReq == null)
                 {
                     return NotFound(new { Message = "Not found" });
                 }
                 _context.Friendships.Remove(friendReq);
-                if(notification != null)
+                if(notification.Count != 0)
                 {
-                    _context.Notifications.Remove(notification);
+                    _context.Notifications.RemoveRange(notification);
                 }
                 await _context.SaveChangesAsync(token);
                 await transation.CommitAsync(token);
