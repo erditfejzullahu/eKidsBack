@@ -2797,11 +2797,6 @@
         "Name": "senderId",
         "Type": "System.Int32",
         "IsRequired": false
-      },
-      {
-        "Name": "receiverId",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -146,6 +146,7 @@ namespace eKids.Controllers
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var receiverUsername = User.FindFirstValue("Username");
                 if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int receiverIdME))
                 {
                     return Unauthorized();
@@ -159,7 +160,7 @@ namespace eKids.Controllers
 
                 var friendship = await _context.Friendships.Where(c => c.SenderId == senderId && c.ReceiverId == receiverIdME || c.SenderId == receiverIdME && c.ReceiverId == senderId).FirstOrDefaultAsync(token);
                 var notificationFriendRequest = await _context.Notifications
-                    .Where(c => (c.UserId == senderId && c.ReceiverId == receiverIdME || c.ReceiverId == senderId && c.ReceiverId == receiverIdME) 
+                    .Where(c => (c.UserId == senderId && c.ReceiverId == receiverIdME || c.ReceiverId == senderId && c.UserId == receiverIdME) 
                     && (c.Type == NotificationsType.FriendRequestReceived || c.Type == NotificationsType.FriendRequestSended))
                     .ToListAsync(token);
 
@@ -210,7 +211,7 @@ namespace eKids.Controllers
                     LastModified = DateTime.UtcNow
                 };
 
-                //njotim qe receiverid ka pranu miqesine me senderid
+                //njotim qe receiverid ka pranu miqesine me senderid //ai tipi e ka pranu miqesin tande
                 var heGotInformationAboutYourAccept = new Notifications
                 {
                     UserId = receiverIdME,
@@ -226,11 +227,20 @@ namespace eKids.Controllers
                 await _context.Notifications.AddAsync(heGotInformationAboutYourAccept, token);
                 await _context.SaveChangesAsync(token);
 
-                var connectedUserId = ConnectionMapping.GetConnectionId(friendshipRequestSender.Username);
-                if(connectedUserId != null)
+                var connectedSenderId = ConnectionMapping.GetConnectionId(friendshipRequestSender.Username);
+                if(connectedSenderId != null)
                 {
-                    var countNotifications = await _context.Notifications.Where(c => c.ReceiverId == senderId && c.IsRead == false).CountAsync(token);
-                    await _notificationsHub.Clients.Client(connectedUserId).SendAsync("UnreadNotifications", countNotifications);
+                    var countNotifications = await _context.Notifications.Where(c => c.ReceiverId == friendshipRequestSender.ID && c.IsRead == false).CountAsync(token);
+                    await _notificationsHub.Clients.Client(connectedSenderId).SendAsync("UnreadNotifications", countNotifications);
+                }
+                if (!string.IsNullOrEmpty(receiverUsername))
+                {
+                    var connectedReceiverId = ConnectionMapping.GetConnectionId(receiverUsername);
+                    if(connectedReceiverId != null)
+                    {
+                        var countReceiverNotifications = await _context.Notifications.Where(c => c.ReceiverId == receiverIdME && !c.IsRead).CountAsync(token);
+                        await _notificationsHub.Clients.Client(connectedReceiverId).SendAsync("UnreadNotifications", countReceiverNotifications);
+                    }
                 }
 
                 await transaction.CommitAsync(token);
@@ -581,7 +591,8 @@ namespace eKids.Controllers
                 }
                 var friendReq = await _context.Friendships.Where(c => c.SenderId == userId && c.ReceiverId == receiverId).FirstOrDefaultAsync(token);
                 var notification = await _context.Notifications
-                    .Where(c => c.UserId == receiverId && c.ReceiverId == userId && c.Type == NotificationsType.FriendRequestSended || c.UserId == userId && c.ReceiverId == receiverId && c.Type == NotificationsType.FriendRequestReceived).ToListAsync(token);
+                    .Where(c => 
+                        (c.UserId == receiverId && c.ReceiverId == userId || c.ReceiverId == receiverId && c.UserId == userId) && (c.Type == NotificationsType.FriendRequestSended || c.Type == NotificationsType.FriendRequestReceived)).ToListAsync(token);
                 if(friendReq == null)
                 {
                     return NotFound(new { Message = "Not found" });
