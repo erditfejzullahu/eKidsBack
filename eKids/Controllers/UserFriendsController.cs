@@ -139,14 +139,14 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpPut("/api/UserFriends/AcceptFriendRequest")]
-        public async Task<IActionResult> AcceptFriend([FromQuery] int senderId, [FromQuery] int receiverId, CancellationToken token)
+        public async Task<IActionResult> AcceptFriend([FromQuery] int senderId, CancellationToken token)
         {
 
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int receiverUserId))
+                if (string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int receiverIdME))
                 {
                     return Unauthorized();
                 }
@@ -157,11 +157,11 @@ namespace eKids.Controllers
                     return NotFound(new {Message = "User not found"});
                 }
 
-                var friendship = await _context.Friendships.Where(c => c.SenderId == senderId && c.ReceiverId == receiverUserId).FirstOrDefaultAsync(token);
+                var friendship = await _context.Friendships.Where(c => c.SenderId == senderId && c.ReceiverId == receiverIdME || c.SenderId == receiverIdME && c.ReceiverId == senderId).FirstOrDefaultAsync(token);
                 var notificationFriendRequest = await _context.Notifications
-                    .Where(c => c.UserId == senderId && c.ReceiverId == receiverId && c.Type == NotificationsType.FriendRequestReceived ||
-                    c.UserId == receiverId && c.ReceiverId == senderId && c.Type == NotificationsType.FriendRequestReceived)
-                    .FirstOrDefaultAsync(token);
+                    .Where(c => (c.UserId == senderId && c.ReceiverId == receiverIdME || c.ReceiverId == senderId && c.ReceiverId == receiverIdME) 
+                    && (c.Type == NotificationsType.FriendRequestReceived || c.Type == NotificationsType.FriendRequestSended))
+                    .ToListAsync(token);
 
                 if (friendship == null)
                 {
@@ -176,7 +176,7 @@ namespace eKids.Controllers
                 var newFriend1 = new Friends
                 {
                     UserId = senderId,
-                    FriendId = receiverUserId,
+                    FriendId = receiverIdME,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
@@ -184,7 +184,7 @@ namespace eKids.Controllers
 
                 var newFriend2 = new Friends
                 {
-                    UserId = receiverUserId,
+                    UserId = receiverIdME,
                     FriendId = senderId,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
@@ -193,16 +193,16 @@ namespace eKids.Controllers
                 await _context.Friends.AddAsync(newFriend2, token);
                 //await _context.SaveChangesAsync(token);
 
-                if(notificationFriendRequest != null)
+                if(notificationFriendRequest.Count > 0)
                 {
-                    _context.Notifications.Remove(notificationFriendRequest);
+                    _context.Notifications.RemoveRange(notificationFriendRequest);
                 }
 
                 //njoftim qe ti ke pranu miqesine me senderIdn
                 var youAcceptedNotification = new Notifications
                 {
                     UserId = senderId,
-                    ReceiverId = receiverUserId,
+                    ReceiverId = receiverIdME,
                     Information = "Njoftim mbi pranimin e miqesise",
                     Type = NotificationsType.FriendRequestReceiverAccepted,
                     IsRead = false,
@@ -213,7 +213,7 @@ namespace eKids.Controllers
                 //njotim qe receiverid ka pranu miqesine me senderid
                 var heGotInformationAboutYourAccept = new Notifications
                 {
-                    UserId = receiverUserId,
+                    UserId = receiverIdME,
                     ReceiverId = senderId,
                     Information = "Njoftim mbi pranimin e miqesise",
                     Type = NotificationsType.FriendRequestSenderAccepted,
