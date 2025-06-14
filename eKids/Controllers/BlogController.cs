@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 
 namespace eKids.Controllers
 {
@@ -358,6 +359,46 @@ namespace eKids.Controllers
             {
                 _logger.LogError(ex, "Error in retriving all blogs");
                 return BadRequest(new { Message = "Error in retriving all blogs" });
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBlog(int id, CancellationToken token)
+        {
+            await using var transaction = await _context.Database.BeginTransactionAsync(token);
+            try
+            {
+                var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                {
+                    return Unauthorized();
+                }
+                var blog = await _context.Blogs.Where(c => c.ID == id).FirstOrDefaultAsync(token);
+                if(blog == null)
+                {
+                    return NotFound();
+                }
+                if(blog.UserId != userId)
+                {
+                    return Forbid();
+                }
+                var conversations = await _context.Conversations.Where(c => c.BlogId == id).ToListAsync(token);
+                var blogComments = await _context.BlogComments.Where(c => c.BlogId == id).Include(c => c.BlogCommentLikes).ToListAsync(token);
+                var blogLikes = await _context.BlogLikes.Where(c => c.BlogId == id).ToListAsync(token);
+                if (conversations.Count > 0) _context.Conversations.RemoveRange(conversations);
+                if (blogComments.Count > 0) _context.BlogComments.RemoveRange(blogComments);
+                if (blogLikes.Count > 0) _context.BlogLikes.RemoveRange(blogLikes);
+                _context.Blogs.Remove(blog);
+                await _context.SaveChangesAsync(token);
+                await transaction.CommitAsync(token);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                _logger.LogError(ex, "Error deleting blog");
+                return BadRequest();
             }
         }
 
