@@ -1108,6 +1108,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.DiscussionsController",
+    "Method": "GetDiscussionsByTitle",
+    "RelativePath": "api/Discussions/GetDiscussionByTitle",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchParam",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.DiscussionsController",
     "Method": "GetDiscussionComments",
     "RelativePath": "api/Discussions/GetDiscussionComments/{id}",
     "HttpMethod": "GET",

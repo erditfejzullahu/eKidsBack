@@ -127,6 +127,41 @@ namespace eKids.Controllers
         }
 
         [Authorize]
+        [HttpGet("GetDiscussionByTitle")]
+        public async Task<IActionResult> GetDiscussionsByTitle([FromQuery] string searchParam, CancellationToken token)
+        {
+            try
+            {
+                var discussions = await _context.Discussions
+                    .AsNoTracking()
+                    .Where(c => EF.Functions.Contains(c.Title, $"\"{searchParam}*\""))
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.Title,
+                        DiscussionTags = c.DiscussionWithTags.Select(dt => dt.DiscussionTag.Title).ToList(),
+                        User = c.PreferAnonimity == DiscussionAnonimityStatus.NotVisible ? null : new
+                        {
+                            c.User.ID,
+                            c.User.Username,
+                            c.User.ProfilePictureUrl
+                        }
+                    })
+                    .ToListAsync(token);
+                if(discussions.Count == 0)
+                {
+                    return NotFound();
+                }
+                return Ok(discussions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting disucssions by title");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
         [HttpPatch("HandleDiscussionVotes")]
         public async Task<IActionResult> HandleDiscussionVotes([FromBody] DiscussionHandleVoteDto discussionHandleVoteDto, CancellationToken token)
         {
