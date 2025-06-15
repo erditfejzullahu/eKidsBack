@@ -226,13 +226,12 @@ namespace eKids.Controllers
         }
 
         [Authorize]
-        [HttpGet("/api/Blogs/GetAllTagsWithChild/")]
-        public async Task<IActionResult> GetAllTags([FromQuery] int categoryId, CancellationToken token)
+        [HttpGet("/api/Blogs/GetAllBlogTags/")]
+        public async Task<IActionResult> GetAllTags(CancellationToken token)
         {
             try
             {
                 var tags = await _context.BlogsWithTags
-                    .Where(c => c.Blog.CategoryId == categoryId)
                     .Select(c => new
                     {
                         c.Tag.ID,

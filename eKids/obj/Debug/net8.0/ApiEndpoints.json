@@ -27,6 +27,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.BlogController",
+    "Method": "DeleteBlog",
+    "RelativePath": "api/Blog/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.BlogController",
     "Method": "CreateBlogComment",
     "RelativePath": "api/Blogs/CreateComment",
     "HttpMethod": "POST",
@@ -186,6 +202,16 @@
   },
   {
     "ContainingType": "eKids.Controllers.BlogController",
+    "Method": "GetAllTags",
+    "RelativePath": "api/Blogs/GetAllBlogTags",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.BlogController",
     "Method": "GetAllParentTags",
     "RelativePath": "api/Blogs/GetAllTags/{categoryId}",
     "HttpMethod": "GET",
@@ -224,22 +250,6 @@
       },
       {
         "Name": "Take",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "eKids.Controllers.BlogController",
-    "Method": "GetAllTags",
-    "RelativePath": "api/Blogs/GetAllTagsWithChild",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "categoryId",
         "Type": "System.Int32",
         "IsRequired": false
       }

@@ -13,8 +13,7 @@ namespace Database.DTOs
     {
         [Required]
         public string Title { get; set; }
-        [Required]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         [Required]
         public int UserId { get; set; }
         [Required]
@@ -35,7 +34,7 @@ namespace Database.DTOs
     {
         public int ID { get; set; }
         public string Title { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public int UserId { get; set; }
         public bool IsLiked { get; set; }
         public int Likes { get; set; }

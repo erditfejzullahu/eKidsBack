@@ -13,7 +13,7 @@ namespace Database.Models
         [Column("Id")]
         public override int ID { get; set; }
         public string Title { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public int UserId { get; set; }
         public int Likes { get; set; }
         public string Content { get; set; }
