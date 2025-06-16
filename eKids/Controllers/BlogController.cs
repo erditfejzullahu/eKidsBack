@@ -227,15 +227,21 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet("/api/Blogs/GetAllBlogTags/")]
-        public async Task<IActionResult> GetAllTags(CancellationToken token)
+        public async Task<IActionResult> GetAllTags(string? searchParam, CancellationToken token)
         {
             try
             {
-                var tags = await _context.BlogsWithTags
+                var query = _context.Tags.AsNoTracking();
+                if (!string.IsNullOrEmpty(searchParam))
+                {
+                    query = query.Where(c => EF.Functions.Contains(c.Name, $"\"{searchParam}*\""));
+                }
+
+                var tags = await query
                     .Select(c => new
                     {
-                        c.Tag.ID,
-                        c.Tag.Name,
+                        c.ID,
+                        c.Name,
                     })
                     //.Skip(paginationDto.Skip)
                     //.Take(paginationDto.Take)

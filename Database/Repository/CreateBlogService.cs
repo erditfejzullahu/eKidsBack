@@ -84,6 +84,8 @@ namespace Database.Repository
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
+                await _context.Blogs.AddAsync(blog);
+                await _context.SaveChangesAsync(token);
 
                 var blogTagsDto = blogDto.Tags.Where(tag => tag != null && !string.IsNullOrWhiteSpace(tag.Name))
                     .Select(tag => new TagsDto
@@ -93,6 +95,7 @@ namespace Database.Repository
                     .DistinctBy(tag => tag.Name.ToLower());
 
                 var newTagList = new List<Tags>();
+                var existingTagList = new List<Tags>();
                 foreach (var tag in blogTagsDto)
                 {
                     var existingTag = await _context.Tags.Where(c => c.Name.ToLower() == tag.Name.ToLower()).FirstOrDefaultAsync(token);
@@ -107,12 +110,13 @@ namespace Database.Repository
                     }
                     else
                     {
-                        newTagList.Add(existingTag);
+                        existingTagList.Add(existingTag);
                     }
                 }
                 if(newTagList.Count > 0)
                 {
                     await _context.Tags.AddRangeAsync(newTagList, token);
+                    await _context.SaveChangesAsync(token);
                 }
 
                 var blogsWithTagsList = new List<BlogsWithTags>();
@@ -126,6 +130,21 @@ namespace Database.Repository
                         LastModified = DateTime.UtcNow
                     });
                 }
+
+                if(existingTagList.Count > 0)
+                {
+                    foreach (var tagItem in existingTagList)
+                    {
+                        blogsWithTagsList.Add(new BlogsWithTags
+                        {
+                            BlogId = blog.ID,
+                            TagId = tagItem.ID,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow
+                        });
+                    }
+                }
+
                 if(blogsWithTagsList.Count > 0)
                 {
                     await _context.BlogsWithTags.AddRangeAsync(blogsWithTagsList, token);

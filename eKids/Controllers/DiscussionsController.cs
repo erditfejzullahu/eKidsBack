@@ -348,43 +348,41 @@ namespace eKids.Controllers
             try
             {
                 paginationDto.Validate();
-                var query = _context.DiscussionsWithTags.AsNoTracking().AsQueryable();
+                var query = _context.Discussions.AsNoTracking().AsQueryable();
 
                 if (tagId.HasValue)
                 {
-                    query = query.Where(c => c.TagId == tagId);
+                    query = query.Where(c => c.DiscussionWithTags.Any(c => c.TagId == tagId));
                 }
 
-                var discussionQuery = query.Select(c => c.Discussion);
 
                 switch (sortDto.SortBy)
                 {
                     case DiscussionSortOptions.Latest:
-                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
+                        query = query.OrderByDescending(c => c.CreatedAt);
                         break;
                     case DiscussionSortOptions.Active:
-                        discussionQuery = discussionQuery.Where(c => c.DiscussionAnswers.Count > 0);
-                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
+                        query = query.Where(c => c.DiscussionAnswers.Count > 0);
+                        query = query.OrderByDescending(c => c.CreatedAt);
                         break;
                     case DiscussionSortOptions.Urgent:
-                        discussionQuery = discussionQuery.Where(c => c.IsUrgent == true);
-                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
+                        query = query.Where(c => c.IsUrgent == true);
+                        query = query.OrderByDescending(c => c.CreatedAt);
                         break;
                     case DiscussionSortOptions.NoAnswers:
-                        discussionQuery = discussionQuery.Where(c => c.DiscussionAnswers.Count == 0);
-                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
+                        query = query.Where(c => c.DiscussionAnswers.Count == 0);
+                        query = query.OrderByDescending(c => c.CreatedAt);
                         break;
                     default:
-                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
+                        query = query.OrderByDescending(c => c.CreatedAt);
                         break;
                 }
 
                 //using var transation = await _context.Database.BeginTransactionAsync(token);
-                var allDiscussions = await discussionQuery.CountAsync(token);
-                    var discussions = await discussionQuery
+                var allDiscussions = await query.CountAsync(token);
+                    var discussions = await query
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
-                    .AsSplitQuery()
                     .Select(c => new
                     {
                         c.ID,
@@ -416,7 +414,7 @@ namespace eKids.Controllers
                 }
                 //await transation.CommitAsync(token);
                 bool hasMore = discussions.Count == paginationDto.Take && discussions.Count < allDiscussions;
-                return Ok(new {discussionsCount = allDiscussions, data = discussions, hasMore});
+                return Ok(new {discussionsCount = allDiscussions, discussions, hasMore});
             }
             catch (Exception ex)
             {
