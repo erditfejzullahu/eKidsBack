@@ -205,9 +205,8 @@ namespace Database.Repository
         {
             try
             {
-                var query = _context.BlogsWithTags
-                    .Where(c => c.Tag.ID == tagId)
-                    .Select(c => c.Blog)
+                var query = _context.Blogs
+                    .Where(c => c.BlogTags.Any(c => c.Tag.ID == tagId))
                     .AsNoTracking();
 
                 if(getFriendBlogsOrAll == GetFriendBlogsOrAll.All)
@@ -266,7 +265,7 @@ namespace Database.Repository
         {
             try
             {
-                var query = _context.BlogsWithTags.Select(c => c.Blog).OrderByDescending(c => c.CreatedAt).AsNoTracking();
+                var query = _context.Blogs.OrderByDescending(c => c.CreatedAt).AsNoTracking();
 
                 if (retrivalType == BlogDiscussionRetrivalType.ProfileSection)
                 {

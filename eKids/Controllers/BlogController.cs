@@ -319,6 +319,7 @@ namespace eKids.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("/api/Blogs/GetAllBlogsByUser/{userId}")]
         public async Task<IActionResult> GetAllBlogsByUser(int userId, [FromQuery] PaginationDto paginationDto, CancellationToken token)
         {
