@@ -514,6 +514,18 @@ namespace eKids.Controllers
                             UserId = c.Blog.User != null ? c.Blog.User.ID : 0,
                             c.Blog.CreatedAt
                         } : null,
+                        Discussion = c.Discussion != null ? new
+                        {
+                            c.Discussion.ID,
+                            c.Discussion.Title,
+                            c.Discussion.Content,
+                            User = c.Discussion.PreferAnonimity == DiscussionAnonimityStatus.Visible ? new {
+                                c.Discussion.User.Username,
+                                c.Discussion.User.ID,
+                                c.Discussion.User.ProfilePictureUrl
+                            } : null,
+                            c.Discussion.CreatedAt
+                        } : null,
                         Course = c.Course != null ? new
                         {
                             c.Course.ID,
@@ -549,7 +561,7 @@ namespace eKids.Controllers
                             c.Instructor.User.ProfilePictureUrl,
                             InstructorCourses = c.Instructor.InstructorCourses.Count,
                             InstructorStudents = c.Instructor.InstructorStudents.Count,
-                            c.CreatedAt
+                            c.Instructor.CreatedAt
                         } : null,
                         OnlineMeeting = c.OnlineMeeting != null ? new
                         {
@@ -560,7 +572,9 @@ namespace eKids.Controllers
                             c.OnlineMeeting.Description,
                             c.OnlineMeeting.ViewCount,
                             c.OnlineMeeting.ScheduleDateTime,
+                            c.OnlineMeeting.Status,
                             DurationTime = c.OnlineMeeting.DurationTime ?? null,
+                            c.OnlineMeeting.CreatedAt
                         } : null
                     })
                 .ToListAsync(token);

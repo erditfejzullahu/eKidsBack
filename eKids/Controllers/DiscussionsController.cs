@@ -343,38 +343,48 @@ namespace eKids.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllDiscussions([FromQuery] DiscussionSorterDto sortDto, [FromQuery] PaginationDto paginationDto, CancellationToken token)
+        public async Task<IActionResult> GetAllDiscussions([FromQuery] DiscussionSorterDto sortDto, [FromQuery] PaginationDto paginationDto, [FromQuery] int? tagId, CancellationToken token)
         {
             try
             {
                 paginationDto.Validate();
-                var query = _context.Discussions.AsNoTracking().AsQueryable().AsSplitQuery();
+                var query = _context.DiscussionsWithTags.AsNoTracking().AsQueryable();
+
+                if (tagId.HasValue)
+                {
+                    query = query.Where(c => c.TagId == tagId);
+                }
+
+                var discussionQuery = query.Select(c => c.Discussion);
+
                 switch (sortDto.SortBy)
                 {
                     case DiscussionSortOptions.Latest:
-                        query = query.OrderByDescending(c => c.CreatedAt);
+                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
                         break;
                     case DiscussionSortOptions.Active:
-                        query = query.Where(c => c.DiscussionAnswers.Count > 0);
-                        query = query.OrderByDescending(c => c.CreatedAt);
+                        discussionQuery = discussionQuery.Where(c => c.DiscussionAnswers.Count > 0);
+                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
                         break;
                     case DiscussionSortOptions.Urgent:
-                        query = query.Where(c => c.IsUrgent == true);
-                        query = query.OrderByDescending(c => c.CreatedAt);
+                        discussionQuery = discussionQuery.Where(c => c.IsUrgent == true);
+                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
                         break;
                     case DiscussionSortOptions.NoAnswers:
-                        query = query.Where(c => c.DiscussionAnswers.Count == 0);
-                        query = query.OrderByDescending(c => c.CreatedAt);
+                        discussionQuery = discussionQuery.Where(c => c.DiscussionAnswers.Count == 0);
+                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
                         break;
                     default:
-                        query = query.OrderByDescending(c => c.CreatedAt);
+                        discussionQuery = discussionQuery.OrderByDescending(c => c.CreatedAt);
                         break;
                 }
+
                 //using var transation = await _context.Database.BeginTransactionAsync(token);
-                var allDiscussions = await query.CountAsync(token);
-                    var discussions = await query
+                var allDiscussions = await discussionQuery.CountAsync(token);
+                    var discussions = await discussionQuery
                     .Skip(paginationDto.Skip)
                     .Take(paginationDto.Take)
+                    .AsSplitQuery()
                     .Select(c => new
                     {
                         c.ID,
