@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0YDoiCSlEQeeDZVOivHSatbbSnuCHlpI9r63cnHc9k0=",
+  "Hash": "NO/oEmHQZNieE7SmVkfw+yzBWvpJ6yCDNvi/3qtptRg=",
   "Source": "eKids",
   "BasePath": "_content/eKids",
   "Mode": "Default",
@@ -1250,6 +1250,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\uploads\\e95f5138-a140-463a-8d3a-faea201e57c3.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\01c27eca-4e56-4878-a2fe-75b960adb17c.jpg",
+      "SourceId": "eKids",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
+      "BasePath": "_content/eKids",
+      "RelativePath": "other/01c27eca-4e56-4878-a2fe-75b960adb17c.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\other\\01c27eca-4e56-4878-a2fe-75b960adb17c.jpg"
     },
     {
       "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\01f634f4-83a2-44f8-a650-e758c5e386b8.png",

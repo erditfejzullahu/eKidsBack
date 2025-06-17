@@ -3440,6 +3440,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "UpdateUserPersonal",
+    "RelativePath": "api/Users/UpdatePersonalData",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDto",
+        "Type": "Database.DTOs.UpdateUser",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
     "Method": "ValidateResetToken",
     "RelativePath": "api/Users/validate-reset-token",
     "HttpMethod": "GET",

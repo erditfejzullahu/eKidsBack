@@ -464,11 +464,11 @@ namespace eKids.Controllers
             return Ok(users);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut("UpdatePersonalData")]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUser userDto)
+        public async Task<IActionResult> UpdateUserPersonal([FromBody] UpdateUser userDto, CancellationToken token)
         {
-
+            await using var transacton = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 if (!ModelState.IsValid)
@@ -482,15 +482,21 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                var user = await _context.Users.FindAsync(userId);
+                var user = await _context.Users.FindAsync(userIdAuth, token);
 
                 if (user == null)
                 {
                     return NotFound();
                 }
 
-                if ((!string.IsNullOrEmpty(userDto.Password) && !string.IsNullOrEmpty(userDto.ConfirmPassword)) && (userDto.Password == userDto.ConfirmPassword))
+
+                if (!string.IsNullOrEmpty(userDto.Password) || !string.IsNullOrEmpty(userDto.ConfirmPassword))
                 {
+                    if (userDto.Password != userDto.ConfirmPassword)
+                    {
+                        return BadRequest(new { Message = "Password and confirmation don't match" });
+                    }
+
                     var userValidator = await _userValidator.ValidateAsync(userDto);
                     if (!userValidator.IsValid)
                     {
@@ -511,15 +517,22 @@ namespace eKids.Controllers
                 }
 
                 _mapper.Map(userDto, user);
-
                 user.LastModified = DateTime.UtcNow;
-
                 _context.Users.Update(user);
-                await _context.SaveChangesAsync();
+
+                var userMetas = await _context.UserMeta.Where(c => c.UserID == userIdAuth).ToListAsync(token);
+                var phoneMeta = userMetas.FirstOrDefault(c => c.MetaKey == "Phone");
+                phoneMeta.MetaValue = userDto.Phone;
+                phoneMeta.LastModified = DateTime.UtcNow;
+                _context.UserMeta.Update(phoneMeta);
+
+                await _context.SaveChangesAsync(token);
+                await transacton.CommitAsync(token);
                 return Ok(new { Message = "Data updated successfully!" });
             }
             catch (Exception ex)
             {
+                await transacton.RollbackAsync(token);
                 _logger.LogError(ex, $"Error in updating user personal details");
                 var errorMessage = new
                 {

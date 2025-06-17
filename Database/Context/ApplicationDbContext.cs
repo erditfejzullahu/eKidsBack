@@ -23,6 +23,7 @@ namespace Database.Context
         public DbSet<Quizzes> Quizzes { get; set; }
         public DbSet<QuizQuestions> QuizQuestions { get; set; }
         public DbSet<QuizAnswers> QuizAnswers { get; set; }
+        public DbSet<Usermeta> UserMeta { get; set; }
         public DbSet<QuizzesCompleted> QuizzesCompleted { get; set; }
         public DbSet<BlogsWithTags> BlogsWithTags { get; set; }
         public DbSet<Conversations> Conversations { get; set; }
