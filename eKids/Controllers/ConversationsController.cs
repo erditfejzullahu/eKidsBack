@@ -289,7 +289,12 @@ namespace eKids.Controllers
         private async Task HandleInstructorLessonShare(ShareItemDto shareItem, Users sender)
         {
             var sanitize = new HtmlSanitizer();
-            var instructorLesson = await _context.InstructorLessons.FindAsync(shareItem.InstructorLessonId) ?? throw new ApplicationException("Invalid instructor lesson id provided");
+            var instructorLesson = await _context.InstructorLessons.FindAsync(shareItem.InstructorLessonId);
+                if(instructorLesson == null)
+                {
+                    _logger.LogError("null");
+                    throw new ApplicationException("Invalid instructor lesson id provided");
+                }
             var newConversation = new Conversations
             {
                 SenderUsername = sanitize.Sanitize(shareItem.SenderUsername.Trim()),

@@ -58,7 +58,7 @@ namespace Database.Repository
                         var requestUrl = _httpContextAccessor.HttpContext?.Request;
                         foreach (var image in blogDto.Images)
                         {
-                            var imageUrl = await _fileUpload.UploadFile(image, FileCategory.Other);
+                            var imageUrl = await _fileUpload.UploadFile(image.Image, FileCategory.Other);
                             var fullUrl = $"{requestUrl.Scheme}://{requestUrl.Host}{imageUrl}";
                             imageUrls.Add(fullUrl);
                         }

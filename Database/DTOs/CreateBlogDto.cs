@@ -20,8 +20,13 @@ namespace Database.DTOs
         public BlogStatus Status { get; set; }
         [Required]
         public string Content { get; set; }
-        public List<string>? Images { get; set; }
+        public List<BlogImagesDto>? Images { get; set; }
         public List<TagsDto> Tags { get; set; }
+    }
+
+    public class BlogImagesDto
+    {
+        public string Image { get; set; }
     }
 
     public class TagsDto

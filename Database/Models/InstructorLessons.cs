@@ -13,8 +13,8 @@ namespace Database.Models
         public override int ID { get; set; }
         public int Section_Id { get; set; }
         public string Title { get; set; }
-        public string Content { get; set; }
-        public string Video_Url { get; set; }
+        public string? Content { get; set; }
+        public string? Video_Url { get; set; }
 
         [ForeignKey("Section_Id")]
         public InstructorCourseSections InstructorCourseSections { get; set; }
