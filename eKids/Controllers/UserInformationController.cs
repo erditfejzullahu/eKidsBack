@@ -4,11 +4,13 @@ using Database.DTOs;
 using Database.Models;
 using Database.Repository;
 using eKids.Hubs;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -125,14 +127,35 @@ namespace eKids.Controllers
                 {
                     return Unauthorized();
                 }
+                var existingUserInfos = await _context.UserInformations.AsNoTracking().AnyAsync(c => c.UserId == userId, token);
+                if(!existingUserInfos)
+                {
+                    return BadRequest(new { Message = "User information data exists, try updating them" });
+                }
+                
+                var sanitize = new HtmlSanitizer();
+                string? cleanSkills = string.Empty;
+                string? cleanSoftSkills = string.Empty;
+                if(!string.IsNullOrEmpty(infoDto.Skills))
+                {
+                    var skillsArray = JsonConvert.DeserializeObject<string[]>(infoDto.Skills);
+                    var sanitizeSkills = skillsArray?.Select(skill => sanitize.Sanitize(skill.Trim())).ToArray();
+                    cleanSkills = JsonConvert.SerializeObject(sanitizeSkills);
+                }
+                if (!string.IsNullOrEmpty(infoDto.SoftSkills))
+                {
+                    var softSkillsArray = JsonConvert.DeserializeObject<string[]>(infoDto.SoftSkills);
+                    var sanitizeSoftSkills = softSkillsArray?.Select(skill => sanitize.Sanitize(skill.Trim())).ToArray();
+                    cleanSoftSkills = JsonConvert.SerializeObject(sanitizeSoftSkills);
+                }
 
                 var userInformation = new UserInformations
                 {
                     UserId = userId,
                     Birthday = infoDto.Birthday,
-                    SoftSkills = infoDto.SoftSkills,
-                    Profession = infoDto.Profession,
-                    Skills = infoDto.Skills,
+                    SoftSkills = cleanSoftSkills,
+                    Profession = sanitize.Sanitize(!string.IsNullOrEmpty(infoDto.Profession) ? infoDto.Profession.Trim() : ""),
+                    Skills = cleanSkills,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
@@ -142,8 +165,8 @@ namespace eKids.Controllers
                 {
                     var usersJob = infoDto.UserJobs.Select(c => new UserJobs
                     {
-                        Job_Place = c.Job_Place,
-                        Job_Title = c.Job_Title,
+                        Job_Place = sanitize.Sanitize(c.Job_Place.Trim()),
+                        Job_Title = sanitize.Sanitize(c.Job_Title.Trim()),
                         Start_Year = c.Start_Year,
                         End_Year = c.End_Year,
                         UserInformationId = userInformation.ID,
@@ -157,9 +180,9 @@ namespace eKids.Controllers
                 {
                     var usersEducation = infoDto.UserEducations.Select(c => new UserEducations
                     {
-                        Place_Name = c.Place_Name,
+                        Place_Name = sanitize.Sanitize(c.Place_Name.Trim()),
                         School_Degree = c.SchoolDegree,
-                        Field = c.Field,
+                        Field = sanitize.Sanitize(c.Field.Trim()),
                         Start_Year = c.Start_Year,
                         End_Year = c.End_Year,
                         UserInformationId = userInformation.ID,
@@ -211,6 +234,10 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Modal invalid" });
+                }
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var username = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
@@ -229,15 +256,41 @@ namespace eKids.Controllers
                     return Forbid();
                 }
 
-                if (infoDto.Birthday.HasValue)
+                var sanitize = new HtmlSanitizer();
+                string? cleanSkills = string.Empty;
+                string? cleanSoftSkills = string.Empty;
+                if (!string.IsNullOrEmpty(infoDto.Skills))
                 {
-                    userInformation.Birthday = infoDto.Birthday;
+                    var skillsArray = JsonConvert.DeserializeObject<string[]>(infoDto.Skills);
+                    var sanitizeSkills = skillsArray?.Select(skill => sanitize.Sanitize(skill.Trim())).ToArray();
+                    cleanSkills = JsonConvert.SerializeObject(sanitizeSkills);
                 }
-                _mapper.Map(infoDto, userInformation);
+                if (!string.IsNullOrEmpty(infoDto.SoftSkills))
+                {
+                    var softSkillsArray = JsonConvert.DeserializeObject<string[]>(infoDto.SoftSkills);
+                    var sanitizeSoftSkills = softSkillsArray?.Select(skill => sanitize.Sanitize(skill.Trim())).ToArray();
+                    cleanSoftSkills = JsonConvert.SerializeObject(sanitizeSoftSkills);
+                }
+
+                var cleanInfoDto = new UserInformationsDto
+                {
+                    SoftSkills = cleanSoftSkills,
+                    Skills = cleanSkills,
+                    Profession = sanitize.Sanitize(!string.IsNullOrEmpty(infoDto.Profession) ? infoDto.Profession.Trim() : ""),
+                    Birthday = infoDto.Birthday
+                };
+
+                if (cleanInfoDto.Birthday.HasValue)
+                {
+                    userInformation.Birthday = cleanInfoDto.Birthday;
+                }
+
+
+                _mapper.Map(cleanInfoDto, userInformation);
                 userInformation.LastModified = DateTime.UtcNow;
                 _context.UserInformations.Update(userInformation);
 
-                if (infoDto.UserJobs != null)
+                if (infoDto.UserJobs != null && infoDto.UserJobs.Count > 0)
                 {
                     foreach (var jobDto in infoDto.UserJobs)
                     {
@@ -246,8 +299,8 @@ namespace eKids.Controllers
                         {
                             var newJob = new UserJobs
                             {
-                                Job_Place = jobDto.Job_Place,
-                                Job_Title = jobDto.Job_Title,
+                                Job_Place = sanitize.Sanitize(jobDto.Job_Place.Trim()),
+                                Job_Title = sanitize.Sanitize(jobDto.Job_Title.Trim()),
                                 Start_Year = jobDto.Start_Year,
                                 End_Year = jobDto.End_Year,
                                 UserInformationId = userInformation.ID,
@@ -264,7 +317,7 @@ namespace eKids.Controllers
                     }
                 }
 
-                if(infoDto.UserEducations != null)
+                if(infoDto.UserEducations != null && infoDto.UserEducations.Count > 0)
                 {
                     foreach (var educationDto in infoDto.UserEducations)
                     {
@@ -273,9 +326,9 @@ namespace eKids.Controllers
                         {
                             var newEducation = new UserEducations
                             {
-                                Place_Name = educationDto.Place_Name,
+                                Place_Name = sanitize.Sanitize(educationDto.Place_Name.Trim()),
                                 School_Degree = educationDto.SchoolDegree,
-                                Field = educationDto.Field,
+                                Field = sanitize.Sanitize(educationDto.Field.Trim()),
                                 Start_Year = educationDto.Start_Year,
                                 End_Year = educationDto.End_Year,
                                 UserInformationId = userInformation.ID,

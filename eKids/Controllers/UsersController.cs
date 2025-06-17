@@ -464,7 +464,7 @@ namespace eKids.Controllers
             return Ok(users);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("UpdatePersonalData")]
         public async Task<IActionResult> UpdateUserPersonal([FromBody] UpdateUser userDto, CancellationToken token)
         {
