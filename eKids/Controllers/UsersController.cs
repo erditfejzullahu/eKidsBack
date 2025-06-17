@@ -774,21 +774,19 @@ namespace eKids.Controllers
                             c.UserInformations.UserId,
                             c.UserInformations.Skills,
                             c.UserInformations.Profession,
-                            UserEducation = c.UserInformations.UserEducations.Where(ue => ue.UserId == userId).Select(ue => new
+                            UserEducation = c.UserInformations.UserEducations.Select(ue => new
                             {
                                 ue.Place_Name,
-                                ue.UserId,
                                 ue.School_Degree,
                                 ue.Field,
                                 ue.UserInformationId,
                                 ue.Start_Year,
                                 ue.End_Year,
                             }).ToList() ?? null,
-                            UserJobs = c.UserInformations.UserJobs.Where(uj => uj.UserId == userId).Select(uj => new
+                            UserJobs = c.UserInformations.UserJobs.Select(uj => new
                             {
                                 uj.Job_Place,
                                 uj.Job_Title,
-                                uj.UserId,
                                 uj.Start_Year,
                                 uj.UserInformationId,
                                 uj.End_Year,

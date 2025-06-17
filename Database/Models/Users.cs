@@ -77,8 +77,6 @@ namespace Database.Models
 
         public UserInformations UserInformations { get; set; } // if one on one
         //public virtual ICollection<UserInformations> UserInformations { get; set; }
-        public ICollection<UserEducations> UserEducations { get; set; } = new List <UserEducations>();
-        public ICollection<UserJobs> UserJobs { get; set; } = new List<UserJobs>();
         public ICollection<Blogs> Blogs { get; set; } = new List<Blogs>();
         public ICollection<BlogLikes> BlogLikes { get; set; } = new List<BlogLikes>();
         public ICollection<BlogComments> BlogComments { get; set; } = new List<BlogComments>();

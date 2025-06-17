@@ -477,18 +477,6 @@ namespace Database.Context
                 .WithMany(c => c.UserEducations)
                 .HasForeignKey(c => c.UserInformationId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<UserEducations>()
-                .HasOne(c => c.User)
-                .WithMany(c => c.UserEducations)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<UserJobs>()
-                .HasOne(c => c.User)
-                .WithMany(c => c.UserJobs)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<UserInformations>()
                 .HasOne(c => c.User)

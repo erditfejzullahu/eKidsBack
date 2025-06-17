@@ -53,7 +53,8 @@ namespace eKids.Mapping
                 //.ForMember(dest => dest.Birthday, opt => opt.Condition(src => src.Birthday != default))
                 .ForMember(dest => dest.SoftSkills, opt => opt.Condition(src => !string.IsNullOrEmpty(src.SoftSkills)))
                 .ForMember(dest => dest.Skills, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Skills)))
-                .ForMember(dest => dest.Profession, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Profession)));
+                .ForMember(dest => dest.Profession, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Profession)))
+                .ForMember(dest => dest.UserId, opt => opt.Ignore());
 
             CreateMap<UserEducationsDto, UserEducations>()
                 .ForMember(dest => dest.Place_Name, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Place_Name)))
@@ -85,7 +86,7 @@ namespace eKids.Mapping
                     opt.MapFrom((src, dest ) => src.End_Year);
                     opt.Condition(src => src.End_Year.HasValue && src.End_Year.Value > 1900);
                 });
-
+                
         }
     }
 }

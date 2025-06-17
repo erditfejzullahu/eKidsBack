@@ -154,7 +154,7 @@ namespace eKids.Controllers
                     UserId = userId,
                     Birthday = infoDto.Birthday,
                     SoftSkills = cleanSoftSkills,
-                    Profession = sanitize.Sanitize(!string.IsNullOrEmpty(infoDto.Profession) ? infoDto.Profession.Trim() : ""),
+                    Profession = !string.IsNullOrEmpty(infoDto.Profession) ? sanitize.Sanitize(infoDto.Profession.Trim()) : null,
                     Skills = cleanSkills,
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
@@ -245,7 +245,7 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
 
-                var userInformation = await _context.UserInformations.Include(c => c.UserEducations).Include(c => c.UserJobs).Where(c => c.ID == id).FirstOrDefaultAsync(token);
+                var userInformation = await _context.UserInformations.Where(c => c.ID == id).FirstOrDefaultAsync(token);
                 if (userInformation == null)
                 {
                     return NotFound(new { Message = "No user information found" });
@@ -276,7 +276,7 @@ namespace eKids.Controllers
                 {
                     SoftSkills = cleanSoftSkills,
                     Skills = cleanSkills,
-                    Profession = sanitize.Sanitize(!string.IsNullOrEmpty(infoDto.Profession) ? infoDto.Profession.Trim() : ""),
+                    Profession = !string.IsNullOrEmpty(infoDto.Profession) ? sanitize.Sanitize(infoDto.Profession.Trim()) : null,
                     Birthday = infoDto.Birthday
                 };
 
@@ -285,8 +285,8 @@ namespace eKids.Controllers
                     userInformation.Birthday = cleanInfoDto.Birthday;
                 }
 
-
                 _mapper.Map(cleanInfoDto, userInformation);
+                userInformation.UserId = userId;
                 userInformation.LastModified = DateTime.UtcNow;
                 _context.UserInformations.Update(userInformation);
 
@@ -294,7 +294,7 @@ namespace eKids.Controllers
                 {
                     foreach (var jobDto in infoDto.UserJobs)
                     {
-                        var userJob = userInformation.UserJobs.FirstOrDefault(uj => uj.ID == jobDto.ID);
+                        var userJob = await _context.UserJobs.FirstOrDefaultAsync(uj => uj.ID == jobDto.ID);
                         if(userJob == null)
                         {
                             var newJob = new UserJobs
@@ -321,7 +321,7 @@ namespace eKids.Controllers
                 {
                     foreach (var educationDto in infoDto.UserEducations)
                     {
-                        var userEducation = userInformation.UserEducations.FirstOrDefault(ue => ue.ID == educationDto.ID);
+                        var userEducation = await _context.UserEducations.FirstOrDefaultAsync(c => c.ID == educationDto.ID);
                         if(userEducation == null)
                         {
                             var newEducation = new UserEducations

@@ -10,8 +10,8 @@ namespace Database.DTOs
 {
     public class UserInformationsDto
     {
-        [Required]
-        public int UserId { get; set; }
+        //[Required]
+        //public int UserId { get; set; }
         public DateOnly? Birthday { get; set; }
         public string? SoftSkills { get; set; }
         public string? Profession { get; set; }
