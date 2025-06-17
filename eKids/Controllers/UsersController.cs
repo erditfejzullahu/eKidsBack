@@ -464,6 +464,72 @@ namespace eKids.Controllers
             return Ok(users);
         }
 
+        [Authorize]
+        [HttpPut("UpdatePersonalData")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUser userDto)
+        {
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { Message = "Model invalid" });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int userIdAuth))
+                {
+                    return Unauthorized();
+                }
+
+                var user = await _context.Users.FindAsync(userId);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                if ((!string.IsNullOrEmpty(userDto.Password) && !string.IsNullOrEmpty(userDto.ConfirmPassword)) && (userDto.Password == userDto.ConfirmPassword))
+                {
+                    var userValidator = await _userValidator.ValidateAsync(userDto);
+                    if (!userValidator.IsValid)
+                    {
+                        return BadRequest(userValidator.Errors.Select(error => new
+                        {
+                            Field = error.PropertyName,
+                            Error = error.ErrorMessage
+                        }));
+                    }
+                    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+                    user.Password = hashedPassword;
+                }
+
+                if (!string.IsNullOrEmpty(userDto.Email) && (user.Email != userDto.Email))
+                {
+                    //logic for verification of email.
+                    user.Email = userDto.Email;
+                }
+
+                _mapper.Map(userDto, user);
+
+                user.LastModified = DateTime.UtcNow;
+
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Data updated successfully!" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in updating user personal details");
+                var errorMessage = new
+                {
+                    Message = "Error updating data!"
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+            }
+
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
        // [Authorize(Roles = "Admin")]

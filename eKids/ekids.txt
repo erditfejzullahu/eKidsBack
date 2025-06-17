@@ -976,3 +976,493 @@ System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or propert
    at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
    at eKids.Controllers.ConversationsController.HandleInstructorLessonShare(ShareItemDto shareItem, Users sender) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 292
    at eKids.Controllers.ConversationsController.ShareToUser(ShareType shareType, ShareItemDto shareDto) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 101
+2025-06-17 18:06:58.3831 | Info | Waiting for messages in AI Queue | 
+2025-06-17 18:06:59.0505 | Info | Meeting Status Background Service is starting; | 
+2025-06-17 18:07:03.0563 | Warn | Overriding address(es) 'https://localhost:7051, http://localhost:5194'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. | 
+2025-06-17 18:07:19.2466 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-06-17 18:07:21.6311 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-06-17 18:07:23.3360 | Error | USER  | 
+2025-06-17 18:07:23.3360 | Info | Not connected | 
+2025-06-17 18:07:23.7321 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:07:23.7842 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:07:30.9247 | Warn | Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'. | 
+2025-06-17 18:11:10.8473 | Error | USER  | 
+2025-06-17 18:11:10.8473 | Info | Not connected | 
+2025-06-17 18:11:11.0570 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:11:11.1133 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:11:21.9713 | Error | null | 
+2025-06-17 18:11:22.0800 | Error | Error in sharing to user$armendfejzullahu | System.ApplicationException: Invalid instructor lesson id provided
+   at eKids.Controllers.ConversationsController.HandleInstructorLessonShare(ShareItemDto shareItem, Users sender) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 296
+   at eKids.Controllers.ConversationsController.ShareToUser(ShareType shareType, ShareItemDto shareDto) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Controllers\ConversationsController.cs:line 101
+2025-06-17 18:18:02.6349 | Info | erditbaba connected with connection ID: VkmrwKh7QJ2C9IK48kFaqw | 
+2025-06-17 18:24:43.6560 | Error | USER  | 
+2025-06-17 18:24:43.6560 | Info | Not connected | 
+2025-06-17 18:24:43.9177 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:24:43.9589 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:24:58.9849 | Info | erditbaba connected with connection ID: 9iH3pHaWxU95fh5eGeguXw | 
+2025-06-17 18:31:12.0429 | Info | erditbaba connected with connection ID: KE90RcYsfPhlAH3Pwr82Kw | 
+2025-06-17 18:31:49.8743 | Info | erditbaba connected with connection ID: QbjD0e5JkUNAqFxOyu0OJg | 
+2025-06-17 18:36:32.9745 | Info | erditbaba disconnected | 
+2025-06-17 18:36:32.9804 | Info | erditbaba disconnected | 
+2025-06-17 18:36:32.9804 | Info | erditbaba disconnected | 
+2025-06-17 18:36:32.9804 | Info | erditbaba disconnected | 
+2025-06-17 18:36:38.5946 | Error | USER  | 
+2025-06-17 18:36:38.5946 | Info | erditbaba connected with connection ID: HoW1bLqzCrovke7acZvSEA | 
+2025-06-17 18:36:38.5946 | Error | USER  | 
+2025-06-17 18:36:38.5946 | Info | Not connected | 
+2025-06-17 18:36:38.5946 | Info | Not connected | 
+2025-06-17 18:36:38.9468 | Info | erditbaba connected with connection ID: pqMHtQVHGqhFiQfiTyetMQ | 
+2025-06-17 18:36:38.9490 | Info | erditbaba connected with connection ID: hR5xCT8ZoF7Y-EXbnB5ikw | 
+2025-06-17 18:36:38.9490 | Info | erditbaba connected with connection ID: jX4KbiG18nloCh33NzyArw | 
+2025-06-17 18:36:39.0493 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:36:39.1299 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:36:39.1717 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:36:39.1771 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:37:04.8137 | Info | erditbaba connected with connection ID: fWkO2tS30FwLgUSu_nUt7A | 
+2025-06-17 18:37:10.2102 | Info | erditbaba disconnected | 
+2025-06-17 18:37:10.7013 | Info | erditbaba connected with connection ID: FFREHj7gnlkdHE7qSVn54A | 
+2025-06-17 18:37:15.5813 | Info | erditbaba connected with connection ID: ixnk5wNzglRITF8l8azDMg | 
+2025-06-17 18:37:18.6883 | Info | erditbaba disconnected | 
+2025-06-17 18:37:19.1253 | Info | erditbaba connected with connection ID: FsWlHNG4tv8yX0lRmNHUrQ | 
+2025-06-17 18:37:24.0650 | Info | erditbaba connected with connection ID: 9GQXLe60NzvxkkmHPaVeQQ | 
+2025-06-17 18:37:27.3058 | Info | erditbaba disconnected | 
+2025-06-17 18:37:27.7246 | Info | erditbaba connected with connection ID: _Pb-iqNxrTaUgmu1fB_GpA | 
+2025-06-17 18:37:32.5944 | Info | erditbaba disconnected | 
+2025-06-17 18:37:32.8349 | Info | erditbaba connected with connection ID: DFz32pdhwggmNDWytqIpoQ | 
+2025-06-17 18:37:33.0549 | Info | erditbaba connected with connection ID: HlztaGxullOG8usFYCMaKA | 
+2025-06-17 18:37:37.8799 | Info | erditbaba connected with connection ID: OE-qoWk5MuWZS4t1sth-WQ | 
+2025-06-17 18:37:44.3950 | Info | erditbaba disconnected | 
+2025-06-17 18:37:44.9170 | Info | erditbaba connected with connection ID: HZPK6iE7B6WXtLxjiLeoTw | 
+2025-06-17 18:37:50.0733 | Info | erditbaba connected with connection ID: C2XSbiqtZ61Hh3PeGmf4Lg | 
+2025-06-17 18:37:59.7416 | Info | erditbaba disconnected | 
+2025-06-17 18:38:00.2644 | Info | erditbaba connected with connection ID: goCrbMjA5Nnh4NluGi-_kw | 
+2025-06-17 18:38:05.0174 | Info | erditbaba connected with connection ID: VByBFVWSqgxDhswRjpPn0A | 
+2025-06-17 18:38:20.5881 | Info | erditbaba disconnected | 
+2025-06-17 18:38:21.0834 | Info | erditbaba connected with connection ID: r2gaso3HSsF0jFkwEb-bVw | 
+2025-06-17 18:38:25.9196 | Info | erditbaba connected with connection ID: epR-95v_8-cY1PSwtn0MyA | 
+2025-06-17 18:38:31.3505 | Info | erditbaba disconnected | 
+2025-06-17 18:38:31.8330 | Info | erditbaba connected with connection ID: 6jam0GjViuoqZw7PnGpmZQ | 
+2025-06-17 18:38:36.5719 | Info | erditbaba disconnected | 
+2025-06-17 18:38:36.8989 | Info | erditbaba connected with connection ID: 95w5DGhTCIfig0UUuGflXA | 
+2025-06-17 18:38:37.2201 | Info | erditbaba connected with connection ID: EoU-5sra2TBqra1LKUE_HA | 
+2025-06-17 18:38:41.8472 | Info | erditbaba connected with connection ID: kX9FwlTGflZcGRXKq78Y1w | 
+2025-06-17 18:38:43.7184 | Info | erditbaba disconnected | 
+2025-06-17 18:38:44.1711 | Info | erditbaba connected with connection ID: PB17c8dpB0HlDg7FOc3hOg | 
+2025-06-17 18:38:49.0745 | Info | erditbaba connected with connection ID: yRNoQ2f27q650-3Kcg8L9A | 
+2025-06-17 18:38:54.0689 | Info | erditbaba disconnected | 
+2025-06-17 18:38:54.5860 | Info | erditbaba connected with connection ID: emUyO5duZH26OBllX7l4-Q | 
+2025-06-17 18:38:59.5584 | Info | erditbaba connected with connection ID: W7YhpqxsaSJ4NX9-A3mIKA | 
+2025-06-17 18:40:49.7296 | Info | erditbaba disconnected | 
+2025-06-17 18:40:50.4649 | Info | erditbaba connected with connection ID: srhTYkWxGumvlTep5Bt9kQ | 
+2025-06-17 18:40:54.9572 | Info | erditbaba disconnected | 
+2025-06-17 18:40:55.4399 | Info | erditbaba connected with connection ID: DUGFEudANCFWAaEGR2M_fQ | 
+2025-06-17 18:40:55.4573 | Info | erditbaba connected with connection ID: nj5AzODOGV_v10l9U8oecg | 
+2025-06-17 18:41:00.3082 | Info | erditbaba connected with connection ID: 2Or50PNQ0gXCu1DQruaWTg | 
+2025-06-17 18:41:13.5805 | Info | erditbaba disconnected | 
+2025-06-17 18:41:15.7646 | Info | erditbaba connected with connection ID: AkLJ_hPeplAP6kSUDW4UYA | 
+2025-06-17 18:41:18.9638 | Info | erditbaba connected with connection ID: 7udGjgZb9DSP8OTtJYz6iw | 
+2025-06-17 18:45:00.5161 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5161 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5161 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5161 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5270 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5270 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5270 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5270 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5389 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5441 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5441 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5441 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5441 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5441 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5441 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5664 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5664 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5664 | Info | erditbaba disconnected | 
+2025-06-17 18:45:00.5664 | Info | erditbaba disconnected | 
+2025-06-17 18:45:13.6933 | Info | erditbaba connected with connection ID: 7mctO-zdyI7Roxo2pWgICg | 
+2025-06-17 18:45:13.7081 | Info | erditbaba connected with connection ID: kzhttOlD3uffEuGmJJAPVA | 
+2025-06-17 18:45:13.7081 | Info | erditbaba connected with connection ID: RSW6ua6b85bmazqy4ed-nw | 
+2025-06-17 18:45:13.7518 | Info | erditbaba connected with connection ID: H2n7sZIyXGmPofd3kUPkaA | 
+2025-06-17 18:45:13.7925 | Info | erditbaba connected with connection ID: u_gNpBoRiJZyzb__GrDVuQ | 
+2025-06-17 18:45:13.7957 | Info | erditbaba connected with connection ID: T4Uc68bNFJs2XVeeJ63VUA | 
+2025-06-17 18:45:13.8452 | Info | erditbaba connected with connection ID: xysydaNmWu3S6tw7qb1PFA | 
+2025-06-17 18:45:16.7963 | Info | erditbaba connected with connection ID: KJbej8nZSf2goI8tmNi9Yw | 
+2025-06-17 18:45:17.6911 | Error | USER  | 
+2025-06-17 18:45:17.6911 | Info | Not connected | 
+2025-06-17 18:45:17.7145 | Info | erditbaba connected with connection ID: VKN40ZcYeZ1Wed8TJVeTqQ | 
+2025-06-17 18:45:17.7662 | Info | erditbaba connected with connection ID: df7DIMRkLEHke6PcdMTpGA | 
+2025-06-17 18:45:17.7662 | Info | erditbaba connected with connection ID: _-QyztcQ1qf89ulzPSaaWw | 
+2025-06-17 18:45:17.7662 | Info | erditbaba connected with connection ID: a4r6i4ABwpNRgBghNQRYxQ | 
+2025-06-17 18:45:17.7662 | Error | USER  | 
+2025-06-17 18:45:17.7889 | Info | erditbaba connected with connection ID: 3MvqEeGwrjrhTMCDHIXh1w | 
+2025-06-17 18:45:17.7889 | Info | Not connected | 
+2025-06-17 18:45:17.9229 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:45:18.0305 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:45:18.0365 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:45:18.1344 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:45:18.4982 | Info | erditbaba connected with connection ID: G2vf_2iI7BTUdpZVLh11gw | 
+2025-06-17 18:45:18.4982 | Info | erditbaba connected with connection ID: _gnS5xsbMUF66DH31xKm3A | 
+2025-06-17 18:45:18.5423 | Info | erditbaba connected with connection ID: hdGrY-RBbCMxWySpJSN5HQ | 
+2025-06-17 18:45:18.5796 | Info | erditbaba connected with connection ID: MxX0wCyJ0Fqo6c6ORj-XoQ | 
+2025-06-17 18:45:18.5796 | Info | erditbaba connected with connection ID: lVmEewIlnXxdOTRsel_xgQ | 
+2025-06-17 18:45:18.5796 | Info | erditbaba connected with connection ID: Fx7VhXpxMp0Z5NFbrnScIA | 
+2025-06-17 18:48:19.7323 | Info | erditbaba connected with connection ID: WZFIGDDOXoL-X1zckmdNaA | 
+2025-06-17 18:48:58.1841 | Error | USER  | 
+2025-06-17 18:48:58.1874 | Info | Not connected | 
+2025-06-17 18:48:58.3796 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+2025-06-17 18:48:58.4184 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\ConnectionMappings.cs:line 21
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 65
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\eKids\Hubs\NotificationsHub.cs:line 79
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 18:49:06.6845 | Info | erditbaba connected with connection ID: SXxT-7DcFxFLkK3wm6n4rw | 
+2025-06-17 18:49:14.2738 | Info | erditbaba connected with connection ID: V6_uIN-6p7ydQKmCzZas8Q | 
+2025-06-17 18:52:02.2079 | Info | erditbaba connected with connection ID: 1GOz1i3r7yRQNxIHXetgug | 
+2025-06-17 18:52:31.6473 | Info | erditbaba disconnected | 
+2025-06-17 18:52:32.1585 | Info | erditbaba connected with connection ID: x04VsyBluxJLX61-EMcyEA | 
+2025-06-17 18:52:37.0549 | Info | erditbaba connected with connection ID: 1gSPtoo4pXMwVnu8-JvfSA | 
+2025-06-17 19:00:41.7506 | Info | erditbaba disconnected | 
+2025-06-17 19:00:47.3662 | Info | erditbaba connected with connection ID: AjIGu5VJIb0ewOu0RPBViw | 
+2025-06-17 19:01:06.6614 | Error | USER  | 
+2025-06-17 19:01:06.6614 | Info | Not connected | 
+2025-06-17 19:01:07.1543 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+2025-06-17 19:01:07.2045 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 19:01:12.0598 | Info | erditbaba connected with connection ID: SF4rfH0aRLGucTjcaXbbQA | 
+2025-06-17 19:01:16.2421 | Info | erditbaba connected with connection ID: 2h9CkrLL5dLLYWrGgRyq1w | 
+2025-06-17 19:01:58.4702 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4702 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4799 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4799 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4799 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4799 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4799 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4960 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4960 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4960 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4960 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.4960 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5113 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5113 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5113 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5113 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5113 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5275 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5275 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5275 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5275 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5439 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5439 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5439 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5439 | Info | erditbaba disconnected | 
+2025-06-17 19:01:58.5439 | Info | erditbaba disconnected | 
+2025-06-17 19:02:01.3892 | Info | erditbaba connected with connection ID: bPSC7t4bP9F9GwsfIMt4Xg | 
+2025-06-17 19:02:01.4046 | Info | erditbaba connected with connection ID: JnjQ3QgPe1tsdgewQYd11g | 
+2025-06-17 19:02:01.4046 | Info | erditbaba connected with connection ID: IC9QCBP7-TTLNP_3sSVoMw | 
+2025-06-17 19:02:01.4621 | Info | erditbaba connected with connection ID: OY1sLH1fHRFu7rTFlg88bg | 
+2025-06-17 19:02:01.4739 | Info | erditbaba connected with connection ID: I8eFqHBdIJrsSsfi--Qn6A | 
+2025-06-17 19:02:01.5241 | Info | erditbaba connected with connection ID: yMq84v1MtuS2-xHmScsAZg | 
+2025-06-17 19:02:01.5301 | Error | USER  | 
+2025-06-17 19:02:01.5301 | Error | USER  | 
+2025-06-17 19:02:01.5301 | Info | Not connected | 
+2025-06-17 19:02:01.5301 | Info | Not connected | 
+2025-06-17 19:02:01.5484 | Error | USER  | 
+2025-06-17 19:02:01.5484 | Info | erditbaba connected with connection ID: r8wuBeNO65FipBNZy1hyNQ | 
+2025-06-17 19:02:01.5484 | Info | erditbaba connected with connection ID: DP4Vpvpofrv5MOXqi-Sc2A | 
+2025-06-17 19:02:01.5484 | Info | Not connected | 
+2025-06-17 19:02:01.5590 | Info | erditbaba connected with connection ID: xZUsMwP_zZzD_yw93IvPYg | 
+2025-06-17 19:02:01.5590 | Info | erditbaba connected with connection ID: r1JEzZBF7HbqB6r75VmJLw | 
+2025-06-17 19:02:01.5590 | Info | erditbaba connected with connection ID: CxFSoqURtxoDrs-CXkuSpA | 
+2025-06-17 19:02:01.5590 | Info | erditbaba connected with connection ID: Y8HgT0HcSlR-gOp1JC2MNA | 
+2025-06-17 19:02:01.5744 | Info | erditbaba connected with connection ID: gYP0vBPcBwYbBx9RRNBKoA | 
+2025-06-17 19:02:01.5744 | Info | erditbaba connected with connection ID: qcrAhgP1bHWiOlfMIbNu3A | 
+2025-06-17 19:02:01.7479 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+2025-06-17 19:02:01.7898 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+2025-06-17 19:02:01.8296 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 19:02:01.8718 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 19:02:01.8718 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+2025-06-17 19:02:01.9109 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 19:02:02.5787 | Info | erditbaba connected with connection ID: 5Y1tEf0dUL04PS0etNAsiA | 
+2025-06-17 19:02:04.1292 | Info | erditbaba connected with connection ID: dd6SYsY35fVVMb1XV2uwog | 
+2025-06-17 19:02:04.1373 | Info | erditbaba connected with connection ID: 2JXGtyO0yGrub2WCfGzXVw | 
+2025-06-17 19:02:04.1786 | Info | erditbaba connected with connection ID: 6F1BJfGINw3iute1DFjmyA | 
+2025-06-17 19:02:04.1786 | Info | erditbaba connected with connection ID: _2_g6FHH89vt_4IJ7F4ndA | 
+2025-06-17 19:02:04.1844 | Info | erditbaba connected with connection ID: -PnXRoCrZ2bu4zSF5QAUtw | 
+2025-06-17 19:02:04.1844 | Error | USER  | 
+2025-06-17 19:02:04.1844 | Info | erditbaba connected with connection ID: WSRAYQ68dVU3SV5hvV-KoQ | 
+2025-06-17 19:02:04.2029 | Info | Not connected | 
+2025-06-17 19:02:04.2029 | Info | erditbaba connected with connection ID: t7oYE3dHFGzSriXdeSXBbA | 
+2025-06-17 19:02:04.2297 | Info | erditbaba connected with connection ID: -nxmJu1DZ4XIsbxoMmqMaQ | 
+2025-06-17 19:02:04.4141 | Info | erditbaba connected with connection ID: zrH4frZAhyehNm8bmNK1ww | 
+2025-06-17 19:02:04.4217 | Info | erditbaba connected with connection ID: akLImNhVXmFU5Nwmx_uVKQ | 
+2025-06-17 19:02:04.4343 | Info | erditbaba connected with connection ID: goL1hQMWW6jO7QwESl-pcw | 
+2025-06-17 19:02:04.4836 | Info | erditbaba connected with connection ID: i_g06N38vB7cpyBsbuarHQ | 
+2025-06-17 19:02:04.4888 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+2025-06-17 19:02:04.5302 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 19:02:05.5375 | Info | erditbaba connected with connection ID: OjUcjJELBzs25LzeJ8NjTg | 
+2025-06-17 19:02:12.0704 | Info | erditbaba connected with connection ID: lAUgb5O2vJ_q43JdAewZnw | 
+2025-06-17 19:02:21.5062 | Info | erditbaba disconnected | 
+2025-06-17 19:02:22.0340 | Info | erditbaba connected with connection ID: QxUbHODxmQ2tuRdS3OO0Vg | 
+2025-06-17 19:02:26.6321 | Info | erditbaba connected with connection ID: ndPLBnaSb1f6uJ8RqAo3Kg | 
+2025-06-17 19:02:38.0383 | Info | erditbaba disconnected | 
+2025-06-17 19:02:38.5070 | Info | erditbaba connected with connection ID: sQi6K4P1bPinDMXVYT7mCw | 
+2025-06-17 19:02:43.2407 | Info | erditbaba connected with connection ID: Fw8ZJU2j1Q5vJfgye-pfLg | 
+2025-06-17 19:03:01.4885 | Info | erditbaba disconnected | 
+2025-06-17 19:03:02.0040 | Info | erditbaba connected with connection ID: zA8vvO58rQjaqD9FHBDn2Q | 
+2025-06-17 19:03:06.8095 | Info | erditbaba connected with connection ID: t-IdcOwDPg7mEafMsUthTQ | 
+2025-06-17 19:03:53.0667 | Info | erditbaba disconnected | 
+2025-06-17 19:03:55.2247 | Info | erditbaba connected with connection ID: erZNNWcVb8675lOV3e3tUg | 
+2025-06-17 19:03:58.6646 | Info | erditbaba connected with connection ID: NzQsoWvZMtCLxzken6Qr4w | 
+2025-06-17 19:04:32.3282 | Info | erditbaba connected with connection ID: EekKSAZW3LfBDRClq8m0LA | 
+2025-06-17 19:04:44.4758 | Info | erditbaba disconnected | 
+2025-06-17 19:04:45.1037 | Info | erditbaba connected with connection ID: X86YCfHp-9POQ-oMmn7Zgw | 
+2025-06-17 19:04:47.8567 | Info | erditbaba disconnected | 
+2025-06-17 19:04:50.0274 | Info | erditbaba connected with connection ID: CxG3lIXKxOgOGxLqw7K1nw | 
+2025-06-17 19:04:50.2077 | Info | erditbaba connected with connection ID: Gvnd0vzhnRxP2i1ZoeAsxQ | 
+2025-06-17 19:04:53.2663 | Info | erditbaba connected with connection ID: SjBC6gIElrkU1R-uKfRUZg | 
+2025-06-17 19:07:57.0595 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.0595 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.0738 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.0738 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.0738 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.0738 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1084 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1084 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1084 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1084 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1084 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1252 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1252 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1252 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1414 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1414 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1580 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1580 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1580 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1580 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1580 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1580 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1898 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1987 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1987 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1987 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1987 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.1987 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2224 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2224 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2364 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2364 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2364 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2479 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2479 | Info | erditbaba disconnected | 
+2025-06-17 19:07:57.2479 | Info | erditbaba disconnected | 
+2025-06-17 19:17:30.4332 | Error | USER  | 
+2025-06-17 19:17:30.4332 | Info | Not connected | 
+2025-06-17 19:17:30.8821 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+2025-06-17 19:17:30.9272 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)
+2025-06-17 19:18:26.7497 | Info | erditbaba connected with connection ID: 02tG8TVHThRdDeI0h00xpQ | 
+2025-06-17 19:19:16.6052 | Info | erditbaba connected with connection ID: YPGa-_IvBL3Lv7hOH4sOLg | 
+2025-06-17 19:19:37.1722 | Info | erditbaba disconnected | 
+2025-06-17 19:19:37.9109 | Info | erditbaba connected with connection ID: QH459Vvsg8Fa20SA2Tnv4A | 
+2025-06-17 19:19:42.5745 | Info | erditbaba connected with connection ID: I-PUNLyhCGCAgbVXoAAV2Q | 
+2025-06-17 19:20:45.5089 | Info | erditbaba disconnected | 
+2025-06-17 19:20:46.1403 | Info | erditbaba connected with connection ID: FVRY_sV-NqErp1d4KKEqJA | 
+2025-06-17 19:20:50.9626 | Info | erditbaba connected with connection ID: O1meHu73VhreSTRF8u4pow | 
+2025-06-17 19:21:32.0319 | Info | erditbaba disconnected | 
+2025-06-17 19:21:32.6117 | Info | erditbaba connected with connection ID: NDoZ5_57HP9Gb5URADGIeg | 
+2025-06-17 19:21:38.8364 | Info | erditbaba connected with connection ID: kvj5zIIOAjmJWe-nB2WtGQ | 
+2025-06-17 19:31:01.5124 | Error | USER  | 
+2025-06-17 19:31:01.5124 | Info | Not connected | 
+2025-06-17 19:31:01.7480 | Error | Error in sending notification to user connected | System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+2025-06-17 19:31:01.7956 | Error | Failed to invoke hub method 'NotificationsUnreadCount'. | System.ApplicationException: Error in sending notification
+ ---> System.ArgumentNullException: Value cannot be null. (Parameter 'key')
+   at System.ThrowHelper.ThrowArgumentNullException(String name)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue& value)
+   at eKids.Hubs.ConnectionMapping.GetConnectionId(String user)
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   --- End of inner exception stack trace ---
+   at eKids.Hubs.NotificationsHub.NotificationsUnreadCount()
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.ExecuteMethod(ObjectMethodExecutor methodExecutor, Hub hub, Object[] arguments)
+   at Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher`1.<Invoke>g__ExecuteInvocation|18_0(DefaultHubDispatcher`1 dispatcher, ObjectMethodExecutor methodExecutor, THub hub, Object[] arguments, AsyncServiceScope scope, IHubActivator`1 hubActivator, HubConnectionContext connection, HubMethodInvocationMessage hubMethodInvocationMessage, Boolean isStreamCall)

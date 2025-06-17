@@ -11,15 +11,22 @@ namespace Database.DTOs
     public class UpdateUser
     {
 
-        public string? Firstname { get; set; }
-        public string? Lastname { get; set; }
-        public string? Username { get; set; }
+        [Required]
+        public string Firstname { get; set; }
+        [Required]
+        public string Lastname { get; set; }
+        [Required]
+        public string Username { get; set; }
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",
+        ErrorMessage = "Password must contain at least one uppercase, one lowercase, one number and one special character")]
         public string? Password { get; set; }
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",
+        ErrorMessage = "Password must contain at least one uppercase, one lowercase, one number and one special character")]
         public string? ConfirmPassword { get; set; }
-        public string? Email { get; set; }
-        public int? Age { get; set; }
-        public string? Role { get; set; }
-
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public int Age { get; set; }
     }
 
     public class UpdateProfilePic

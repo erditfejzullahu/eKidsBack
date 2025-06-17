@@ -466,7 +466,6 @@ namespace eKids.Controllers
                 {
                     return BadRequest(new { Message = "FriendDto is null or missing" });
                 }
-
                 // Query the database
                 var friendship = await _context.Friendships
                     .AsNoTracking()
