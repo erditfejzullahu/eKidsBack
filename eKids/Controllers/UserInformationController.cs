@@ -117,10 +117,10 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(new { Message = "Model invalid" });
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(new { Message = "Model invalid" });
+                //}
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var username = User.FindFirstValue("Username");
                 if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
@@ -128,7 +128,7 @@ namespace eKids.Controllers
                     return Unauthorized();
                 }
                 var existingUserInfos = await _context.UserInformations.AsNoTracking().AnyAsync(c => c.UserId == userId, token);
-                if(!existingUserInfos)
+                if(existingUserInfos)
                 {
                     return BadRequest(new { Message = "User information data exists, try updating them" });
                 }
@@ -159,38 +159,52 @@ namespace eKids.Controllers
                     CreatedAt = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow
                 };
-                await _context.UserInformations.AddAsync(userInformation);
+                await _context.UserInformations.AddAsync(userInformation, token);
+                await _context.SaveChangesAsync(token);
 
-                if(infoDto.UserJobs.Count != 0)
+                if(infoDto.UserJobs != null)
                 {
-                    var usersJob = infoDto.UserJobs.Select(c => new UserJobs
+                    if(infoDto.UserJobs?.Count != 0)
                     {
-                        Job_Place = sanitize.Sanitize(c.Job_Place.Trim()),
-                        Job_Title = sanitize.Sanitize(c.Job_Title.Trim()),
-                        Start_Year = c.Start_Year,
-                        End_Year = c.End_Year,
-                        UserInformationId = userInformation.ID,
-                        CreatedAt = DateTime.UtcNow,
-                        LastModified = DateTime.UtcNow
-                    });
-                    await _context.UserJobs.AddRangeAsync(usersJob, token);
+                        var usersJob = infoDto.UserJobs?.Select(c => new UserJobs
+                        {
+                            Job_Place = string.IsNullOrWhiteSpace(c.Job_Place) ? throw new ApplicationException("Job place cant be null") : sanitize.Sanitize(c.Job_Place.Trim()),
+                            Job_Title = string.IsNullOrWhiteSpace(c.Job_Title) ? throw new ApplicationException("Job title cant be null") : sanitize.Sanitize(c.Job_Title.Trim()),
+                            Start_Year = c.Start_Year ?? throw new ApplicationException("Start year has to be filled") ,
+                            End_Year = c.End_Year,
+                            UserInformationId = userInformation.ID,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow
+                        });
+                        if(usersJob?.Count() > 0)
+                        {
+                            await _context.UserJobs.AddRangeAsync(usersJob, token);
+                        }
+                    }
                 }
 
-                if(infoDto.UserEducations.Count != 0)
+                if(infoDto.UserEducations != null)
                 {
-                    var usersEducation = infoDto.UserEducations.Select(c => new UserEducations
+                    if(infoDto.UserEducations?.Count != 0)
                     {
-                        Place_Name = sanitize.Sanitize(c.Place_Name.Trim()),
-                        School_Degree = c.SchoolDegree,
-                        Field = sanitize.Sanitize(c.Field.Trim()),
-                        Start_Year = c.Start_Year,
-                        End_Year = c.End_Year,
-                        UserInformationId = userInformation.ID,
-                        CreatedAt = DateTime.UtcNow,
-                        LastModified = DateTime.UtcNow
-                    });
-                    await _context.UserEducations.AddRangeAsync(usersEducation, token);
+                        var usersEducation = infoDto.UserEducations?.Select(c => new UserEducations
+                        {
+                            Place_Name = string.IsNullOrWhiteSpace(c.Place_Name) ? throw new ApplicationException("place name cant be null") : sanitize.Sanitize(c.Place_Name.Trim()),
+                            School_Degree = c.School_Degree ?? throw new ApplicationException("It has to be a school degree"),
+                            Field = string.IsNullOrWhiteSpace(c.Field) ? throw new ApplicationException("Field can be blank") : sanitize.Sanitize(c.Field.Trim()),
+                            Start_Year = c.Start_Year ?? throw new ApplicationException("Start year has to be filled"),
+                            End_Year = c.End_Year,
+                            UserInformationId = userInformation.ID,
+                            CreatedAt = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow
+                        });
+                        if(usersEducation?.Count() > 0)
+                        {
+                            await _context.UserEducations.AddRangeAsync(usersEducation, token);
+                        }
+                    }
                 }
+
                 CultureInfo albanianCulture = new CultureInfo("sq-AL");
 
                 var newNotification = new Notifications
@@ -234,10 +248,10 @@ namespace eKids.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(new { Message = "Modal invalid" });
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(new { Message = "Modal invalid" });
+                //}
                 var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var username = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
@@ -290,57 +304,64 @@ namespace eKids.Controllers
                 userInformation.LastModified = DateTime.UtcNow;
                 _context.UserInformations.Update(userInformation);
 
-                if (infoDto.UserJobs != null && infoDto.UserJobs.Count > 0)
+                if (infoDto.UserJobs != null)
                 {
-                    foreach (var jobDto in infoDto.UserJobs)
+                    if (infoDto.UserJobs?.Count > 0)
                     {
-                        var userJob = await _context.UserJobs.FirstOrDefaultAsync(uj => uj.ID == jobDto.ID);
-                        if(userJob == null)
+                        foreach (var jobDto in infoDto.UserJobs)
                         {
-                            var newJob = new UserJobs
+                            var userJob = await _context.UserJobs.FirstOrDefaultAsync(uj => uj.ID == jobDto.ID);
+                            if (userJob == null)
                             {
-                                Job_Place = sanitize.Sanitize(jobDto.Job_Place.Trim()),
-                                Job_Title = sanitize.Sanitize(jobDto.Job_Title.Trim()),
-                                Start_Year = jobDto.Start_Year,
-                                End_Year = jobDto.End_Year,
-                                UserInformationId = userInformation.ID,
-                                CreatedAt = DateTime.UtcNow,
-                                LastModified = DateTime.UtcNow
-                            };
-                            await _context.UserJobs.AddAsync(newJob);
-                        }
-                        else
-                        {
-                            _mapper.Map(jobDto, userJob);
-                            _context.UserJobs.Update(userJob);
+                                var newJob = new UserJobs
+                                {
+                                    Job_Place = string.IsNullOrWhiteSpace(jobDto.Job_Place) ? throw new ApplicationException("Job place cant be null") : sanitize.Sanitize(jobDto.Job_Place.Trim()),
+                                    Job_Title = string.IsNullOrWhiteSpace(jobDto.Job_Title) ? throw new ApplicationException("Job title cant be null") : sanitize.Sanitize(jobDto.Job_Title.Trim()),
+                                    Start_Year = jobDto.Start_Year ?? throw new ApplicationException("Start year has to be filled"),
+                                    End_Year = jobDto.End_Year,
+                                    UserInformationId = userInformation.ID,
+                                    CreatedAt = DateTime.UtcNow,
+                                    LastModified = DateTime.UtcNow
+                                };
+                                await _context.UserJobs.AddAsync(newJob);
+                            }
+                            else
+                            {
+                                _mapper.Map(jobDto, userJob);
+                                _context.UserJobs.Update(userJob);
+                            }
                         }
                     }
                 }
 
-                if(infoDto.UserEducations != null && infoDto.UserEducations.Count > 0)
+                if(infoDto.UserEducations != null)
                 {
-                    foreach (var educationDto in infoDto.UserEducations)
+                    if(infoDto.UserEducations?.Count > 0)
                     {
-                        var userEducation = await _context.UserEducations.FirstOrDefaultAsync(c => c.ID == educationDto.ID);
-                        if(userEducation == null)
+                        foreach (var educationDto in infoDto.UserEducations)
                         {
-                            var newEducation = new UserEducations
+                            var userEducation = await _context.UserEducations.FirstOrDefaultAsync(c => c.ID == educationDto.ID);
+                            if(userEducation == null)
                             {
-                                Place_Name = sanitize.Sanitize(educationDto.Place_Name.Trim()),
-                                School_Degree = educationDto.SchoolDegree,
-                                Field = sanitize.Sanitize(educationDto.Field.Trim()),
-                                Start_Year = educationDto.Start_Year,
-                                End_Year = educationDto.End_Year,
-                                UserInformationId = userInformation.ID,
-                                CreatedAt = DateTime.UtcNow,
-                                LastModified = DateTime.UtcNow
-                            };
-                            await _context.UserEducations.AddAsync(newEducation);
-                        }
-                        else
-                        {
-                            _mapper.Map(educationDto, userEducation);
-                            _context.UserEducations.Update(userEducation);
+                                var newEducation = new UserEducations
+                                {
+                                    Place_Name = string.IsNullOrWhiteSpace(educationDto.Place_Name) ? throw new ApplicationException("place name cant be null") : sanitize.Sanitize(educationDto.Place_Name.Trim()),
+                                    School_Degree = educationDto.School_Degree ?? throw new ApplicationException("It has to be a school degree"),
+                                    Field = string.IsNullOrWhiteSpace(educationDto.Field) ? throw new ApplicationException("Field can be blank") : sanitize.Sanitize(educationDto.Field.Trim()),
+                                    Start_Year = educationDto.Start_Year ?? throw new ApplicationException("Start year has to be filled"),
+                                    End_Year = educationDto.End_Year,
+                                    UserInformationId = userInformation.ID,
+                                    CreatedAt = DateTime.UtcNow,
+                                    LastModified = DateTime.UtcNow
+                                };
+                                await _context.UserEducations.AddAsync(newEducation);
+                            }
+                            else
+                            {
+                                _mapper.Map(educationDto, userEducation);
+                                userEducation.School_Degree = educationDto.School_Degree ?? throw new ApplicationException("School degree needed");
+                                _context.UserEducations.Update(userEducation);
+                            }
                         }
                     }
                 }

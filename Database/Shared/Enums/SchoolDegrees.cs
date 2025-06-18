@@ -11,6 +11,7 @@ namespace Database.Shared.Enums
         Elementary = 1,
         High_School = 2,
         Bachelor = 3,
-        Master = 4
+        Master = 4,
+        Training = 5
     }
 }

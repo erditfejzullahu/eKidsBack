@@ -58,7 +58,7 @@ namespace eKids.Mapping
 
             CreateMap<UserEducationsDto, UserEducations>()
                 .ForMember(dest => dest.Place_Name, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Place_Name)))
-                .ForMember(dest => dest.School_Degree, opt => opt.Condition(src => Enum.TryParse<SchoolDegrees>(src.SchoolDegree.ToString(), out _)))
+                //.ForMember(dest => dest.School_Degree, opt => opt.Condition(src => Enum.TryParse<SchoolDegrees>(src.SchoolDegree.ToString(), out _)))
                 .ForMember(dest => dest.Field, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Field)))
                 //.ForMember(dest => dest.Start_Year, opt =>
                 //{
