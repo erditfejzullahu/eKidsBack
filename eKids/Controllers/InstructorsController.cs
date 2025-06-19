@@ -577,18 +577,18 @@ namespace eKids.Controllers
         //PROGRESS OF PARTICIPATION IN MEETINGS IN COURSE ENROLLMENTS // progresi i studentav ntakiem online
         [Authorize]
         [HttpGet("GetInstructorsCoursesUserProgress")]
-        public async Task<IActionResult> GetInstructorsCoursesUserProgress()
+        public async Task<IActionResult> GetInstructorsCoursesUserProgress([FromQuery] int userId)
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int user))
-                {
-                    return Unauthorized();
-                }
+                //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //if (string.IsNullOrEmpty(userId) || !Int32.TryParse(userId, out int user))
+                //{
+                //    return Unauthorized();
+                //}
 
                 var courseProgresses = await _context.StudentCourseLessonProgress
-                    .Where(c => c.UserId == user)
+                    .Where(c => c.UserId == userId)
                     .GroupBy(c => c.CourseId)
                     .Select(g => new
                     {

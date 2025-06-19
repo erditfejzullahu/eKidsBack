@@ -229,7 +229,7 @@ namespace eKids.Controllers
                 {
                     return NotFound(new { Message = "No answersFound" });
                 }
-                return Ok(new { data = discussionAnswers.Item1, discussionAnswers.hasMore });
+                return Ok(new { data = discussionAnswers.Item1, discussionAnswers.hasMore, discussionAnswers.answersCount });
             }
             catch (Exception ex)
             {
