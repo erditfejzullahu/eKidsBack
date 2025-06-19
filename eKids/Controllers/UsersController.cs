@@ -4,6 +4,7 @@ using Database.Context;
 using Database.DTOs;
 using Database.Models;
 using Database.Repository;
+using Database.Shared.Enums;
 using eKids.Validators;
 using FluentValidation;
 using Ganss.Xss;
@@ -35,8 +36,10 @@ namespace eKids.Controllers
         private readonly IValidator<UpdateUser> _userValidator;
         private readonly ApplicationDbContext _context;
         private readonly IPasswordResetService _passwordResetService;
+        private readonly IStatisticsService _statisticsService;
 
         public UsersController(IRepository<Users> userRepository,
+                               IStatisticsService statisticsService,
                                IPasswordResetService passwordResetService,
                                IRepository<Courses> courseRepository,
                                IRepository<Usermeta> usermetaRepository,
@@ -50,6 +53,7 @@ namespace eKids.Controllers
                                ApplicationDbContext context
                                )
         {
+            _statisticsService = statisticsService;
             _passwordResetService = passwordResetService;
             _fileUploadService = fileUploadService;
             _context = context;
@@ -879,6 +883,27 @@ namespace eKids.Controllers
             {
                 _logger.LogError(ex, $"Error in retriving user commitments with userid: {userId}");
                 return BadRequest(new { Message = "Error in retriving user commitments" });
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetUserStatisticsBasedOfType")]
+        public async Task<int[]> GetUserStatisticsBasedOfType([FromQuery] StatisticsType type, [FromQuery] int year, [FromQuery] int userId)
+        {
+            try
+            {
+                //var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //if(string.IsNullOrEmpty(user) || !Int32.TryParse(user, out int userId))
+                //{
+                //    return [];
+                //}
+                var statistics = await _statisticsService.GetStatisticsBasedOfType(type, year, userId);
+                return statistics;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user statistics");
+                return [];
             }
         }
 

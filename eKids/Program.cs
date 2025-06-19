@@ -112,6 +112,7 @@ namespace eKids
             builder.Services.AddScoped<IDiscussionAnswerService, DiscussionAnswerService>();
             builder.Services.AddScoped<IPasswordResetService, PasswordResetService>();
             builder.Services.AddScoped<IManageInstructorContentService, ManageInstructorContentService>();
+            builder.Services.AddScoped<IStatisticsService, StatisticsService>();
             builder.Services.AddSingleton<AiMessageConsumer>();
             builder.Services.AddSingleton<RabbitMqService>();
             builder.Services.AddHostedService<MeetingStatusBackgroundService>();
