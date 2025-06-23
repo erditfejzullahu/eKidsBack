@@ -369,6 +369,39 @@ namespace eKids.Controllers
         }
 
         [Authorize]
+        [HttpGet("GetBlogDetails/{id}")]
+        public async Task<IActionResult> GetBlogDetails(int id)
+        {
+            try
+            {
+                var blogDetails = await _context.Blogs
+                    .Where(c => c.ID == id)
+                    .Select(c => new
+                    {
+                        Author = c.User.Firstname + " " + c.User.Lastname,
+                        Visibility = c.Status,
+                        c.ViewCount,
+                        Shares = c.BlogConversations.Count,
+                        BlogLikes = c.BlogLikes.Count,
+                        BlogComments = c.BlogComments.Count,
+                        c.CreatedAt,
+                        UserTitle = c.User.UserInformations.Profession ?? "Student",
+                    })
+                    .FirstOrDefaultAsync();
+                if(blogDetails == null)
+                {
+                    return NotFound();
+                }
+                return Ok(blogDetails);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting blog details");
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBlog(int id, CancellationToken token)
         {

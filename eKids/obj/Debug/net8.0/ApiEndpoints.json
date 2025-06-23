@@ -3388,6 +3388,42 @@
   },
   {
     "ContainingType": "eKids.Controllers.UsersController",
+    "Method": "GetUserStatisticsBasedOfType",
+    "RelativePath": "api/Users/GetUserStatisticsBasedOfType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "type",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "year",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Int32[]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "eKids.Controllers.UsersController",
     "Method": "IncreaseCommitment",
     "RelativePath": "api/Users/IncreaseCommitment",
     "HttpMethod": "PUT",

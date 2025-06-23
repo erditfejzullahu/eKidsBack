@@ -18,6 +18,7 @@ namespace Database.Models
         public int Likes { get; set; }
         public string Content { get; set; }
         public BlogStatus Status { get; set; }
+        public int ViewCount { get; set; }
         public string? ImageUrls { get; set; }
         public string? GeneratedContent { get; set; }
 
