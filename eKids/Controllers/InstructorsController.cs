@@ -862,6 +862,108 @@ namespace eKids.Controllers
             }
         }
 
+        //NEXTJS CLIENT
+
+        [HttpGet("GetAllInstructorsUnAuth")]
+        public async Task<IActionResult> GetAllInstructorsUnAuth()
+        {
+            try
+            {
+                var instructors = await _context.Instructors.AsNoTracking().Select(c => new
+                {
+                    InstructorId = c.ID,
+                    c.UserId,
+                    InstructorName = c.User.Firstname + " " + c.User.Lastname,
+                    c.User.ProfilePictureUrl,
+                    c.User.Email,
+                    c.Expertise,
+                    c.Bio,
+                    InstructorStudents = c.InstructorStudents.Count(),
+                    InstructorCourses = c.InstructorCourses.Count(),
+                    WhenBecameInstructor = c.CreatedAt
+                }).ToListAsync();
+
+                if(instructors.Count == 0)
+                {
+                    return NotFound(new { Message = "No instructors found" });
+                }
+                return Ok(instructors);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all instructors");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetAllOnlineMeetingsUnAuth")]
+        public async Task<IActionResult> GetAllOnlineMeetingsUnAuth()
+        {
+            try
+            {
+                var onlineMeetings = await _context.OnlineMeetings.AsNoTracking().Select(c => new
+                {
+                    c.ID,
+                    c.Title,
+                    c.Status,
+                    OutputStatus = c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime > DateTime.UtcNow ? "Nuk ka filluar ende"
+                            : c.Status == MeetingStatus.Cancelled ? "Eshte anuluar"
+                            : c.Status == MeetingStatus.Scheduled && c.ScheduleDateTime < DateTime.UtcNow ? "Nuk eshte mbajtur(Mungese Instruktori)"
+                            : c.Status == MeetingStatus.Started ? "Ka filluar" : "Ka perfunduar",
+                    Registered = c.OnlineMeetingsParticipants.Count,
+                    InstructorName = c.Instructor.User.Firstname + " " + c.Instructor.User.Lastname,
+                    c.ScheduleDateTime,
+                    c.DurationTime,
+                    c.CreatedAt
+                }).ToListAsync();
+
+                if(onlineMeetings.Count == 0)
+                {
+                    return NotFound(new {Message = "No meetings found"});
+                }
+
+                return Ok(onlineMeetings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all online meetings");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetAllStudentsUnAuth")]
+        public async Task<IActionResult> GetAllOnlineStudentsUnAuth()
+        {
+            try
+            {
+                var students = await _context.Users
+                    .AsNoTracking()
+                    .Select(c => new
+                    {
+                        c.ID,
+                        c.ProfilePictureUrl,
+                        c.Email,
+                        Name = c.Firstname + " " + c.Lastname,
+                        c.CreatedAt,
+                        CoursesEnrolled = c.StudentCourseLessonProgresses.Where(p => p.HasJoined).Select(p => p.CourseId).Distinct().Count(),
+                    })
+                    .ToListAsync();
+
+                if(students.Count == 0)
+                {
+                    return NotFound(new {Message = "No students found"});
+                }
+                return Ok(students);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting all online students");
+                return BadRequest();
+            }
+        }
+
+        //NEXTJS CLIENT
+
         [Authorize]
         [HttpGet("GetAllInstructors")]
         public async Task<IActionResult> GetAllInstructors([FromQuery] SortQueryDto sortQueryDto, [FromQuery] PaginationDto paginationDto)

@@ -43,6 +43,22 @@
   },
   {
     "ContainingType": "eKids.Controllers.BlogController",
+    "Method": "GetBlogDetails",
+    "RelativePath": "api/Blog/GetBlogDetails/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.BlogController",
     "Method": "CreateBlogComment",
     "RelativePath": "api/Blogs/CreateComment",
     "HttpMethod": "POST",

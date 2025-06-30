@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8ymHaEW9kwkXv6QQd5d/f7+XkA6nDRwF2G9Gi+Cqwo4=",
+  "Hash": "xHep9KC7V9IjUAAUVsnylYuituyfFxA1hbkrKfVVt84=",
   "Source": "eKids",
   "BasePath": "_content/eKids",
   "Mode": "Default",
@@ -1499,6 +1499,25 @@
       "OriginalItemSpec": "wwwroot\\other\\29cdb209-ec3b-4c3d-8b0e-fc7c96e677e4.webp"
     },
     {
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\2af123cd-1e87-40bb-953b-21446372a85b.jpg",
+      "SourceId": "eKids",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
+      "BasePath": "_content/eKids",
+      "RelativePath": "other/2af123cd-1e87-40bb-953b-21446372a85b.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\other\\2af123cd-1e87-40bb-953b-21446372a85b.jpg"
+    },
+    {
       "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\312ea010-4afd-4414-beb0-2fc55679338d.jpg",
       "SourceId": "eKids",
       "SourceType": "Discovered",
@@ -1725,6 +1744,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\other\\68ffe474-c06c-4100-8002-434c45cda3dd.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\6de7c9df-0aa8-4ee9-9338-0a254764dc07.jpg",
+      "SourceId": "eKids",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\",
+      "BasePath": "_content/eKids",
+      "RelativePath": "other/6de7c9df-0aa8-4ee9-9338-0a254764dc07.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\other\\6de7c9df-0aa8-4ee9-9338-0a254764dc07.jpg"
     },
     {
       "Identity": "C:\\Users\\fejzullahu\\Documents\\Projects\\eKidsBack\\eKidsBack\\eKids\\wwwroot\\other\\73e41b67-e473-4030-a064-b226b6a1fdd4.jpg",
