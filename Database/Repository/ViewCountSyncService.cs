@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Database.Context;
 using Database.Models;
+using Microsoft.Extensions.Logging;
 
 public class ViewCountSyncService : BackgroundService
 {
@@ -15,13 +16,15 @@ public class ViewCountSyncService : BackgroundService
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IConnectionMultiplexer _redis;
     private readonly IDatabase _db;
+    private ILogger<ViewCountSyncService> _logger;
 
-    public ViewCountSyncService(IViewCountService viewCountService, IServiceScopeFactory scopeFactory, IConnectionMultiplexer redis)
+    public ViewCountSyncService(ILogger<ViewCountSyncService> logger, IViewCountService viewCountService, IServiceScopeFactory scopeFactory, IConnectionMultiplexer redis)
     {
         _viewCountService = viewCountService;
         _scopeFactory = scopeFactory;
         _redis = redis;
         _db = _redis.GetDatabase();
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -43,57 +46,68 @@ public class ViewCountSyncService : BackgroundService
 
         var updateTasks = new List<Task>();
 
+        
         foreach (var redisKey in redisKeys)
         {
             using var scope = _scopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             // Extract entity type (course or lesson) and id from the Redis key
-            var keyParts = redisKey.ToString().Split(':');
-            var entityType = keyParts[0]; // "course" or "lesson"
-            int entityId = int.Parse(keyParts[1]);
-            int viewCount = (int)_db.StringGet(redisKey);
+            var keyString = redisKey.ToString();
+            var keyParts = keyString.Split(':');
 
-            if (entityType == "course")
+            try
             {
-                // Handle Course view count update
-                var course = await dbContext.Courses.FirstOrDefaultAsync(c => c.ID == entityId);
-                if (course != null)
-                {
-                    course.ViewCount += viewCount;
-                    updateTasks.Add(dbContext.SaveChangesAsync());
-                }
-            }
-            else if (entityType == "lesson")
-            {
-                // Handle Lesson view count update
-                var lesson = await dbContext.Lessons.FirstOrDefaultAsync(l => l.ID == entityId);
-                if (lesson != null)
-                {
-                    lesson.ViewCount += viewCount;
-                    updateTasks.Add(dbContext.SaveChangesAsync(default));
-                }
-            }
-            else if(entityType == "category")
-            {
-                var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.ID == entityId);
-                if(category != null)
-                {
-                    category.ViewCount += viewCount;
-                    updateTasks.Add(dbContext.SaveChangesAsync(default));
-                }
-            }
-            else if(entityType == "quiz")
-            {
-                var quiz = await dbContext.Quizzes.FirstOrDefaultAsync(c => c.ID == entityId);
-                if(quiz != null)
-                {
-                    quiz.ViewCount += viewCount;
-                    updateTasks.Add(dbContext.SaveChangesAsync(default));
-                }
-            }
+                var entityType = keyParts[0]; // "course" or "lesson"
+                int entityId = int.Parse(keyParts[1]);
+                int viewCount = (int)_db.StringGet(redisKey);
 
-            // Reset view count in Redis after syncing
-            _db.KeyDelete(redisKey);
+                if (entityType == "course")
+                {
+                    // Handle Course view count update
+                    var course = await dbContext.Courses.FirstOrDefaultAsync(c => c.ID == entityId);
+                    if (course != null)
+                    {
+                        course.ViewCount += viewCount;
+                        updateTasks.Add(dbContext.SaveChangesAsync());
+                    }
+                }
+                else if (entityType == "lesson")
+                {
+                    // Handle Lesson view count update
+                    var lesson = await dbContext.Lessons.FirstOrDefaultAsync(l => l.ID == entityId);
+                    if (lesson != null)
+                    {
+                        lesson.ViewCount += viewCount;
+                        updateTasks.Add(dbContext.SaveChangesAsync(default));
+                    }
+                }
+                else if(entityType == "category")
+                {
+                    var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.ID == entityId);
+                    if(category != null)
+                    {
+                        category.ViewCount += viewCount;
+                        updateTasks.Add(dbContext.SaveChangesAsync(default));
+                    }
+                }
+                else if(entityType == "quiz")
+                {
+                    var quiz = await dbContext.Quizzes.FirstOrDefaultAsync(c => c.ID == entityId);
+                    if(quiz != null)
+                    {
+                        quiz.ViewCount += viewCount;
+                        updateTasks.Add(dbContext.SaveChangesAsync(default));
+                    }
+                }
+
+                // Reset view count in Redis after syncing
+                _db.KeyDelete(redisKey);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to parse key parts from {Key}", keyString);
+                continue;
+            }
         }
 
         // Wait for all update tasks to complete

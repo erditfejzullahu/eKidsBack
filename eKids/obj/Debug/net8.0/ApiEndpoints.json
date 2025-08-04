@@ -1448,6 +1448,36 @@
   },
   {
     "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetAllInstructorsUnAuth",
+    "RelativePath": "api/Instructors/GetAllInstructorsUnAuth",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetAllOnlineMeetingsUnAuth",
+    "RelativePath": "api/Instructors/GetAllOnlineMeetingsUnAuth",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
+    "Method": "GetAllOnlineStudentsUnAuth",
+    "RelativePath": "api/Instructors/GetAllStudentsUnAuth",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eKids.Controllers.InstructorsController",
     "Method": "GetInstructorCoursesById",
     "RelativePath": "api/Instructors/GetInstructorCoursesCreatedById/{instructorId}",
     "HttpMethod": "GET",

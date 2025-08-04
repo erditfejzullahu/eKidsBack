@@ -1,0 +1,9 @@
+2025-08-04 23:42:51.2376 | Error | None of the specified endpoints were reachable | 
+2025-08-04 23:42:56.2442 | Info | Meeting Status Background Service is starting; | 
+2025-08-04 23:43:08.8764 | Error | Hosting failed to start | System.FormatException: The input string '[object Object]' was not in a correct format.
+   at System.Number.ThrowFormatException[TChar](ReadOnlySpan`1 value)
+   at System.Int32.Parse(String s)
+   at ViewCountSyncService.SyncViewCountsToDatabaseAsync() in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 53
+   at ViewCountSyncService.ExecuteAsync(CancellationToken stoppingToken) in C:\Users\fejzullahu\Documents\Projects\eKidsBack\eKidsBack\Database\Repository\ViewCountSyncService.cs:line 31
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
